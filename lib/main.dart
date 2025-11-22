@@ -30,6 +30,7 @@ void main() async {
           : Brightness.light,
     ),
   );
+  print('user info: ${getItInstance<AppPreferences>().getUserInfo()}');
   runApp(
     EasyLocalization(
       supportedLocales: LanguageConstant.supportedLocales,

@@ -10,7 +10,7 @@ import '../../../../config/route/routes_manager.dart';
 import '../../../../config/theme/app_theme.dart';
 import '../../../../core/constants/font_constants.dart';
 import '../../../../core/constants/language_constant.dart';
-import '../../../../core/resource/charts/chart_model/line_chart_model.dart';
+
 import '../../../../core/resource/common_state_widget/error_state_widget.dart';
 import '../../../../core/resource/common_state_widget/no_data_state_widget.dart';
 import '../../../../core/resource/common_state_widget/no_internet_state_widget.dart';
@@ -18,9 +18,11 @@ import '../../../../core/resource/custom_widget/snake_bar_widget/snake_bar_widge
 
 import '../../../../core/resource/main_page/main_page.dart';
 import '../../../../core/util/helper/helper.dart';
+import '../../../categories_page/data/models/get_category_model.dart';
+import '../../../categories_page/presentation/bloc/categories_page_bloc.dart';
+import '../../../categories_page/presentation/widgets/category_container.dart';
 import '../../domain/entities/home_page_entity.dart';
-import '../bloc/home_page_bloc.dart';
-import '../widgets/squer_container_with_presse_widget.dart';
+
 import '../../../login_page/domain/entities/login_state_entity.dart';
 import '../../../profile_page/data/models/profile_model.dart';
 import '../../../profile_page/domain/entities/profile_entity.dart';
@@ -29,7 +31,7 @@ import '../../../../generated/locale_keys.g.dart';
 
 import '../../../../config/app/app_preferences.dart';
 import '../../../../core/dependencies_injection.dart';
-import '../../../../core/resource/charts/line_charts/custom_line_chart.dart';
+
 import '../../../../core/resource/image_widget.dart';
 import '../../data/models/home_page_model.dart';
 
@@ -49,11 +51,21 @@ class _HomePagePageState extends State<HomePagePage> {
   ProfileModel profileModel = ProfileModel();
   ProfileEntity? profileEntity = ProfileEntity();
   bool isProfileDataLoading = true;
+  GetCategoryModel? getCategoryModel = GetCategoryModel();
+
   @override
   void didChangeDependencies() {
     model = model?.copyWith(acceptLanguage: Helper.getCountryCode(context));
     profileModel = profileModel.copyWith(
       acceptLanguage: Helper.getCountryCode(context),
+    );
+    getCategoryModel = getCategoryModel?.copyWith(
+      acceptLanguage: Helper.getCountryCode(context),
+      page: "1",
+      per_page: "6",
+    );
+    print(
+      "Home Page didChangeDependencies:acceptLanguage:${getCategoryModel?.acceptLanguage},page:${getCategoryModel?.page},per_page:${getCategoryModel?.per_page} ",
     );
     super.didChangeDependencies();
   }
@@ -63,6 +75,11 @@ class _HomePagePageState extends State<HomePagePage> {
     model = model?.copyWith(acceptLanguage: Helper.getCountryCode(context));
     profileModel = profileModel.copyWith(
       acceptLanguage: Helper.getCountryCode(context),
+    );
+    getCategoryModel = getCategoryModel?.copyWith(
+      acceptLanguage: Helper.getCountryCode(context),
+      page: "1",
+      per_page: "6",
     );
     super.didUpdateWidget(oldWidget);
   }
@@ -341,292 +358,217 @@ class _HomePagePageState extends State<HomePagePage> {
           ),
         ).animate().slideX(duration: 500.ms),
       ),
-      body: BlocProvider<HomePageBloc>(
-        create: (context) =>
-            getItInstance<HomePageBloc>()
-              ..add(HomePageEvent.fetchHomePageData(model: model)),
-        child: BlocListener<HomePageBloc, HomePageState>(
-          listener: (context, state) {
-            if (state is HomePageStateError) {
-              showMessage(
-                context: context,
-                message: LocaleKeys.common_error.tr(),
-              );
-              homePageEntity = HomePageEntity();
-              totalBookingsSpots = [];
-            } else if (state is HomePageStateNoInternet) {
-              showMessage(
-                context: context,
-                message: LocaleKeys.common_noInternetPullDown.tr(),
-              );
-              homePageEntity = HomePageEntity();
-              totalBookingsSpots = [];
-            } else if (state is HomePageStateUnauthenticated) {
-              getItInstance<AppPreferences>().setUserInfo(
-                loginStateEntity: LoginStateEntity(),
-              );
-            } else if (state is HomePageStateLoaded) {
-              homePageEntity = state.data;
-              totalBookingsSpots = [];
-            }
-          },
-          child: BlocBuilder<HomePageBloc, HomePageState>(
-            builder: (context, state) {
-              return ListView(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 20.w,
-                      horizontal: 20.w,
-                    ),
-                    child: SizedBox(
-                      height: 402.h,
-
-                      child: GridView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          mainAxisSpacing: 20.h,
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10.w,
-                          mainAxisExtent: 114.h,
+      body: ListView(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  height: 40.h,
+                  width: 40.w,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: Theme.of(context).elevatedButtonTheme.style
+                        ?.copyWith(
+                          backgroundColor: WidgetStatePropertyAll(
+                            Colors.transparent,
+                          ),
+                          padding: WidgetStatePropertyAll(EdgeInsets.zero),
+                          shadowColor: WidgetStatePropertyAll(
+                            Colors.transparent,
+                          ),
                         ),
-                        children: [
-                          SquerContainerWithPresseWidget(
-                            title: LocaleKeys.homePage_daylyBookings.tr(),
-                            info:
-                                homePageEntity?.today_bookings?.toString() ??
-                                "",
-                            backgroundColor: Theme.of(
-                              context,
-                            ).colorScheme.primary,
-                          ),
-                          SquerContainerWithPresseWidget(
-                            title: LocaleKeys.homePage_daylyTotal.tr(),
-                            info: Helper.formatPrice(
-                              homePageEntity?.completed_revenue,
-                            ),
-                            backgroundColor: Theme.of(
-                              context,
-                            ).colorScheme.primary,
-                          ),
-                          SquerContainerWithPresseWidget(
-                            title: LocaleKeys.homePage_monthlyBookings.tr(),
-                            info:
-                                homePageEntity?.current_month_bookings
-                                    ?.toString() ??
-                                "",
-                          ),
-                          SquerContainerWithPresseWidget(
-                            title: LocaleKeys.homePage_monthlyTotal.tr(),
-                            info: Helper.formatPrice(
-                              homePageEntity?.current_month_revenue,
-                            ),
-                          ),
-                          SquerContainerWithPresseWidget(
-                            title: LocaleKeys.homePage_currentBookings.tr(),
-                            info:
-                                homePageEntity?.in_progress_bookings
-                                    ?.toString() ??
-                                "",
-                            onPressed: () {
-                              context.pushNamed(
-                                RoutesName.bookingPage,
-                                pathParameters: {"pageIndex": "2"},
-                              );
-                            },
-                          ),
-                          SquerContainerWithPresseWidget(
-                            title: LocaleKeys.homePage_pendingBookings.tr(),
-                            info:
-                                homePageEntity?.pending_bookings?.toString() ??
-                                "",
-                            onPressed: () {
-                              context.pushNamed(
-                                RoutesName.bookingPage,
-                                pathParameters: {"pageIndex": "4"},
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 20.w,
-                      right: 20.w,
-                      bottom: 20.h,
-                    ),
                     child:
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 20.w,
-                            vertical: 12.h,
+                            vertical: 8.h,
+                            horizontal: 8.w,
                           ),
-
-                          child: Column(
-                            children: [
-                              Text(
-                                LocaleKeys.homePage_annualStatistics.tr(),
-                                style: Theme.of(context).textTheme.labelLarge
-                                    ?.copyWith(
-                                      fontFamily: FontConstants.fontFamily(
-                                        context.locale,
-                                      ),
-                                    ),
-                              ),
-                              Padding(
-                                padding: EdgeInsetsGeometry.only(
-                                  bottom: 12.h,
-                                  top: 0.h,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.only(
-                                        end: 4.w,
-                                      ),
-
-                                      child: FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Text(
-                                          LocaleKeys.homePage_bookings.tr(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelSmall
-                                              ?.copyWith(
-                                                fontFamily:
-                                                    FontConstants.fontFamily(
-                                                      context.locale,
-                                                    ),
-                                              ),
-                                        ),
-                                      ),
-                                    ),
-                                    Switch.adaptive(
-                                      value: isTotalRevenue,
-                                      onChanged: (newState) {
-                                        setState(() {
-                                          isTotalRevenue = newState;
-                                        });
-                                      },
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.only(
-                                        start: 4.w,
-                                      ),
-                                      child: FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Text(
-                                          LocaleKeys.homePage_revenue.tr(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelSmall
-                                              ?.copyWith(
-                                                fontFamily:
-                                                    FontConstants.fontFamily(
-                                                      context.locale,
-                                                    ),
-                                              ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              BlocBuilder<HomePageBloc, HomePageState>(
-                                builder: (context, state) {
-                                  return state.when(
-                                    initial: () => ErrorStateWidget(),
-                                    loading: () => Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                    loaded: (data) {
-                                      totalBookingsSpots = [];
-                                      totalRevenueSpots = [];
-                                      homePageEntity?.yearly_stats?.forEach((
-                                        action,
-                                      ) {
-                                        totalBookingsSpots.add(
-                                          FlSpot(
-                                            (Helper.monthNumberFromName(
-                                                  action["month_name"],
-                                                )) ??
-                                                0,
-                                            action["total_bookings"]
-                                                    ?.toDouble() ??
-                                                0.0,
-                                          ),
-                                        );
-                                        totalRevenueSpots.add(
-                                          FlSpot(
-                                            (Helper.monthNumberFromName(
-                                                  action["month_name"],
-                                                )) ??
-                                                0,
-                                            action["total_revenue"]
-                                                    ?.toDouble() ??
-                                                0.0,
-                                          ),
-                                        );
-                                      });
-                                      return AnimatedSwitcher(
-                                        duration: const Duration(
-                                          milliseconds: 300,
-                                        ),
-                                        child: CostumeLineChart.CustomLineChart(
-                                          key: ValueKey(isTotalRevenue),
-                                          containerWidth: 320.w,
-                                          minX: 0,
-                                          maxX: 12,
-                                          minY: 0,
-
-                                          containerHeight: 220.h,
-
-                                          title: LocaleKeys
-                                              .homePage_annualStatistics
-                                              .tr(),
-                                          barsInfo: [
-                                            if (!isTotalRevenue)
-                                              LineChartModel(
-                                                color: Colors.yellowAccent,
-                                                spots: totalBookingsSpots,
-                                              )
-                                            else
-                                              LineChartModel(
-                                                color: Colors.greenAccent,
-                                                spots: totalRevenueSpots,
-                                              ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                    error: (error) => ErrorStateWidget(),
-                                    noData: () => NodataStateWidget(),
-                                    noInternet: () => NoInternetStateWidget(),
-                                    unauthenticated: () => ErrorStateWidget(),
-                                  );
-                                },
-                              ),
-                            ],
+                          child: Center(
+                            child: Icon(
+                              Icons.pin_drop,
+                              size: 24.sp,
+                              color: Theme.of(
+                                context,
+                              ).textTheme.labelLarge?.color,
+                            ),
                           ),
                         ).asGlass(
-                          frosted: true,
-                          blurX: 38,
-                          blurY: 38,
-                          tintColor: Theme.of(
-                            context,
-                          ).colorScheme.primaryContainer.withValues(alpha: 1.0),
+                          tintColor: Theme.of(context).primaryColor,
                           clipBorderRadius: BorderRadius.circular(12.r),
+                          blurX: 30,
+                          blurY: 30,
+                          frosted: true,
                           border: Theme.of(context).defaultBorderSide,
                         ),
                   ),
-                ],
-              );
-            },
+                ),
+                SizedBox(
+                  child:
+                      SearchBar(
+                        constraints: BoxConstraints(
+                          maxHeight: 40.h,
+                          maxWidth: 280.w,
+                          minHeight: 40.h,
+                          minWidth: 250.w,
+                        ),
+                        elevation: WidgetStatePropertyAll(1),
+                        backgroundColor: WidgetStatePropertyAll(
+                          Colors.transparent,
+                        ),
+                        shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                        shape: WidgetStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                        ),
+                        leading: Padding(
+                          padding: EdgeInsetsDirectional.only(end: 8.w),
+                          child: Icon(
+                            Icons.search,
+                            size: 20.sp,
+                            color: Theme.of(
+                              context,
+                            ).textTheme.labelLarge?.color,
+                          ),
+                        ),
+                        padding: WidgetStatePropertyAll(
+                          EdgeInsets.symmetric(vertical: 4.h, horizontal: 8.w),
+                        ),
+                      ).asGlass(
+                        tintColor: Theme.of(context).primaryColor,
+                        clipBorderRadius: BorderRadius.circular(12.r),
+                        blurX: 30,
+                        blurY: 30,
+                        frosted: true,
+                        border: Theme.of(context).defaultBorderSide,
+                      ),
+                ),
+              ],
+            ),
           ),
-        ),
+          Padding(
+            padding: EdgeInsetsGeometry.symmetric(
+              vertical: 0.h,
+              horizontal: 12.w,
+            ),
+            child:
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        LocaleKeys.homePage_categories.tr(),
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          fontFamily: FontConstants.fontFamily(context.locale),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          context.pushNamed(RoutesName.categoriesPage);
+                        },
+                        child: Text(
+                          LocaleKeys.homePage_showAll.tr(),
+                          style: Theme.of(context).textTheme.labelSmall
+                              ?.copyWith(
+                                fontFamily: FontConstants.fontFamily(
+                                  context.locale,
+                                ),
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ).asGlass(
+                  tintColor: Theme.of(context).primaryColor,
+                  clipBorderRadius: BorderRadius.circular(12.r),
+                  blurX: 30,
+                  blurY: 30,
+                  frosted: true,
+                ),
+          ),
+          BlocProvider<CategoriesPageBloc>(
+            create: (context) =>
+                getItInstance<CategoriesPageBloc>()
+                  ..add(CategoriesPageEvent.get(getCategoryModel)),
+            child: BlocListener<CategoriesPageBloc, CategoriesPageState>(
+              listener: (context, state) {
+                if (state is CategoriesPageStateUnAuthorized) {
+                  getItInstance<AppPreferences>().setUserInfo(
+                    loginStateEntity: LoginStateEntity(),
+                  );
+                }
+              },
+              child: BlocBuilder<CategoriesPageBloc, CategoriesPageState>(
+                builder: (context, state) {
+                  return state.when(
+                    initial: () => SizedBox(),
+                    error: () => Expanded(
+                      child: ErrorStateWidget(
+                        lottieHeight: 200.h,
+                        lottieWidth: 200.w,
+                      ),
+                    ),
+                    noInternet: () => Expanded(
+                      child: NoInternetStateWidget(
+                        lottieHeight: 200.h,
+                        lottieWidth: 200.w,
+                      ),
+                    ),
+                    unAuthorized: () => Expanded(
+                      child: ErrorStateWidget(
+                        lottieHeight: 200.h,
+                        lottieWidth: 200.w,
+                      ),
+                    ),
+                    loading: () => Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20.h),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ),
+                    got: (data) => (data == null || data.isEmpty)
+                        ? NodataStateWidget(
+                            lottieHeight: 200.h,
+                            lottieWidth: 200.w,
+                          )
+                        : Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.w,
+                              vertical: 12.h,
+                            ),
+                            child: SizedBox(
+                              width: double.maxFinite,
+                              height: 570.h,
+                              child: GridView.builder(
+                                itemCount: data.length,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 12.w,
+                                      mainAxisSpacing: 12.h,
+                                      mainAxisExtent: 180.h,
+                                    ),
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return CategoryContainer(
+                                    categoryEntity: data[index],
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

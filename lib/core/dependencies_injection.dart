@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:hosta_user/features/service_details/domain/entities/service_details_entity.dart';
+import 'package:hosta_user/features/service_details/domain/usecases/get_service_providers_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/app/app_preferences.dart';
@@ -72,6 +74,10 @@ import '../features/refresh_token/domain/entities/token_entity.dart';
 import '../features/refresh_token/domain/repositories/refresh_token_repository.dart';
 import '../features/refresh_token/domain/usecases/refresh_token_usecase.dart';
 import '../features/refresh_token/presentation/bloc/refresh_token_bloc.dart';
+import '../features/service_details/data/models/service_details_model.dart';
+import '../features/service_details/data/repositories/service_details_repository_implements.dart';
+import '../features/service_details/domain/repositories/service_details_repository.dart';
+import '../features/service_details/presentation/bloc/service_details_bloc.dart';
 import '../features/signup_page/data/models/city_model.dart';
 import '../features/signup_page/data/models/country_model.dart';
 import '../features/signup_page/data/models/signup_model.dart';
@@ -387,4 +393,24 @@ Future<void> initDependencies() async {
   );
 
   // end of home page
+  // service details
+  //entities and models
+  getItInstance.registerSingleton<ServiceDetailsEntity>(ServiceDetailsEntity());
+  getItInstance.registerSingleton<ServiceDetailsModel>(ServiceDetailsModel());
+
+  //repository
+  getItInstance.registerSingleton<ServiceDetailsRepository>(
+    ServiceDetailsRepositoryImpl(getItInstance()),
+  );
+  //usecase
+  getItInstance.registerSingleton<GetServiceProvidersUseCase>(
+    GetServiceProvidersUseCase(getItInstance()),
+  );
+
+  //bloc
+  getItInstance.registerFactory<ServiceDetailsBloc>(
+    () => ServiceDetailsBloc(getItInstance(), getItInstance()),
+  );
+
+  // end of service details
 }

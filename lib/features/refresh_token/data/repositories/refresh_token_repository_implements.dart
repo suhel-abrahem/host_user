@@ -53,7 +53,9 @@ class RefreshTokenRepositoryImplements implements RefreshTokenRepository {
               Duration(milliseconds: 0).inMilliseconds,
         ),
       );
-
+      print(
+        "Refresh Token Repository:refresh_token:${refreshTokenModel?.refresh_token} ",
+      );
       return response;
     } else {
       try {
@@ -83,6 +85,9 @@ class RefreshTokenRepositoryImplements implements RefreshTokenRepository {
                 return onValue;
               }
             });
+        print(
+          "Refresh Token Repository:refresh_token:${refreshTokenModel?.refresh_token} ",
+        );
         return response;
       } catch (e) {
         response = DataFailed(error: e.toString());

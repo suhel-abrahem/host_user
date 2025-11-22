@@ -72,6 +72,9 @@ class CategoriesPageImplementsRepository implements CategoriesPageRepository {
     if (connectivityResult == ConnectivityResult.none) {
       return NOInternetDataState();
     }
+    print(
+      "Get Categories Repository:accptLanguage:${getCategoryModel?.acceptLanguage},Authorization:${getCategoryModel?.Authorization},page:${getCategoryModel?.page},per_page:${getCategoryModel?.per_page} ",
+    );
     CommonService commonService = CommonService(
       headers: {
         "Accept-Language": getCategoryModel?.acceptLanguage,
@@ -79,30 +82,42 @@ class CategoriesPageImplementsRepository implements CategoriesPageRepository {
       },
     );
     DataState<List<CategoryEntity?>?>? response = DataFailed(error: "");
-    await commonService.get(ApiConstant.categoryEndpoint).then((onValue) {
-      try {
-        if (onValue is UnauthenticatedDataState) {
-          response = UnauthenticatedDataState(error: onValue.error);
-          return response;
-        } else if (onValue is DataFailed) {
-          response = DataFailed(error: onValue.error);
-          return response;
-        } else if (onValue is DataSuccess) {
-          final List? rawCategory = onValue.data?.data["data"];
-          List<CategoryEntity?>? category = [];
-          rawCategory?.forEach(
-            (action) => category.add(CategoryEntity.fromJson(action ?? {})),
-          );
-          response = DataSuccess(data: category);
-          return response;
-        } else {
-          response = DataFailed(error: onValue.error);
-          return response;
-        }
-      } catch (e) {
-        response = DataFailed(error: e.toString());
-      }
-    });
+    await commonService
+        .get(
+          ApiConstant.categoryEndpoint,
+          params: {
+            if (getCategoryModel?.page != null &&
+                (getCategoryModel?.page?.isNotEmpty ?? false))
+              "page": getCategoryModel?.page,
+            if (getCategoryModel?.per_page != null &&
+                (getCategoryModel?.per_page?.isNotEmpty ?? false))
+              "per_page": getCategoryModel?.per_page,
+          },
+        )
+        .then((onValue) {
+          try {
+            if (onValue is UnauthenticatedDataState) {
+              response = UnauthenticatedDataState(error: onValue.error);
+              return response;
+            } else if (onValue is DataFailed) {
+              response = DataFailed(error: onValue.error);
+              return response;
+            } else if (onValue is DataSuccess) {
+              final List? rawCategory = onValue.data?.data["data"];
+              List<CategoryEntity?>? category = [];
+              rawCategory?.forEach(
+                (action) => category.add(CategoryEntity.fromJson(action ?? {})),
+              );
+              response = DataSuccess(data: category);
+              return response;
+            } else {
+              response = DataFailed(error: onValue.error);
+              return response;
+            }
+          } catch (e) {
+            response = DataFailed(error: e.toString());
+          }
+        });
     return response;
   }
 }

@@ -4,6 +4,8 @@
     "welcome": "بەخێربێیت بۆ هۆستا",
     "signIn": "چوونەژوورەوە بۆ ئەژماری خۆت",
     "email": "ئیمەیڵ",
+    "emailOrPhone": "ئیمەیڵ یان ژمارەی مۆبایل",
+    "emailOrPhoneIsRequired": "ئیمەیڵ یان ژمارەی مۆبایل پێویستە",
     "emailIsRequired": "ئیمەیڵ پێویستە",
     "password": "وشەی نهێنی",
     "confirmPassword": "دووبارە وشەی نهێنی بنووسە",
@@ -30,7 +32,10 @@
     "thisPhoneIsTaken": "ئەم ژمارەی مۆبایلە هەیە",
     "thisEmailIsTaken": "ئەم ئیمەیڵە هەیە",
     "ThePasswordFieldMustBeAtLeast8Characters": "پێویستی وشەی نهێنی بەرزتر لە 8 پیتە",
-    "errors": "هەڵەکان"
+    "errors": "هەڵەکان",
+    "chooseVerificationMethod": "ڕێگای پشکنین هەڵبژێرە",
+    "viaEmail": "بەڕێی ئیمەیڵ",
+    "viaWhatsapp": "بەڕێی واتسئاپ"
   },
   "common": {
     "loading": "چاوەڕێ بکە...",
@@ -105,7 +110,9 @@
     "annualTotal": "کۆی ساڵانە",
     "annualStatistics": "ئامارەکانی ساڵانە",
     "revenue": "داهات",
-    "bookings": "بۆکینگەکان"
+    "bookings": "بۆکینگەکان",
+    "categories": "پۆلەکان",
+    "showAll": "پیشاندانی هەموو"
   },
   "bookingPage": {
     "title": "پەیجی ئاراستەکردن",
@@ -247,6 +254,12 @@
     "noAddress": "هیچ ناونیشانێک نیە",
     "showOnMap": "نیشانبدە لەسەر نەخشە",
     "callClient": "پەیوەندی بکە بە موشتەری",
-    "cantShowMap": "ناتوانرێت نەخشە نیشانبدرێت"
+    "cantShowMap": "ناتوانرێت نەخشە نیشانبدرێت",
+    "availableProviders": "دابینکەرە بەردەستەکان",
+    "providersAvailable": "دابینکەرە بەردەستەکان",
+    "sortProvidersBy": "ڕیزکردنەوەی دابینکەرەکان بە",
+    "distanceNearestToFarthest": "دووری: نزیکترین بۆ دووریترین",
+    "ratingHighToLow": "هەڵسەنگاندن: بەرزترین بۆ نزمترین",
+    "priceLowToHigh": "قیمت: نزمترین بۆ بەرزترین"
   }
 }

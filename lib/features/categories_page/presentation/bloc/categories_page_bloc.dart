@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hosta_user/core/util/helper/helper.dart';
 import '../../../../config/app/app_preferences.dart';
 import '../../../../core/data_state/data_state.dart';
 import '../../../../core/dependencies_injection.dart';
@@ -35,6 +36,9 @@ class CategoriesPageBloc
           )
           .then((onValue) async {
             if (onValue is DataSuccess) {
+              print(
+                "Get Categories Bloc:accptLanguage:${event.getCategoryModel?.acceptLanguage},page:${event.getCategoryModel?.page},per_page:${event.getCategoryModel?.per_page} ",
+              );
               await _getCategoryUsecase
                   .call(
                     params: event.getCategoryModel?.copyWith(

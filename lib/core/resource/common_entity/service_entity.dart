@@ -13,6 +13,7 @@ abstract class ServiceEntity with _$ServiceEntity {
     @Default(0) int? user_id,
     @Default(0) int? service_id,
     @Default("") String? name,
+
     @Default("") String? acceptedLanguage,
     @Default(0) int? price,
     @Default("") String? notes,

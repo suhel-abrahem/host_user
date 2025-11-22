@@ -20,6 +20,8 @@ class CodegenLoader extends AssetLoader{
     "welcome": "مرحباً بك في هوستا",
     "signIn": "تسجيل الدخول إلى حسابك",
     "email": "البريد الإلكتروني",
+    "emailOrPhone": "البريد الإلكتروني أو رقم الهاتف",
+    "emailOrPhoneIsRequired": "البريد الإلكتروني أو رقم الهاتف مطلوب",
     "emailIsRequired": "البريد الإلكتروني مطلوب",
     "password": "كلمة المرور",
     "confirmPassword": "تأكيد كلمة المرور",
@@ -46,7 +48,10 @@ class CodegenLoader extends AssetLoader{
     "thisPhoneIsTaken": "رقم الهاتف مستخدم بالفعل",
     "thisEmailIsTaken": "البريد الإلكتروني مستخدم بالفعل",
     "ThePasswordFieldMustBeAtLeast8Characters": "يجب أن تكون كلمة المرور مكونة من 8 أحرف على الأقل",
-    "errors": "أخطاء"
+    "errors": "أخطاء",
+    "chooseVerificationMethod": "اختر طريقة التحقق",
+    "viaEmail": "عبر البريد الإلكتروني",
+    "viaWhatsapp": "عبر الواتساب"
   },
   "common": {
     "loading": "جاري التحميل...",
@@ -121,7 +126,9 @@ class CodegenLoader extends AssetLoader{
     "annualTotal": "الإجمالي السنوي",
     "annualStatistics": "الإحصائيات السنوية",
     "revenue": "الإيرادات",
-    "bookings": "الحجوزات"
+    "bookings": "الحجوزات",
+    "categories": "الفئات",
+    "showAll": "عرض الكل"
   },
   "bookingPage": {
     "title": "صفحة الحجوزات",
@@ -263,7 +270,13 @@ class CodegenLoader extends AssetLoader{
     "noAddress": "لا يوجد عنوان",
     "showOnMap": "عرض على الخريطة",
     "callClient": "الاتصال بالعميل",
-    "cantShowMap": "لا يمكن عرض الخريطة"
+    "cantShowMap": "لا يمكن عرض الخريطة",
+    "availableProviders": "المزودون المتاحون",
+    "providersAvailable": "مزودون متاحون",
+    "sortProvidersBy": "فرز المزودين حسب",
+    "distanceNearestToFarthest": "المسافة من الأقرب إلى الأبعد",
+    "ratingHighToLow": "التقييم من الأعلى إلى الأدنى",
+    "priceLowToHigh": "السعر من الأقل إلى الأعلى"
   }
 };
 static const Map<String,dynamic> _en = {
@@ -272,6 +285,8 @@ static const Map<String,dynamic> _en = {
     "welcome": "Welcome to Hosta",
     "signIn": "Sign in to your account",
     "email": "Email",
+    "emailOrPhone": "Email or Phone Number",
+    "emailOrPhoneIsRequired": "Email or phone number is required",
     "emailIsRequired": "Email is required",
     "password": "Password",
     "confirmPassword": "Confirm Password",
@@ -298,7 +313,10 @@ static const Map<String,dynamic> _en = {
     "thisPhoneIsTaken": "This phone number is already taken",
     "thisEmailIsTaken": "This email is already taken",
     "ThePasswordFieldMustBeAtLeast8Characters": "The password field must be at least 8 characters",
-    "errors": "Errors"
+    "errors": "Errors",
+    "chooseVerificationMethod": "Choose verification method",
+    "viaEmail": "Via Email",
+    "viaWhatsapp": "Via Whatsapp"
   },
   "common": {
     "loading": "Loading...",
@@ -373,7 +391,9 @@ static const Map<String,dynamic> _en = {
     "annualTotal": "Annual total",
     "annualStatistics": "Annual statistics",
     "revenue": "Revenue",
-    "bookings": "Bookings"
+    "bookings": "Bookings",
+    "categories": "Categories",
+    "showAll": "Show all"
   },
   "bookingPage": {
     "title": "Bookings page",
@@ -515,7 +535,13 @@ static const Map<String,dynamic> _en = {
     "noAddress": "No address",
     "showOnMap": "Show on map",
     "callClient": "Call client",
-    "cantShowMap": "Can't show map"
+    "cantShowMap": "Can't show map",
+    "availableProviders": "Available providers",
+    "providersAvailable": "Providers available",
+    "sortProvidersBy": "Sort providers by",
+    "distanceNearestToFarthest": "Distance: Nearest to Farthest",
+    "ratingHighToLow": "Rating: High to Low",
+    "priceLowToHigh": "Price: Low to High"
   }
 };
 static const Map<String,dynamic> _fa = {
@@ -524,6 +550,8 @@ static const Map<String,dynamic> _fa = {
     "welcome": "بەخێربێیت بۆ هۆستا",
     "signIn": "چوونەژوورەوە بۆ ئەژماری خۆت",
     "email": "ئیمەیڵ",
+    "emailOrPhone": "ئیمەیڵ یان ژمارەی مۆبایل",
+    "emailOrPhoneIsRequired": "ئیمەیڵ یان ژمارەی مۆبایل پێویستە",
     "emailIsRequired": "ئیمەیڵ پێویستە",
     "password": "وشەی نهێنی",
     "confirmPassword": "دووبارە وشەی نهێنی بنووسە",
@@ -550,7 +578,10 @@ static const Map<String,dynamic> _fa = {
     "thisPhoneIsTaken": "ئەم ژمارەی مۆبایلە هەیە",
     "thisEmailIsTaken": "ئەم ئیمەیڵە هەیە",
     "ThePasswordFieldMustBeAtLeast8Characters": "پێویستی وشەی نهێنی بەرزتر لە 8 پیتە",
-    "errors": "هەڵەکان"
+    "errors": "هەڵەکان",
+    "chooseVerificationMethod": "ڕێگای پشکنین هەڵبژێرە",
+    "viaEmail": "بەڕێی ئیمەیڵ",
+    "viaWhatsapp": "بەڕێی واتسئاپ"
   },
   "common": {
     "loading": "چاوەڕێ بکە...",
@@ -625,7 +656,9 @@ static const Map<String,dynamic> _fa = {
     "annualTotal": "کۆی ساڵانە",
     "annualStatistics": "ئامارەکانی ساڵانە",
     "revenue": "داهات",
-    "bookings": "بۆکینگەکان"
+    "bookings": "بۆکینگەکان",
+    "categories": "پۆلەکان",
+    "showAll": "پیشاندانی هەموو"
   },
   "bookingPage": {
     "title": "پەیجی ئاراستەکردن",
@@ -767,7 +800,13 @@ static const Map<String,dynamic> _fa = {
     "noAddress": "هیچ ناونیشانێک نیە",
     "showOnMap": "نیشانبدە لەسەر نەخشە",
     "callClient": "پەیوەندی بکە بە موشتەری",
-    "cantShowMap": "ناتوانرێت نەخشە نیشانبدرێت"
+    "cantShowMap": "ناتوانرێت نەخشە نیشانبدرێت",
+    "availableProviders": "دابینکەرە بەردەستەکان",
+    "providersAvailable": "دابینکەرە بەردەستەکان",
+    "sortProvidersBy": "ڕیزکردنەوەی دابینکەرەکان بە",
+    "distanceNearestToFarthest": "دووری: نزیکترین بۆ دووریترین",
+    "ratingHighToLow": "هەڵسەنگاندن: بەرزترین بۆ نزمترین",
+    "priceLowToHigh": "قیمت: نزمترین بۆ بەرزترین"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": _ar, "en": _en, "fa": _fa};

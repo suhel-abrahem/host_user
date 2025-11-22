@@ -54,77 +54,65 @@ class _CategoriesPagePageState extends State<CategoriesPagePage> {
         title: LocaleKeys.categoriesPage_title.tr(),
         body: BlocListener<CategoriesPageBloc, CategoriesPageState>(
           listener: (context, state) {
+            print("Categories Page Bloc Listener:state:$state ");
             if (state is CategoriesPageStateUnAuthorized) {
               getItInstance<AppPreferences>().setUserInfo(
                 loginStateEntity: LoginStateEntity(),
               );
-              context.goNamed(RoutesName.loginPage);
             }
           },
-          child: BlocListener<CategoriesPageBloc, CategoriesPageState>(
-            listener: (context, state) {
-              if (state is CategoriesPageStateUnAuthorized) {
-                getItInstance<AppPreferences>().setUserInfo(
-                  loginStateEntity: LoginStateEntity(),
-                );
-              }
-            },
-            child: BlocBuilder<CategoriesPageBloc, CategoriesPageState>(
-              builder: (context, state) {
-                return state.when(
-                  initial: () => SizedBox(),
-                  error: () => Expanded(
-                    child: ErrorStateWidget(
-                      lottieHeight: 200.h,
-                      lottieWidth: 200.w,
-                    ),
+          child: BlocBuilder<CategoriesPageBloc, CategoriesPageState>(
+            builder: (context, state) {
+              return state.when(
+                initial: () => SizedBox(),
+                error: () => Expanded(
+                  child: ErrorStateWidget(
+                    lottieHeight: 200.h,
+                    lottieWidth: 200.w,
                   ),
-                  noInternet: () => Expanded(
-                    child: NoInternetStateWidget(
-                      lottieHeight: 200.h,
-                      lottieWidth: 200.w,
-                    ),
+                ),
+                noInternet: () => Expanded(
+                  child: NoInternetStateWidget(
+                    lottieHeight: 200.h,
+                    lottieWidth: 200.w,
                   ),
-                  unAuthorized: () => Expanded(
-                    child: ErrorStateWidget(
-                      lottieHeight: 200.h,
-                      lottieWidth: 200.w,
-                    ),
+                ),
+                unAuthorized: () => Expanded(
+                  child: ErrorStateWidget(
+                    lottieHeight: 200.h,
+                    lottieWidth: 200.w,
                   ),
-                  loading: () => Center(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).primaryColor,
-                    ),
+                ),
+                loading: () => Center(
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).primaryColor,
                   ),
-                  got: (data) => (data == null || data.isEmpty)
-                      ? NodataStateWidget(
-                          lottieHeight: 200.h,
-                          lottieWidth: 200.w,
-                        )
-                      : Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 20.w,
-                            vertical: 20.h,
-                          ),
-                          child: GridView.builder(
-                            itemCount: data.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 12.w,
-                                  mainAxisSpacing: 12.h,
-                                  mainAxisExtent: 180.h,
-                                ),
-                            itemBuilder: (context, index) {
-                              return CategoryContainer(
-                                categoryEntity: data[index],
-                              );
-                            },
-                          ),
+                ),
+                got: (data) => (data == null || data.isEmpty)
+                    ? NodataStateWidget(lottieHeight: 200.h, lottieWidth: 200.w)
+                    : Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.w,
+                          vertical: 20.h,
                         ),
-                );
-              },
-            ),
+                        child: GridView.builder(
+                          itemCount: data.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 12.w,
+                                mainAxisSpacing: 12.h,
+                                mainAxisExtent: 180.h,
+                              ),
+                          itemBuilder: (context, index) {
+                            return CategoryContainer(
+                              categoryEntity: data[index],
+                            );
+                          },
+                        ),
+                      ),
+              );
+            },
           ),
         ),
       ),

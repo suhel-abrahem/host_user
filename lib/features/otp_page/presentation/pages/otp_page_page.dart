@@ -39,8 +39,6 @@ class _OtpPagePageState extends State<OtpPagePage> {
 
     otpModel = otpModel.copyWith(
       userId: signupInfoEntity?.signupEntity?.user_id,
-
-      verifyMethod: "whatsapp",
     );
     super.initState();
   }

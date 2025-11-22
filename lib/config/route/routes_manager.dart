@@ -4,6 +4,8 @@ import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hosta_user/features/service_details/presentation/pages/service_details_page.dart';
+import '../../core/resource/common_entity/service_entity.dart';
 import '../app/app_preferences.dart';
 import 'route_tracker.dart';
 import '../../core/dependencies_injection.dart';
@@ -34,7 +36,7 @@ class RoutesName {
   static String homePage = "homePage";
   static String categoriesPage = "categoriesPage";
   static String settingPage = "settingPage";
-  static String categoryPage = "categoryPage";
+
   static String loginPage = "loginPage";
   static String firstUsePage = "firstUsePage";
   static String signupPage = "signupPage";
@@ -47,13 +49,14 @@ class RoutesName {
   static String accountPage = "accountPage";
   static String settingsPage = "settingsPage";
   static String helpPage = "helpPage";
+  static String serviceDetailsPage = "serviceDetailsPage";
 }
 
 class RoutesPath {
   static String homePage = '/';
   static String categoriesPage = '/categories';
   static String settingPage = '/setting';
-  static String categoryPage = '/category';
+
   static String loginPage = '/login';
   static String firstUsePage = '/firstUse';
   static String signupPage = '/signup';
@@ -66,6 +69,7 @@ class RoutesPath {
   static String accountPage = "/accountPage";
   static String settingsPage = "/settingsPage";
   static String helpPage = "/helpPage";
+  static String serviceDetailsPage = "/serviceDetailsPage/:serviceEntity";
 }
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -268,6 +272,20 @@ GoRouter goRouter = GoRouter(
               pageBuilder: (context, state) {
                 return _customTransitionPage(
                   child: HelpPagePage(),
+                  state: state,
+                );
+              },
+            ),
+            GoRoute(
+              path: RoutesPath.serviceDetailsPage,
+              name: RoutesName.serviceDetailsPage,
+              pageBuilder: (context, state) {
+                return _customTransitionPage(
+                  child: ServiceDetailsPage(
+                    serviceEntity: ServiceEntity.fromJson(
+                      jsonDecode(state.pathParameters["serviceEntity"] ?? ""),
+                    ),
+                  ),
                   state: state,
                 );
               },

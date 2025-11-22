@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/app/app_preferences.dart';
@@ -59,6 +60,8 @@ class _SignupPageState extends State<SignupPage> {
   bool? isResponseHaveError = false;
   List errors = [];
   GlobalKey<FormState> formKey = GlobalKey();
+  bool verifyViaEmail = false;
+  GlobalKey<FormState> popUpFormKey = GlobalKey();
   // Future<void> getLocationPermissionState() async {
   //   if ((await Permission.locationWhenInUse.serviceStatus.isEnabled)) {
   //     canAccessAddress = true;
@@ -179,7 +182,7 @@ class _SignupPageState extends State<SignupPage> {
             child: BlocListener<SignupBlocBloc, SignupBlocState>(
               listener: (context, state) {
                 state.when(
-                  initial: () => isSignupButtonLoading = false,
+                  initial: () => isSignupButtonLoading = true,
                   signupSignedUp: (data) async {
                     isSignupButtonLoading = false;
                     SignupInfoEntity? signupInfoEntity = data;
@@ -214,7 +217,7 @@ class _SignupPageState extends State<SignupPage> {
                       }
                     }
                     showMessage(
-                      message: LocaleKeys.common_error.toString(),
+                      message: LocaleKeys.common_error.tr(),
                       context: context,
                     );
                   },
@@ -284,7 +287,7 @@ class _SignupPageState extends State<SignupPage> {
                             padding: EdgeInsets.symmetric(vertical: 5.h),
                             child: CustomInputField(
                               width: 300.w,
-                              isRequired: true,
+                              isRequired: false,
                               onChanged: (value) {
                                 signupModel = signupModel?.copyWith(
                                   email: value,
@@ -974,7 +977,7 @@ class _SignupPageState extends State<SignupPage> {
                                           Theme.of(context).colorScheme.primary,
                                         ),
                                       ),
-                                  onPressed: () {
+                                  onPressed: () async {
                                     if ((formKey.currentState?.validate() ??
                                             false) &&
                                         !(isSignupButtonLoading ?? false)) {
@@ -990,15 +993,238 @@ class _SignupPageState extends State<SignupPage> {
                                         ),
                                         role: "User",
                                       );
-                                      signupModel = signupModel?.copyWith(
-                                        verify_via: "whatsapp",
-                                      );
-                                      context.read<SignupBlocBloc>().add(
-                                        SignupBlocEvent.signupSignedInEvent(
-                                          signupModel: signupModel,
-                                        ),
+                                      await showDialog(
+                                        context: context,
+                                        builder: (popContext) {
+                                          return StatefulBuilder(
+                                            builder: (context, setState) {
+                                              return Center(
+                                                child: AlertDialog(
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                          .scaffoldBackgroundColor
+                                                          .withValues(
+                                                            alpha: 0.8,
+                                                          ),
+                                                  title: Text(
+                                                    LocaleKeys
+                                                        .loginPage_chooseVerificationMethod
+                                                        .tr(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .labelLarge
+                                                        ?.copyWith(
+                                                          fontFamily:
+                                                              FontConstants.fontFamily(
+                                                                context.locale,
+                                                              ),
+                                                        ),
+                                                  ),
+                                                  content: Form(
+                                                    key: popUpFormKey,
+                                                    autovalidateMode:
+                                                        AutovalidateMode
+                                                            .onUserInteraction,
+                                                    child: AnimatedSwitcher(
+                                                      duration: Duration(
+                                                        milliseconds: 400,
+                                                      ),
+                                                      child: AnimatedContainer(
+                                                        duration: Duration(
+                                                          milliseconds: 300,
+                                                        ),
+                                                        height: verifyViaEmail
+                                                            ? 130.h
+                                                            : 50.h,
+                                                        child: Column(
+                                                          key: ValueKey(
+                                                            verifyViaEmail,
+                                                          ),
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  LocaleKeys
+                                                                      .loginPage_viaWhatsapp
+                                                                      .tr(),
+                                                                  style: Theme.of(context)
+                                                                      .textTheme
+                                                                      .labelSmall
+                                                                      ?.copyWith(
+                                                                        fontFamily: FontConstants.fontFamily(
+                                                                          context
+                                                                              .locale,
+                                                                        ),
+                                                                      ),
+                                                                ),
+                                                                Padding(
+                                                                  padding:
+                                                                      EdgeInsets.symmetric(
+                                                                        horizontal:
+                                                                            10.w,
+                                                                      ),
+                                                                  child: Switch(
+                                                                    key: ValueKey(
+                                                                      verifyViaEmail,
+                                                                    ),
+                                                                    value:
+                                                                        verifyViaEmail,
+                                                                    onChanged: (onChanged) {
+                                                                      setState(() {
+                                                                        verifyViaEmail =
+                                                                            onChanged;
+                                                                      });
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  LocaleKeys
+                                                                      .loginPage_viaEmail
+                                                                      .tr(),
+                                                                  style: Theme.of(context)
+                                                                      .textTheme
+                                                                      .labelSmall
+                                                                      ?.copyWith(
+                                                                        fontFamily: FontConstants.fontFamily(
+                                                                          context
+                                                                              .locale,
+                                                                        ),
+                                                                      ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            if (verifyViaEmail &&
+                                                                (signupModel?.email ==
+                                                                        null ||
+                                                                    RegExp(
+                                                                          Validator
+                                                                              .emailRegex,
+                                                                        ).hasMatch(
+                                                                          signupModel?.email ??
+                                                                              "",
+                                                                        ) ==
+                                                                        false))
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsets.symmetric(
+                                                                      vertical:
+                                                                          5.h,
+                                                                    ),
+                                                                child: CustomInputField(
+                                                                  width: 300.w,
+                                                                  isRequired:
+                                                                      false,
+                                                                  onChanged: (value) {
+                                                                    signupModel =
+                                                                        signupModel?.copyWith(
+                                                                          email:
+                                                                              value,
+                                                                        );
+                                                                  },
+                                                                  label: LocaleKeys
+                                                                      .loginPage_email
+                                                                      .tr(),
+                                                                  validator: (value) {
+                                                                    if (value !=
+                                                                            null &&
+                                                                        value
+                                                                            .toString()
+                                                                            .trim()
+                                                                            .isNotEmpty) {
+                                                                      if (!RegExp(
+                                                                        Validator
+                                                                            .emailRegex,
+                                                                      ).hasMatch(
+                                                                        value,
+                                                                      )) {
+                                                                        return Validator
+                                                                            .emailExample;
+                                                                      } else {
+                                                                        return null;
+                                                                      }
+                                                                    }
+                                                                    return null;
+                                                                  },
+                                                                ),
+                                                              ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(
+                                                          context,
+                                                        ).pop();
+                                                      },
+                                                      child: Text(
+                                                        LocaleKeys.common_cancel
+                                                            .tr(),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .labelLarge
+                                                            ?.copyWith(
+                                                              fontFamily:
+                                                                  FontConstants.fontFamily(
+                                                                    context
+                                                                        .locale,
+                                                                  ),
+                                                            ),
+                                                      ),
+                                                    ),
+                                                    Builder(
+                                                      builder: (context) {
+                                                        return TextButton(
+                                                          onPressed: () {
+                                                            if (popUpFormKey
+                                                                    .currentState
+                                                                    ?.validate() ??
+                                                                false) {
+                                                              Navigator.of(
+                                                                context,
+                                                              ).pop();
+                                                            }
+                                                          },
+                                                          child: Text(
+                                                            LocaleKeys
+                                                                .profilePage_submit
+                                                                .tr(),
+                                                            style: Theme.of(context)
+                                                                .textTheme
+                                                                .labelLarge
+                                                                ?.copyWith(
+                                                                  fontFamily:
+                                                                      FontConstants.fontFamily(
+                                                                        context
+                                                                            .locale,
+                                                                      ),
+                                                                ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
                                       );
                                     }
+                                    signupModel = signupModel?.copyWith(
+                                      verify_via: verifyViaEmail
+                                          ? "email"
+                                          : "whatsapp",
+                                    );
+                                    context.read<SignupBlocBloc>().add(
+                                      SignupBlocEvent.signupSignedInEvent(
+                                        signupModel: signupModel,
+                                      ),
+                                    );
                                   },
                                   child: (isSignupButtonLoading ?? false)
                                       ? Center(

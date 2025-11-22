@@ -4,6 +4,8 @@
     "welcome": "Welcome to Hosta",
     "signIn": "Sign in to your account",
     "email": "Email",
+    "emailOrPhone": "Email or Phone Number",
+    "emailOrPhoneIsRequired": "Email or phone number is required",
     "emailIsRequired": "Email is required",
     "password": "Password",
     "confirmPassword": "Confirm Password",
@@ -30,7 +32,10 @@
     "thisPhoneIsTaken": "This phone number is already taken",
     "thisEmailIsTaken": "This email is already taken",
     "ThePasswordFieldMustBeAtLeast8Characters": "The password field must be at least 8 characters",
-    "errors": "Errors"
+    "errors": "Errors",
+    "chooseVerificationMethod": "Choose verification method",
+    "viaEmail": "Via Email",
+    "viaWhatsapp": "Via Whatsapp"
   },
   "common": {
     "loading": "Loading...",
@@ -105,7 +110,9 @@
     "annualTotal": "Annual total",
     "annualStatistics": "Annual statistics",
     "revenue": "Revenue",
-    "bookings": "Bookings"
+    "bookings": "Bookings",
+    "categories": "Categories",
+    "showAll": "Show all"
   },
   "bookingPage": {
     "title": "Bookings page",
@@ -247,6 +254,12 @@
     "noAddress": "No address",
     "showOnMap": "Show on map",
     "callClient": "Call client",
-    "cantShowMap": "Can't show map"
+    "cantShowMap": "Can't show map",
+    "availableProviders": "Available providers",
+    "providersAvailable": "Providers available",
+    "sortProvidersBy": "Sort providers by",
+    "distanceNearestToFarthest": "Distance: Nearest to Farthest",
+    "ratingHighToLow": "Rating: High to Low",
+    "priceLowToHigh": "Price: Low to High"
   }
 }

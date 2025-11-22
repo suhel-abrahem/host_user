@@ -8,6 +8,8 @@ abstract class GetCategoryModel with _$GetCategoryModel {
   const factory GetCategoryModel({
     @Default("") String? Authorization,
     @Default("") String? acceptLanguage,
+    @Default("") String? page,
+    @Default("") String? per_page,
   }) = _GetCategoryModel;
   factory GetCategoryModel.fromJson(Map<String, dynamic> json) =>
       _$GetCategoryModelFromJson(json);

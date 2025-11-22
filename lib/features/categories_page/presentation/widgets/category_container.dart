@@ -51,20 +51,26 @@ class CategoryContainer extends StatelessWidget {
               children: [
                 ImageWidget(
                   imageUrl: categoryEntity?.icon ?? "",
-                  width: 50.w,
+                  width: 150.w,
                   height: 50.h,
                   errorIconSize: 26.sp,
                 ),
-                Text(
-                  categoryEntity?.name ?? "",
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    fontFamily: FontConstants.fontFamily(context.locale),
+                SizedBox(
+                  height: 80.h,
+                  child: Center(
+                    child: Text(
+                      categoryEntity?.name ?? "",
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        fontFamily: FontConstants.fontFamily(context.locale),
+                        fontSize: 16.sp,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  textAlign: TextAlign.center,
                 ),
                 Center(
                   child: Container(
-                    height: 30.h,
+                    height: 25.h,
                     padding: EdgeInsets.symmetric(horizontal: 4.w),
                     decoration: BoxDecoration(
                       color: Theme.of(
@@ -88,8 +94,8 @@ class CategoryContainer extends StatelessWidget {
             ),
           ).asGlass(
             frosted: true,
-            blurX: 8,
-            blurY: 8,
+            blurX: 38,
+            blurY: 38,
             tintColor: Theme.of(
               context,
             ).colorScheme.primaryContainer.withValues(alpha: 0.9),

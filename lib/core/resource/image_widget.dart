@@ -31,20 +31,24 @@ class ImageWidget extends StatelessWidget {
           width: width,
           height: height,
           fit: boxFit ?? BoxFit.contain,
-          errorBuilder: (context, error, stackTrace) =>
-              errorWidget ??
-              Icon(
-                Icons.error,
-                color: Theme.of(context).colorScheme.error,
-                size: errorIconSize,
-              ),
+          errorBuilder: (context, error, stackTrace) => FittedBox(
+            fit: boxFit ?? BoxFit.contain,
+            child:
+                errorWidget ??
+                Icon(
+                  Icons.error,
+
+                  color: Theme.of(context).colorScheme.error,
+                  size: errorIconSize,
+                ),
+          ),
           placeholderBuilder: (context) => SizedBox(
             width: width,
             height: height,
             child: SizedBox(
               width: 50.w,
               height: 50.h,
-              child: CircularProgressIndicator(),
+              child: Center(child: CircularProgressIndicator()),
             ),
           ),
         ),
@@ -59,8 +63,9 @@ class ImageWidget extends StatelessWidget {
           height: height,
           imageUrl: imageUrl,
 
-          progressIndicatorBuilder: (context, url, progress) =>
-              CircularProgressIndicator(value: progress.progress),
+          progressIndicatorBuilder: (context, url, progress) => Center(
+            child: CircularProgressIndicator(value: progress.progress),
+          ),
           errorWidget: (_, __, ___) =>
               errorWidget ??
               Icon(

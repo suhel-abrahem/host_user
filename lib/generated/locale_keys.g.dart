@@ -7,6 +7,8 @@ abstract class  LocaleKeys {
   static const loginPage_welcome = 'loginPage.welcome';
   static const loginPage_signIn = 'loginPage.signIn';
   static const loginPage_email = 'loginPage.email';
+  static const loginPage_emailOrPhone = 'loginPage.emailOrPhone';
+  static const loginPage_emailOrPhoneIsRequired = 'loginPage.emailOrPhoneIsRequired';
   static const loginPage_emailIsRequired = 'loginPage.emailIsRequired';
   static const loginPage_password = 'loginPage.password';
   static const loginPage_confirmPassword = 'loginPage.confirmPassword';
@@ -34,6 +36,9 @@ abstract class  LocaleKeys {
   static const loginPage_thisEmailIsTaken = 'loginPage.thisEmailIsTaken';
   static const loginPage_ThePasswordFieldMustBeAtLeast8Characters = 'loginPage.ThePasswordFieldMustBeAtLeast8Characters';
   static const loginPage_errors = 'loginPage.errors';
+  static const loginPage_chooseVerificationMethod = 'loginPage.chooseVerificationMethod';
+  static const loginPage_viaEmail = 'loginPage.viaEmail';
+  static const loginPage_viaWhatsapp = 'loginPage.viaWhatsapp';
   static const loginPage = 'loginPage';
   static const common_loading = 'common.loading';
   static const common_error = 'common.error';
@@ -104,6 +109,8 @@ abstract class  LocaleKeys {
   static const homePage_annualStatistics = 'homePage.annualStatistics';
   static const homePage_revenue = 'homePage.revenue';
   static const homePage_bookings = 'homePage.bookings';
+  static const homePage_categories = 'homePage.categories';
+  static const homePage_showAll = 'homePage.showAll';
   static const homePage = 'homePage';
   static const bookingPage_title = 'bookingPage.title';
   static const bookingPage_label = 'bookingPage.label';
@@ -239,6 +246,12 @@ abstract class  LocaleKeys {
   static const serviceDetailsPage_showOnMap = 'serviceDetailsPage.showOnMap';
   static const serviceDetailsPage_callClient = 'serviceDetailsPage.callClient';
   static const serviceDetailsPage_cantShowMap = 'serviceDetailsPage.cantShowMap';
+  static const serviceDetailsPage_availableProviders = 'serviceDetailsPage.availableProviders';
+  static const serviceDetailsPage_providersAvailable = 'serviceDetailsPage.providersAvailable';
+  static const serviceDetailsPage_sortProvidersBy = 'serviceDetailsPage.sortProvidersBy';
+  static const serviceDetailsPage_distanceNearestToFarthest = 'serviceDetailsPage.distanceNearestToFarthest';
+  static const serviceDetailsPage_ratingHighToLow = 'serviceDetailsPage.ratingHighToLow';
+  static const serviceDetailsPage_priceLowToHigh = 'serviceDetailsPage.priceLowToHigh';
   static const serviceDetailsPage = 'serviceDetailsPage';
 
 }

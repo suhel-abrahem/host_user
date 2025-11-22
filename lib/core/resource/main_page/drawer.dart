@@ -209,7 +209,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               child: DrawerButtonWidget(
                 selected: currentPath?.endsWith(RoutesPath.categoriesPage),
                 title: LocaleKeys.categoriesPage_title.tr(),
-                icon: Icons.miscellaneous_services,
+                icon: Icons.category,
                 onPressed: () {
                   context.push(RoutesPath.categoriesPage);
                 },

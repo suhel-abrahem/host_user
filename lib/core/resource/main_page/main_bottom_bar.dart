@@ -28,7 +28,7 @@ class _MainBottomBarState extends State<MainBottomBar> {
         output = RoutesPath.bookingPage;
         break;
       case 2:
-        output = RoutesPath.myServicesPage;
+        output = RoutesPath.categoriesPage;
         break;
       case 3:
         output = RoutesPath.profilePage;
@@ -72,8 +72,8 @@ class _MainBottomBarState extends State<MainBottomBar> {
           tooltip: LocaleKeys.bookingPage_title.tr(),
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.miscellaneous_services_outlined),
-          activeIcon: const Icon(Icons.miscellaneous_services),
+          icon: const Icon(Icons.category_outlined),
+          activeIcon: const Icon(Icons.category),
           label: LocaleKeys.myServicesPage_label.tr(),
           tooltip: LocaleKeys.myServicesPage_title.tr(),
         ),
