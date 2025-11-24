@@ -14,7 +14,8 @@ import '../../../../generated/locale_keys.g.dart';
 
 class CategoryContainer extends StatelessWidget {
   final CategoryEntity? categoryEntity;
-  const CategoryContainer({super.key, this.categoryEntity});
+  final bool isHomePage;
+  const CategoryContainer({super.key, this.categoryEntity, this.isHomePage = false});
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +69,7 @@ class CategoryContainer extends StatelessWidget {
                     ),
                   ),
                 ),
+                if (!isHomePage)
                 Center(
                   child: Container(
                     height: 25.h,

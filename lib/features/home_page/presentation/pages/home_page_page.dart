@@ -61,8 +61,7 @@ class _HomePagePageState extends State<HomePagePage> {
     );
     getCategoryModel = getCategoryModel?.copyWith(
       acceptLanguage: Helper.getCountryCode(context),
-      page: "1",
-      per_page: "6",
+     
     );
     print(
       "Home Page didChangeDependencies:acceptLanguage:${getCategoryModel?.acceptLanguage},page:${getCategoryModel?.page},per_page:${getCategoryModel?.per_page} ",
@@ -78,8 +77,7 @@ class _HomePagePageState extends State<HomePagePage> {
     );
     getCategoryModel = getCategoryModel?.copyWith(
       acceptLanguage: Helper.getCountryCode(context),
-      page: "1",
-      per_page: "6",
+     
     );
     super.didUpdateWidget(oldWidget);
   }
@@ -544,19 +542,20 @@ class _HomePagePageState extends State<HomePagePage> {
                             ),
                             child: SizedBox(
                               width: double.maxFinite,
-                              height: 570.h,
+                              height: 680.h,
                               child: GridView.builder(
                                 itemCount: data.length,
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
+                                      crossAxisCount: 3,
                                       crossAxisSpacing: 12.w,
                                       mainAxisSpacing: 12.h,
-                                      mainAxisExtent: 180.h,
+                                      mainAxisExtent: 150.h,
                                     ),
-                                physics: NeverScrollableScrollPhysics(),
+                               
                                 itemBuilder: (context, index) {
                                   return CategoryContainer(
+                                    isHomePage: true,
                                     categoryEntity: data[index],
                                   );
                                 },
