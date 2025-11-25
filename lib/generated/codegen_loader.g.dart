@@ -277,6 +277,26 @@ class CodegenLoader extends AssetLoader{
     "distanceNearestToFarthest": "المسافة من الأقرب إلى الأبعد",
     "ratingHighToLow": "التقييم من الأعلى إلى الأدنى",
     "priceLowToHigh": "السعر من الأقل إلى الأعلى"
+  },
+  "providerDetailsPage": {
+    "title": "تفاصيل المزود",
+    "name": "الاسم",
+    "email": "البريد الإلكتروني",
+    "phone": "رقم الهاتف",
+    "rating": "التقييم",
+    "totalServices": "إجمالي الخدمات",
+    "completedBookings": "الحجوزات المكتملة",
+    "aboutProvider": "عن المزود",
+    "noDescription": "لا يوجد وصف",
+    "reviews": "التقييمات",
+    "noReviews": "لا توجد تقييمات",
+    "languagesSpoken": "اللغات التي يتحدثها",
+    "service": "خدمة",
+    "bookNow": "احجز الآن",
+    "providerNotAvailable": "المزود غير متاح",
+    "otherProviders": "مزودون آخرون",
+    "price": "السعر",
+    "duration": "المدة"
   }
 };
 static const Map<String,dynamic> _en = {
@@ -542,6 +562,26 @@ static const Map<String,dynamic> _en = {
     "distanceNearestToFarthest": "Distance: Nearest to Farthest",
     "ratingHighToLow": "Rating: High to Low",
     "priceLowToHigh": "Price: Low to High"
+  },
+  "providerDetailsPage": {
+    "title": "Provider Details",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "rating": "Rating",
+    "totalServices": "Total Services",
+    "completedBookings": "Completed Bookings",
+    "aboutProvider": "About Provider",
+    "noDescription": "No description",
+    "reviews": "Reviews",
+    "noReviews": "No reviews",
+    "languagesSpoken": "Languages Spoken",
+    "service": "Service",
+    "bookNow": "Book Now",
+    "providerNotAvailable": "Provider not available",
+    "otherProviders": "Other providers",
+    "price": "Price",
+    "duration": "Duration"
   }
 };
 static const Map<String,dynamic> _fa = {
@@ -807,6 +847,26 @@ static const Map<String,dynamic> _fa = {
     "distanceNearestToFarthest": "دووری: نزیکترین بۆ دووریترین",
     "ratingHighToLow": "هەڵسەنگاندن: بەرزترین بۆ نزمترین",
     "priceLowToHigh": "قیمت: نزمترین بۆ بەرزترین"
+  },
+  "providerDetailsPage": {
+    "title": "وردەکاریی دابینکەر",
+    "name": "ناو",
+    "email": "ئیمەیڵ",
+    "phone": "ژمارەی مۆبایل",
+    "rating": "هەڵسەنگاندن",
+    "totalServices": "کۆی خزمەتگوزاریەکان",
+    "completedBookings": "ئاراستەکردنە تەواوكراوەکان",
+    "aboutProvider": "دەربارەی دابینکەر",
+    "noDescription": "هیچ پێناسەیەک نیە",
+    "reviews": "هەڵسەنگاندنەکان",
+    "noReviews": "هیچ هەڵسەنگاندنێک نیە",
+    "languagesSpoken": "زمانەکان کە قسە دەکات",
+    "service": "خزمەتگوزاری",
+    "bookNow": "ئێستا بکڕە",
+    "providerNotAvailable": "دابینکەر بەردەست نیە",
+    "otherProviders": "دابینکەرەکانی تر",
+    "price": "نرخ",
+    "duration": "ماوە"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": _ar, "en": _en, "fa": _fa};

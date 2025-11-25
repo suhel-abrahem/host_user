@@ -1,6 +1,6 @@
 class ApiConstant {
   static const String baseUrl = "https://hosta-api.lenda-agency.com/api";
-  static const String imageBaseUrl = "http://75.119.145.174";
+  static const String imageBaseUrl = "https://hosta-api.lenda-agency.com/";
   static const String loginEndpoint = "/login";
   static const String homeStatsEndpoint = "/provider/dashboard";
   static const String logoutEndpoint = "/logout";

@@ -52,7 +52,9 @@ class _HomePagePageState extends State<HomePagePage> {
   ProfileEntity? profileEntity = ProfileEntity();
   bool isProfileDataLoading = true;
   GetCategoryModel? getCategoryModel = GetCategoryModel();
-
+  bool isAnimationCompleted = false;
+  int currentImage = 0;
+  PageController imageController = PageController(initialPage: 0);
   @override
   void didChangeDependencies() {
     model = model?.copyWith(acceptLanguage: Helper.getCountryCode(context));
@@ -61,7 +63,6 @@ class _HomePagePageState extends State<HomePagePage> {
     );
     getCategoryModel = getCategoryModel?.copyWith(
       acceptLanguage: Helper.getCountryCode(context),
-     
     );
     print(
       "Home Page didChangeDependencies:acceptLanguage:${getCategoryModel?.acceptLanguage},page:${getCategoryModel?.page},per_page:${getCategoryModel?.per_page} ",
@@ -77,7 +78,6 @@ class _HomePagePageState extends State<HomePagePage> {
     );
     getCategoryModel = getCategoryModel?.copyWith(
       acceptLanguage: Helper.getCountryCode(context),
-     
     );
     super.didUpdateWidget(oldWidget);
   }
@@ -85,6 +85,11 @@ class _HomePagePageState extends State<HomePagePage> {
   @override
   Widget build(BuildContext context) {
     return MainPage(
+      onAnimationComplete: (completed) {
+        setState(() {
+          isAnimationCompleted = completed;
+        });
+      },
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.h),
         child: AppBar(
@@ -448,45 +453,114 @@ class _HomePagePageState extends State<HomePagePage> {
             ),
           ),
           Padding(
-            padding: EdgeInsetsGeometry.symmetric(
-              vertical: 0.h,
-              horizontal: 12.w,
-            ),
-            child:
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 180.h,
+                  child: PageView(
+                    controller: imageController,
+                    onPageChanged: (value) {
+                      setState(() {
+                        currentImage = value;
+                      });
+                    },
                     children: [
-                      Text(
-                        LocaleKeys.homePage_categories.tr(),
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          fontFamily: FontConstants.fontFamily(context.locale),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12.r),
+                        child: ImageWidget(
+                          boxFit: BoxFit.cover,
+                          imageUrl:
+                              "https://m.media-amazon.com/images/M/MV5BM2JhZWJmMDEtNTU5MS00YmQ3LTk1NjMtOGFlMjM2MjZlNjg5XkEyXkFqcGc@._V1_.jpg",
                         ),
+                      ).animate().fadeIn(
+                        curve: Curves.easeInOut,
+                        duration: 500.ms,
                       ),
-                      TextButton(
-                        onPressed: () {
-                          context.pushNamed(RoutesName.categoriesPage);
-                        },
-                        child: Text(
-                          LocaleKeys.homePage_showAll.tr(),
-                          style: Theme.of(context).textTheme.labelSmall
-                              ?.copyWith(
-                                fontFamily: FontConstants.fontFamily(
-                                  context.locale,
-                                ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        child:
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12.r),
+                              child: ImageWidget(
+                                width: 200.w,
+                                height: 180.h,
+                                boxFit: BoxFit.cover,
+                                imageUrl:
+                                    "https://fapello.com/content/x/c/xcandylashes/1000/xcandylashes_0044.jpg",
                               ),
+                            ).animate().fadeIn(
+                              curve: Curves.easeInOut,
+                              duration: 500.ms,
+                            ),
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12.r),
+                        child: ImageWidget(
+                          width: 200.w,
+                          height: 180.h,
+                          boxFit: BoxFit.cover,
+                          imageUrl:
+                              "https://fapello.com/content/x/c/xcandylashes/1000/xcandylashes_0095.jpg",
                         ),
+                      ).animate().fadeIn(
+                        curve: Curves.easeInOut,
+                        duration: 500.ms,
                       ),
                     ],
                   ),
-                ).asGlass(
-                  tintColor: Theme.of(context).primaryColor,
-                  clipBorderRadius: BorderRadius.circular(12.r),
-                  blurX: 30,
-                  blurY: 30,
-                  frosted: true,
                 ),
+                Padding(
+                  padding: EdgeInsets.only(top: 8.h),
+                  child: SizedBox(
+                    height: 30.h,
+                    width: 52.w,
+                    child: Center(
+                      child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                currentImage = index;
+                                imageController.animateToPage(
+                                  currentImage,
+                                  duration: 300.ms,
+                                  curve: Curves.easeInOut,
+                                );
+                              });
+                            },
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 4.w),
+                              width: currentImage == index ? 12.w : 8.w,
+                              height: currentImage == index ? 12.h : 8.h,
+                              decoration: BoxDecoration(
+                                color: currentImage == index
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Theme.of(context).colorScheme.onSurface
+                                          .withValues(alpha: 0.5),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          );
+                        },
+                        itemCount: 3,
+                        scrollDirection: Axis.horizontal,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsetsGeometry.directional(start: 20.w, top: 12.h),
+            child: Text(
+              LocaleKeys.homePage_categories.tr(),
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                fontFamily: FontConstants.fontFamily(context.locale),
+              ),
+            ),
           ),
           BlocProvider<CategoriesPageBloc>(
             create: (context) =>
@@ -501,9 +575,18 @@ class _HomePagePageState extends State<HomePagePage> {
                 }
               },
               child: BlocBuilder<CategoriesPageBloc, CategoriesPageState>(
+                key: ValueKey(isAnimationCompleted),
+                buildWhen: (previous, current) => isAnimationCompleted,
                 builder: (context, state) {
                   return state.when(
-                    initial: () => SizedBox(),
+                    initial: () => Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20.h),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ),
                     error: () => Expanded(
                       child: ErrorStateWidget(
                         lottieHeight: 200.h,
@@ -537,28 +620,36 @@ class _HomePagePageState extends State<HomePagePage> {
                           )
                         : Padding(
                             padding: EdgeInsets.symmetric(
-                              horizontal: 20.w,
-                              vertical: 12.h,
+                              horizontal: 12.w,
+                              vertical: 8.h,
                             ),
                             child: SizedBox(
                               width: double.maxFinite,
-                              height: 680.h,
-                              child: GridView.builder(
-                                itemCount: data.length,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3,
-                                      crossAxisSpacing: 12.w,
-                                      mainAxisSpacing: 12.h,
-                                      mainAxisExtent: 150.h,
-                                    ),
-                               
-                                itemBuilder: (context, index) {
-                                  return CategoryContainer(
-                                    isHomePage: true,
-                                    categoryEntity: data[index],
-                                  );
-                                },
+                              height: 460.h,
+                              child: AnimatedSwitcher(
+                                duration: 300.ms,
+                                child: GridView.builder(
+                                  key: ValueKey<int>(data.length),
+                                  padding: EdgeInsetsGeometry.symmetric(
+                                    horizontal: 0.w,
+                                    vertical: 20.h,
+                                  ),
+                                  itemCount: data.length,
+                                  gridDelegate:
+                                      SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent: 150.w,
+                                        crossAxisSpacing: 12.w,
+                                        mainAxisSpacing: 12.h,
+                                        mainAxisExtent: 150.h,
+                                      ),
+
+                                  itemBuilder: (context, index) {
+                                    return CategoryContainer(
+                                      isHomePage: true,
+                                      categoryEntity: data[index],
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),

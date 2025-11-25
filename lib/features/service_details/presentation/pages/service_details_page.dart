@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hosta_user/config/theme/app_theme.dart';
 import 'package:hosta_user/core/constants/api_constant.dart';
 import 'package:hosta_user/core/constants/font_constants.dart';
@@ -16,6 +17,7 @@ import 'package:hosta_user/core/resource/main_page/main_page.dart';
 import 'package:hosta_user/core/util/helper/helper.dart';
 import 'package:hosta_user/features/service_details/presentation/bloc/service_details_bloc.dart';
 
+import '../../../../config/route/routes_manager.dart';
 import '../../../../generated/locale_keys.g.dart';
 import '../../data/models/service_details_model.dart';
 
@@ -111,55 +113,103 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                             horizontal: 12.w,
                             vertical: 8.h,
                           ),
-                          child:
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 12.h,
-                                  horizontal: 12.w,
-                                ),
-                                child: Row(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 40.r,
-                                      child: ImageWidget(
-                                        width: 60.w,
-                                        height: 60.h,
-                                        imageUrl:
-                                            "${ApiConstant.imageBaseUrl}${serviceDetailsEntity?[index]?.provider?["avatar"]}",
-                                        boxFit: BoxFit.cover,
-                                        errorIconSize: 24.sp,
+                          child: ElevatedButton(
+                            onPressed: () =>
+                                context.pushNamed(RoutesName.providerPage),
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                            ),
+                            child:
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 12.h,
+                                    horizontal: 12.w,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 40.r,
+                                        child: ImageWidget(
+                                          width: 60.w,
+                                          height: 60.h,
+                                          imageUrl:
+                                              "${ApiConstant.imageBaseUrl}${serviceDetailsEntity?[index]?.provider?["avatar"]}",
+                                          boxFit: BoxFit.cover,
+                                          errorIconSize: 60.sp,
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.only(
-                                        start: 20.w,
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            serviceDetailsEntity?[index]
-                                                    ?.provider?["name"] ??
-                                                "",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelLarge
-                                                ?.copyWith(
-                                                  fontFamily:
-                                                      FontConstants.fontFamily(
-                                                        context.locale,
-                                                      ),
-                                                ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: 4.h,
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.only(
+                                          start: 20.w,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              serviceDetailsEntity?[index]
+                                                      ?.provider?["name"] ??
+                                                  "",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge
+                                                  ?.copyWith(
+                                                    fontFamily:
+                                                        FontConstants.fontFamily(
+                                                          context.locale,
+                                                        ),
+                                                  ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            child: Row(
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                vertical: 4.h,
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.location_pin,
+                                                    size: 22.sp,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .labelLarge
+                                                        ?.color,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional.only(
+                                                          start: 4.w,
+                                                        ),
+                                                    child: Text(
+                                                      serviceDetailsEntity?[index]
+                                                              ?.provider?["address"]["address"] ??
+                                                          "",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .labelSmall
+                                                          ?.copyWith(
+                                                            fontFamily:
+                                                                FontConstants.fontFamily(
+                                                                  context
+                                                                      .locale,
+                                                                ),
+                                                          ),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Row(
                                               children: [
                                                 Icon(
-                                                  Icons.location_pin,
+                                                  Icons.monetization_on,
                                                   size: 22.sp,
                                                   color: Theme.of(
                                                     context,
@@ -171,9 +221,8 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                                         start: 4.w,
                                                       ),
                                                   child: Text(
-                                                    serviceDetailsEntity?[index]
-                                                            ?.provider?["address"]["address"] ??
-                                                        "",
+                                                    "${Helper.formatPrice(serviceDetailsEntity?[index]?.provider_service?["price"])} ${LocaleKeys.myServicesPage_iqd.tr()}/${LocaleKeys.serviceDetailsPage_service.tr()}",
+
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .labelSmall
@@ -183,55 +232,27 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                                                 context.locale,
                                                               ),
                                                         ),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                Icons.monetization_on,
-                                                size: 22.sp,
-                                                color: Theme.of(
-                                                  context,
-                                                ).textTheme.labelLarge?.color,
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsetsDirectional.only(
-                                                      start: 4.w,
-                                                    ),
-                                                child: Text(
-                                                  "${Helper.formatPrice(serviceDetailsEntity?[index]?.provider_service?["price"])} ${LocaleKeys.myServicesPage_iqd.tr()}/${LocaleKeys.serviceDetailsPage_service.tr()}",
-
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .labelSmall
-                                                      ?.copyWith(
-                                                        fontFamily:
-                                                            FontConstants.fontFamily(
-                                                              context.locale,
-                                                            ),
-                                                      ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
+                                ).asGlass(
+                                  tintColor: Theme.of(
+                                    context,
+                                  ).scaffoldBackgroundColor,
+                                  clipBorderRadius: BorderRadius.circular(12.r),
+                                  blurX: 30,
+                                  blurY: 30,
+                                  border: Theme.of(context).defaultBorderSide,
                                 ),
-                              ).asGlass(
-                                tintColor: Theme.of(
-                                  context,
-                                ).scaffoldBackgroundColor,
-                                clipBorderRadius: BorderRadius.circular(12.r),
-                                blurX: 30,
-                                blurY: 30,
-                                border: Theme.of(context).defaultBorderSide,
-                              ),
+                          ),
                         );
                       },
                       shrinkWrap: true,

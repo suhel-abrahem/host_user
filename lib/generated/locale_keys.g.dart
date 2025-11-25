@@ -253,5 +253,24 @@ abstract class  LocaleKeys {
   static const serviceDetailsPage_ratingHighToLow = 'serviceDetailsPage.ratingHighToLow';
   static const serviceDetailsPage_priceLowToHigh = 'serviceDetailsPage.priceLowToHigh';
   static const serviceDetailsPage = 'serviceDetailsPage';
+  static const providerDetailsPage_title = 'providerDetailsPage.title';
+  static const providerDetailsPage_name = 'providerDetailsPage.name';
+  static const providerDetailsPage_email = 'providerDetailsPage.email';
+  static const providerDetailsPage_phone = 'providerDetailsPage.phone';
+  static const providerDetailsPage_rating = 'providerDetailsPage.rating';
+  static const providerDetailsPage_totalServices = 'providerDetailsPage.totalServices';
+  static const providerDetailsPage_completedBookings = 'providerDetailsPage.completedBookings';
+  static const providerDetailsPage_aboutProvider = 'providerDetailsPage.aboutProvider';
+  static const providerDetailsPage_noDescription = 'providerDetailsPage.noDescription';
+  static const providerDetailsPage_reviews = 'providerDetailsPage.reviews';
+  static const providerDetailsPage_noReviews = 'providerDetailsPage.noReviews';
+  static const providerDetailsPage_languagesSpoken = 'providerDetailsPage.languagesSpoken';
+  static const providerDetailsPage_service = 'providerDetailsPage.service';
+  static const providerDetailsPage_bookNow = 'providerDetailsPage.bookNow';
+  static const providerDetailsPage_providerNotAvailable = 'providerDetailsPage.providerNotAvailable';
+  static const providerDetailsPage_otherProviders = 'providerDetailsPage.otherProviders';
+  static const providerDetailsPage_price = 'providerDetailsPage.price';
+  static const providerDetailsPage_duration = 'providerDetailsPage.duration';
+  static const providerDetailsPage = 'providerDetailsPage';
 
 }

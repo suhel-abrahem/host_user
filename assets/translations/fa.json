@@ -261,5 +261,25 @@
     "distanceNearestToFarthest": "دووری: نزیکترین بۆ دووریترین",
     "ratingHighToLow": "هەڵسەنگاندن: بەرزترین بۆ نزمترین",
     "priceLowToHigh": "قیمت: نزمترین بۆ بەرزترین"
+  },
+  "providerDetailsPage": {
+    "title": "وردەکاریی دابینکەر",
+    "name": "ناو",
+    "email": "ئیمەیڵ",
+    "phone": "ژمارەی مۆبایل",
+    "rating": "هەڵسەنگاندن",
+    "totalServices": "کۆی خزمەتگوزاریەکان",
+    "completedBookings": "ئاراستەکردنە تەواوكراوەکان",
+    "aboutProvider": "دەربارەی دابینکەر",
+    "noDescription": "هیچ پێناسەیەک نیە",
+    "reviews": "هەڵسەنگاندنەکان",
+    "noReviews": "هیچ هەڵسەنگاندنێک نیە",
+    "languagesSpoken": "زمانەکان کە قسە دەکات",
+    "service": "خزمەتگوزاری",
+    "bookNow": "ئێستا بکڕە",
+    "providerNotAvailable": "دابینکەر بەردەست نیە",
+    "otherProviders": "دابینکەرەکانی تر",
+    "price": "نرخ",
+    "duration": "ماوە"
   }
 }

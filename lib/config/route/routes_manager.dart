@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hosta_user/features/service_details/presentation/pages/service_details_page.dart';
 import '../../core/resource/common_entity/service_entity.dart';
+import '../../features/provider_page/presentation/pages/provider_page.dart';
 import '../app/app_preferences.dart';
 import 'route_tracker.dart';
 import '../../core/dependencies_injection.dart';
@@ -50,6 +51,7 @@ class RoutesName {
   static String settingsPage = "settingsPage";
   static String helpPage = "helpPage";
   static String serviceDetailsPage = "serviceDetailsPage";
+  static String providerPage = "providerPage";
 }
 
 class RoutesPath {
@@ -70,6 +72,7 @@ class RoutesPath {
   static String settingsPage = "/settingsPage";
   static String helpPage = "/helpPage";
   static String serviceDetailsPage = "/serviceDetailsPage/:serviceEntity";
+  static String providerPage = "/providerPage";
 }
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -286,6 +289,16 @@ GoRouter goRouter = GoRouter(
                       jsonDecode(state.pathParameters["serviceEntity"] ?? ""),
                     ),
                   ),
+                  state: state,
+                );
+              },
+            ),
+            GoRoute(
+              path: RoutesPath.providerPage,
+              name: RoutesName.providerPage,
+              pageBuilder: (context, state) {
+                return _customTransitionPage(
+                  child: ProviderPage(),
                   state: state,
                 );
               },

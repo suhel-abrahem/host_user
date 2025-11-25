@@ -261,5 +261,25 @@
     "distanceNearestToFarthest": "المسافة من الأقرب إلى الأبعد",
     "ratingHighToLow": "التقييم من الأعلى إلى الأدنى",
     "priceLowToHigh": "السعر من الأقل إلى الأعلى"
+  },
+  "providerDetailsPage": {
+    "title": "تفاصيل المزود",
+    "name": "الاسم",
+    "email": "البريد الإلكتروني",
+    "phone": "رقم الهاتف",
+    "rating": "التقييم",
+    "totalServices": "إجمالي الخدمات",
+    "completedBookings": "الحجوزات المكتملة",
+    "aboutProvider": "عن المزود",
+    "noDescription": "لا يوجد وصف",
+    "reviews": "التقييمات",
+    "noReviews": "لا توجد تقييمات",
+    "languagesSpoken": "اللغات التي يتحدثها",
+    "service": "خدمة",
+    "bookNow": "احجز الآن",
+    "providerNotAvailable": "المزود غير متاح",
+    "otherProviders": "مزودون آخرون",
+    "price": "السعر",
+    "duration": "المدة"
   }
 }

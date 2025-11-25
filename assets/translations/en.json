@@ -261,5 +261,25 @@
     "distanceNearestToFarthest": "Distance: Nearest to Farthest",
     "ratingHighToLow": "Rating: High to Low",
     "priceLowToHigh": "Price: Low to High"
+  },
+  "providerDetailsPage": {
+    "title": "Provider Details",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "rating": "Rating",
+    "totalServices": "Total Services",
+    "completedBookings": "Completed Bookings",
+    "aboutProvider": "About Provider",
+    "noDescription": "No description",
+    "reviews": "Reviews",
+    "noReviews": "No reviews",
+    "languagesSpoken": "Languages Spoken",
+    "service": "Service",
+    "bookNow": "Book Now",
+    "providerNotAvailable": "Provider not available",
+    "otherProviders": "Other providers",
+    "price": "Price",
+    "duration": "Duration"
   }
 }
