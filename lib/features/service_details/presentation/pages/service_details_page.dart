@@ -150,6 +150,7 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
+
                                           children: [
                                             Text(
                                               serviceDetailsEntity?[index]
@@ -237,6 +238,75 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                                   ),
                                                 ),
                                               ],
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                top: 8.h,
+                                              ),
+                                              child: SizedBox(
+                                                height: 25.h,
+                                                width: 200.w,
+                                                child: ListView.builder(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemCount:
+                                                      serviceDetailsEntity?[index]
+                                                          ?.languages
+                                                          ?.length ??
+                                                      0,
+                                                  physics:
+                                                      NeverScrollableScrollPhysics(),
+                                                  itemBuilder: (context, langIndex) => Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional.only(
+                                                          end: 8.w,
+                                                        ),
+                                                    child:
+                                                        Container(
+                                                          padding:
+                                                              EdgeInsets.symmetric(
+                                                                horizontal: 8.w,
+                                                                vertical: 4.h,
+                                                              ),
+                                                          width: 50.w,
+                                                          height: 25.h,
+                                                          child: Center(
+                                                            child: FittedBox(
+                                                              fit: BoxFit
+                                                                  .scaleDown,
+                                                              child: Text(
+                                                                serviceDetailsEntity?[index]
+                                                                        ?.languages?[langIndex]["name"] ??
+                                                                    "",
+                                                                style: Theme.of(context)
+                                                                    .textTheme
+                                                                    .labelSmall
+                                                                    ?.copyWith(
+                                                                      fontFamily:
+                                                                          FontConstants.fontFamily(
+                                                                            context.locale,
+                                                                          ),
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ).asGlass(
+                                                          tintColor: Theme.of(
+                                                            context,
+                                                          ).scaffoldBackgroundColor,
+                                                          clipBorderRadius:
+                                                              BorderRadius.circular(
+                                                                8.r,
+                                                              ),
+                                                          blurX: 20,
+                                                          blurY: 20,
+                                                          border: Theme.of(
+                                                            context,
+                                                          ).defaultBorderSide,
+                                                        ),
+                                                  ),
+                                                ),
+                                              ),
                                             ),
                                           ],
                                         ),

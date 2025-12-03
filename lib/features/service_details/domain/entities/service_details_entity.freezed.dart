@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ServiceDetailsEntity {
 
- Map<String, dynamic>? get provider_service; Map<String, dynamic>? get service; Map<String, dynamic>? get provider;
+ Map<String, dynamic>? get provider_service; Map<String, dynamic>? get service; Map<String, dynamic>? get provider; List<Map<String, dynamic>>? get languages;
 /// Create a copy of ServiceDetailsEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ServiceDetailsEntityCopyWith<ServiceDetailsEntity> get copyWith => _$ServiceDet
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServiceDetailsEntity&&const DeepCollectionEquality().equals(other.provider_service, provider_service)&&const DeepCollectionEquality().equals(other.service, service)&&const DeepCollectionEquality().equals(other.provider, provider));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServiceDetailsEntity&&const DeepCollectionEquality().equals(other.provider_service, provider_service)&&const DeepCollectionEquality().equals(other.service, service)&&const DeepCollectionEquality().equals(other.provider, provider)&&const DeepCollectionEquality().equals(other.languages, languages));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(provider_service),const DeepCollectionEquality().hash(service),const DeepCollectionEquality().hash(provider));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(provider_service),const DeepCollectionEquality().hash(service),const DeepCollectionEquality().hash(provider),const DeepCollectionEquality().hash(languages));
 
 @override
 String toString() {
-  return 'ServiceDetailsEntity(provider_service: $provider_service, service: $service, provider: $provider)';
+  return 'ServiceDetailsEntity(provider_service: $provider_service, service: $service, provider: $provider, languages: $languages)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ServiceDetailsEntityCopyWith<$Res>  {
   factory $ServiceDetailsEntityCopyWith(ServiceDetailsEntity value, $Res Function(ServiceDetailsEntity) _then) = _$ServiceDetailsEntityCopyWithImpl;
 @useResult
 $Res call({
- Map<String, dynamic>? provider_service, Map<String, dynamic>? service, Map<String, dynamic>? provider
+ Map<String, dynamic>? provider_service, Map<String, dynamic>? service, Map<String, dynamic>? provider, List<Map<String, dynamic>>? languages
 });
 
 
@@ -65,12 +65,13 @@ class _$ServiceDetailsEntityCopyWithImpl<$Res>
 
 /// Create a copy of ServiceDetailsEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? provider_service = freezed,Object? service = freezed,Object? provider = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? provider_service = freezed,Object? service = freezed,Object? provider = freezed,Object? languages = freezed,}) {
   return _then(_self.copyWith(
 provider_service: freezed == provider_service ? _self.provider_service : provider_service // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,service: freezed == service ? _self.service : service // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,provider: freezed == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,
+as Map<String, dynamic>?,languages: freezed == languages ? _self.languages : languages // ignore: cast_nullable_to_non_nullable
+as List<Map<String, dynamic>>?,
   ));
 }
 
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Map<String, dynamic>? provider_service,  Map<String, dynamic>? service,  Map<String, dynamic>? provider)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Map<String, dynamic>? provider_service,  Map<String, dynamic>? service,  Map<String, dynamic>? provider,  List<Map<String, dynamic>>? languages)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ServiceDetailsEntity() when $default != null:
-return $default(_that.provider_service,_that.service,_that.provider);case _:
+return $default(_that.provider_service,_that.service,_that.provider,_that.languages);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.provider_service,_that.service,_that.provider);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Map<String, dynamic>? provider_service,  Map<String, dynamic>? service,  Map<String, dynamic>? provider)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Map<String, dynamic>? provider_service,  Map<String, dynamic>? service,  Map<String, dynamic>? provider,  List<Map<String, dynamic>>? languages)  $default,) {final _that = this;
 switch (_that) {
 case _ServiceDetailsEntity():
-return $default(_that.provider_service,_that.service,_that.provider);case _:
+return $default(_that.provider_service,_that.service,_that.provider,_that.languages);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.provider_service,_that.service,_that.provider);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Map<String, dynamic>? provider_service,  Map<String, dynamic>? service,  Map<String, dynamic>? provider)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Map<String, dynamic>? provider_service,  Map<String, dynamic>? service,  Map<String, dynamic>? provider,  List<Map<String, dynamic>>? languages)?  $default,) {final _that = this;
 switch (_that) {
 case _ServiceDetailsEntity() when $default != null:
-return $default(_that.provider_service,_that.service,_that.provider);case _:
+return $default(_that.provider_service,_that.service,_that.provider,_that.languages);case _:
   return null;
 
 }
@@ -211,7 +212,7 @@ return $default(_that.provider_service,_that.service,_that.provider);case _:
 @JsonSerializable()
 
 class _ServiceDetailsEntity implements ServiceDetailsEntity {
-  const _ServiceDetailsEntity({final  Map<String, dynamic>? provider_service = const {}, final  Map<String, dynamic>? service = const {}, final  Map<String, dynamic>? provider = const {}}): _provider_service = provider_service,_service = service,_provider = provider;
+  const _ServiceDetailsEntity({final  Map<String, dynamic>? provider_service = const {}, final  Map<String, dynamic>? service = const {}, final  Map<String, dynamic>? provider = const {}, final  List<Map<String, dynamic>>? languages = const []}): _provider_service = provider_service,_service = service,_provider = provider,_languages = languages;
   factory _ServiceDetailsEntity.fromJson(Map<String, dynamic> json) => _$ServiceDetailsEntityFromJson(json);
 
  final  Map<String, dynamic>? _provider_service;
@@ -241,6 +242,15 @@ class _ServiceDetailsEntity implements ServiceDetailsEntity {
   return EqualUnmodifiableMapView(value);
 }
 
+ final  List<Map<String, dynamic>>? _languages;
+@override@JsonKey() List<Map<String, dynamic>>? get languages {
+  final value = _languages;
+  if (value == null) return null;
+  if (_languages is EqualUnmodifiableListView) return _languages;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 
 /// Create a copy of ServiceDetailsEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -255,16 +265,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ServiceDetailsEntity&&const DeepCollectionEquality().equals(other._provider_service, _provider_service)&&const DeepCollectionEquality().equals(other._service, _service)&&const DeepCollectionEquality().equals(other._provider, _provider));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ServiceDetailsEntity&&const DeepCollectionEquality().equals(other._provider_service, _provider_service)&&const DeepCollectionEquality().equals(other._service, _service)&&const DeepCollectionEquality().equals(other._provider, _provider)&&const DeepCollectionEquality().equals(other._languages, _languages));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_provider_service),const DeepCollectionEquality().hash(_service),const DeepCollectionEquality().hash(_provider));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_provider_service),const DeepCollectionEquality().hash(_service),const DeepCollectionEquality().hash(_provider),const DeepCollectionEquality().hash(_languages));
 
 @override
 String toString() {
-  return 'ServiceDetailsEntity(provider_service: $provider_service, service: $service, provider: $provider)';
+  return 'ServiceDetailsEntity(provider_service: $provider_service, service: $service, provider: $provider, languages: $languages)';
 }
 
 
@@ -275,7 +285,7 @@ abstract mixin class _$ServiceDetailsEntityCopyWith<$Res> implements $ServiceDet
   factory _$ServiceDetailsEntityCopyWith(_ServiceDetailsEntity value, $Res Function(_ServiceDetailsEntity) _then) = __$ServiceDetailsEntityCopyWithImpl;
 @override @useResult
 $Res call({
- Map<String, dynamic>? provider_service, Map<String, dynamic>? service, Map<String, dynamic>? provider
+ Map<String, dynamic>? provider_service, Map<String, dynamic>? service, Map<String, dynamic>? provider, List<Map<String, dynamic>>? languages
 });
 
 
@@ -292,12 +302,13 @@ class __$ServiceDetailsEntityCopyWithImpl<$Res>
 
 /// Create a copy of ServiceDetailsEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? provider_service = freezed,Object? service = freezed,Object? provider = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? provider_service = freezed,Object? service = freezed,Object? provider = freezed,Object? languages = freezed,}) {
   return _then(_ServiceDetailsEntity(
 provider_service: freezed == provider_service ? _self._provider_service : provider_service // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,service: freezed == service ? _self._service : service // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,provider: freezed == provider ? _self._provider : provider // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,
+as Map<String, dynamic>?,languages: freezed == languages ? _self._languages : languages // ignore: cast_nullable_to_non_nullable
+as List<Map<String, dynamic>>?,
   ));
 }
 

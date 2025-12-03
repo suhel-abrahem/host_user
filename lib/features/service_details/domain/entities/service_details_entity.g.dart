@@ -13,6 +13,11 @@ _ServiceDetailsEntity _$ServiceDetailsEntityFromJson(
       json['provider_service'] as Map<String, dynamic>? ?? const {},
   service: json['service'] as Map<String, dynamic>? ?? const {},
   provider: json['provider'] as Map<String, dynamic>? ?? const {},
+  languages:
+      (json['languages'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList() ??
+      const [],
 );
 
 Map<String, dynamic> _$ServiceDetailsEntityToJson(
@@ -21,4 +26,5 @@ Map<String, dynamic> _$ServiceDetailsEntityToJson(
   'provider_service': instance.provider_service,
   'service': instance.service,
   'provider': instance.provider,
+  'languages': instance.languages,
 };

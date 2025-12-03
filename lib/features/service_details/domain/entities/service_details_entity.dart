@@ -9,6 +9,7 @@ abstract class ServiceDetailsEntity with _$ServiceDetailsEntity {
     @Default({}) Map<String, dynamic>? provider_service,
     @Default({}) Map<String, dynamic>? service,
     @Default({}) Map<String, dynamic>? provider,
+    @Default([]) List<Map<String, dynamic>>? languages,
   }) = _ServiceDetailsEntity;
   factory ServiceDetailsEntity.fromJson(Map<String, dynamic> json) =>
       _$ServiceDetailsEntityFromJson(json);

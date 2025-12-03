@@ -228,12 +228,12 @@ $ServiceDetailsEventGetServiceDetailsCopyWith<ServiceDetailsEventGetServiceDetai
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServiceDetailsEventGetServiceDetails&&const DeepCollectionEquality().equals(other.serviceDetailsModel, serviceDetailsModel));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServiceDetailsEventGetServiceDetails&&(identical(other.serviceDetailsModel, serviceDetailsModel) || other.serviceDetailsModel == serviceDetailsModel));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(serviceDetailsModel));
+int get hashCode => Object.hash(runtimeType,serviceDetailsModel);
 
 @override
 String toString() {
@@ -252,7 +252,7 @@ $Res call({
 });
 
 
-
+$ServiceDetailsModelCopyWith<$Res>? get serviceDetailsModel;
 
 }
 /// @nodoc
@@ -272,7 +272,19 @@ as ServiceDetailsModel?,
   ));
 }
 
+/// Create a copy of ServiceDetailsEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ServiceDetailsModelCopyWith<$Res>? get serviceDetailsModel {
+    if (_self.serviceDetailsModel == null) {
+    return null;
+  }
 
+  return $ServiceDetailsModelCopyWith<$Res>(_self.serviceDetailsModel!, (value) {
+    return _then(_self.copyWith(serviceDetailsModel: value));
+  });
+}
 }
 
 /// @nodoc
