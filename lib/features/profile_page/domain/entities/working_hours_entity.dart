@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 part 'working_hours_entity.freezed.dart';
 part 'working_hours_entity.g.dart';
 

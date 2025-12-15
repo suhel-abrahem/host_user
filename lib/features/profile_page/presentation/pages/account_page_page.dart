@@ -1,14 +1,15 @@
 import 'dart:io';
+
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
-
+import 'package:hosta_user/core/resource/common_state_widget/unAuth_state_widget.dart';
 import '../../../../config/app/app_preferences.dart';
 import '../../../../config/route/routes_manager.dart';
 import '../../../../config/theme/app_theme.dart';
@@ -23,23 +24,22 @@ import '../../../../core/resource/image_widget.dart';
 import '../../../../core/resource/main_page/main_page.dart';
 import '../../../../core/resource/validator.dart';
 import '../../../../core/util/helper/helper.dart';
-import '../../../../generated/locale_keys.g.dart';
 import '../../../login_page/domain/entities/login_state_entity.dart';
-import '../../../signup_page/data/models/city_model.dart';
-import '../../../signup_page/domain/entities/city_entity.dart';
-import '../../../signup_page/presentation/bloc/get_cities_bloc.dart';
 import '../../data/models/language_model.dart';
 import '../../data/models/profile_model.dart';
 import '../../data/models/set_profile_model.dart';
-import '../../data/models/set_working_hours_model.dart';
-import '../../data/models/working_time_model.dart';
+
 import '../../domain/entities/profile_entity.dart';
 import '../../domain/entities/working_hours_entity.dart';
 import '../bloc/get_profile_bloc.dart';
-import '../bloc/get_working_time_bloc.dart';
-import '../bloc/languges_bloc.dart';
+
 import '../widgets/account_info_row_widget.dart';
-import '../widgets/day_container_widget.dart';
+import '../../../../generated/locale_keys.g.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../../../signup_page/data/models/city_model.dart';
+import '../../../signup_page/domain/entities/city_entity.dart';
+import '../../../signup_page/presentation/bloc/get_cities_bloc.dart';
 
 class AccountPagePage extends StatefulWidget {
   const AccountPagePage({super.key});
@@ -75,48 +75,9 @@ class _AccountPagePageState extends State<AccountPagePage> {
   String? initialAvatar;
   String? avatarUrl;
   bool animationDone = false;
-  List<WorkingTimeModel?>? scheduleList = [];
-  bool isLanguageISpeakError = false;
+
   @override
   void initState() {
-    scheduleList = [
-      WorkingTimeModel(
-        day_of_week: 1,
-        start_time: "",
-        end_time: "",
-        is_available: false,
-      ),
-      WorkingTimeModel(
-        day_of_week: 2,
-        start_time: "",
-        end_time: "",
-        is_available: false,
-      ),
-      WorkingTimeModel(
-        day_of_week: 3,
-        start_time: "",
-        end_time: "",
-        is_available: false,
-      ),
-      WorkingTimeModel(
-        day_of_week: 4,
-        start_time: "",
-        end_time: "",
-        is_available: false,
-      ),
-      WorkingTimeModel(
-        day_of_week: 5,
-        start_time: "",
-        end_time: "",
-        is_available: false,
-      ),
-      WorkingTimeModel(
-        day_of_week: 6,
-        start_time: "",
-        end_time: "",
-        is_available: false,
-      ),
-    ];
     super.initState();
   }
 
@@ -359,25 +320,38 @@ class _AccountPagePageState extends State<AccountPagePage> {
                                                 width: 30.w,
                                                 height: 30.h,
                                                 child: ElevatedButton(
-                                                  style: Theme.of(context)
-                                                      .elevatedButtonTheme
-                                                      .style
-                                                      ?.copyWith(
-                                                        backgroundColor:
-                                                            WidgetStatePropertyAll(
-                                                              Colors
-                                                                  .transparent,
+                                                  style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
+                                                    backgroundColor:
+                                                        WidgetStatePropertyAll(
+                                                          Colors.transparent,
+                                                        ),
+                                                    shadowColor:
+                                                        WidgetStatePropertyAll(
+                                                          Colors.transparent,
+                                                        ),
+                                                    padding:
+                                                        WidgetStatePropertyAll(
+                                                          EdgeInsets.zero,
+                                                        ),
+                                                    shape: WidgetStatePropertyAll(
+                                                      RoundedRectangleBorder(
+                                                        side: Theme.of(context)
+                                                            .defaultBorderSide
+                                                            .copyWith(
+                                                              color:
+                                                                  Theme.of(
+                                                                        context,
+                                                                      )
+                                                                      .colorScheme
+                                                                      .primary,
                                                             ),
-                                                        shadowColor:
-                                                            WidgetStatePropertyAll(
-                                                              Colors
-                                                                  .transparent,
-                                                            ),
-                                                        padding:
-                                                            WidgetStatePropertyAll(
-                                                              EdgeInsets.zero,
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              12.r,
                                                             ),
                                                       ),
+                                                    ),
+                                                  ),
                                                   onPressed: () async {
                                                     setState(() {
                                                       isAvatarChanged = true;
@@ -417,9 +391,11 @@ class _AccountPagePageState extends State<AccountPagePage> {
                                                             ),
                                                         child: Icon(
                                                           Icons.edit_outlined,
-                                                          color: Theme.of(context)
-                                                              .colorScheme
-                                                              .onPrimaryContainer,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .labelLarge
+                                                                  ?.color,
                                                           size: 20.sp,
                                                         ),
                                                       ).asGlass(
@@ -437,9 +413,16 @@ class _AccountPagePageState extends State<AccountPagePage> {
                                                             BorderRadius.circular(
                                                               12.r,
                                                             ),
-                                                        border: Theme.of(
-                                                          context,
-                                                        ).defaultBorderSide,
+                                                        border: Theme.of(context)
+                                                            .defaultBorderSide
+                                                            .copyWith(
+                                                              color:
+                                                                  Theme.of(
+                                                                        context,
+                                                                      )
+                                                                      .colorScheme
+                                                                      .primary,
+                                                            ),
                                                       ),
                                                 ),
                                               ),
@@ -452,6 +435,7 @@ class _AccountPagePageState extends State<AccountPagePage> {
                                     Padding(
                                       padding: EdgeInsets.only(top: 12.h),
                                       child: AccountInfoRowWidget(
+                                        key: ValueKey(isNameChanged),
                                         onEdit: () {
                                           setState(() {
                                             isNameChanged = true;
@@ -488,6 +472,7 @@ class _AccountPagePageState extends State<AccountPagePage> {
                                     //dob
                                     Padding(
                                       padding: EdgeInsets.only(top: 12.h),
+                                      key: ValueKey(isDobChanged),
                                       child: AccountInfoRowWidget(
                                         key: ValueKey(birthDate),
                                         onChanged: (value) {
@@ -560,6 +545,7 @@ class _AccountPagePageState extends State<AccountPagePage> {
                                     Padding(
                                       padding: EdgeInsets.only(top: 12.h),
                                       child: AccountInfoRowWidget(
+                                        key: ValueKey(isEmailChanged),
                                         onEdit: () {
                                           setState(() {
                                             isEmailChanged = true;
@@ -629,6 +615,7 @@ class _AccountPagePageState extends State<AccountPagePage> {
                                         vertical: 12.h,
                                       ),
                                       child: Row(
+                                        key: ValueKey(isCityChanged),
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
@@ -954,54 +941,101 @@ class _AccountPagePageState extends State<AccountPagePage> {
                                                         WidgetStatePropertyAll(
                                                           EdgeInsets.zero,
                                                         ),
+                                                    shape: WidgetStatePropertyAll(
+                                                      RoundedRectangleBorder(
+                                                        side: Theme.of(context)
+                                                            .defaultBorderSide
+                                                            .copyWith(
+                                                              color:
+                                                                  Theme.of(
+                                                                        context,
+                                                                      )
+                                                                      .colorScheme
+                                                                      .primary,
+                                                            ),
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              12.r,
+                                                            ),
+                                                      ),
+                                                    ),
                                                   ),
-                                              child: Container(
-                                                padding: EdgeInsets.symmetric(
-                                                  horizontal: 4.w,
-                                                  vertical: 4.h,
-                                                ),
-                                                child: FittedBox(
-                                                  fit: BoxFit.scaleDown,
-                                                  child: Icon(
-                                                    Icons.edit_outlined,
-                                                    size: 20.sp,
-                                                    color: Theme.of(context)
+                                              child:
+                                                  Container(
+                                                    width: 40.w,
+                                                    height: 40.h,
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                          horizontal: 4.w,
+                                                          vertical: 4.h,
+                                                        ),
+                                                    child: FittedBox(
+                                                      fit: BoxFit.scaleDown,
+                                                      child: Icon(
+                                                        Icons.edit_outlined,
+                                                        size: 20.sp,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .labelLarge
+                                                            ?.color,
+                                                      ),
+                                                    ),
+                                                  ).asGlass(
+                                                    frosted: true,
+                                                    blurX: 18,
+                                                    blurY: 18,
+                                                    tintColor: Theme.of(context)
                                                         .colorScheme
-                                                        .onPrimaryContainer,
+                                                        .primary
+                                                        .withValues(alpha: 0.9),
+                                                    clipBorderRadius:
+                                                        BorderRadius.circular(
+                                                          12.r,
+                                                        ),
+                                                    border: Theme.of(context)
+                                                        .defaultBorderSide
+                                                        .copyWith(
+                                                          color: Theme.of(
+                                                            context,
+                                                          ).colorScheme.primary,
+                                                        ),
                                                   ),
-                                                ),
-                                              ),
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
                                     //address
-                                    AccountInfoRowWidget(
-                                      onEdit: () {
-                                        setState(() {
-                                          isAddressChanged = true;
-                                        });
-                                      },
-                                      onChanged: (value) {
-                                        setProfileModel = setProfileModel
-                                            .copyWith(address: value);
-                                        profileModel = profileModel.copyWith(
-                                          profile: setProfileModel,
-                                        );
-                                      },
-                                      validator: (value) => null,
-                                      profileEntity:
-                                          (profileModel.profile?.address
-                                                  ?.toString()
-                                                  .trim()
-                                                  .isNotEmpty ??
-                                              false)
-                                          ? profileModel.profile?.address
-                                          : data?.addresses?.first?["address"],
-                                      iconData: Icons.home_outlined,
-                                      label: LocaleKeys.profilePage_address
-                                          .tr(),
+                                    SizedBox(
+                                      child: AccountInfoRowWidget(
+                                        key: ValueKey(setProfileModel.address),
+                                        onEdit: () {
+                                          setState(() {
+                                            isAddressChanged = true;
+                                          });
+                                        },
+                                        onChanged: (value) {
+                                          setProfileModel = setProfileModel
+                                              .copyWith(address: value);
+                                          profileModel = profileModel.copyWith(
+                                            profile: setProfileModel,
+                                          );
+                                        },
+                                        validator: (value) => null,
+                                        profileEntity:
+                                            (profileModel.profile?.address
+                                                    ?.toString()
+                                                    .trim()
+                                                    .isNotEmpty ??
+                                                false)
+                                            ? profileModel.profile?.address
+                                            : data
+                                                  ?.addresses
+                                                  ?.first?["address"],
+                                        iconData: Icons.home_outlined,
+                                        label: LocaleKeys.profilePage_address
+                                            .tr(),
+                                      ),
                                     ),
                                     if (isAddressChanged ||
                                         isCityChanged ||
@@ -1217,7 +1251,7 @@ class _AccountPagePageState extends State<AccountPagePage> {
                             ),
                             unauthorized: () => SizedBox(
                               height: 200.h,
-                              child: ErrorStateWidget(),
+                              child: UnauthStateWidget(),
                             ),
                             loggedOut: () => SizedBox(),
                             logoutError: (String? message) => SizedBox(),
@@ -1236,653 +1270,6 @@ class _AccountPagePageState extends State<AccountPagePage> {
                       frosted: true,
                       blurX: 38,
                       blurY: 38,
-                      tintColor: Theme.of(
-                        context,
-                      ).colorScheme.primaryContainer.withValues(alpha: 0.9),
-                      clipBorderRadius: BorderRadius.circular(12.r),
-                      border: Theme.of(context).defaultBorderSide,
-                    ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-              child:
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    height: isLanguageISpeakError
-                        ? 300.w
-                        : languagesCanEdit
-                        ? 180.h
-                        : 130.h,
-                    padding: EdgeInsetsGeometry.symmetric(
-                      horizontal: 16.w,
-                      vertical: 16.h,
-                    ),
-                    child: BlocProvider<LangugesBloc>(
-                      create: (context) => getItInstance<LangugesBloc>()
-                        ..add(
-                          LangugesEvent.getLanguages(
-                            languageModel: languageModel,
-                          ),
-                        ),
-                      child: BlocListener<LangugesBloc, LangugesState>(
-                        listener: (context, state) {
-                          if (state is LangugesStateNoInternet) {
-                            showMessage(
-                              message: LocaleKeys.common_noInternetPullDown
-                                  .tr(),
-                              context: context,
-                            );
-                            setState(() {
-                              isLanguageISpeakError = true;
-                            });
-                          } else if (state is LangugesStateLanguageSetSuccess) {
-                            showMessage(
-                              message: LocaleKeys.common_success.tr(),
-                              context: context,
-                            );
-                            context.read<LangugesBloc>().add(
-                              LangugesEvent.getLanguages(
-                                languageModel: languageModel,
-                              ),
-                            );
-                            setState(() {
-                              languagesCanEdit = false;
-                              isLanguageISpeakError = false;
-                            });
-                          } else if (state is LangugesStateUnauthenticated) {
-                            setState(() {
-                              isLanguageISpeakError = true;
-                            });
-                            getItInstance<AppPreferences>().setUserInfo(
-                              loginStateEntity: LoginStateEntity(),
-                            );
-                          } else if (state is LangugesStateError) {
-                            setState(() {
-                              isLanguageISpeakError = true;
-                            });
-                            showMessage(
-                              message: LocaleKeys.common_error.tr(),
-                              context: context,
-                            );
-                          }
-                        },
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 400),
-                          child: Column(
-                            key: ValueKey(languagesCanEdit),
-                            crossAxisAlignment: CrossAxisAlignment.start,
-
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Icon(
-                                    Icons.language_outlined,
-                                    size: 24.r,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
-                                  ),
-                                  Text(
-                                    LocaleKeys.profilePage_languagesIspeak.tr(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelMedium
-                                        ?.copyWith(
-                                          fontFamily: FontConstants.fontFamily(
-                                            context.locale,
-                                          ),
-                                        ),
-                                  ),
-                                  SizedBox(
-                                    width: 40.w,
-                                    height: 40.h,
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          languagesCanEdit = !languagesCanEdit;
-                                        });
-                                      },
-                                      style: Theme.of(context)
-                                          .elevatedButtonTheme
-                                          .style
-                                          ?.copyWith(
-                                            backgroundColor:
-                                                WidgetStatePropertyAll(
-                                                  Colors.transparent,
-                                                ),
-                                            shadowColor: WidgetStatePropertyAll(
-                                              Colors.transparent,
-                                            ),
-                                            padding: WidgetStatePropertyAll(
-                                              EdgeInsets.zero,
-                                            ),
-                                          ),
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 4.w,
-                                          vertical: 4.h,
-                                        ),
-                                        child: FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Icon(
-                                            Icons.edit_outlined,
-                                            size: 20.sp,
-                                            color: Theme.of(
-                                              context,
-                                            ).colorScheme.onPrimaryContainer,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              if (!languagesCanEdit)
-                                Padding(
-                                  padding: EdgeInsets.only(top: 12.h),
-                                  child: Center(
-                                    child: SizedBox(
-                                      height: 40.h,
-                                      width: double.infinity,
-                                      child: BlocBuilder<LangugesBloc, LangugesState>(
-                                        key: ValueKey(animationDone),
-                                        buildWhen: (previous, current) =>
-                                            animationDone,
-                                        builder: (context, state) {
-                                          return state.when(
-                                            initial: () => Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            ),
-                                            loading: () => Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            ),
-                                            loaded: (languages) {
-                                              return Center(
-                                                child: ListView.builder(
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  itemCount:
-                                                      languages?.length ?? 0,
-                                                  physics:
-                                                      NeverScrollableScrollPhysics(),
-                                                  itemBuilder: (context, index) => Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                          horizontal: 8.h,
-                                                        ),
-                                                    child:
-                                                        Container(
-                                                          padding:
-                                                              EdgeInsets.symmetric(
-                                                                horizontal:
-                                                                    12.w,
-                                                                vertical: 8.h,
-                                                              ),
-                                                          child: Center(
-                                                            child: Text(
-                                                              languages?[index]
-                                                                      ?.language_name ??
-                                                                  "",
-                                                              style: Theme.of(context)
-                                                                  .textTheme
-                                                                  .labelMedium
-                                                                  ?.copyWith(
-                                                                    fontFamily:
-                                                                        FontConstants.fontFamily(
-                                                                          context
-                                                                              .locale,
-                                                                        ),
-                                                                  ),
-                                                            ),
-                                                          ),
-                                                        ).asGlass(
-                                                          frosted: true,
-                                                          blurX: 18,
-                                                          blurY: 18,
-                                                          tintColor:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .primary
-                                                                  .withValues(
-                                                                    alpha: 0.9,
-                                                                  ),
-                                                          clipBorderRadius:
-                                                              BorderRadius.circular(
-                                                                12.r,
-                                                              ),
-                                                          border: Theme.of(
-                                                            context,
-                                                          ).defaultBorderSide,
-                                                        ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                            error: (message) => SizedBox(
-                                              height: 220.h,
-                                              child: ErrorStateWidget(),
-                                            ),
-                                            noData: () => NodataStateWidget(),
-                                            noInternet: () =>
-                                                NoInternetStateWidget(),
-                                            unauthenticated: () => SizedBox(
-                                              height: 220.h,
-                                              child: ErrorStateWidget(),
-                                            ),
-                                            languageSetSuccess: () => SizedBox(
-                                              height: 220.h,
-                                              child: ErrorStateWidget(),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              else
-                                Padding(
-                                  padding: EdgeInsetsGeometry.only(top: 12.h),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          //arabic language
-                                          Row(
-                                            children: [
-                                              Text(
-                                                LocaleKeys.language_arabic.tr(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .labelLarge
-                                                    ?.copyWith(
-                                                      fontFamily:
-                                                          FontConstants.fontFamily(
-                                                            context.locale,
-                                                          ),
-                                                    ),
-                                              ),
-                                              Checkbox(
-                                                value: isArabicLanguageSelected,
-                                                onChanged: (newState) {
-                                                  setState(() {
-                                                    isArabicLanguageSelected =
-                                                        newState ?? false;
-                                                  });
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                          //english language
-                                          Row(
-                                            children: [
-                                              Text(
-                                                LocaleKeys.language_english
-                                                    .tr(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .labelLarge
-                                                    ?.copyWith(
-                                                      fontFamily:
-                                                          FontConstants.fontFamily(
-                                                            context.locale,
-                                                          ),
-                                                    ),
-                                              ),
-                                              Checkbox(
-                                                value:
-                                                    isEnglishLanguageSelected,
-                                                onChanged: (newState) {
-                                                  setState(() {
-                                                    isEnglishLanguageSelected =
-                                                        newState ?? false;
-                                                  });
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                          //kurdish language
-                                          Row(
-                                            children: [
-                                              Text(
-                                                LocaleKeys.language_kurdish
-                                                    .tr(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .labelLarge
-                                                    ?.copyWith(
-                                                      fontFamily:
-                                                          FontConstants.fontFamily(
-                                                            context.locale,
-                                                          ),
-                                                    ),
-                                              ),
-                                              Checkbox(
-                                                value:
-                                                    isKurdishLanguageSelected,
-                                                onChanged: (newState) {
-                                                  setState(() {
-                                                    isKurdishLanguageSelected =
-                                                        newState ?? false;
-                                                  });
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      BlocBuilder<LangugesBloc, LangugesState>(
-                                        builder: (context, state) {
-                                          return ElevatedButton(
-                                            onPressed: () {
-                                              List<String> selectedLanguages = [
-                                                if (isArabicLanguageSelected)
-                                                  "ar",
-                                                if (isEnglishLanguageSelected)
-                                                  "en",
-                                                if (isKurdishLanguageSelected)
-                                                  "ku",
-                                              ];
-                                              languageModel = languageModel
-                                                  .copyWith(
-                                                    languages:
-                                                        selectedLanguages,
-                                                  );
-                                              context.read<LangugesBloc>().add(
-                                                LangugesEvent.updateLanguage(
-                                                  languageModel: languageModel,
-                                                ),
-                                              );
-                                            },
-                                            child:
-                                                (state is LangugesStateLoading)
-                                                ? CircularProgressIndicator(
-                                                    color: Theme.of(
-                                                      context,
-                                                    ).colorScheme.onPrimary,
-                                                  )
-                                                : Text(
-                                                    LocaleKeys.common_save.tr(),
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .labelLarge
-                                                        ?.copyWith(
-                                                          fontFamily:
-                                                              FontConstants.fontFamily(
-                                                                context.locale,
-                                                              ),
-                                                        ),
-                                                  ),
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ).asGlass(
-                    frosted: true,
-                    blurX: 18,
-                    blurY: 18,
-                    tintColor: Theme.of(
-                      context,
-                    ).colorScheme.primary.withValues(alpha: 0.9),
-                    clipBorderRadius: BorderRadius.circular(12.r),
-                    border: Theme.of(context).defaultBorderSide,
-                  ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: 0.h,
-                bottom: 20.h,
-                left: 20.w,
-                right: 20.w,
-              ),
-              child: BlocProvider<GetWorkingTimeBloc>(
-                create: (context) => getItInstance<GetWorkingTimeBloc>()
-                  ..add(
-                    GetWorkingTimeEvent.getWorkingTime(
-                      profileModel: profileModel,
-                    ),
-                  ),
-                child:
-                    BlocListener<GetWorkingTimeBloc, GetWorkingTimeState>(
-                      listener: (context, state) {
-                        state.when(
-                          initial: () {},
-                          loading: () {},
-                          loaded: (workingHoursData) {
-                            workingHours = workingHoursData;
-                            scheduleList = [];
-                            workingHoursData?.forEach((element) {
-                              scheduleList?.add(
-                                WorkingTimeModel(
-                                  day_of_week: element?.day_of_week,
-                                  start_time: element?.start_time,
-                                  end_time: element?.end_time,
-                                  is_available: element?.is_available,
-                                ),
-                              );
-                            });
-                          },
-                          error: () {},
-                          noInternet: () {},
-                          noData: () {},
-                          unauthorized: () {
-                            getItInstance<AppPreferences>().setUserInfo(
-                              loginStateEntity: LoginStateEntity(),
-                            );
-                            context.pushNamed(RoutesName.loginPage);
-                          },
-                          updated: () {},
-                          setSuccessfully: () {
-                            showMessage(
-                              message: LocaleKeys.common_success.tr(),
-                              context: context,
-                            );
-                            context.read<GetWorkingTimeBloc>().add(
-                              GetWorkingTimeEvent.getWorkingTime(
-                                profileModel: profileModel,
-                              ),
-                            );
-                          },
-                          setError: () {
-                            showMessage(
-                              message: LocaleKeys.common_error.tr(),
-                              context: context,
-                            );
-                            context.read<GetWorkingTimeBloc>().add(
-                              GetWorkingTimeEvent.getWorkingTime(
-                                profileModel: profileModel,
-                              ),
-                            );
-                          },
-                          itemNotFound: () {},
-                        );
-                      },
-                      child: Container(
-                        padding: EdgeInsetsGeometry.symmetric(
-                          horizontal: 16.w,
-                          vertical: 16.h,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Icon(
-                                  Icons.schedule_outlined,
-                                  size: 24.r,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                Text(
-                                  LocaleKeys.profilePage_workingSchedule.tr(),
-                                  style: Theme.of(context).textTheme.labelMedium
-                                      ?.copyWith(
-                                        fontFamily: FontConstants.fontFamily(
-                                          context.locale,
-                                        ),
-                                      ),
-                                ),
-                                SizedBox(
-                                  width: 40.w,
-                                  height: 40.h,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        workingTimeWidgetCanEdit =
-                                            !(workingTimeWidgetCanEdit ??
-                                                false);
-                                      });
-                                    },
-                                    style: Theme.of(context)
-                                        .elevatedButtonTheme
-                                        .style
-                                        ?.copyWith(
-                                          backgroundColor:
-                                              WidgetStatePropertyAll(
-                                                Colors.transparent,
-                                              ),
-                                          shadowColor: WidgetStatePropertyAll(
-                                            Colors.transparent,
-                                          ),
-                                          padding: WidgetStatePropertyAll(
-                                            EdgeInsets.zero,
-                                          ),
-                                        ),
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 4.w,
-                                        vertical: 4.h,
-                                      ),
-                                      child: FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Icon(
-                                          Icons.edit_outlined,
-                                          size: 20.sp,
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.onPrimaryContainer,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            BlocBuilder<
-                              GetWorkingTimeBloc,
-                              GetWorkingTimeState
-                            >(
-                              key: ValueKey(animationDone),
-                              buildWhen: (prev, curr) => animationDone,
-                              builder: (context, state) {
-                                if (state is GetWorkingTimeStateLoading) {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                } else {
-                                  return ListView.builder(
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 8.h,
-                                        ),
-                                        child: DayContainerWidget(
-                                          canEdit: workingTimeWidgetCanEdit,
-                                          workingHoursEntity:
-                                              workingHours?[index],
-                                          onChanged: (value) {
-                                            final existingIndex = scheduleList
-                                                ?.indexWhere(
-                                                  (element) =>
-                                                      element?.day_of_week ==
-                                                      value?.day_of_week,
-                                                );
-                                            if (existingIndex == -1) {
-                                              scheduleList?.add(value);
-                                            } else {
-                                              scheduleList?[existingIndex ??
-                                                      0] =
-                                                  value;
-                                            }
-                                          },
-                                        ),
-                                      );
-                                    },
-                                    itemCount: workingHours?.length ?? 0,
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                  );
-                                }
-                              },
-                            ),
-                            if (workingTimeWidgetCanEdit ?? false)
-                              Padding(
-                                padding: EdgeInsets.only(top: 12.h),
-                                child:
-                                    BlocBuilder<
-                                      GetWorkingTimeBloc,
-                                      GetWorkingTimeState
-                                    >(
-                                      builder: (context, state) {
-                                        return ElevatedButton(
-                                          onPressed: () {
-                                            context.read<GetWorkingTimeBloc>().add(
-                                              GetWorkingTimeEvent.setWorkingTime(
-                                                setWorkingHoursModel:
-                                                    SetWorkingHoursModel(
-                                                      workingTime: scheduleList,
-                                                    ),
-                                              ),
-                                            );
-                                          },
-                                          style: Theme.of(context)
-                                              .elevatedButtonTheme
-                                              .style
-                                              ?.copyWith(
-                                                backgroundColor:
-                                                    WidgetStatePropertyAll(
-                                                      Theme.of(
-                                                        context,
-                                                      ).colorScheme.primary,
-                                                    ),
-                                              ),
-                                          child: Text(
-                                            LocaleKeys.profilePage_submit.tr(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelMedium
-                                                ?.copyWith(
-                                                  fontFamily:
-                                                      FontConstants.fontFamily(
-                                                        context.locale,
-                                                      ),
-                                                  color: Theme.of(
-                                                    context,
-                                                  ).colorScheme.onPrimary,
-                                                ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                              ),
-                          ],
-                        ),
-                      ),
-                    ).asGlass(
-                      frosted: true,
-                      blurX: 18,
-                      blurY: 18,
                       tintColor: Theme.of(
                         context,
                       ).colorScheme.primary.withValues(alpha: 0.9),

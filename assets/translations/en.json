@@ -40,6 +40,8 @@
   "common": {
     "loading": "Loading...",
     "error": "Error",
+    "notificationTokenErrorPleaseFixItOnSettings": "Notification token error. Please fix it in settings!",
+    "someThingWentWrongWhileShowNotification": "Something went wrong while showing the notification",
     "anErrorHasOccurs": "An error occurred. Please pull down the page to try again!",
     "noInternetPullDown": "It seems you are offline. Check your connection and pull down the page to try again!",
     "success": "Success",
@@ -54,7 +56,12 @@
     "youDeniedLocationPermissionForever": "It seems you denied location permission permanently. You must go to device settings and allow it!",
     "add": "Add",
     "price": "Price",
-    "noThingToShow": "Nothing to show"
+    "noThingToShow": "Nothing to show",
+    "pageNotFound": "Page not found",
+    "unexpectedErrorOccurred": "An unexpected error occurred",
+    "yourSessionHasExpiredPleaseLoginAgain": "Your session has expired. Please login again.",
+    "ok": "OK",
+    "tryAgain": "Try again"
   },
   "theme": {
     "choose": "Choose theme",
@@ -222,7 +229,7 @@
     "resendIn": "Resend in"
   },
   "categoryServices": {
-    "title": "Category services",
+    "title": "Service Category",
     "theServiceIdFieldIsRequired": "The service ID field is required.",
     "thePriceFieldIsRequired": "The price field is required.",
     "theIsActiveFieldMustBeTrueOrFalse": "The isActive field must be true or false.",
@@ -260,7 +267,20 @@
     "sortProvidersBy": "Sort providers by",
     "distanceNearestToFarthest": "Distance: Nearest to Farthest",
     "ratingHighToLow": "Rating: High to Low",
-    "priceLowToHigh": "Price: Low to High"
+    "priceLowToHigh": "Price: Low to High",
+    "bookNow": "Book Now",
+    "describeYourIssue": "Describe your issue",
+    "pleaseDescribeYourIssueInDetail": "Please describe your issue in detail",
+    "addAttachments": "Add attachments",
+    "next": "Next",
+    "schedule": "Schedule",
+    "availableTimes": "Available times",
+    "ConfirmBooking": "Confirm booking",
+    "bookingConfirmed": "Booking confirmed",
+    "addMore": "Add more",
+    "removeAll": "Remove all",
+    "chooseFromGallery": "Choose from gallery",
+    "takePhoto": "Take photo"
   },
   "providerDetailsPage": {
     "title": "Provider Details",
@@ -281,5 +301,24 @@
     "otherProviders": "Other providers",
     "price": "Price",
     "duration": "Duration"
+  },
+  "settingsPage": {
+    "title": "Settings page",
+    "label": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "logout": "Logout",
+    "areYouSureYouWantToLogout": "Are you sure you want to logout?",
+    "yesLogout": "Yes, logout",
+    "noCancel": "No, cancel",
+    "selectLanguage": "Select language",
+    "selectTheme": "Select theme",
+    "allowNotifications": "Allow notifications",
+    "notifications": "Notifications",
+    "itsSemsYouHaveProblemsWithNotificationToken": "It seems you have problems with the notification token",
+    "fixIt": "Fix it",
+    "allowLocationServices": "Allow location services",
+    "location": "Location",
+    "allowAppAccessYourLocation": "Allow app to access your location"
   }
 }

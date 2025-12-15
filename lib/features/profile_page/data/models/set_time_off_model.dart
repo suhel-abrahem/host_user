@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 part 'set_time_off_model.freezed.dart';
 part 'set_time_off_model.g.dart';
 

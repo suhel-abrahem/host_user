@@ -13,7 +13,7 @@ ThemeData darkTheme() {
     primaryColor: ColorManager.primaryColor,
     primarySwatch: ColorManager.primarySwatch,
     disabledColor: ColorManager.disabledColor,
-    shadowColor: ColorManager.shadowColor,
+    shadowColor: ColorManager.darkShadowColor,
     cardColor: ColorManager.darkSurfaceColor,
     scaffoldBackgroundColor: ColorManager.darkBackground,
     textTheme: TextTheme(
@@ -130,13 +130,13 @@ ThemeData darkTheme() {
     ),
     cardTheme: CardThemeData(
       color: ColorManager.cardColor,
-      shadowColor: ColorManager.shadowColor,
+      shadowColor: ColorManager.darkShadowColor,
       elevation: 2.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
     ),
     dialogTheme: DialogThemeData(
       iconColor: ColorManager.primaryColor,
-      shadowColor: ColorManager.shadowColor,
+      shadowColor: ColorManager.darkShadowColor,
       backgroundColor: ColorManager.cardColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.r),
@@ -175,7 +175,7 @@ ThemeData darkTheme() {
     ),
     colorScheme: ColorScheme.dark(
       onError: ColorManager.cardColor,
-      shadow: ColorManager.shadowColor,
+      shadow: ColorManager.darkShadowColor,
       surface: ColorManager.darkBackground,
       brightness: Brightness.dark,
       primary: ColorManager.primaryColor,
@@ -345,7 +345,7 @@ ThemeData darkTheme() {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        shadowColor: const WidgetStatePropertyAll(ColorManager.shadowColor),
+        shadowColor: const WidgetStatePropertyAll(ColorManager.darkShadowColor),
         backgroundColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.pressed)) {
             return ColorManager.primarySwatch.shade900;
@@ -423,7 +423,7 @@ ThemeData darkTheme() {
     ),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
-        shadowColor: const WidgetStatePropertyAll(ColorManager.shadowColor),
+        shadowColor: const WidgetStatePropertyAll(ColorManager.darkShadowColor),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(9.r)),
         ),
@@ -535,7 +535,7 @@ ThemeData lightTheme() {
     cardColor: ColorManager.cardColor,
     cardTheme: CardThemeData(
       color: ColorManager.cardColor,
-      shadowColor: ColorManager.shadowColor,
+      shadowColor: ColorManager.lightShadowColor,
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(9.r),
@@ -549,7 +549,7 @@ ThemeData lightTheme() {
     dialogTheme: DialogThemeData(
       backgroundColor: ColorManager.surfaceColor,
       elevation: 2,
-      shadowColor: ColorManager.shadowColor,
+      shadowColor: ColorManager.lightShadowColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(9.r),
         side: const BorderSide(
@@ -858,7 +858,9 @@ ThemeData lightTheme() {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        shadowColor: const WidgetStatePropertyAll(ColorManager.shadowColor),
+        shadowColor: const WidgetStatePropertyAll(
+          ColorManager.lightShadowColor,
+        ),
         backgroundColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.pressed)) {
             return ColorManager.primarySwatch.shade900;
@@ -936,7 +938,9 @@ ThemeData lightTheme() {
     ),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
-        shadowColor: const WidgetStatePropertyAll(ColorManager.shadowColor),
+        shadowColor: const WidgetStatePropertyAll(
+          ColorManager.lightShadowColor,
+        ),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(9.r)),
         ),
@@ -1024,7 +1028,7 @@ ThemeData lightTheme() {
 
 extension ElevatedButtonThemeExtension on ThemeData {
   ButtonStyle get cardColorButton => ButtonStyle(
-    shadowColor: const WidgetStatePropertyAll(ColorManager.shadowColor),
+    shadowColor: const WidgetStatePropertyAll(ColorManager.lightShadowColor),
     backgroundColor: WidgetStateProperty.resolveWith((states) {
       if (states.contains(WidgetState.pressed)) {
         return ColorManager.primarySwatch.shade900;
@@ -1100,7 +1104,7 @@ extension ElevatedButtonThemeExtension on ThemeData {
     }),
   );
   ButtonStyle get redColorButton => ButtonStyle(
-    shadowColor: const WidgetStatePropertyAll(ColorManager.shadowColor),
+    shadowColor: const WidgetStatePropertyAll(ColorManager.lightShadowColor),
     backgroundColor: WidgetStateProperty.resolveWith((states) {
       if (states.contains(WidgetState.pressed)) {
         return ColorManager.error;
@@ -1197,7 +1201,7 @@ extension BorderThemeExtension on ThemeData {
   );
 
   BorderSide get defaultBorderSideShadow => const BorderSide(
-    color: ColorManager.shadowColor,
+    color: ColorManager.lightShadowColor,
     width: 1,
     style: BorderStyle.solid,
   );

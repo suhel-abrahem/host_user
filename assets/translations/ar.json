@@ -40,6 +40,8 @@
   "common": {
     "loading": "جاري التحميل...",
     "error": "خطأ",
+    "notificationTokenErrorPleaseFixItOnSettings": "خطأ في رمز الاشعارات. يرجى إصلاحه في الإعدادات!",
+    "someThingWentWrongWhileShowNotification": "حدث خطأ أثناء عرض الإشعار",
     "anErrorHasOccurs": "حدث خطأ. حاول مرة أخرى بسحب الصفحة إلى الأسفل!",
     "noInternetPullDown": "يبدو أنك غير متصل بالإنترنت. تحقق من الاتصال وحاول مرة أخرى بسحب الصفحة إلى الأسفل!",
     "success": "نجاح",
@@ -54,7 +56,12 @@
     "youDeniedLocationPermissionForever": "يبدو أنك رفضت صلاحية الموقع بشكل دائم. يجب أن تذهب إلى إعدادات الجهاز وتوافق عليها!",
     "add": "إضافة",
     "price": "السعر",
-    "noThingToShow": "لا يوجد شيء للعرض"
+    "noThingToShow": "لا يوجد شيء للعرض",
+    "pageNotFound": "الصفحة غير موجودة",
+    "unexpectedErrorOccurred": "حدث خطأ غير متوقع",
+    "yourSessionHasExpiredPleaseLoginAgain": "انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى.",
+    "ok": "موافق",
+    "tryAgain": "حاول مرة أخرى"
   },
   "theme": {
     "choose": "اختر سمة",
@@ -222,7 +229,7 @@
     "resendIn": "إعادة الإرسال في"
   },
   "categoryServices": {
-    "title": "خدمات الفئة",
+    "title": "فئات الخدمه",
     "theServiceIdFieldIsRequired": "معرّف الخدمة مطلوب.",
     "thePriceFieldIsRequired": "حقل السعر مطلوب.",
     "theIsActiveFieldMustBeTrueOrFalse": "يجب أن يكون حقل حالة التفعيل صحيحاً أو خاطئاً.",
@@ -260,7 +267,20 @@
     "sortProvidersBy": "فرز المزودين حسب",
     "distanceNearestToFarthest": "المسافة من الأقرب إلى الأبعد",
     "ratingHighToLow": "التقييم من الأعلى إلى الأدنى",
-    "priceLowToHigh": "السعر من الأقل إلى الأعلى"
+    "priceLowToHigh": "السعر من الأقل إلى الأعلى",
+    "bookNow": "احجز الآن",
+    "describeYourIssue": "صف مشكلتك",
+    "pleaseDescribeYourIssueInDetail": "يرجى وصف مشكلتك بالتفصيل",
+    "addAttachments": "إضافة مرفقات",
+    "next": "التالي",
+    "schedule": "الجدول الزمني",
+    "availableTimes": "الأوقات المتاحة",
+    "ConfirmBooking": "تأكيد الحجز",
+    "bookingConfirmed": "تم تأكيد الحجز",
+    "addMore": "إضافة المزيد",
+    "removeAll": "إزالة الكل",
+    "chooseFromGallery": "اختر من المعرض",
+    "takePhoto": "التقاط صورة"
   },
   "providerDetailsPage": {
     "title": "تفاصيل المزود",
@@ -281,5 +301,24 @@
     "otherProviders": "مزودون آخرون",
     "price": "السعر",
     "duration": "المدة"
+  },
+  "settingsPage": {
+    "title": "صفحة الإعدادات",
+    "label": "الإعدادات",
+    "language": "اللغة",
+    "theme": "السمة",
+    "logout": "تسجيل الخروج",
+    "areYouSureYouWantToLogout": "هل أنت متأكد من أنك تريد تسجيل الخروج؟",
+    "yesLogout": "نعم، تسجيل الخروج",
+    "noCancel": "لا، إلغاء",
+    "selectLanguage": "اختر اللغة",
+    "selectTheme": "اختر السمة",
+    "allowNotifications": "السماح بالإشعارات",
+    "notifications": "الإشعارات",
+    "itsSemsYouHaveProblemsWithNotificationToken": "يبدو أن لديك مشاكل في رمز الإشعارات",
+    "fixIt": "إصلاحها",
+    "allowLocationServices": "السماح بخدمات الموقع",
+    "location": "الموقع",
+    "allowAppAccessYourLocation": "السماح للتطبيق بالوصول إلى موقعك"
   }
 }

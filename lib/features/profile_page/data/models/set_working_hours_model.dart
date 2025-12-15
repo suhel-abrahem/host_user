@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 import 'working_time_model.dart';
 
 part 'set_working_hours_model.freezed.dart';

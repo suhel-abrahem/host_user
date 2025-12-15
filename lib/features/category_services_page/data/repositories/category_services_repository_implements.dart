@@ -35,7 +35,7 @@ class CategoryServicesRepositoryImplements
     }
     CommonService commonService = CommonService(
       headers: {
-        "Accept-Language": getServiceModel?.acceptLanguage,
+        "Accept-Language": getServiceModel?.acceptLanguage ?? "ar",
         "Authorization": "Bearer ${getServiceModel?.Authorization}",
       },
     );

@@ -1,11 +1,17 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:permission_handler/permission_handler.dart' as AppSettings;
+import '../../../../core/resource/color_manager.dart';
+import '../../../../core/resource/firebase_common_services/firebase_messageing_service.dart';
 import '../../../../core/resource/main_page/main_page.dart';
+
 import '../bloc/get_profile_bloc.dart';
 import '../../../../generated/locale_keys.g.dart';
 
@@ -32,10 +38,22 @@ class SettingPagePage extends StatefulWidget {
 class _SettingPagePageState extends State<SettingPagePage> {
   String? selectedLanguage;
   bool? isDarkTheme = false;
+  bool? isNotificationEnabled = false;
+  LoginStateEntity? loginState;
+  Future<void> checkNotificationPermission() async {
+    bool hasPermission = await getItInstance<FirebaseMessagingService>()
+        .hasPermission();
+    setState(() {
+      isNotificationEnabled = hasPermission;
+    });
+  }
+
   @override
   void initState() {
     isDarkTheme = getItInstance<AppPreferences>().getAppTheme();
+    loginState = getItInstance<AppPreferences>().getUserInfo();
     super.initState();
+    checkNotificationPermission();
   }
 
   @override
@@ -46,7 +64,7 @@ class _SettingPagePageState extends State<SettingPagePage> {
         children: [
           //Language dropdown
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
             child:
                 Container(
                   padding: EdgeInsets.symmetric(
@@ -56,16 +74,28 @@ class _SettingPagePageState extends State<SettingPagePage> {
                   child: Align(
                     alignment: AlignmentDirectional.centerStart,
                     child: DropDownWithLabel<String>(
-                      label: "Language:",
+                      menuBoxShadow: BoxShadow(
+                        color: Theme.of(context).shadowColor,
+                        blurRadius: 4.r,
+                        offset: Offset(1.w, 2.h),
+                      ),
+                      boxShadow: BoxShadow(
+                        color: Theme.of(context).shadowColor,
+
+                        offset: Offset(0, 1.h),
+                      ),
+                      valueColor: ColorManager.backgroundColor,
+                      borderRadius: BorderRadius.circular(18.r),
+                      label: LocaleKeys.language_choose.tr(),
                       labelStyle: Theme.of(context).textTheme.labelLarge
                           ?.copyWith(
                             fontFamily: FontConstants.fontFamily(
                               context.locale,
                             ),
                           ),
-                      labelPadding: EdgeInsets.symmetric(horizontal: 12.w),
+                      labelPadding: EdgeInsetsDirectional.only(end: 12.w),
                       labelPosition: Position.beside,
-                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      backgroundColor: Theme.of(context).primaryColor,
                       items: LanguageConstant.supportedLanguagesNames,
                       onChange: (newLanguage) {
                         if (newLanguage != null) {
@@ -86,15 +116,86 @@ class _SettingPagePageState extends State<SettingPagePage> {
                       stringConverter: (string) {
                         return string.toString();
                       },
-                      dropDownWidth: 100.w,
-                      dropDownHeight: 50.h,
-                      itemWidth: 120.w,
+                      dropDownWidth: 110.w,
+                      dropDownHeight: 40.h,
+                      itemWidth: 140.w,
                       isLoading: false,
                       value: Helper.getLanguageName(
                         selectedLanguage ??
                             LanguageConstant.enLoacle.languageCode,
                       ),
                     ),
+                  ),
+                ).asGlass(
+                  frosted: true,
+                  blurX: 38,
+                  blurY: 38,
+                  tintColor: Theme.of(
+                    context,
+                  ).colorScheme.primary.withValues(alpha: 0.9),
+                  clipBorderRadius: BorderRadius.circular(12.r),
+                  border: Theme.of(context).defaultBorderSide,
+                ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 0.h),
+            child:
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 20.h,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        LocaleKeys.theme_choose.tr(),
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          fontFamily: FontConstants.fontFamily(context.locale),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.w),
+                        child: ThemeSwitcher(
+                          builder: (context2) {
+                            return Switch.adaptive(
+                              value: isDarkTheme ?? false,
+                              inactiveTrackColor: ColorManager.backgroundColor,
+                              activeTrackColor: ColorManager.primaryColor,
+                              thumbIcon: WidgetStateProperty.resolveWith((
+                                states,
+                              ) {
+                                return Icon(
+                                  (isDarkTheme ?? false)
+                                      ? Icons.dark_mode
+                                      : Icons.light_mode,
+                                  size: 16.sp,
+                                  color: (isDarkTheme ?? false)
+                                      ? ColorManager.darkBackground
+                                      : ColorManager.darkBackground,
+                                );
+                              }),
+                              onChanged: (bool value) {
+                                setState(() {
+                                  isDarkTheme = value;
+                                });
+                                getItInstance<AppPreferences>().setAppTheme(
+                                  isDarkTheme: isDarkTheme,
+                                );
+                                ThemeSwitcher.of(context2).changeTheme(
+                                  offset: Offset(-1, -1),
+                                  theme: (isDarkTheme ?? false)
+                                      ? darkTheme()
+                                      : lightTheme(),
+                                  isReversed: true,
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ).asGlass(
                   frosted: true,
@@ -120,52 +221,40 @@ class _SettingPagePageState extends State<SettingPagePage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "Theme:",
+                        LocaleKeys.settingsPage_allowNotifications.tr(),
                         style: Theme.of(context).textTheme.labelLarge?.copyWith(
                           fontFamily: FontConstants.fontFamily(context.locale),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 12.w),
-                        child: ThemeSwitcher(
-                          builder: (context2) {
-                            return SizedBox(
-                              height: 40.h,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 12.w,
-                                    vertical: 12.h,
-                                  ),
-                                  backgroundColor: Colors.transparent,
-                                  shape: CircleBorder(),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    isDarkTheme = !(isDarkTheme ?? false);
-                                  });
-                                  getItInstance<AppPreferences>().setAppTheme(
-                                    isDarkTheme: isDarkTheme,
-                                  );
-                                  ThemeSwitcher.of(context2).changeTheme(
-                                    offset: Offset(-1, -1),
-                                    theme: (isDarkTheme ?? false)
-                                        ? darkTheme()
-                                        : lightTheme(),
-                                    isReversed: true,
-                                  );
-                                },
-                                child: Icon(
-                                  (isDarkTheme ?? false)
-                                      ? Icons.dark_mode
-                                      : Icons.light_mode,
-                                  size: 20.sp,
-                                  color: Theme.of(
-                                    context,
-                                  ).textTheme.labelLarge?.color,
-                                ),
-                              ),
-                            );
+                        child: Switch.adaptive(
+                          value: isNotificationEnabled ?? false,
+                          inactiveTrackColor: ColorManager.backgroundColor,
+                          activeTrackColor: Theme.of(context).primaryColor,
+                          activeThumbColor: Theme.of(
+                            context,
+                          ).scaffoldBackgroundColor,
+                          thumbIcon: WidgetStateProperty.resolveWith((states) {
+                            if (states.contains(WidgetState.selected)) {
+                              return Icon(
+                                Icons.notifications_active,
+                                size: 16.sp,
+                                color: Theme.of(
+                                  context,
+                                ).textTheme.labelLarge?.color,
+                              );
+                            } else {
+                              return Icon(
+                                Icons.notifications_off,
+                                size: 16.sp,
+                                color: ColorManager.darkBackground,
+                              );
+                            }
+                          }),
+                          onChanged: (bool value) async {
+                            await AppSettings.openAppSettings();
+                            checkNotificationPermission();
                           },
                         ),
                       ),
@@ -181,6 +270,71 @@ class _SettingPagePageState extends State<SettingPagePage> {
                   clipBorderRadius: BorderRadius.circular(12.r),
                   border: Theme.of(context).defaultBorderSide,
                 ),
+          ),
+          AnimatedOpacity(
+            opacity: (loginState?.isFcmTokenSet ?? false) ? 0 : 1,
+            duration: 300.ms,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child:
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 16.h,
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 240.w,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              LocaleKeys
+                                  .settingsPage_itsSemsYouHaveProblemsWithNotificationToken
+                                  .tr(),
+                              style: Theme.of(context).textTheme.labelMedium
+                                  ?.copyWith(
+                                    fontFamily: FontConstants.fontFamily(
+                                      context.locale,
+                                    ),
+                                  ),
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                        TextButton(
+                          onPressed: () async {
+                            // await setFcmTokenForCurrentUser(
+                            //   context: context,
+                            //   showSuccessMessage: true,
+                            // );
+                          },
+                          child: Text(
+                            LocaleKeys.settingsPage_fixIt.tr(),
+                            style: Theme.of(context).textTheme.labelMedium
+                                ?.copyWith(
+                                  fontFamily: FontConstants.fontFamily(
+                                    context.locale,
+                                  ),
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ).asGlass(
+                    frosted: true,
+                    blurX: 38,
+                    blurY: 38,
+                    tintColor: Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.9),
+                    clipBorderRadius: BorderRadius.circular(12.r),
+                    border: Theme.of(context).defaultBorderSide,
+                  ),
+            ),
           ),
           Spacer(),
           Padding(

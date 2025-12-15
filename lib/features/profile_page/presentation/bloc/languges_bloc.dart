@@ -1,19 +1,19 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../domain/entities/language_entity.dart';
+import '../../../refresh_token/domain/usecases/refresh_token_usecase.dart';
 
 import '../../../../config/app/app_preferences.dart';
 import '../../../../core/data_state/data_state.dart';
 import '../../../../core/dependencies_injection.dart';
 import '../../../refresh_token/data/models/refresh_token_model.dart';
-import '../../../refresh_token/domain/usecases/refresh_token_usecase.dart';
 import '../../data/models/language_model.dart';
-import '../../domain/entities/language_entity.dart';
 import '../../domain/usecases/get_languages_usecase.dart';
 import '../../domain/usecases/set_languages_usecase.dart';
 
-part 'languges_bloc.freezed.dart';
 part 'languges_event.dart';
 part 'languges_state.dart';
+part 'languges_bloc.freezed.dart';
 
 class LangugesBloc extends Bloc<LangugesEvent, LangugesState> {
   final RefreshTokenUsecase _refreshTokenUsecase;

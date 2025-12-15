@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../constants/font_constants.dart';
+import '../color_manager.dart';
 
 class DrawerButtonWidget extends StatelessWidget {
   final String? title;
@@ -14,7 +15,7 @@ class DrawerButtonWidget extends StatelessWidget {
     this.title,
     this.icon,
     this.onPressed,
-     this.selected,
+    this.selected,
   });
 
   @override
@@ -26,18 +27,25 @@ class DrawerButtonWidget extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
         child: SizedBox(
-          
           height: 50.h,
           child: ElevatedButton(
             onPressed: onPressed,
             style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
               elevation: WidgetStateProperty.fromMap({WidgetState.pressed: 10}),
-              shadowColor: WidgetStatePropertyAll(Colors.transparent),
+              shadowColor: WidgetStatePropertyAll(
+                selected ?? false
+                    ? Theme.of(context).colorScheme.shadow
+                    : Colors.transparent,
+              ),
               backgroundColor: WidgetStatePropertyAll(
-                Colors.transparent,
+                (selected ?? false)
+                    ? const Color.fromARGB(255, 225, 238, 231)
+                    : ColorManager.primaryColor,
               ),
               foregroundColor: WidgetStatePropertyAll(
-                Theme.of(context).textTheme.labelLarge?.color,
+                selected ?? false
+                    ? ColorManager.primaryColor
+                    : ColorManager.darkTextColor,
               ),
               side: WidgetStatePropertyAll(BorderSide.none),
 
@@ -54,12 +62,9 @@ class DrawerButtonWidget extends StatelessWidget {
                 children: [
                   Icon(
                     icon,
-                    color: (selected ?? false)
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context)
-                                    .textTheme
-                                    .labelLarge
-                                    ?.color,
+                    color: selected ?? false
+                        ? ColorManager.primaryColor
+                        : ColorManager.darkTextColor,
                     size: 24.sp,
                   ),
                   Padding(
@@ -67,14 +72,11 @@ class DrawerButtonWidget extends StatelessWidget {
                     child: Text(
                       title ?? "",
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                            fontFamily: FontConstants.fontFamily(context.locale),
-                            fontWeight: FontWeight.w500,
-                            color: (selected ?? false)
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context)
-                                    .textTheme
-                                    .labelLarge
-                                    ?.color,
+                        fontFamily: FontConstants.fontFamily(context.locale),
+                        fontWeight: FontWeight.w500,
+                        color: selected ?? false
+                            ? ColorManager.primaryColor
+                            : ColorManager.darkTextColor,
                       ),
                     ),
                   ),

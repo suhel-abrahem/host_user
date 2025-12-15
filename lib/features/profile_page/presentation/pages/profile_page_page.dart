@@ -4,10 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../../../config/theme/app_theme.dart';
+import '../../../../core/resource/color_manager.dart';
 import '../../../../core/resource/common_entity/addresses_entity.dart';
 import '../../../../core/resource/common_state_widget/no_data_state_widget.dart';
 import '../../../../core/resource/common_state_widget/no_internet_state_widget.dart';
+import '../../../../core/resource/common_state_widget/unAuth_state_widget.dart';
 import '../../../../core/resource/custom_widget/snake_bar_widget/snake_bar_widget.dart';
 import '../../../../core/resource/main_page/main_page.dart';
 import '../../../../core/util/helper/helper.dart';
@@ -80,7 +83,12 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                   error: (error) => Center(child: ErrorStateWidget()),
                   noInternet: () => Center(child: NoInternetStateWidget()),
                   noData: () => Center(child: NodataStateWidget()),
-                  unauthorized: () => Center(child: ErrorStateWidget()),
+                  unauthorized: () => Center(
+                    child: UnauthStateWidget(
+                      lottieHeight: 150.h,
+                      lottieWidth: 150.w,
+                    ),
+                  ),
                   loggedOut: () => SizedBox(),
                   logoutError: (String? message) => SizedBox(),
                   updated: (ProfileEntity? profileEntity) => ErrorStateWidget(),
@@ -136,10 +144,9 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                             frosted: true,
                             blurX: 28,
                             blurY: 28,
-                            tintColor: Theme.of(context)
-                                .colorScheme
-                                .primaryContainer
-                                .withValues(alpha: 0.9),
+                            tintColor: Theme.of(
+                              context,
+                            ).colorScheme.primary.withValues(alpha: 1.0),
                             clipBorderRadius: BorderRadius.circular(12.r),
                             border: Theme.of(context).defaultBorderSide,
                           ),
@@ -185,7 +192,7 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                       blurY: 8,
                       tintColor: Theme.of(
                         context,
-                      ).colorScheme.primaryContainer.withValues(alpha: 0.9),
+                      ).colorScheme.primary.withValues(alpha: 1.0),
                       clipBorderRadius: BorderRadius.circular(12.r),
                       border: Theme.of(context).defaultBorderSide,
                     ),
@@ -227,10 +234,9 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                             frosted: true,
                             blurX: 28,
                             blurY: 28,
-                            tintColor: Theme.of(context)
-                                .colorScheme
-                                .primaryContainer
-                                .withValues(alpha: 0.9),
+                            tintColor: Theme.of(
+                              context,
+                            ).colorScheme.primary.withValues(alpha: 1.0),
                             clipBorderRadius: BorderRadius.circular(12.r),
                             border: Theme.of(context).defaultBorderSide,
                           ),
@@ -274,7 +280,7 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                       blurY: 8,
                       tintColor: Theme.of(
                         context,
-                      ).colorScheme.primaryContainer.withValues(alpha: 0.9),
+                      ).colorScheme.primary.withValues(alpha: 1.0),
                       clipBorderRadius: BorderRadius.circular(12.r),
                       border: Theme.of(context).defaultBorderSide,
                     ),
@@ -316,10 +322,9 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                             frosted: true,
                             blurX: 28,
                             blurY: 28,
-                            tintColor: Theme.of(context)
-                                .colorScheme
-                                .primaryContainer
-                                .withValues(alpha: 0.9),
+                            tintColor: Theme.of(
+                              context,
+                            ).colorScheme.primary.withValues(alpha: 1.0),
                             clipBorderRadius: BorderRadius.circular(12.r),
                             border: Theme.of(context).defaultBorderSide,
                           ),
@@ -364,7 +369,7 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                       blurY: 8,
                       tintColor: Theme.of(
                         context,
-                      ).colorScheme.primaryContainer.withValues(alpha: 0.9),
+                      ).colorScheme.primary.withValues(alpha: 1.0),
                       clipBorderRadius: BorderRadius.circular(12.r),
                       border: Theme.of(context).defaultBorderSide,
                     ),
@@ -419,6 +424,9 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                             ),
                         child:
                             Container(
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                              ),
                               padding: EdgeInsets.symmetric(
                                 vertical: 16.h,
                                 horizontal: 16.w,
@@ -434,24 +442,21 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                                     ),
                                     child: Icon(
                                       Icons.logout_outlined,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.error,
+                                      color: ColorManager.backgroundColor,
                                       size: 24.r,
                                     ),
                                   ).asGlass(
                                     frosted: true,
                                     blurX: 28,
                                     blurY: 28,
-                                    tintColor: Theme.of(
-                                      context,
-                                    ).colorScheme.error.withValues(alpha: 0.9),
+                                    tintColor: Theme.of(context)
+                                        .colorScheme
+                                        .primary
+                                        .withValues(alpha: 1.0),
                                     clipBorderRadius: BorderRadius.circular(
                                       12.r,
                                     ),
-                                    border: Theme.of(
-                                      context,
-                                    ).defaultBorderSideError,
+                                    border: Theme.of(context).defaultBorderSide,
                                   ),
                                   SizedBox(
                                     width: 220.w,
@@ -471,6 +476,8 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                                                     FontConstants.fontFamily(
                                                       context.locale,
                                                     ),
+                                                color: ColorManager
+                                                    .backgroundColor,
                                               ),
                                         ),
                                         Text(
@@ -485,6 +492,8 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                                                     FontConstants.fontFamily(
                                                       context.locale,
                                                     ),
+                                                color: ColorManager
+                                                    .backgroundColor,
                                               ),
                                         ),
                                       ],
@@ -492,7 +501,7 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                                   ),
                                   Icon(
                                     Icons.arrow_forward_ios,
-                                    color: Theme.of(context).iconTheme.color,
+                                    color: ColorManager.backgroundColor,
                                     size: 16.r,
                                   ),
                                 ],
@@ -501,11 +510,9 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
                               frosted: true,
                               blurX: 8,
                               blurY: 8,
-                              tintColor: Theme.of(
-                                context,
-                              ).colorScheme.error.withValues(alpha: 0.9),
+                              tintColor: Theme.of(context).primaryColor,
                               clipBorderRadius: BorderRadius.circular(12.r),
-                              border: Theme.of(context).defaultBorderSideError,
+                              border: Theme.of(context).defaultBorderSide,
                             ),
                       );
                     },

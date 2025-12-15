@@ -42,6 +42,8 @@ abstract class  LocaleKeys {
   static const loginPage = 'loginPage';
   static const common_loading = 'common.loading';
   static const common_error = 'common.error';
+  static const common_notificationTokenErrorPleaseFixItOnSettings = 'common.notificationTokenErrorPleaseFixItOnSettings';
+  static const common_someThingWentWrongWhileShowNotification = 'common.someThingWentWrongWhileShowNotification';
   static const common_anErrorHasOccurs = 'common.anErrorHasOccurs';
   static const common_noInternetPullDown = 'common.noInternetPullDown';
   static const common_success = 'common.success';
@@ -57,6 +59,11 @@ abstract class  LocaleKeys {
   static const common_add = 'common.add';
   static const common_price = 'common.price';
   static const common_noThingToShow = 'common.noThingToShow';
+  static const common_pageNotFound = 'common.pageNotFound';
+  static const common_unexpectedErrorOccurred = 'common.unexpectedErrorOccurred';
+  static const common_yourSessionHasExpiredPleaseLoginAgain = 'common.yourSessionHasExpiredPleaseLoginAgain';
+  static const common_ok = 'common.ok';
+  static const common_tryAgain = 'common.tryAgain';
   static const common = 'common';
   static const theme_choose = 'theme.choose';
   static const theme_system = 'theme.system';
@@ -252,6 +259,19 @@ abstract class  LocaleKeys {
   static const serviceDetailsPage_distanceNearestToFarthest = 'serviceDetailsPage.distanceNearestToFarthest';
   static const serviceDetailsPage_ratingHighToLow = 'serviceDetailsPage.ratingHighToLow';
   static const serviceDetailsPage_priceLowToHigh = 'serviceDetailsPage.priceLowToHigh';
+  static const serviceDetailsPage_bookNow = 'serviceDetailsPage.bookNow';
+  static const serviceDetailsPage_describeYourIssue = 'serviceDetailsPage.describeYourIssue';
+  static const serviceDetailsPage_pleaseDescribeYourIssueInDetail = 'serviceDetailsPage.pleaseDescribeYourIssueInDetail';
+  static const serviceDetailsPage_addAttachments = 'serviceDetailsPage.addAttachments';
+  static const serviceDetailsPage_next = 'serviceDetailsPage.next';
+  static const serviceDetailsPage_schedule = 'serviceDetailsPage.schedule';
+  static const serviceDetailsPage_availableTimes = 'serviceDetailsPage.availableTimes';
+  static const serviceDetailsPage_ConfirmBooking = 'serviceDetailsPage.ConfirmBooking';
+  static const serviceDetailsPage_bookingConfirmed = 'serviceDetailsPage.bookingConfirmed';
+  static const serviceDetailsPage_addMore = 'serviceDetailsPage.addMore';
+  static const serviceDetailsPage_removeAll = 'serviceDetailsPage.removeAll';
+  static const serviceDetailsPage_chooseFromGallery = 'serviceDetailsPage.chooseFromGallery';
+  static const serviceDetailsPage_takePhoto = 'serviceDetailsPage.takePhoto';
   static const serviceDetailsPage = 'serviceDetailsPage';
   static const providerDetailsPage_title = 'providerDetailsPage.title';
   static const providerDetailsPage_name = 'providerDetailsPage.name';
@@ -272,5 +292,23 @@ abstract class  LocaleKeys {
   static const providerDetailsPage_price = 'providerDetailsPage.price';
   static const providerDetailsPage_duration = 'providerDetailsPage.duration';
   static const providerDetailsPage = 'providerDetailsPage';
+  static const settingsPage_title = 'settingsPage.title';
+  static const settingsPage_label = 'settingsPage.label';
+  static const settingsPage_language = 'settingsPage.language';
+  static const settingsPage_theme = 'settingsPage.theme';
+  static const settingsPage_logout = 'settingsPage.logout';
+  static const settingsPage_areYouSureYouWantToLogout = 'settingsPage.areYouSureYouWantToLogout';
+  static const settingsPage_yesLogout = 'settingsPage.yesLogout';
+  static const settingsPage_noCancel = 'settingsPage.noCancel';
+  static const settingsPage_selectLanguage = 'settingsPage.selectLanguage';
+  static const settingsPage_selectTheme = 'settingsPage.selectTheme';
+  static const settingsPage_allowNotifications = 'settingsPage.allowNotifications';
+  static const settingsPage_notifications = 'settingsPage.notifications';
+  static const settingsPage_itsSemsYouHaveProblemsWithNotificationToken = 'settingsPage.itsSemsYouHaveProblemsWithNotificationToken';
+  static const settingsPage_fixIt = 'settingsPage.fixIt';
+  static const settingsPage_allowLocationServices = 'settingsPage.allowLocationServices';
+  static const settingsPage_location = 'settingsPage.location';
+  static const settingsPage_allowAppAccessYourLocation = 'settingsPage.allowAppAccessYourLocation';
+  static const settingsPage = 'settingsPage';
 
 }

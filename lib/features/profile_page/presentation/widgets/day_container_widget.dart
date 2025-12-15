@@ -2,14 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
-
 import '../../../../config/theme/app_theme.dart';
 import '../../../../core/constants/font_constants.dart';
 import '../../../../core/resource/custom_widget/custom_input_field/custom_input_field.dart';
 import '../../../../core/util/helper/helper.dart';
-import '../../../../generated/locale_keys.g.dart';
 import '../../data/models/working_time_model.dart';
 import '../../domain/entities/working_hours_entity.dart';
+
+import '../../../../generated/locale_keys.g.dart';
 
 class DayContainerWidget extends StatefulWidget {
   final WorkingHoursEntity? workingHoursEntity;

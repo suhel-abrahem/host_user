@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
-
 import '../../../../config/theme/app_theme.dart';
+
 import '../../../../core/resource/custom_widget/custom_input_field/custom_input_field.dart';
 
 class AccountInfoRowWidget extends StatefulWidget {
@@ -83,18 +83,40 @@ class _AccountInfoRowWidgetState extends State<AccountInfoRowWidget> {
               backgroundColor: WidgetStatePropertyAll(Colors.transparent),
               shadowColor: WidgetStatePropertyAll(Colors.transparent),
               padding: WidgetStatePropertyAll(EdgeInsets.zero),
-            ),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Icon(
-                  Icons.edit_outlined,
-                  size: 20.sp,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+              shape: WidgetStatePropertyAll(
+                RoundedRectangleBorder(
+                  side: Theme.of(context).defaultBorderSide.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
               ),
             ),
+            child:
+                Container(
+                  width: 40.w,
+                  height: 40.h,
+                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Icon(
+                      Icons.edit_outlined,
+                      size: 20.sp,
+                      color: Theme.of(context).textTheme.labelLarge?.color,
+                    ),
+                  ),
+                ).asGlass(
+                  frosted: true,
+                  blurX: 18,
+                  blurY: 18,
+                  tintColor: Theme.of(
+                    context,
+                  ).colorScheme.primary.withValues(alpha: 0.9),
+                  clipBorderRadius: BorderRadius.circular(12.r),
+                  border: Theme.of(context).defaultBorderSide.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
           ),
         ),
       ],

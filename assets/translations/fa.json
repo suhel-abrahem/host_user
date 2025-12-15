@@ -40,6 +40,8 @@
   "common": {
     "loading": "چاوەڕێ بکە...",
     "error": "هەڵە",
+    "notificationTokenErrorPleaseFixItOnSettings": "هەڵەی توکینی ئاگاداری. تکایە لە ڕێکخستنەکاندا چارەسەر بکە!",
+    "someThingWentWrongWhileShowNotification": "هەڵەیەک ڕوودەدات کاتێک ئاگاداری نیشان دەدرێت",
     "anErrorHasOccurs": "هەڵەیەک ڕوودەدات. تکایە دووبارە هەوڵبدەرەوە لە ڕووی پەیجەکە!",
     "noInternetPullDown": "وەکوو دێت، وەڵامەیەکی ئینتەرنێت نیە. پەیوەندیت چیک بکە و دووبارە هەوڵبدەرەوە لە ڕووی پەیجەکە!",
     "success": "سەرکەوتوو",
@@ -54,7 +56,12 @@
     "youDeniedLocationPermissionForever": "بەهەمان شێوە، پەیوەندیدانی مافەکانی شوێنەکان بەرز ناکەیت! پێویستە بڕۆیت بۆ ڕووکاری ئەندازە و پەسند بکەیت!",
     "add": "زیادکردن",
     "price": "قیمت",
-    "noThingToShow": "هیچ شتێک بۆ نیشاندانی نیە"
+    "noThingToShow": "هیچ شتێک بۆ نیشاندانی نیە",
+    "pageNotFound": "پەیجەکە نەدۆزرایەوە",
+    "unexpectedErrorOccurred": "هەڵەیەکی نەهەڵبژاردوو ڕوودەدات",
+    "yourSessionHasExpiredPleaseLoginAgain": "کاتی نیشتەجێبوونت کۆتایی هات. تکایە دووبارە بچۆ ژوورەوە.",
+    "ok": "باشە",
+    "tryAgain": "دووبارە هەوڵبدەرەوە"
   },
   "theme": {
     "choose": "مۆدێلێک هەڵبژێرە",
@@ -222,7 +229,7 @@
     "resendIn": "دووبارە ناردن لە"
   },
   "categoryServices": {
-    "title": "خزمەتگوزاریەکانی پۆل",
+    "title": "پۆلی خزمەتگوزاری",
     "theServiceIdFieldIsRequired": "پەڕەی ID ی خزمەتگوزاری پێویستە.",
     "thePriceFieldIsRequired": "پەڕەی قیمت پێویستە.",
     "theIsActiveFieldMustBeTrueOrFalse": "پەڕەی چالاکی پێویستە ڕاست یان هەڵە بێت.",
@@ -260,7 +267,20 @@
     "sortProvidersBy": "ڕیزکردنەوەی دابینکەرەکان بە",
     "distanceNearestToFarthest": "دووری: نزیکترین بۆ دووریترین",
     "ratingHighToLow": "هەڵسەنگاندن: بەرزترین بۆ نزمترین",
-    "priceLowToHigh": "قیمت: نزمترین بۆ بەرزترین"
+    "priceLowToHigh": "قیمت: نزمترین بۆ بەرزترین",
+    "bookNow": "ئێستا بکڕە",
+    "describeYourIssue": "مشکلەکەت وەسف بکە",
+    "pleaseDescribeYourIssueInDetail": "تکایە مشکلت بە وردی وەسف بکە",
+    "addAttachments": "زیادکردنی پەیوەندەکان",
+    "next": "دواتر",
+    "schedule": "خشتە",
+    "availableTimes": "کاتە بەردەستەکان",
+    "ConfirmBooking": "پشتڕاستکردنەوەی داواکردن",
+    "bookingConfirmed": "داواکردن پشتڕاست کرا",
+    "addMore": "زیادکردنی زیاتر",
+    "removeAll": "سڕینەوەی هەموو",
+    "chooseFromGallery": "هەڵبژاردنی وێنە لە گەلەری",
+    "takePhoto": "وێنە گرتن"
   },
   "providerDetailsPage": {
     "title": "وردەکاریی دابینکەر",
@@ -281,5 +301,24 @@
     "otherProviders": "دابینکەرەکانی تر",
     "price": "نرخ",
     "duration": "ماوە"
+  },
+  "settingsPage": {
+    "title": "شاشەی ڕێکخستنەکان",
+    "label": "ڕێکخستنەکان",
+    "language": "زمان",
+    "theme": "ڕووکەش",
+    "logout": "چوونە دەرەوە",
+    "areYouSureYouWantToLogout": "دڵنیایت کە دەتەوێت چوونە دەرەوە؟",
+    "yesLogout": "بەڵێ، چوونە دەرەوە",
+    "noCancel": "نەخێر، هەڵوەشاندنەوە",
+    "selectLanguage": "زمان هەڵبژێرە",
+    "selectTheme": "ڕووکەش هەڵبژێرە",
+    "allowNotifications": "ڕێگە بدە بۆ ئاگاداریەکان",
+    "notifications": "ئاگاداریەکان",
+    "itsSemsYouHaveProblemsWithNotificationToken": "وەکەی ئاگاداری هەڵەیە",
+    "fixIt": "چاککردنەوە",
+    "allowLocationServices": "ڕێگە بدە بۆ خزمەتگوزارییەکانی شوێن",
+    "location": "شوێن",
+    "allowAppAccessYourLocation": "ڕێگە بدە بۆ ئەپلیکەیشن بۆ گەیشتن بە شوێنەکەت"
   }
 }

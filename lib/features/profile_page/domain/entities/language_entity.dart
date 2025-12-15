@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 part 'language_entity.freezed.dart';
 part 'language_entity.g.dart';
 

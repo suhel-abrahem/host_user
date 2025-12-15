@@ -14,7 +14,7 @@ import '../../../../core/dependencies_injection.dart';
 import '../../../../core/resource/common_entity/service_error_entity.dart';
 import '../../../../core/resource/common_state_widget/no_data_state_widget.dart';
 import '../../../../core/resource/common_state_widget/no_internet_state_widget.dart';
-import '../../../../core/resource/custom_widget/custom_input_field/custom_input_field.dart';
+
 import '../../../../core/resource/custom_widget/snake_bar_widget/snake_bar_widget.dart';
 import '../../../../core/resource/image_widget.dart';
 import '../../../../core/resource/main_page/main_page.dart';
@@ -22,10 +22,10 @@ import '../../../../core/util/helper/helper.dart';
 import '../../../categories_page/domain/entities/category_entity.dart';
 import '../../../login_page/domain/entities/login_state_entity.dart';
 import '../../data/models/get_service_model.dart';
-import '../../data/models/service_model.dart';
+
 import '../../data/models/set_service_model.dart';
 import '../bloc/set_service_bloc.dart';
-import '../widgets/add_button.dart';
+
 import '../../../../generated/locale_keys.g.dart';
 
 import '../../../../core/constants/font_constants.dart';
@@ -43,7 +43,7 @@ class CategoryServicesPagePage extends StatefulWidget {
 }
 
 class _CategoryServicesPagePageState extends State<CategoryServicesPagePage> {
-  GetServiceModel? getServiceModel;
+  GetServiceModel? getServiceModel = GetServiceModel();
   SetServiceModel? setServiceModel = SetServiceModel();
   ServiceErrorEntity? serviceErrorEntity = ServiceErrorEntity();
   GlobalKey<FormFieldState> setServiceFormKey = GlobalKey();
@@ -51,18 +51,22 @@ class _CategoryServicesPagePageState extends State<CategoryServicesPagePage> {
   bool isAddServiceHaveError = false;
   @override
   void didChangeDependencies() {
-    getServiceModel = GetServiceModel(
+    getServiceModel = getServiceModel?.copyWith(
       category_id: widget.categoryEntity?.id,
       acceptLanguage: Helper.getCountryCode(context),
     );
+
     super.didChangeDependencies();
   }
 
   @override
   void didUpdateWidget(covariant CategoryServicesPagePage oldWidget) {
-    getServiceModel = GetServiceModel(
+    getServiceModel = getServiceModel?.copyWith(
       category_id: widget.categoryEntity?.id,
       acceptLanguage: Helper.getCountryCode(context),
+    );
+    print(
+      "didUpdateWidget CategoryServicesPagePage:${Helper.getCountryCode(context)}",
     );
     super.didUpdateWidget(oldWidget);
   }
@@ -173,11 +177,9 @@ class _CategoryServicesPagePageState extends State<CategoryServicesPagePage> {
                 ),
               ).asGlass(
                 frosted: true,
-                blurX: 8,
-                blurY: 8,
-                tintColor: Theme.of(
-                  context,
-                ).colorScheme.primaryContainer.withValues(alpha: 0.9),
+                blurX: 38,
+                blurY: 38,
+                tintColor: Theme.of(context).colorScheme.primary,
 
                 border: Theme.of(context).defaultBorderSide,
               ),

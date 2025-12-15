@@ -17,7 +17,7 @@ class ColorManager {
       });
 
   // Primary Colors
-  static const Color primaryColor = Color.fromARGB(255, 31, 153, 209);
+  static const Color primaryColor = Color.fromARGB(255, 9, 145, 145);
   static Color primaryColorLight = primaryColor.withValues(alpha: 0.25);
 
   // Accent Colors
@@ -28,22 +28,22 @@ class ColorManager {
   ); // Bright Green Highlight
 
   // Supporting Colors
-  static const Color primaryContainerColor = Color.fromARGB(
-    255,
-    236,
-    248,
-    221,
-  ); // Soft Green Background
+  static const Color primaryContainerColor = Color.fromARGB(255, 221, 248, 248);
   static const Color borderColor = Color(0xFFB0BEC5); // Soft Gray
-  static const Color shadowColor = Color(0xFF9E9E9E); // Mid Gray
-  static const Color lightShadowColor = Color(0xFFCFD8DC); // Light Gray
+
+  static const Color lightShadowColor = Color.fromARGB(
+    255,
+    53,
+    52,
+    52,
+  ); // Light Gray
 
   // Background and Surfaces
   static const Color backgroundColor = Color.fromARGB(
     255,
-    204,
-    204,
-    204,
+    236,
+    234,
+    234,
   ); // Bright Neutral Background
   static const Color cardColor = Color(0xFFFFFFFF); // White Cards
   static const Color surfaceColor = Color(0xFFFAFAFA); // Very Light Surface
@@ -89,6 +89,12 @@ class ColorManager {
     42,
     42,
   ); //
+  static const Color darkShadowColor = Color(0xFF9E9E9E);
   // Special Highlight Colors
-  static const Color focusColor = Color(0xFF66BB6A); // Softer Green Focus
+  static const Color focusColor = Color.fromARGB(
+    255,
+    102,
+    187,
+    140,
+  ); // Softer Green Focus
 }

@@ -1,22 +1,27 @@
 import 'dart:io';
-
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 import '../../../../core/constants/api_constant.dart';
 import '../../../../core/data_state/data_state.dart';
 import '../../../../core/resource/common_service/common_service.dart';
-import '../../../../core/resource/connectivity/check_connectivity.dart';
-import '../../domain/entities/language_entity.dart';
-import '../../domain/entities/profile_entity.dart';
-import '../../domain/entities/time_of_entity.dart';
-import '../../domain/entities/working_hours_entity.dart';
-import '../../domain/repositories/profile_repository.dart';
 import '../models/language_model.dart';
+
 import '../models/profile_model.dart';
+
 import '../models/set_time_off_model.dart';
+
 import '../models/set_working_hours_model.dart';
+import '../../domain/entities/language_entity.dart';
+
+import '../../domain/entities/profile_entity.dart';
+
+import '../../domain/entities/time_of_entity.dart';
+
+import '../../domain/entities/working_hours_entity.dart';
+
+import '../../../../core/resource/connectivity/check_connectivity.dart';
+import '../../domain/repositories/profile_repository.dart';
 import '../models/working_time_model.dart';
 
 class ProfileRepositoryImplements implements ProfileRepository {

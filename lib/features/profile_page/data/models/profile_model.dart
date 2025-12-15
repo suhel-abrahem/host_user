@@ -1,7 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 import 'set_profile_model.dart';
-
 part 'profile_model.freezed.dart';
 part 'profile_model.g.dart';
 

@@ -2,6 +2,7 @@ import '../../../../core/data_state/data_state.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../data/models/profile_model.dart';
 import '../entities/profile_entity.dart';
+
 import '../repositories/profile_repository.dart';
 
 class UpdateProfileUsecase

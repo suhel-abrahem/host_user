@@ -15,7 +15,11 @@ import '../../../../generated/locale_keys.g.dart';
 class CategoryContainer extends StatelessWidget {
   final CategoryEntity? categoryEntity;
   final bool isHomePage;
-  const CategoryContainer({super.key, this.categoryEntity, this.isHomePage = false});
+  const CategoryContainer({
+    super.key,
+    this.categoryEntity,
+    this.isHomePage = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -70,37 +74,38 @@ class CategoryContainer extends StatelessWidget {
                   ),
                 ),
                 if (!isHomePage)
-                Center(
-                  child: Container(
-                    height: 25.h,
-                    padding: EdgeInsets.symmetric(horizontal: 4.w),
-                    decoration: BoxDecoration(
-                      color: Theme.of(
-                        context,
-                      ).primaryColor.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "${categoryEntity?.services_count} ${LocaleKeys.categoriesPage_services.tr()}",
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          fontFamily: FontConstants.fontFamily(context.locale),
-                          fontSize: 14.sp,
+                  Center(
+                    child: Container(
+                      height: 25.h,
+                      padding: EdgeInsets.symmetric(horizontal: 4.w),
+                      decoration: BoxDecoration(
+                        color: Theme.of(
+                          context,
+                        ).primaryColor.withValues(alpha: 0.3),
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "${categoryEntity?.services_count} ${LocaleKeys.categoriesPage_services.tr()}",
+                          style: Theme.of(context).textTheme.labelLarge
+                              ?.copyWith(
+                                fontFamily: FontConstants.fontFamily(
+                                  context.locale,
+                                ),
+                                fontSize: 14.sp,
+                              ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
-                ),
               ],
             ),
           ).asGlass(
             frosted: true,
             blurX: 38,
             blurY: 38,
-            tintColor: Theme.of(
-              context,
-            ).colorScheme.primaryContainer.withValues(alpha: 0.9),
+            tintColor: Theme.of(context).colorScheme.primary,
             clipBorderRadius: BorderRadius.circular(12.r),
             border: Theme.of(context).defaultBorderSide,
           ),
