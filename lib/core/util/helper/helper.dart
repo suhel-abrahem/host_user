@@ -158,4 +158,15 @@ class Helper {
         return null;
     }
   }
+
+  static String? getDayName(
+    DateTime date, {
+    String? format = "EEEE",
+    String? locale,
+  }) {
+    String? supportedLocale = locale == LanguageConstant.faLocale.languageCode
+        ? "ar"
+        : locale;
+    return DateFormat(format, supportedLocale).format(date);
+  }
 }

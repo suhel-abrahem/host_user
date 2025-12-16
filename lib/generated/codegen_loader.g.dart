@@ -296,7 +296,8 @@ class CodegenLoader extends AssetLoader{
     "addMore": "إضافة المزيد",
     "removeAll": "إزالة الكل",
     "chooseFromGallery": "اختر من المعرض",
-    "takePhoto": "التقاط صورة"
+    "takePhoto": "التقاط صورة",
+    "chooseDay": "اختر اليوم"
   },
   "providerDetailsPage": {
     "title": "تفاصيل المزود",
@@ -620,7 +621,8 @@ static const Map<String,dynamic> _en = {
     "addMore": "Add more",
     "removeAll": "Remove all",
     "chooseFromGallery": "Choose from gallery",
-    "takePhoto": "Take photo"
+    "takePhoto": "Take photo",
+    "chooseDay": "Choose day"
   },
   "providerDetailsPage": {
     "title": "Provider Details",
@@ -944,7 +946,8 @@ static const Map<String,dynamic> _fa = {
     "addMore": "زیادکردنی زیاتر",
     "removeAll": "سڕینەوەی هەموو",
     "chooseFromGallery": "هەڵبژاردنی وێنە لە گەلەری",
-    "takePhoto": "وێنە گرتن"
+    "takePhoto": "وێنە گرتن",
+    "chooseDay": "ڕۆژ هەڵبژێرە"
   },
   "providerDetailsPage": {
     "title": "وردەکاریی دابینکەر",

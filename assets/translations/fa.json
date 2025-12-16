@@ -280,7 +280,8 @@
     "addMore": "زیادکردنی زیاتر",
     "removeAll": "سڕینەوەی هەموو",
     "chooseFromGallery": "هەڵبژاردنی وێنە لە گەلەری",
-    "takePhoto": "وێنە گرتن"
+    "takePhoto": "وێنە گرتن",
+    "chooseDay": "ڕۆژ هەڵبژێرە"
   },
   "providerDetailsPage": {
     "title": "وردەکاریی دابینکەر",

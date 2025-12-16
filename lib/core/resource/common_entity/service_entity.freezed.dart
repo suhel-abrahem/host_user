@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ServiceEntity implements DiagnosticableTreeMixin {
 
- int? get id; int? get user_id; int? get service_id; String? get name; String? get acceptedLanguage; int? get price; String? get notes; bool? get is_active; String? get image; int? get category_id; String? get created_at; String? get updated_at; ServiceErrorEntity? get serviceErrorEntity; Map<String, dynamic>? get category; Map<String, dynamic>? get service; Map<String, dynamic>? get provider; int? get duration_minutes; int? get buffer_minutes;
+ int? get id; int? get user_id; int? get service_id; String? get name; String? get acceptedLanguage; int? get price; String? get notes; bool? get is_active; String? get image; int? get category_id; String? get created_at; String? get updated_at; ServiceErrorEntity? get serviceErrorEntity; Map<String, dynamic>? get category; Map<String, dynamic>? get service; Map<String, dynamic>? get provider; Map<String, dynamic>? get provider_service; int? get duration_minutes; int? get buffer_minutes;
 /// Create a copy of ServiceEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,21 +29,21 @@ $ServiceEntityCopyWith<ServiceEntity> get copyWith => _$ServiceEntityCopyWithImp
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'ServiceEntity'))
-    ..add(DiagnosticsProperty('id', id))..add(DiagnosticsProperty('user_id', user_id))..add(DiagnosticsProperty('service_id', service_id))..add(DiagnosticsProperty('name', name))..add(DiagnosticsProperty('acceptedLanguage', acceptedLanguage))..add(DiagnosticsProperty('price', price))..add(DiagnosticsProperty('notes', notes))..add(DiagnosticsProperty('is_active', is_active))..add(DiagnosticsProperty('image', image))..add(DiagnosticsProperty('category_id', category_id))..add(DiagnosticsProperty('created_at', created_at))..add(DiagnosticsProperty('updated_at', updated_at))..add(DiagnosticsProperty('serviceErrorEntity', serviceErrorEntity))..add(DiagnosticsProperty('category', category))..add(DiagnosticsProperty('service', service))..add(DiagnosticsProperty('provider', provider))..add(DiagnosticsProperty('duration_minutes', duration_minutes))..add(DiagnosticsProperty('buffer_minutes', buffer_minutes));
+    ..add(DiagnosticsProperty('id', id))..add(DiagnosticsProperty('user_id', user_id))..add(DiagnosticsProperty('service_id', service_id))..add(DiagnosticsProperty('name', name))..add(DiagnosticsProperty('acceptedLanguage', acceptedLanguage))..add(DiagnosticsProperty('price', price))..add(DiagnosticsProperty('notes', notes))..add(DiagnosticsProperty('is_active', is_active))..add(DiagnosticsProperty('image', image))..add(DiagnosticsProperty('category_id', category_id))..add(DiagnosticsProperty('created_at', created_at))..add(DiagnosticsProperty('updated_at', updated_at))..add(DiagnosticsProperty('serviceErrorEntity', serviceErrorEntity))..add(DiagnosticsProperty('category', category))..add(DiagnosticsProperty('service', service))..add(DiagnosticsProperty('provider', provider))..add(DiagnosticsProperty('provider_service', provider_service))..add(DiagnosticsProperty('duration_minutes', duration_minutes))..add(DiagnosticsProperty('buffer_minutes', buffer_minutes));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServiceEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.user_id, user_id) || other.user_id == user_id)&&(identical(other.service_id, service_id) || other.service_id == service_id)&&(identical(other.name, name) || other.name == name)&&(identical(other.acceptedLanguage, acceptedLanguage) || other.acceptedLanguage == acceptedLanguage)&&(identical(other.price, price) || other.price == price)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.is_active, is_active) || other.is_active == is_active)&&(identical(other.image, image) || other.image == image)&&(identical(other.category_id, category_id) || other.category_id == category_id)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updated_at, updated_at) || other.updated_at == updated_at)&&(identical(other.serviceErrorEntity, serviceErrorEntity) || other.serviceErrorEntity == serviceErrorEntity)&&const DeepCollectionEquality().equals(other.category, category)&&const DeepCollectionEquality().equals(other.service, service)&&const DeepCollectionEquality().equals(other.provider, provider)&&(identical(other.duration_minutes, duration_minutes) || other.duration_minutes == duration_minutes)&&(identical(other.buffer_minutes, buffer_minutes) || other.buffer_minutes == buffer_minutes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServiceEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.user_id, user_id) || other.user_id == user_id)&&(identical(other.service_id, service_id) || other.service_id == service_id)&&(identical(other.name, name) || other.name == name)&&(identical(other.acceptedLanguage, acceptedLanguage) || other.acceptedLanguage == acceptedLanguage)&&(identical(other.price, price) || other.price == price)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.is_active, is_active) || other.is_active == is_active)&&(identical(other.image, image) || other.image == image)&&(identical(other.category_id, category_id) || other.category_id == category_id)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updated_at, updated_at) || other.updated_at == updated_at)&&(identical(other.serviceErrorEntity, serviceErrorEntity) || other.serviceErrorEntity == serviceErrorEntity)&&const DeepCollectionEquality().equals(other.category, category)&&const DeepCollectionEquality().equals(other.service, service)&&const DeepCollectionEquality().equals(other.provider, provider)&&const DeepCollectionEquality().equals(other.provider_service, provider_service)&&(identical(other.duration_minutes, duration_minutes) || other.duration_minutes == duration_minutes)&&(identical(other.buffer_minutes, buffer_minutes) || other.buffer_minutes == buffer_minutes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,user_id,service_id,name,acceptedLanguage,price,notes,is_active,image,category_id,created_at,updated_at,serviceErrorEntity,const DeepCollectionEquality().hash(category),const DeepCollectionEquality().hash(service),const DeepCollectionEquality().hash(provider),duration_minutes,buffer_minutes);
+int get hashCode => Object.hashAll([runtimeType,id,user_id,service_id,name,acceptedLanguage,price,notes,is_active,image,category_id,created_at,updated_at,serviceErrorEntity,const DeepCollectionEquality().hash(category),const DeepCollectionEquality().hash(service),const DeepCollectionEquality().hash(provider),const DeepCollectionEquality().hash(provider_service),duration_minutes,buffer_minutes]);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'ServiceEntity(id: $id, user_id: $user_id, service_id: $service_id, name: $name, acceptedLanguage: $acceptedLanguage, price: $price, notes: $notes, is_active: $is_active, image: $image, category_id: $category_id, created_at: $created_at, updated_at: $updated_at, serviceErrorEntity: $serviceErrorEntity, category: $category, service: $service, provider: $provider, duration_minutes: $duration_minutes, buffer_minutes: $buffer_minutes)';
+  return 'ServiceEntity(id: $id, user_id: $user_id, service_id: $service_id, name: $name, acceptedLanguage: $acceptedLanguage, price: $price, notes: $notes, is_active: $is_active, image: $image, category_id: $category_id, created_at: $created_at, updated_at: $updated_at, serviceErrorEntity: $serviceErrorEntity, category: $category, service: $service, provider: $provider, provider_service: $provider_service, duration_minutes: $duration_minutes, buffer_minutes: $buffer_minutes)';
 }
 
 
@@ -54,7 +54,7 @@ abstract mixin class $ServiceEntityCopyWith<$Res>  {
   factory $ServiceEntityCopyWith(ServiceEntity value, $Res Function(ServiceEntity) _then) = _$ServiceEntityCopyWithImpl;
 @useResult
 $Res call({
- int? id, int? user_id, int? service_id, String? name, String? acceptedLanguage, int? price, String? notes, bool? is_active, String? image, int? category_id, String? created_at, String? updated_at, ServiceErrorEntity? serviceErrorEntity, Map<String, dynamic>? category, Map<String, dynamic>? service, Map<String, dynamic>? provider, int? duration_minutes, int? buffer_minutes
+ int? id, int? user_id, int? service_id, String? name, String? acceptedLanguage, int? price, String? notes, bool? is_active, String? image, int? category_id, String? created_at, String? updated_at, ServiceErrorEntity? serviceErrorEntity, Map<String, dynamic>? category, Map<String, dynamic>? service, Map<String, dynamic>? provider, Map<String, dynamic>? provider_service, int? duration_minutes, int? buffer_minutes
 });
 
 
@@ -71,7 +71,7 @@ class _$ServiceEntityCopyWithImpl<$Res>
 
 /// Create a copy of ServiceEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? user_id = freezed,Object? service_id = freezed,Object? name = freezed,Object? acceptedLanguage = freezed,Object? price = freezed,Object? notes = freezed,Object? is_active = freezed,Object? image = freezed,Object? category_id = freezed,Object? created_at = freezed,Object? updated_at = freezed,Object? serviceErrorEntity = freezed,Object? category = freezed,Object? service = freezed,Object? provider = freezed,Object? duration_minutes = freezed,Object? buffer_minutes = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? user_id = freezed,Object? service_id = freezed,Object? name = freezed,Object? acceptedLanguage = freezed,Object? price = freezed,Object? notes = freezed,Object? is_active = freezed,Object? image = freezed,Object? category_id = freezed,Object? created_at = freezed,Object? updated_at = freezed,Object? serviceErrorEntity = freezed,Object? category = freezed,Object? service = freezed,Object? provider = freezed,Object? provider_service = freezed,Object? duration_minutes = freezed,Object? buffer_minutes = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,user_id: freezed == user_id ? _self.user_id : user_id // ignore: cast_nullable_to_non_nullable
@@ -89,6 +89,7 @@ as String?,serviceErrorEntity: freezed == serviceErrorEntity ? _self.serviceErro
 as ServiceErrorEntity?,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,service: freezed == service ? _self.service : service // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,provider: freezed == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,provider_service: freezed == provider_service ? _self.provider_service : provider_service // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,duration_minutes: freezed == duration_minutes ? _self.duration_minutes : duration_minutes // ignore: cast_nullable_to_non_nullable
 as int?,buffer_minutes: freezed == buffer_minutes ? _self.buffer_minutes : buffer_minutes // ignore: cast_nullable_to_non_nullable
 as int?,
@@ -188,10 +189,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  int? user_id,  int? service_id,  String? name,  String? acceptedLanguage,  int? price,  String? notes,  bool? is_active,  String? image,  int? category_id,  String? created_at,  String? updated_at,  ServiceErrorEntity? serviceErrorEntity,  Map<String, dynamic>? category,  Map<String, dynamic>? service,  Map<String, dynamic>? provider,  int? duration_minutes,  int? buffer_minutes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  int? user_id,  int? service_id,  String? name,  String? acceptedLanguage,  int? price,  String? notes,  bool? is_active,  String? image,  int? category_id,  String? created_at,  String? updated_at,  ServiceErrorEntity? serviceErrorEntity,  Map<String, dynamic>? category,  Map<String, dynamic>? service,  Map<String, dynamic>? provider,  Map<String, dynamic>? provider_service,  int? duration_minutes,  int? buffer_minutes)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ServiceEntity() when $default != null:
-return $default(_that.id,_that.user_id,_that.service_id,_that.name,_that.acceptedLanguage,_that.price,_that.notes,_that.is_active,_that.image,_that.category_id,_that.created_at,_that.updated_at,_that.serviceErrorEntity,_that.category,_that.service,_that.provider,_that.duration_minutes,_that.buffer_minutes);case _:
+return $default(_that.id,_that.user_id,_that.service_id,_that.name,_that.acceptedLanguage,_that.price,_that.notes,_that.is_active,_that.image,_that.category_id,_that.created_at,_that.updated_at,_that.serviceErrorEntity,_that.category,_that.service,_that.provider,_that.provider_service,_that.duration_minutes,_that.buffer_minutes);case _:
   return orElse();
 
 }
@@ -209,10 +210,10 @@ return $default(_that.id,_that.user_id,_that.service_id,_that.name,_that.accepte
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  int? user_id,  int? service_id,  String? name,  String? acceptedLanguage,  int? price,  String? notes,  bool? is_active,  String? image,  int? category_id,  String? created_at,  String? updated_at,  ServiceErrorEntity? serviceErrorEntity,  Map<String, dynamic>? category,  Map<String, dynamic>? service,  Map<String, dynamic>? provider,  int? duration_minutes,  int? buffer_minutes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  int? user_id,  int? service_id,  String? name,  String? acceptedLanguage,  int? price,  String? notes,  bool? is_active,  String? image,  int? category_id,  String? created_at,  String? updated_at,  ServiceErrorEntity? serviceErrorEntity,  Map<String, dynamic>? category,  Map<String, dynamic>? service,  Map<String, dynamic>? provider,  Map<String, dynamic>? provider_service,  int? duration_minutes,  int? buffer_minutes)  $default,) {final _that = this;
 switch (_that) {
 case _ServiceEntity():
-return $default(_that.id,_that.user_id,_that.service_id,_that.name,_that.acceptedLanguage,_that.price,_that.notes,_that.is_active,_that.image,_that.category_id,_that.created_at,_that.updated_at,_that.serviceErrorEntity,_that.category,_that.service,_that.provider,_that.duration_minutes,_that.buffer_minutes);case _:
+return $default(_that.id,_that.user_id,_that.service_id,_that.name,_that.acceptedLanguage,_that.price,_that.notes,_that.is_active,_that.image,_that.category_id,_that.created_at,_that.updated_at,_that.serviceErrorEntity,_that.category,_that.service,_that.provider,_that.provider_service,_that.duration_minutes,_that.buffer_minutes);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -229,10 +230,10 @@ return $default(_that.id,_that.user_id,_that.service_id,_that.name,_that.accepte
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  int? user_id,  int? service_id,  String? name,  String? acceptedLanguage,  int? price,  String? notes,  bool? is_active,  String? image,  int? category_id,  String? created_at,  String? updated_at,  ServiceErrorEntity? serviceErrorEntity,  Map<String, dynamic>? category,  Map<String, dynamic>? service,  Map<String, dynamic>? provider,  int? duration_minutes,  int? buffer_minutes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  int? user_id,  int? service_id,  String? name,  String? acceptedLanguage,  int? price,  String? notes,  bool? is_active,  String? image,  int? category_id,  String? created_at,  String? updated_at,  ServiceErrorEntity? serviceErrorEntity,  Map<String, dynamic>? category,  Map<String, dynamic>? service,  Map<String, dynamic>? provider,  Map<String, dynamic>? provider_service,  int? duration_minutes,  int? buffer_minutes)?  $default,) {final _that = this;
 switch (_that) {
 case _ServiceEntity() when $default != null:
-return $default(_that.id,_that.user_id,_that.service_id,_that.name,_that.acceptedLanguage,_that.price,_that.notes,_that.is_active,_that.image,_that.category_id,_that.created_at,_that.updated_at,_that.serviceErrorEntity,_that.category,_that.service,_that.provider,_that.duration_minutes,_that.buffer_minutes);case _:
+return $default(_that.id,_that.user_id,_that.service_id,_that.name,_that.acceptedLanguage,_that.price,_that.notes,_that.is_active,_that.image,_that.category_id,_that.created_at,_that.updated_at,_that.serviceErrorEntity,_that.category,_that.service,_that.provider,_that.provider_service,_that.duration_minutes,_that.buffer_minutes);case _:
   return null;
 
 }
@@ -244,7 +245,7 @@ return $default(_that.id,_that.user_id,_that.service_id,_that.name,_that.accepte
 @JsonSerializable()
 
 class _ServiceEntity with DiagnosticableTreeMixin implements ServiceEntity {
-  const _ServiceEntity({this.id = 0, this.user_id = 0, this.service_id = 0, this.name = "", this.acceptedLanguage = "", this.price = 0, this.notes = "", this.is_active = false, this.image = "", this.category_id = 0, this.created_at = "", this.updated_at = "", this.serviceErrorEntity = const ServiceErrorEntity(), final  Map<String, dynamic>? category = const {}, final  Map<String, dynamic>? service = const {}, final  Map<String, dynamic>? provider = const {}, this.duration_minutes = 0, this.buffer_minutes = 0}): _category = category,_service = service,_provider = provider;
+  const _ServiceEntity({this.id = 0, this.user_id = 0, this.service_id = 0, this.name = "", this.acceptedLanguage = "", this.price = 0, this.notes = "", this.is_active = false, this.image = "", this.category_id = 0, this.created_at = "", this.updated_at = "", this.serviceErrorEntity = const ServiceErrorEntity(), final  Map<String, dynamic>? category = const {}, final  Map<String, dynamic>? service = const {}, final  Map<String, dynamic>? provider = const {}, final  Map<String, dynamic>? provider_service = const {}, this.duration_minutes = 0, this.buffer_minutes = 0}): _category = category,_service = service,_provider = provider,_provider_service = provider_service;
   factory _ServiceEntity.fromJson(Map<String, dynamic> json) => _$ServiceEntityFromJson(json);
 
 @override@JsonKey() final  int? id;
@@ -287,6 +288,15 @@ class _ServiceEntity with DiagnosticableTreeMixin implements ServiceEntity {
   return EqualUnmodifiableMapView(value);
 }
 
+ final  Map<String, dynamic>? _provider_service;
+@override@JsonKey() Map<String, dynamic>? get provider_service {
+  final value = _provider_service;
+  if (value == null) return null;
+  if (_provider_service is EqualUnmodifiableMapView) return _provider_service;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
+
 @override@JsonKey() final  int? duration_minutes;
 @override@JsonKey() final  int? buffer_minutes;
 
@@ -304,21 +314,21 @@ Map<String, dynamic> toJson() {
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'ServiceEntity'))
-    ..add(DiagnosticsProperty('id', id))..add(DiagnosticsProperty('user_id', user_id))..add(DiagnosticsProperty('service_id', service_id))..add(DiagnosticsProperty('name', name))..add(DiagnosticsProperty('acceptedLanguage', acceptedLanguage))..add(DiagnosticsProperty('price', price))..add(DiagnosticsProperty('notes', notes))..add(DiagnosticsProperty('is_active', is_active))..add(DiagnosticsProperty('image', image))..add(DiagnosticsProperty('category_id', category_id))..add(DiagnosticsProperty('created_at', created_at))..add(DiagnosticsProperty('updated_at', updated_at))..add(DiagnosticsProperty('serviceErrorEntity', serviceErrorEntity))..add(DiagnosticsProperty('category', category))..add(DiagnosticsProperty('service', service))..add(DiagnosticsProperty('provider', provider))..add(DiagnosticsProperty('duration_minutes', duration_minutes))..add(DiagnosticsProperty('buffer_minutes', buffer_minutes));
+    ..add(DiagnosticsProperty('id', id))..add(DiagnosticsProperty('user_id', user_id))..add(DiagnosticsProperty('service_id', service_id))..add(DiagnosticsProperty('name', name))..add(DiagnosticsProperty('acceptedLanguage', acceptedLanguage))..add(DiagnosticsProperty('price', price))..add(DiagnosticsProperty('notes', notes))..add(DiagnosticsProperty('is_active', is_active))..add(DiagnosticsProperty('image', image))..add(DiagnosticsProperty('category_id', category_id))..add(DiagnosticsProperty('created_at', created_at))..add(DiagnosticsProperty('updated_at', updated_at))..add(DiagnosticsProperty('serviceErrorEntity', serviceErrorEntity))..add(DiagnosticsProperty('category', category))..add(DiagnosticsProperty('service', service))..add(DiagnosticsProperty('provider', provider))..add(DiagnosticsProperty('provider_service', provider_service))..add(DiagnosticsProperty('duration_minutes', duration_minutes))..add(DiagnosticsProperty('buffer_minutes', buffer_minutes));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ServiceEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.user_id, user_id) || other.user_id == user_id)&&(identical(other.service_id, service_id) || other.service_id == service_id)&&(identical(other.name, name) || other.name == name)&&(identical(other.acceptedLanguage, acceptedLanguage) || other.acceptedLanguage == acceptedLanguage)&&(identical(other.price, price) || other.price == price)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.is_active, is_active) || other.is_active == is_active)&&(identical(other.image, image) || other.image == image)&&(identical(other.category_id, category_id) || other.category_id == category_id)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updated_at, updated_at) || other.updated_at == updated_at)&&(identical(other.serviceErrorEntity, serviceErrorEntity) || other.serviceErrorEntity == serviceErrorEntity)&&const DeepCollectionEquality().equals(other._category, _category)&&const DeepCollectionEquality().equals(other._service, _service)&&const DeepCollectionEquality().equals(other._provider, _provider)&&(identical(other.duration_minutes, duration_minutes) || other.duration_minutes == duration_minutes)&&(identical(other.buffer_minutes, buffer_minutes) || other.buffer_minutes == buffer_minutes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ServiceEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.user_id, user_id) || other.user_id == user_id)&&(identical(other.service_id, service_id) || other.service_id == service_id)&&(identical(other.name, name) || other.name == name)&&(identical(other.acceptedLanguage, acceptedLanguage) || other.acceptedLanguage == acceptedLanguage)&&(identical(other.price, price) || other.price == price)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.is_active, is_active) || other.is_active == is_active)&&(identical(other.image, image) || other.image == image)&&(identical(other.category_id, category_id) || other.category_id == category_id)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updated_at, updated_at) || other.updated_at == updated_at)&&(identical(other.serviceErrorEntity, serviceErrorEntity) || other.serviceErrorEntity == serviceErrorEntity)&&const DeepCollectionEquality().equals(other._category, _category)&&const DeepCollectionEquality().equals(other._service, _service)&&const DeepCollectionEquality().equals(other._provider, _provider)&&const DeepCollectionEquality().equals(other._provider_service, _provider_service)&&(identical(other.duration_minutes, duration_minutes) || other.duration_minutes == duration_minutes)&&(identical(other.buffer_minutes, buffer_minutes) || other.buffer_minutes == buffer_minutes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,user_id,service_id,name,acceptedLanguage,price,notes,is_active,image,category_id,created_at,updated_at,serviceErrorEntity,const DeepCollectionEquality().hash(_category),const DeepCollectionEquality().hash(_service),const DeepCollectionEquality().hash(_provider),duration_minutes,buffer_minutes);
+int get hashCode => Object.hashAll([runtimeType,id,user_id,service_id,name,acceptedLanguage,price,notes,is_active,image,category_id,created_at,updated_at,serviceErrorEntity,const DeepCollectionEquality().hash(_category),const DeepCollectionEquality().hash(_service),const DeepCollectionEquality().hash(_provider),const DeepCollectionEquality().hash(_provider_service),duration_minutes,buffer_minutes]);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'ServiceEntity(id: $id, user_id: $user_id, service_id: $service_id, name: $name, acceptedLanguage: $acceptedLanguage, price: $price, notes: $notes, is_active: $is_active, image: $image, category_id: $category_id, created_at: $created_at, updated_at: $updated_at, serviceErrorEntity: $serviceErrorEntity, category: $category, service: $service, provider: $provider, duration_minutes: $duration_minutes, buffer_minutes: $buffer_minutes)';
+  return 'ServiceEntity(id: $id, user_id: $user_id, service_id: $service_id, name: $name, acceptedLanguage: $acceptedLanguage, price: $price, notes: $notes, is_active: $is_active, image: $image, category_id: $category_id, created_at: $created_at, updated_at: $updated_at, serviceErrorEntity: $serviceErrorEntity, category: $category, service: $service, provider: $provider, provider_service: $provider_service, duration_minutes: $duration_minutes, buffer_minutes: $buffer_minutes)';
 }
 
 
@@ -329,7 +339,7 @@ abstract mixin class _$ServiceEntityCopyWith<$Res> implements $ServiceEntityCopy
   factory _$ServiceEntityCopyWith(_ServiceEntity value, $Res Function(_ServiceEntity) _then) = __$ServiceEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int? id, int? user_id, int? service_id, String? name, String? acceptedLanguage, int? price, String? notes, bool? is_active, String? image, int? category_id, String? created_at, String? updated_at, ServiceErrorEntity? serviceErrorEntity, Map<String, dynamic>? category, Map<String, dynamic>? service, Map<String, dynamic>? provider, int? duration_minutes, int? buffer_minutes
+ int? id, int? user_id, int? service_id, String? name, String? acceptedLanguage, int? price, String? notes, bool? is_active, String? image, int? category_id, String? created_at, String? updated_at, ServiceErrorEntity? serviceErrorEntity, Map<String, dynamic>? category, Map<String, dynamic>? service, Map<String, dynamic>? provider, Map<String, dynamic>? provider_service, int? duration_minutes, int? buffer_minutes
 });
 
 
@@ -346,7 +356,7 @@ class __$ServiceEntityCopyWithImpl<$Res>
 
 /// Create a copy of ServiceEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? user_id = freezed,Object? service_id = freezed,Object? name = freezed,Object? acceptedLanguage = freezed,Object? price = freezed,Object? notes = freezed,Object? is_active = freezed,Object? image = freezed,Object? category_id = freezed,Object? created_at = freezed,Object? updated_at = freezed,Object? serviceErrorEntity = freezed,Object? category = freezed,Object? service = freezed,Object? provider = freezed,Object? duration_minutes = freezed,Object? buffer_minutes = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? user_id = freezed,Object? service_id = freezed,Object? name = freezed,Object? acceptedLanguage = freezed,Object? price = freezed,Object? notes = freezed,Object? is_active = freezed,Object? image = freezed,Object? category_id = freezed,Object? created_at = freezed,Object? updated_at = freezed,Object? serviceErrorEntity = freezed,Object? category = freezed,Object? service = freezed,Object? provider = freezed,Object? provider_service = freezed,Object? duration_minutes = freezed,Object? buffer_minutes = freezed,}) {
   return _then(_ServiceEntity(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,user_id: freezed == user_id ? _self.user_id : user_id // ignore: cast_nullable_to_non_nullable
@@ -364,6 +374,7 @@ as String?,serviceErrorEntity: freezed == serviceErrorEntity ? _self.serviceErro
 as ServiceErrorEntity?,category: freezed == category ? _self._category : category // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,service: freezed == service ? _self._service : service // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,provider: freezed == provider ? _self._provider : provider // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,provider_service: freezed == provider_service ? _self._provider_service : provider_service // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>?,duration_minutes: freezed == duration_minutes ? _self.duration_minutes : duration_minutes // ignore: cast_nullable_to_non_nullable
 as int?,buffer_minutes: freezed == buffer_minutes ? _self.buffer_minutes : buffer_minutes // ignore: cast_nullable_to_non_nullable
 as int?,

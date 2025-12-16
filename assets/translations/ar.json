@@ -280,7 +280,8 @@
     "addMore": "إضافة المزيد",
     "removeAll": "إزالة الكل",
     "chooseFromGallery": "اختر من المعرض",
-    "takePhoto": "التقاط صورة"
+    "takePhoto": "التقاط صورة",
+    "chooseDay": "اختر اليوم"
   },
   "providerDetailsPage": {
     "title": "تفاصيل المزود",

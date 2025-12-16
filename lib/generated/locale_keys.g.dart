@@ -272,6 +272,7 @@ abstract class  LocaleKeys {
   static const serviceDetailsPage_removeAll = 'serviceDetailsPage.removeAll';
   static const serviceDetailsPage_chooseFromGallery = 'serviceDetailsPage.chooseFromGallery';
   static const serviceDetailsPage_takePhoto = 'serviceDetailsPage.takePhoto';
+  static const serviceDetailsPage_chooseDay = 'serviceDetailsPage.chooseDay';
   static const serviceDetailsPage = 'serviceDetailsPage';
   static const providerDetailsPage_title = 'providerDetailsPage.title';
   static const providerDetailsPage_name = 'providerDetailsPage.name';

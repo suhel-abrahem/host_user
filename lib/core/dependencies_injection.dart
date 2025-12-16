@@ -1,6 +1,9 @@
 import 'package:get_it/get_it.dart';
+import 'package:hosta_user/features/service_details/data/models/store_booking_model.dart';
+import 'package:hosta_user/features/service_details/data/models/time_slots_model.dart';
 import 'package:hosta_user/features/service_details/domain/entities/service_details_entity.dart';
 import 'package:hosta_user/features/service_details/domain/usecases/get_service_providers_usecase.dart';
+import 'package:hosta_user/features/service_details/domain/usecases/store_booking_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/app/app_preferences.dart';
@@ -76,8 +79,17 @@ import '../features/refresh_token/domain/usecases/refresh_token_usecase.dart';
 import '../features/refresh_token/presentation/bloc/refresh_token_bloc.dart';
 import '../features/service_details/data/models/service_details_model.dart';
 import '../features/service_details/data/repositories/service_details_repository_implements.dart';
+import '../features/service_details/data/repositories/store_booking_repository_implements.dart';
+import '../features/service_details/data/repositories/time_slots_repository_implements.dart';
+import '../features/service_details/domain/entities/slots_entity.dart';
+import '../features/service_details/domain/entities/time_slots_entity.dart';
 import '../features/service_details/domain/repositories/service_details_repository.dart';
+import '../features/service_details/domain/repositories/store_booking_repository.dart';
+import '../features/service_details/domain/repositories/time_slots_repository.dart';
+import '../features/service_details/domain/usecases/time_slots_usecase.dart';
 import '../features/service_details/presentation/bloc/service_details_bloc.dart';
+import '../features/service_details/presentation/bloc/store_booking_bloc.dart';
+import '../features/service_details/presentation/bloc/time_slots_bloc.dart';
 import '../features/signup_page/data/models/city_model.dart';
 import '../features/signup_page/data/models/country_model.dart';
 import '../features/signup_page/data/models/signup_model.dart';
@@ -397,20 +409,40 @@ Future<void> initDependencies() async {
   //entities and models
   getItInstance.registerSingleton<ServiceDetailsEntity>(ServiceDetailsEntity());
   getItInstance.registerSingleton<ServiceDetailsModel>(ServiceDetailsModel());
+  getItInstance.registerSingleton<TimeSlotsModel>(TimeSlotsModel());
+  getItInstance.registerSingleton<TimeSlotsEntity>(TimeSlotsEntity());
+  getItInstance.registerSingleton<SlotsEntity>(SlotsEntity());
+  getItInstance.registerSingleton<StoreBookingModel>(StoreBookingModel());
 
   //repository
   getItInstance.registerSingleton<ServiceDetailsRepository>(
     ServiceDetailsRepositoryImpl(getItInstance()),
   );
+  getItInstance.registerSingleton<TimeSlotsRepository>(
+    TimeSlotsRepositoryImplements(getItInstance()),
+  );
+  getItInstance.registerSingleton<StoreBookingRepository>(
+    StoreBookingRepositoryImplements(getItInstance()),
+  );
   //usecase
   getItInstance.registerSingleton<GetServiceProvidersUseCase>(
     GetServiceProvidersUseCase(getItInstance()),
   );
-
+  getItInstance.registerSingleton<TimeSlotsUsecase>(
+    TimeSlotsUsecase(getItInstance()),
+  );
+  getItInstance.registerSingleton<StoreBookingUseCase>(
+    StoreBookingUseCase(getItInstance()),
+  );
   //bloc
   getItInstance.registerFactory<ServiceDetailsBloc>(
     () => ServiceDetailsBloc(getItInstance(), getItInstance()),
   );
-
+  getItInstance.registerFactory<TimeSlotsBloc>(
+    () => TimeSlotsBloc(getItInstance(), getItInstance()),
+  );
+  getItInstance.registerFactory<StoreBookingBloc>(
+    () => StoreBookingBloc(getItInstance(), getItInstance()),
+  );
   // end of service details
 }

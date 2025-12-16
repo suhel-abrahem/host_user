@@ -218,6 +218,7 @@ class _CategoryServicesPagePageState extends State<CategoryServicesPagePage> {
                                 itemCount: data.length,
                                 itemBuilder: (context, index) => ElevatedButton(
                                   onPressed: () {
+                                    print("serviceEntity: ${data[index]}");
                                     context.pushNamed(
                                       RoutesName.serviceDetailsPage,
                                       pathParameters: {

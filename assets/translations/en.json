@@ -280,7 +280,8 @@
     "addMore": "Add more",
     "removeAll": "Remove all",
     "chooseFromGallery": "Choose from gallery",
-    "takePhoto": "Take photo"
+    "takePhoto": "Take photo",
+    "chooseDay": "Choose day"
   },
   "providerDetailsPage": {
     "title": "Provider Details",
