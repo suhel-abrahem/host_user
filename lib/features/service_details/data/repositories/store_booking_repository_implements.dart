@@ -4,7 +4,7 @@ import 'package:hosta_user/core/constants/api_constant.dart';
 import 'package:hosta_user/core/data_state/data_state.dart';
 import 'package:hosta_user/core/resource/common_service/common_service.dart';
 import 'package:hosta_user/core/resource/connectivity/check_connectivity.dart';
-
+import 'package:uuid/uuid.dart';
 import 'package:hosta_user/features/service_details/data/models/store_booking_model.dart';
 
 import '../../domain/repositories/store_booking_repository.dart';
@@ -27,12 +27,13 @@ class StoreBookingRepositoryImplements implements StoreBookingRepository {
     }
 
     try {
+      final uuid = Uuid();
       CommonService commonService = CommonService(
         headers: {
           "Accept-Language": storeBookingModel?.acceptLanguage ?? "ar",
           "Authorization": "Bearer ${storeBookingModel?.authToken}",
           "accept": "application/json",
-          "Idempotency-Key": "770e8400-e29b-41d4-a716-446675580014",
+          "Idempotency-Key": uuid.v4(),
         },
       );
       print(
@@ -40,35 +41,36 @@ class StoreBookingRepositoryImplements implements StoreBookingRepository {
       );
       final formData = FormData();
 
-      // 🔹 normal fields MUST be strings
       formData.fields.add(
         MapEntry('provider_id', storeBookingModel!.providerId.toString()),
       );
       formData.fields.add(
         MapEntry(
           'provider_services_id',
-          storeBookingModel!.serviceId.toString(),
+          storeBookingModel.serviceId.toString(),
         ),
       );
       formData.fields.add(
-        MapEntry('start_time', storeBookingModel!.scheduledAt!),
+        MapEntry('start_time', storeBookingModel.scheduledAt ?? ""),
       );
 
-      if (storeBookingModel?.notes?.isNotEmpty == true) {
-        formData.fields.add(MapEntry('notes', storeBookingModel!.notes!));
+      if (storeBookingModel.notes?.isNotEmpty == true) {
+        formData.fields.add(MapEntry('notes', storeBookingModel.notes ?? ""));
       }
 
-      // 🔹 files
-      for (final file in storeBookingModel!.attachments!) {
-        formData.files.add(
-          MapEntry(
-            'images[]', // ⚠️ confirm backend key
-            await MultipartFile.fromFile(
-              file!.path,
-              filename: file.path.split('/').last,
+      if (storeBookingModel.attachments != null &&
+          storeBookingModel.attachments?.isNotEmpty == true) {
+        for (final file in storeBookingModel.attachments!) {
+          formData.files.add(
+            MapEntry(
+              'images[]', // ⚠️ confirm backend key
+              await MultipartFile.fromFile(
+                file!.path,
+                filename: file.path.split('/').last,
+              ),
             ),
-          ),
-        );
+          );
+        }
       }
 
       await commonService

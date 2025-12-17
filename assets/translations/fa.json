@@ -281,7 +281,11 @@
     "removeAll": "سڕینەوەی هەموو",
     "chooseFromGallery": "هەڵبژاردنی وێنە لە گەلەری",
     "takePhoto": "وێنە گرتن",
-    "chooseDay": "ڕۆژ هەڵبژێرە"
+    "chooseDay": "ڕۆژ هەڵبژێرە",
+    "maximumOf5ImagesAllowed": "زۆربەی 5 وێنە ڕێگەپێدراوە",
+    "youCanSelectUpTo5Images": "دەتوانیت تا 5 وێنە هەڵبژێریت",
+    "uploading": "لە بارکردندا...",
+    "oneImageOrMoreHasBeenDownGraded": "یەک یان زیاتر لە وێنەکان کەمکراونەوەی کەیفیەت"
   },
   "providerDetailsPage": {
     "title": "وردەکاریی دابینکەر",

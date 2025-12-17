@@ -281,7 +281,11 @@
     "removeAll": "Remove all",
     "chooseFromGallery": "Choose from gallery",
     "takePhoto": "Take photo",
-    "chooseDay": "Choose day"
+    "chooseDay": "Choose day",
+    "maximumOf5ImagesAllowed": "Maximum of 5 images allowed",
+    "youCanSelectUpTo5Images": "You can select up to 5 images",
+    "uploading": "Uploading...",
+    "oneImageOrMoreHasBeenDownGraded": "One or more images have been downgraded"
   },
   "providerDetailsPage": {
     "title": "Provider Details",

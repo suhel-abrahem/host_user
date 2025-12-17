@@ -297,7 +297,11 @@ class CodegenLoader extends AssetLoader{
     "removeAll": "إزالة الكل",
     "chooseFromGallery": "اختر من المعرض",
     "takePhoto": "التقاط صورة",
-    "chooseDay": "اختر اليوم"
+    "chooseDay": "اختر اليوم",
+    "maximumOf5ImagesAllowed": "مسموح بحد أقصى 5 صور",
+    "youCanSelectUpTo5Images": "يمكنك اختيار ما يصل إلى 5 صور",
+    "uploading": "جارٍ التحميل...",
+    "oneImageOrMoreHasBeenDownGraded": "تم تقليل جودة صورة واحدة أو أكثر"
   },
   "providerDetailsPage": {
     "title": "تفاصيل المزود",
@@ -622,7 +626,11 @@ static const Map<String,dynamic> _en = {
     "removeAll": "Remove all",
     "chooseFromGallery": "Choose from gallery",
     "takePhoto": "Take photo",
-    "chooseDay": "Choose day"
+    "chooseDay": "Choose day",
+    "maximumOf5ImagesAllowed": "Maximum of 5 images allowed",
+    "youCanSelectUpTo5Images": "You can select up to 5 images",
+    "uploading": "Uploading...",
+    "oneImageOrMoreHasBeenDownGraded": "One or more images have been downgraded"
   },
   "providerDetailsPage": {
     "title": "Provider Details",
@@ -947,7 +955,11 @@ static const Map<String,dynamic> _fa = {
     "removeAll": "سڕینەوەی هەموو",
     "chooseFromGallery": "هەڵبژاردنی وێنە لە گەلەری",
     "takePhoto": "وێنە گرتن",
-    "chooseDay": "ڕۆژ هەڵبژێرە"
+    "chooseDay": "ڕۆژ هەڵبژێرە",
+    "maximumOf5ImagesAllowed": "زۆربەی 5 وێنە ڕێگەپێدراوە",
+    "youCanSelectUpTo5Images": "دەتوانیت تا 5 وێنە هەڵبژێریت",
+    "uploading": "لە بارکردندا...",
+    "oneImageOrMoreHasBeenDownGraded": "یەک یان زیاتر لە وێنەکان کەمکراونەوەی کەیفیەت"
   },
   "providerDetailsPage": {
     "title": "وردەکاریی دابینکەر",

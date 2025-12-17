@@ -10,6 +10,7 @@ class CustomInputField extends StatelessWidget {
   final TextEditingController? controller;
   final String label;
   final String? initialValue;
+  final String? hintText;
   final bool isRequired;
   final double? width;
   final double? height;
@@ -76,6 +77,7 @@ class CustomInputField extends StatelessWidget {
     this.readOnly,
     this.onSaved,
     this.enabled,
+    this.hintText,
   });
 
   @override
@@ -96,6 +98,7 @@ class CustomInputField extends StatelessWidget {
         maxLength: maxLength,
         controller: controller,
         initialValue: initialValue,
+
         obscureText: obscureText,
         onChanged: onChanged,
         onTapOutside: onTapOut,
@@ -105,6 +108,14 @@ class CustomInputField extends StatelessWidget {
         textAlign: textAlign ?? TextAlign.start,
         readOnly: readOnly ?? false,
         decoration: InputDecoration(
+          hint: (hintText != null)
+              ? Text(
+                  hintText ?? "",
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    fontFamily: FontConstants.fontFamily(context.locale),
+                  ),
+                )
+              : null,
           fillColor: fillColor ?? Theme.of(context).scaffoldBackgroundColor,
           filled: filled,
           contentPadding:

@@ -8,11 +8,12 @@ import 'package:hosta_user/core/util/helper/helper.dart';
 class SevenDaysCalender extends StatefulWidget {
   final DateTime startDate;
   final ValueChanged<String?> onDateSelected;
-
+  final String? selectedDate;
   const SevenDaysCalender({
     super.key,
     required this.startDate,
     required this.onDateSelected,
+    this.selectedDate,
   });
 
   @override
@@ -20,10 +21,26 @@ class SevenDaysCalender extends StatefulWidget {
 }
 
 class _SevenDaysCalenderState extends State<SevenDaysCalender> {
-  int selectedIndex = 0;
+  int? selectedIndex;
+  @override
+  void initState() {
+    if (widget.selectedDate != null) {
+      final selectedDateTime = DateFormat(
+        'yyyy-MM-dd',
+      ).parse(widget.selectedDate!);
+
+      selectedIndex = selectedDateTime.difference(widget.startDate).inDays;
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      controller: ScrollController(
+        keepScrollOffset: true,
+        initialScrollOffset: 60.w * (selectedIndex ?? 0),
+      ),
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
       itemCount: 7,

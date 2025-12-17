@@ -65,7 +65,7 @@ dependencies:
   flutter_timer_countdown: ^1.0.7
   firebase_messaging: ^16.0.4
   firebase_core: ^4.2.1
-  table_calendar: ^3.2.0
+  uuid: ^4.5.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
