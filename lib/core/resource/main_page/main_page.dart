@@ -1,14 +1,17 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:easy_localization/easy_localization.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:go_router/go_router.dart';
-
-import 'package:hosta_user/core/resource/color_manager.dart';
+import '/core/enums/login_state_enum.dart';
+import '/core/resource/color_manager.dart';
+import '/core/resource/main_page/set_fcm_token_for_current_user.dart';
+import '/features/login_page/domain/entities/login_state_entity.dart';
+import '/generated/locale_keys.g.dart';
 import '../../../config/app/app_preferences.dart';
 import '../../../config/route/routes_manager.dart';
 import '../../../main.dart';
@@ -16,9 +19,9 @@ import '../../constants/font_constants.dart';
 import '../../data_state/data_state.dart';
 import '../../dependencies_injection.dart';
 
-import '../../enums/login_state_enum.dart';
 import '../custom_widget/snake_bar_widget/snake_bar_widget.dart';
 
+import '../firebase_common_services/firebase_messageing_service.dart';
 import 'drawer.dart';
 
 class MainPage extends StatefulWidget {
@@ -67,10 +70,221 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
+  Future<void> getMessage() async {
+    try {
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return Center(
+                child: AlertDialog(
+                  constraints: BoxConstraints(
+                    minWidth: 300.w,
+                    minHeight: 320.h,
+                    maxWidth: 300.w,
+                    maxHeight: 320.h,
+                  ),
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  title: Center(
+                    child: Text(
+                      message.notification?.title ??
+                          LocaleKeys.notificationPage_noTitle.tr(),
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontFamily: FontConstants.fontFamily(context.locale),
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  icon: Icon(
+                    Icons.notifications_active,
+                    color: Theme.of(context).colorScheme.primary,
+                    shadows: [
+                      BoxShadow(
+                        color: Theme.of(context).shadowColor,
+                        blurRadius: 8.r,
+                        offset: Offset(0, 4.h),
+                      ),
+                    ],
+                    size: 28.sp,
+                  ).animate().shake(duration: 1600.ms),
+                  content: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        child: Text(
+                          "${LocaleKeys.notificationPage_body.tr()}:",
+                          style: Theme.of(context).textTheme.labelMedium
+                              ?.copyWith(
+                                fontFamily: FontConstants.fontFamily(
+                                  context.locale,
+                                ),
+                              ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.w,
+                          vertical: 8.h,
+                        ),
+                        child: Container(
+                          height: 90.h,
+                          width: 284.w,
+                          padding: EdgeInsets.symmetric(
+                            vertical: 16.h,
+                            horizontal: 16.w,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.primaryContainer,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                message.notification?.body ??
+                                    LocaleKeys.notificationPage_noBody.tr(),
+                                style: Theme.of(context).textTheme.labelMedium
+                                    ?.copyWith(
+                                      fontFamily: FontConstants.fontFamily(
+                                        context.locale,
+                                      ),
+                                    ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        context.pop();
+                      },
+                      child: Text(
+                        LocaleKeys.notificationPage_ok.tr(),
+                        style: Theme.of(context).textTheme.labelMedium
+                            ?.copyWith(
+                              fontFamily: FontConstants.fontFamily(
+                                context.locale,
+                              ),
+                              color: Theme.of(context).primaryColor,
+                            ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        context.pop();
+                        context.pushNamed(
+                          RoutesName.serviceInfoPage,
+                          pathParameters: {
+                            "serviceId": message.data["booking_id"].toString(),
+                          },
+                        );
+                      },
+                      child: Text(
+                        LocaleKeys.notificationPage_show.tr(),
+                        style: Theme.of(context).textTheme.labelMedium
+                            ?.copyWith(
+                              fontFamily: FontConstants.fontFamily(
+                                context.locale,
+                              ),
+                              color: Theme.of(context).primaryColor,
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        }
+      });
+    } catch (e) {
+      if (mounted) {
+        showMessage(
+          message: LocaleKeys.common_someThingWentWrongWhileShowNotification
+              .tr(),
+          context: context,
+        );
+      }
+    }
+    try {
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+        if (mounted) {
+          context.pushNamed(
+            RoutesName.serviceInfoPage,
+            pathParameters: {
+              "serviceId": message.data["booking_id"].toString(),
+            },
+          );
+        }
+      });
+    } catch (e) {
+      if (mounted) {
+        showMessage(
+          message: LocaleKeys.common_someThingWentWrongWhileShowNotification
+              .tr(),
+          context: context,
+        );
+      }
+    }
+    try {
+      RemoteMessage? initialMessage = await FirebaseMessaging.instance
+          .getInitialMessage();
+      if (initialMessage != null) {
+        if (mounted) {
+          context.pushNamed(
+            RoutesName.serviceInfoPage,
+            pathParameters: {
+              "serviceId": initialMessage.data["booking_id"].toString(),
+            },
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        showMessage(
+          message: LocaleKeys.common_someThingWentWrongWhileShowNotification
+              .tr(),
+          context: context,
+        );
+      }
+    }
+  }
+
+  Future<void> onTokenRefresh() async {
+    FirebaseMessaging.instance.onTokenRefresh.listen((newToken) async {
+      final LoginStateEntity? loginState = getItInstance<AppPreferences>()
+          .getUserInfo();
+      if (newToken != loginState?.fcmToken) {
+        await getItInstance<AppPreferences>().setUserInfo(
+          loginStateEntity: loginState?.copyWith(
+            fcmToken: newToken,
+            isFcmTokenSet: false,
+          ),
+        );
+        if (mounted) {
+          await setFcmTokenForCurrentUser(context: context);
+        }
+      }
+    });
+  }
+
   @override
   void initState() {
     checkSessionValidity();
     super.initState();
+    setFcmTokenForCurrentUser(context: context);
+    onTokenRefresh();
+    getMessage();
   }
 
   @override

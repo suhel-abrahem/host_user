@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,8 +51,6 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
   StoreBookingModel storeBookingModel = StoreBookingModel();
   bool showBookingDetails = false;
   bool showBookingSchedule = false;
-  double showBookingDetailsPosition = -610.h;
-  double showBookingSchedulePosition = -610.0.h;
 
   TimeSlotsModel timeSlotsModel = TimeSlotsModel();
   String? selectedDate;
@@ -64,6 +63,10 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
   TimeSlotsEntity? selectedTimeSlots;
   bool gettingTimeSlotsHasError = false;
   bool gettingTimeSlots = false;
+  DraggableScrollableController bookingDetailsScrollableController =
+      DraggableScrollableController();
+  DraggableScrollableController bookingScheduleScrollableController =
+      DraggableScrollableController();
   Future<void> pickImages() async {
     ImageSource? source = ImageSource.gallery;
     int imagesNumber = images?.length ?? 0;
@@ -196,6 +199,40 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      bookingDetailsScrollableController.addListener(() {
+        if (bookingDetailsScrollableController.isAttached) {
+          print(
+            "booking details scroll size: ${bookingDetailsScrollableController.size}",
+          );
+          if (!showBookingDetails) {
+            bookingDetailsScrollableController.jumpTo(0);
+          }
+          if (bookingDetailsScrollableController.size <= 0.25) {
+            setState(() {
+              showBookingDetails = false;
+            });
+          }
+        }
+      });
+      bookingScheduleScrollableController.addListener(() {
+        if (bookingScheduleScrollableController.isAttached) {
+          if (!showBookingSchedule) {
+            bookingScheduleScrollableController.jumpTo(0);
+          }
+          if (bookingScheduleScrollableController.size <= 0.35) {
+            setState(() {
+              showBookingSchedule = false;
+            });
+          }
+        }
+      });
+    });
+  }
+
+  @override
   void didChangeDependencies() {
     serviceDetailsModel = ServiceDetailsModel(
       Accept_Language: Helper.getCountryCode(context),
@@ -237,95 +274,97 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
   }
 
   @override
+  dispose() {
+    bookingDetailsScrollableController.dispose();
+    bookingScheduleScrollableController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MainPage(
       title: widget.serviceEntity?.name ?? "",
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider<StoreBookingBloc>(
-            create: (storeBookingContext) =>
-                getItInstance<StoreBookingBloc>()
-                  ..add(StoreBookingEvent.started()),
-          ),
-          BlocProvider<TimeSlotsBloc>(
-            create: (context) =>
-                getItInstance<TimeSlotsBloc>()..add(TimeSlotsEvent.started()),
-          ),
-        ],
-        child: BlocListener<StoreBookingBloc, StoreBookingState>(
-          listener: (context, state) {
-            state.when(
-              initial: () {
-                gettingTimeSlotsHasError = false;
-                gettingTimeSlots = false;
-              },
-              loading: () {
-                showMessage(
-                  message: LocaleKeys.serviceDetailsPage_uploading.tr(),
-                  context: context,
-                );
-                gettingTimeSlots = true;
-                gettingTimeSlotsHasError = false;
-              },
-              success: () {
-                showMessage(
-                  message: LocaleKeys.common_success.tr(),
-                  context: context,
-                );
+      body: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: MultiBlocProvider(
+          providers: [
+            BlocProvider<StoreBookingBloc>(
+              create: (storeBookingContext) =>
+                  getItInstance<StoreBookingBloc>()
+                    ..add(StoreBookingEvent.started()),
+            ),
+            BlocProvider<TimeSlotsBloc>(
+              create: (context) =>
+                  getItInstance<TimeSlotsBloc>()..add(TimeSlotsEvent.started()),
+            ),
+          ],
+          child: BlocListener<StoreBookingBloc, StoreBookingState>(
+            listener: (context, state) {
+              state.when(
+                initial: () {
+                  gettingTimeSlotsHasError = false;
+                  gettingTimeSlots = false;
+                },
+                loading: () {
+                  showMessage(
+                    message: LocaleKeys.serviceDetailsPage_uploading.tr(),
+                    context: context,
+                  );
+                  gettingTimeSlots = true;
+                  gettingTimeSlotsHasError = false;
+                },
+                success: () {
+                  showMessage(
+                    message: LocaleKeys.common_success.tr(),
+                    context: context,
+                  );
 
-                setState(() {
-                  selectedDate = null;
-                  selectedSlot = null;
-                  images = [];
-                  nots = null;
-                  selectedSlot = null;
-                  scheduledAt = null;
-                  showBookingDetails = false;
-                  showBookingSchedule = false;
-                  showBookingDetailsPosition = -610.h;
-                  showBookingSchedulePosition = -610.h;
-                });
-                gettingTimeSlotsHasError = false;
-                gettingTimeSlots = false;
-                context.read<TimeSlotsBloc>().add(TimeSlotsEvent.started());
-              },
-              error: (e) {
-                showMessage(
-                  message: LocaleKeys.common_error.tr(),
-                  context: context,
-                );
-                gettingTimeSlotsHasError = true;
-                gettingTimeSlots = false;
-              },
-              sessionExpired: () async {
-                LoginStateEntity? loginStateEntity =
-                    getItInstance<AppPreferences>().getUserInfo();
-                await getItInstance<AppPreferences>().setUserInfo(
-                  loginStateEntity: loginStateEntity?.copyWith(
-                    loginStateEnum: LoginStateEnum.unlogined,
-                  ),
-                );
-                gettingTimeSlotsHasError = true;
-                gettingTimeSlots = false;
-              },
-              noInternet: () {
-                showMessage(
-                  message: LocaleKeys.common_noInternetPullDown.tr(),
-                  context: context,
-                );
-                gettingTimeSlotsHasError = true;
-                gettingTimeSlots = false;
-              },
-            );
-          },
-          child: Stack(
-            children: [
-              PositionedDirectional(
-                start: 0,
-                top: 0,
-                end: 0,
-                bottom: 0,
-                child: ListView(
+                  setState(() {
+                    selectedDate = null;
+                    selectedSlot = null;
+                    images = [];
+                    nots = null;
+                    selectedSlot = null;
+                    scheduledAt = null;
+                    showBookingDetails = false;
+                    showBookingSchedule = false;
+                  });
+                  gettingTimeSlotsHasError = false;
+                  gettingTimeSlots = false;
+                  context.read<TimeSlotsBloc>().add(TimeSlotsEvent.started());
+                },
+                error: (e) {
+                  showMessage(
+                    message: LocaleKeys.common_error.tr(),
+                    context: context,
+                  );
+                  gettingTimeSlotsHasError = true;
+                  gettingTimeSlots = false;
+                },
+                sessionExpired: () async {
+                  LoginStateEntity? loginStateEntity =
+                      getItInstance<AppPreferences>().getUserInfo();
+                  await getItInstance<AppPreferences>().setUserInfo(
+                    loginStateEntity: loginStateEntity?.copyWith(
+                      loginStateEnum: LoginStateEnum.unlogined,
+                    ),
+                  );
+                  gettingTimeSlotsHasError = true;
+                  gettingTimeSlots = false;
+                },
+                noInternet: () {
+                  showMessage(
+                    message: LocaleKeys.common_noInternetPullDown.tr(),
+                    context: context,
+                  );
+                  gettingTimeSlotsHasError = true;
+                  gettingTimeSlots = false;
+                },
+              );
+            },
+            child: Stack(
+              children: [
+                ListView(
                   children: [
                     Padding(
                       padding: EdgeInsetsGeometry.symmetric(
@@ -710,15 +749,14 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                                     width: 200.w,
                                                     child: ElevatedButton(
                                                       onPressed: () {
+                                                        print(
+                                                          "book now pressed for service id: ${serviceDetailsEntity?[index]?.provider_service?["id"]}",
+                                                        );
                                                         setState(() {
                                                           showBookingDetails =
                                                               true;
                                                           showBookingSchedule =
                                                               false;
-                                                          showBookingSchedulePosition =
-                                                              -620.h;
-                                                          showBookingDetailsPosition =
-                                                              0;
 
                                                           timeSlotsModel =
                                                               timeSlotsModel.copyWith(
@@ -804,701 +842,343 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                     ),
                   ],
                 ),
-              ),
-              if (showBookingDetails)
-                AnimatedPositionedDirectional(
-                  duration: Duration(milliseconds: 300),
-                  bottom: showBookingDetailsPosition,
-                  start: 0,
-                  end: 0,
-                  child: GestureDetector(
-                    onVerticalDragUpdate: (details) {
-                      if (showBookingDetailsPosition + -details.delta.dy >
-                              -200.h &&
-                          showBookingDetailsPosition + -details.delta.dy <= 0) {
-                        setState(() {
-                          showBookingDetailsPosition += -details.delta.dy;
-                        });
-                      } else if (showBookingDetailsPosition +
-                              -details.delta.dy <
-                          -200) {
-                        setState(() {
-                          showBookingDetailsPosition = -610.h;
-                          showBookingDetails = false;
-                          showBookingSchedule = false;
-                        });
-                      }
-                    },
-                    onVerticalDragEnd: (details) {
-                      if (showBookingDetailsPosition < -210.h) {
-                        setState(() {
-                          showBookingDetailsPosition = -610.h;
-                          showBookingDetails = false;
-                          showBookingSchedule = false;
-                        });
-                      } else {
-                        setState(() {
-                          showBookingDetailsPosition = 0.0;
-                        });
-                      }
-                    },
-                    child: Container(
-                      height: 600.h,
-                      padding: EdgeInsets.symmetric(
-                        vertical: 16.h,
-                        horizontal: 16.w,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Theme.of(context).shadowColor.withValues(
-                              alpha:
-                                  1 *
-                                  (showBookingDetailsPosition + 600.h) /
-                                  600.h,
-                            ),
-                            blurRadius: 1.r,
 
-                            offset: Offset(0, -2.h),
-                          ),
-                        ],
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(30.r),
+                Visibility(
+                  visible: showBookingDetails,
+                  child: DraggableScrollableSheet(
+                    controller: bookingDetailsScrollableController,
+
+                    builder: (context, scrollController) {
+                      return Container(
+                        height: 600.h,
+                        padding: EdgeInsets.symmetric(
+                          vertical: 16.h,
+                          horizontal: 16.w,
                         ),
-                      ),
-                      child: ListView(
-                        shrinkWrap: false,
-                        scrollDirection: Axis.vertical,
-                        children: [
-                          Center(
-                            child:
-                                Container(
-                                  width: 60.w,
-                                  height: 6.h,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        (Theme.of(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context).shadowColor,
+                              blurRadius: 1.r,
+
+                              offset: Offset(0, -2.h),
+                            ),
+                          ],
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(30.r),
+                          ),
+                        ),
+                        child: ListView(
+                          controller: scrollController,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          physics: const BouncingScrollPhysics(),
+                          children: [
+                            Center(
+                              child:
+                                  Container(
+                                    width: 60.w,
+                                    height: 6.h,
+                                    decoration: BoxDecoration(
+                                      color:
+                                          (Theme.of(
+                                                context,
+                                              ).textTheme.labelLarge?.color !=
+                                              null)
+                                          ? Theme.of(
                                               context,
-                                            ).textTheme.labelLarge?.color !=
-                                            null)
-                                        ? Theme.of(context)
-                                              .textTheme
-                                              .labelLarge
-                                              ?.color
-                                              ?.withValues(
-                                                alpha:
-                                                    1 *
-                                                    (showBookingDetailsPosition +
-                                                        220.h) /
-                                                    220.h,
-                                              )
-                                        : Theme.of(
-                                            context,
-                                          ).textTheme.labelLarge?.color,
-                                    borderRadius: BorderRadius.circular(12.r),
-                                  ),
-                                ).animate().scaleXY(
-                                  duration: 900.ms,
-
-                                  curve: Curves.easeInOut,
-                                ),
-                          ),
-
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20.h),
-                            child:
-                                CustomInputField(
-                                  width: double.maxFinite,
-                                  label: LocaleKeys
-                                      .serviceDetailsPage_describeYourIssue
-                                      .tr(),
-                                  maxLines: 5,
-                                  isRequired: false,
-                                  initialValue: nots,
-                                  hintText: LocaleKeys
-                                      .serviceDetailsPage_pleaseDescribeYourIssueInDetail
-                                      .tr(),
-                                  onChanged: (value) =>
-                                      storeBookingModel = nots = value,
-                                ).animate().scaleXY(
-                                  duration: 900.ms,
-
-                                  curve: Curves.easeInOut,
-                                ),
-                          ),
-
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 8.h),
-                            child: Text(
-                              LocaleKeys.serviceDetailsPage_addAttachments.tr(),
-                              style: Theme.of(context).textTheme.labelLarge
-                                  ?.copyWith(
-                                    fontFamily: FontConstants.fontFamily(
-                                      context.locale,
+                                            ).textTheme.labelLarge?.color
+                                          : Theme.of(
+                                              context,
+                                            ).textTheme.labelLarge?.color,
+                                      borderRadius: BorderRadius.circular(12.r),
                                     ),
+                                  ).animate().scaleXY(
+                                    duration: 900.ms,
+
+                                    curve: Curves.easeInOut,
                                   ),
                             ),
-                          ).animate().scaleXY(
-                            duration: 900.ms,
 
-                            curve: Curves.easeInOut,
-                          ),
-                          Center(
-                            child: LayoutBuilder(
-                              builder: (context, constraints) {
-                                if (images?.isEmpty ?? true) {
-                                  return SizedBox(
-                                    height: 100.h,
-                                    width: 100.w,
-                                    child: ElevatedButton(
-                                      style: Theme.of(context)
-                                          .elevatedButtonTheme
-                                          .style
-                                          ?.copyWith(
-                                            backgroundColor:
-                                                WidgetStatePropertyAll(
-                                                  Theme.of(context)
-                                                      .colorScheme
-                                                      .primaryContainer,
-                                                ),
-                                          ),
-                                      onPressed: () async {
-                                        await pickImages();
-                                      },
-                                      child: Icon(
-                                        Icons.add,
-                                        color: Theme.of(context).primaryColor,
-                                        size: 40.sp,
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20.h),
+                              child:
+                                  CustomInputField(
+                                    width: double.maxFinite,
+                                    label: LocaleKeys
+                                        .serviceDetailsPage_describeYourIssue
+                                        .tr(),
+                                    maxLines: 5,
+                                    isRequired: false,
+                                    initialValue: nots,
+                                    hintText: LocaleKeys
+                                        .serviceDetailsPage_pleaseDescribeYourIssueInDetail
+                                        .tr(),
+                                    onChanged: (value) =>
+                                        storeBookingModel = nots = value,
+                                  ).animate().scaleXY(
+                                    duration: 900.ms,
+
+                                    curve: Curves.easeInOut,
+                                  ),
+                            ),
+
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 8.h),
+                              child: Text(
+                                LocaleKeys.serviceDetailsPage_addAttachments
+                                    .tr(),
+                                style: Theme.of(context).textTheme.labelLarge
+                                    ?.copyWith(
+                                      fontFamily: FontConstants.fontFamily(
+                                        context.locale,
                                       ),
+                                    ),
+                              ),
+                            ).animate().scaleXY(
+                              duration: 900.ms,
+
+                              curve: Curves.easeInOut,
+                            ),
+                            Center(
+                              child: LayoutBuilder(
+                                builder: (context, constraints) {
+                                  if (images?.isEmpty ?? true) {
+                                    return SizedBox(
+                                      height: 100.h,
+                                      width: 100.w,
+                                      child: ElevatedButton(
+                                        style: Theme.of(context)
+                                            .elevatedButtonTheme
+                                            .style
+                                            ?.copyWith(
+                                              backgroundColor:
+                                                  WidgetStatePropertyAll(
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .primaryContainer,
+                                                  ),
+                                            ),
+                                        onPressed: () async {
+                                          await pickImages();
+                                        },
+                                        child: Icon(
+                                          Icons.add,
+                                          color: Theme.of(context).primaryColor,
+                                          size: 40.sp,
+                                        ),
+                                      ),
+                                    ).animate().scaleXY(
+                                      duration: 900.ms,
+                                      curve: Curves.easeInOut,
+                                    );
+                                  }
+                                  return Container(
+                                    height: 260.h,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 12.w,
+                                      vertical: 8.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      border: Border.fromBorderSide(
+                                        Theme.of(context).defaultBorderSide,
+                                      ),
+                                      borderRadius: BorderRadius.circular(12.r),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 180.h,
+                                          width: double.maxFinite,
+                                          child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: images?.length ?? 0,
+                                            itemBuilder: (context, index) {
+                                              return Stack(
+                                                children: [
+                                                  Positioned(
+                                                    child: Container(
+                                                      width: 150.w,
+                                                      height: 180.h,
+                                                      margin:
+                                                          EdgeInsetsDirectional.only(
+                                                            end: 16.w,
+
+                                                            bottom: 8.h,
+                                                          ),
+
+                                                      clipBehavior:
+                                                          Clip.hardEdge,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              12.r,
+                                                            ),
+                                                        border:
+                                                            Border.fromBorderSide(
+                                                              Theme.of(
+                                                                context,
+                                                              ).defaultBorderSide,
+                                                            ),
+                                                      ),
+                                                      child:
+                                                          images?[index] != null
+                                                          ? ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius.circular(
+                                                                    12.r,
+                                                                  ),
+                                                              child: Image.file(
+                                                                images?[index] ??
+                                                                    File(""),
+                                                                width: 150.w,
+                                                                height: 100.h,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            )
+                                                          : Icon(
+                                                              Icons
+                                                                  .broken_image,
+                                                              size: 100.sp,
+                                                            ),
+                                                    ),
+                                                  ),
+                                                  Positioned(
+                                                    top: -10.h,
+                                                    right: -10,
+                                                    child: ElevatedButton(
+                                                      style: Theme.of(context)
+                                                          .elevatedButtonTheme
+                                                          .style
+                                                          ?.copyWith(
+                                                            shape:
+                                                                WidgetStatePropertyAll(
+                                                                  CircleBorder(),
+                                                                ),
+                                                            padding:
+                                                                WidgetStatePropertyAll(
+                                                                  EdgeInsets.all(
+                                                                    4.r,
+                                                                  ),
+                                                                ),
+                                                            minimumSize:
+                                                                WidgetStatePropertyAll(
+                                                                  Size(
+                                                                    24.w,
+                                                                    24.h,
+                                                                  ),
+                                                                ),
+                                                            backgroundColor:
+                                                                WidgetStatePropertyAll(
+                                                                  Theme.of(
+                                                                        context,
+                                                                      )
+                                                                      .colorScheme
+                                                                      .errorContainer,
+                                                                ),
+                                                          ),
+                                                      onPressed: () {
+                                                        print(
+                                                          "im index ${index}",
+                                                        );
+                                                        setState(() {
+                                                          images?.removeAt(
+                                                            index,
+                                                          );
+                                                        });
+                                                      },
+                                                      child: Icon(
+                                                        Icons.close,
+                                                        size: 16.sp,
+                                                        color: ColorManager
+                                                            .darkTextColor,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 8.h,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              ElevatedButton(
+                                                style: Theme.of(context)
+                                                    .elevatedButtonTheme
+                                                    .style
+                                                    ?.copyWith(
+                                                      shape:
+                                                          WidgetStatePropertyAll(
+                                                            CircleBorder(),
+                                                          ),
+                                                    ),
+                                                onPressed: () async {
+                                                  await pickImages();
+                                                },
+                                                child: Icon(
+                                                  Icons.add,
+                                                  size: 24.sp,
+                                                  color: ColorManager
+                                                      .darkTextColor,
+                                                ),
+                                              ),
+                                              ElevatedButton(
+                                                style: Theme.of(context)
+                                                    .elevatedButtonTheme
+                                                    .style
+                                                    ?.copyWith(
+                                                      shape:
+                                                          WidgetStatePropertyAll(
+                                                            CircleBorder(),
+                                                          ),
+                                                    ),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    images = [];
+                                                  });
+                                                },
+                                                child: Icon(
+                                                  Icons.delete_forever,
+                                                  size: 24.sp,
+                                                  color: ColorManager
+                                                      .darkTextColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ).animate().scaleXY(
                                     duration: 900.ms,
                                     curve: Curves.easeInOut,
                                   );
-                                }
-                                return Container(
-                                  height: 260.h,
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 12.w,
-                                    vertical: 8.h,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border.fromBorderSide(
-                                      Theme.of(context).defaultBorderSide,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12.r),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 180.h,
-                                        width: double.maxFinite,
-                                        child: ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: images?.length ?? 0,
-                                          itemBuilder: (context, index) {
-                                            return Stack(
-                                              children: [
-                                                Positioned(
-                                                  child: Container(
-                                                    width: 150.w,
-                                                    height: 180.h,
-                                                    margin:
-                                                        EdgeInsetsDirectional.only(
-                                                          end: 16.w,
-
-                                                          bottom: 8.h,
-                                                        ),
-
-                                                    clipBehavior: Clip.hardEdge,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            12.r,
-                                                          ),
-                                                      border:
-                                                          Border.fromBorderSide(
-                                                            Theme.of(
-                                                              context,
-                                                            ).defaultBorderSide,
-                                                          ),
-                                                    ),
-                                                    child:
-                                                        images?[index] != null
-                                                        ? ClipRRect(
-                                                            borderRadius:
-                                                                BorderRadius.circular(
-                                                                  12.r,
-                                                                ),
-                                                            child: Image.file(
-                                                              images?[index] ??
-                                                                  File(""),
-                                                              width: 150.w,
-                                                              height: 100.h,
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                          )
-                                                        : Icon(
-                                                            Icons.broken_image,
-                                                            size: 100.sp,
-                                                          ),
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  top: -10.h,
-                                                  right: -10,
-                                                  child: ElevatedButton(
-                                                    style: Theme.of(context)
-                                                        .elevatedButtonTheme
-                                                        .style
-                                                        ?.copyWith(
-                                                          shape:
-                                                              WidgetStatePropertyAll(
-                                                                CircleBorder(),
-                                                              ),
-                                                          padding:
-                                                              WidgetStatePropertyAll(
-                                                                EdgeInsets.all(
-                                                                  4.r,
-                                                                ),
-                                                              ),
-                                                          minimumSize:
-                                                              WidgetStatePropertyAll(
-                                                                Size(
-                                                                  24.w,
-                                                                  24.h,
-                                                                ),
-                                                              ),
-                                                          backgroundColor:
-                                                              WidgetStatePropertyAll(
-                                                                Theme.of(
-                                                                      context,
-                                                                    )
-                                                                    .colorScheme
-                                                                    .errorContainer,
-                                                              ),
-                                                        ),
-                                                    onPressed: () {
-                                                      print(
-                                                        "im index ${index}",
-                                                      );
-                                                      setState(() {
-                                                        images?.removeAt(index);
-                                                      });
-                                                    },
-                                                    child: Icon(
-                                                      Icons.close,
-                                                      size: 16.sp,
-                                                      color: ColorManager
-                                                          .darkTextColor,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 8.h,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            ElevatedButton(
-                                              style: Theme.of(context)
-                                                  .elevatedButtonTheme
-                                                  .style
-                                                  ?.copyWith(
-                                                    shape:
-                                                        WidgetStatePropertyAll(
-                                                          CircleBorder(),
-                                                        ),
-                                                  ),
-                                              onPressed: () async {
-                                                await pickImages();
-                                              },
-                                              child: Icon(
-                                                Icons.add,
-                                                size: 24.sp,
-                                                color:
-                                                    ColorManager.darkTextColor,
-                                              ),
-                                            ),
-                                            ElevatedButton(
-                                              style: Theme.of(context)
-                                                  .elevatedButtonTheme
-                                                  .style
-                                                  ?.copyWith(
-                                                    shape:
-                                                        WidgetStatePropertyAll(
-                                                          CircleBorder(),
-                                                        ),
-                                                  ),
-                                              onPressed: () {
-                                                setState(() {
-                                                  images = [];
-                                                });
-                                              },
-                                              child: Icon(
-                                                Icons.delete_forever,
-                                                size: 24.sp,
-                                                color:
-                                                    ColorManager.darkTextColor,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ).animate().scaleXY(
-                                  duration: 900.ms,
-                                  curve: Curves.easeInOut,
-                                );
-                              },
-                            ),
-                          ),
-
-                          Padding(
-                            padding: EdgeInsets.only(top: 20.h),
-                            child: SizedBox(
-                              width: double.maxFinite,
-                              child:
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        showBookingDetailsPosition = -620.h;
-                                        showBookingDetails = false;
-                                        showBookingSchedule = true;
-                                        showBookingSchedulePosition = 0;
-                                      });
-                                    },
-                                    child: Text(
-                                      LocaleKeys.serviceDetailsPage_next.tr(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge
-                                          ?.copyWith(
-                                            fontFamily:
-                                                FontConstants.fontFamily(
-                                                  context.locale,
-                                                ),
-                                            color: ColorManager.darkTextColor,
-                                          ),
-                                    ),
-                                  ).animate().scaleXY(
-                                    duration: 900.ms,
-                                    curve: Curves.easeInOut,
-                                  ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ).animate().slideY(begin: 1.0, end: 0.0, duration: 600.ms, curve: Curves.easeInOut),
-                  ),
-                ),
-              if (showBookingSchedule)
-                AnimatedPositionedDirectional(
-                  duration: Duration(milliseconds: 300),
-                  bottom: showBookingSchedulePosition,
-                  start: 0,
-                  end: 0,
-                  child: GestureDetector(
-                    onVerticalDragUpdate: (details) {
-                      if (showBookingSchedulePosition + -details.delta.dy >
-                              -200.h &&
-                          showBookingSchedulePosition + -details.delta.dy <=
-                              0) {
-                        setState(() {
-                          showBookingSchedulePosition += -details.delta.dy;
-                        });
-                      } else if (showBookingSchedulePosition +
-                              -details.delta.dy <
-                          -200) {
-                        setState(() {
-                          showBookingSchedulePosition = -610.h;
-                          showBookingDetails = false;
-                          showBookingSchedule = false;
-                        });
-                      }
-                    },
-                    onVerticalDragEnd: (details) {
-                      if (showBookingSchedulePosition < -210.h) {
-                        setState(() {
-                          showBookingSchedulePosition = -610.h;
-                          showBookingDetails = false;
-                          showBookingSchedule = false;
-                        });
-                      } else {
-                        setState(() {
-                          showBookingSchedulePosition = 0.0;
-                        });
-                      }
-                    },
-                    child:
-                        Container(
-                          height: 600.h,
-                          padding: EdgeInsets.symmetric(
-                            vertical: 16.h,
-                            horizontal: 16.w,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.primaryContainer,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context).shadowColor.withValues(
-                                  alpha:
-                                      1 *
-                                      (showBookingDetailsPosition + 600.h) /
-                                      600.h,
-                                ),
-                                blurRadius: 1.r,
-
-                                offset: Offset(0, -2.h),
+                                },
                               ),
-                            ],
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(30.r),
                             ),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 60.w,
-                                height: 6.h,
-                                decoration: BoxDecoration(
-                                  color:
-                                      (Theme.of(
-                                            context,
-                                          ).textTheme.labelLarge?.color !=
-                                          null)
-                                      ? Theme.of(context)
-                                            .textTheme
-                                            .labelLarge
-                                            ?.color
-                                            ?.withValues(
-                                              alpha:
-                                                  1 *
-                                                  (showBookingSchedulePosition +
-                                                      220.h) /
-                                                  220.h,
-                                            )
-                                      : Theme.of(
-                                          context,
-                                        ).textTheme.labelLarge?.color,
-                                  borderRadius: BorderRadius.circular(12.r),
-                                ),
-                              ).animate().scaleXY(
-                                duration: 900.ms,
-                                curve: Curves.easeInOut,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 12.h),
-                                child: Text(
-                                  LocaleKeys.serviceDetailsPage_chooseDay.tr(),
-                                  style: Theme.of(context).textTheme.labelLarge
-                                      ?.copyWith(
-                                        fontFamily: FontConstants.fontFamily(
-                                          context.locale,
-                                        ),
-                                      ),
-                                ),
-                              ).animate().scaleXY(
-                                duration: 900.ms,
-                                curve: Curves.easeInOut,
-                              ),
-                              SizedBox(
-                                height: 80.h,
+
+                            Padding(
+                              padding: EdgeInsets.only(top: 20.h),
+                              child: SizedBox(
                                 width: double.maxFinite,
-                                child: Builder(
-                                  builder: (context) {
-                                    return SevenDaysCalender(
-                                      selectedDate: selectedDate,
-                                      startDate: DateFormat(
-                                        "yyyy-MM-dd",
-                                      ).parse(DateTime.now().toString()),
-                                      onDateSelected: (date) {
-                                        setState(() {
-                                          selectedDate = date;
-                                          selectedTimeSlots = timeSlots
-                                              ?.firstWhere(
-                                                (element) =>
-                                                    element?.date ==
-                                                    selectedDate,
-                                                orElse: () => null,
-                                              );
-                                          if (gettingTimeSlotsHasError) {
-                                            if (gettingTimeSlots == false) {
-                                              context.read<TimeSlotsBloc>().add(
-                                                TimeSlotsEvent.getTimeSlots(
-                                                  timeSlotsModel:
-                                                      timeSlotsModel,
-                                                ),
-                                              );
-                                            }
-                                          }
-                                        });
-                                      },
-                                    );
-                                  },
-                                ),
-                              ).animate().scaleXY(
-                                duration: 900.ms,
-                                curve: Curves.easeInOut,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 12.h),
-                                child: Text(
-                                  LocaleKeys.serviceDetailsPage_availableTimes
-                                      .tr(),
-                                  style: Theme.of(context).textTheme.labelLarge
-                                      ?.copyWith(
-                                        fontFamily: FontConstants.fontFamily(
-                                          context.locale,
-                                        ),
-                                      ),
-                                ),
-                              ).animate().scaleXY(
-                                duration: 900.ms,
-                                curve: Curves.easeInOut,
-                              ),
-                              AnimatedSwitcher(
-                                duration: 300.ms,
-                                child: Padding(
-                                  key: ValueKey(selectedDate),
-                                  padding: EdgeInsets.only(top: 0.h),
-                                  child:
-                                      (selectedTimeSlots?.slots?.isEmpty ??
-                                          true)
-                                      ? Text(
-                                          LocaleKeys.common_noThingToShow.tr(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelLarge
-                                              ?.copyWith(
-                                                fontFamily:
-                                                    FontConstants.fontFamily(
-                                                      context.locale,
-                                                    ),
-                                              ),
-                                        )
-                                      : SizedBox(
-                                          height: 320.h,
-                                          child: GridView.builder(
-                                            gridDelegate:
-                                                SliverGridDelegateWithFixedCrossAxisCount(
-                                                  crossAxisCount: 3,
-                                                  mainAxisSpacing: 12.h,
-                                                  crossAxisSpacing: 12.w,
-                                                  childAspectRatio: 2.5,
-                                                ),
-                                            itemCount:
-                                                selectedTimeSlots
-                                                    ?.slots
-                                                    ?.length ??
-                                                0,
-                                            itemBuilder: (context, index) {
-                                              final slot = selectedTimeSlots
-                                                  ?.slots?[index];
-                                              final isSelected =
-                                                  selectedSlot == slot;
-                                              return ElevatedButton(
-                                                style: Theme.of(context)
-                                                    .elevatedButtonTheme
-                                                    .style
-                                                    ?.copyWith(
-                                                      backgroundColor:
-                                                          WidgetStatePropertyAll(
-                                                            isSelected
-                                                                ? Theme.of(
-                                                                        context,
-                                                                      )
-                                                                      .colorScheme
-                                                                      .primary
-                                                                : Theme.of(
-                                                                        context,
-                                                                      )
-                                                                      .colorScheme
-                                                                      .primaryContainer,
-                                                          ),
-                                                    ),
-                                                onPressed:
-                                                    slot?.is_available == true
-                                                    ? () {
-                                                        setState(() {
-                                                          selectedSlot = slot;
-                                                          scheduledAt =
-                                                              " ${slot?.start_time}";
-                                                        });
-                                                      }
-                                                    : null,
-                                                child: Text(
-                                                  slot?.start_time ?? "",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .labelLarge
-                                                      ?.copyWith(
-                                                        fontFamily:
-                                                            FontConstants.fontFamily(
-                                                              context.locale,
-                                                            ),
-                                                        color: isSelected
-                                                            ? ColorManager
-                                                                  .darkTextColor
-                                                            : Theme.of(context)
-                                                                  .textTheme
-                                                                  .labelLarge
-                                                                  ?.color,
-                                                      ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                ),
-                              ).animate().scaleXY(
-                                duration: 900.ms,
-                                curve: Curves.easeInOut,
-                              ),
-                              Spacer(),
-                              SizedBox(
-                                width: double.maxFinite,
-                                child: Builder(
-                                  builder: (context) {
-                                    return ElevatedButton(
+                                child:
+                                    ElevatedButton(
                                       onPressed: () {
                                         setState(() {
-                                          showBookingDetailsPosition = -620.h;
                                           showBookingDetails = false;
-                                          showBookingSchedule = false;
-                                          showBookingSchedulePosition = -620.h;
+                                          showBookingSchedule = true;
                                         });
-                                        print("Selected Date: $selectedDate");
-                                        scheduledAt =
-                                            "${selectedDate ?? ""} $scheduledAt";
-                                        storeBookingModel = storeBookingModel
-                                            .copyWith(
-                                              notes: nots,
-                                              attachments: images,
-                                              scheduledAt: scheduledAt,
-                                            );
-                                        context.read<StoreBookingBloc>().add(
-                                          StoreBookingEvent.storeBooking(
-                                            storeBookingModel:
-                                                storeBookingModel,
-                                          ),
-                                        );
                                       },
                                       child: Text(
-                                        LocaleKeys
-                                            .serviceDetailsPage_ConfirmBooking
-                                            .tr(),
+                                        LocaleKeys.serviceDetailsPage_next.tr(),
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelLarge
@@ -1510,24 +1190,303 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                               color: ColorManager.darkTextColor,
                                             ),
                                       ),
-                                    );
-                                  },
-                                ),
-                              ).animate().scaleXY(
-                                duration: 900.ms,
-                                curve: Curves.easeInOut,
+                                    ).animate().scaleXY(
+                                      duration: 900.ms,
+                                      curve: Curves.easeInOut,
+                                    ),
                               ),
-                            ],
-                          ),
-                        ).animate().slideY(
-                          begin: 1.0,
-                          end: 0.0,
-                          duration: 600.ms,
-                          curve: Curves.easeInOut,
+                            ),
+                          ],
                         ),
+                      ).animate().slideY(
+                        begin: 1.0,
+                        end: 0.0,
+                        duration: 600.ms,
+                        curve: Curves.easeInOut,
+                      );
+                    },
                   ),
                 ),
-            ],
+
+                Visibility(
+                  visible: showBookingSchedule,
+                  child: DraggableScrollableSheet(
+                    controller: bookingScheduleScrollableController,
+                    builder: (context, scrollController) {
+                      return Container(
+                        height: 600.h,
+                        padding: EdgeInsets.symmetric(
+                          vertical: 16.h,
+                          horizontal: 16.w,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context).shadowColor,
+                              blurRadius: 1.r,
+
+                              offset: Offset(0, -2.h),
+                            ),
+                          ],
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(30.r),
+                          ),
+                        ),
+                        child: ListView(
+                          controller: scrollController,
+                          shrinkWrap: true,
+                          children: [
+                            Center(
+                              child:
+                                  Container(
+                                    width: 60.w,
+                                    height: 6.h,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(
+                                        context,
+                                      ).textTheme.labelLarge?.color,
+                                      borderRadius: BorderRadius.circular(12.r),
+                                    ),
+                                  ).animate().scaleXY(
+                                    duration: 900.ms,
+                                    curve: Curves.easeInOut,
+                                  ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 12.h),
+                              child: Text(
+                                LocaleKeys.serviceDetailsPage_chooseDay.tr(),
+                                style: Theme.of(context).textTheme.labelLarge
+                                    ?.copyWith(
+                                      fontFamily: FontConstants.fontFamily(
+                                        context.locale,
+                                      ),
+                                    ),
+                              ),
+                            ).animate().scaleXY(
+                              duration: 900.ms,
+                              curve: Curves.easeInOut,
+                            ),
+                            SizedBox(
+                              height: 80.h,
+                              width: double.maxFinite,
+                              child: Builder(
+                                builder: (context) {
+                                  return SevenDaysCalender(
+                                    selectedDate: selectedDate,
+                                    startDate: DateFormat(
+                                      "yyyy-MM-dd",
+                                    ).parse(DateTime.now().toString()),
+                                    onDateSelected: (date) {
+                                      setState(() {
+                                        selectedDate = date;
+                                        selectedTimeSlots = timeSlots
+                                            ?.firstWhere(
+                                              (element) =>
+                                                  element?.date == selectedDate,
+                                              orElse: () => null,
+                                            );
+                                        if (gettingTimeSlotsHasError) {
+                                          if (gettingTimeSlots == false) {
+                                            context.read<TimeSlotsBloc>().add(
+                                              TimeSlotsEvent.getTimeSlots(
+                                                timeSlotsModel: timeSlotsModel,
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      });
+                                    },
+                                  );
+                                },
+                              ),
+                            ).animate().scaleXY(
+                              duration: 900.ms,
+                              curve: Curves.easeInOut,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 12.h),
+                              child: Text(
+                                LocaleKeys.serviceDetailsPage_availableTimes
+                                    .tr(),
+                                style: Theme.of(context).textTheme.labelLarge
+                                    ?.copyWith(
+                                      fontFamily: FontConstants.fontFamily(
+                                        context.locale,
+                                      ),
+                                    ),
+                              ),
+                            ).animate().scaleXY(
+                              duration: 900.ms,
+                              curve: Curves.easeInOut,
+                            ),
+                            AnimatedSwitcher(
+                              duration: 300.ms,
+                              child: Padding(
+                                key: ValueKey(selectedDate),
+                                padding: EdgeInsets.only(top: 0.h),
+                                child:
+                                    (selectedTimeSlots?.slots?.isEmpty ?? true)
+                                    ? Text(
+                                        LocaleKeys.common_noThingToShow.tr(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge
+                                            ?.copyWith(
+                                              fontFamily:
+                                                  FontConstants.fontFamily(
+                                                    context.locale,
+                                                  ),
+                                            ),
+                                      )
+                                    : SizedBox(
+                                        height: 320.h,
+                                        child: GridView.builder(
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 3,
+                                                mainAxisSpacing: 12.h,
+                                                crossAxisSpacing: 12.w,
+                                                childAspectRatio: 2.5,
+                                              ),
+                                          itemCount:
+                                              selectedTimeSlots
+                                                  ?.slots
+                                                  ?.length ??
+                                              0,
+                                          itemBuilder: (context, index) {
+                                            final slot = selectedTimeSlots
+                                                ?.slots?[index];
+                                            final isSelected =
+                                                selectedSlot == slot;
+                                            return ElevatedButton(
+                                              style: Theme.of(context)
+                                                  .elevatedButtonTheme
+                                                  .style
+                                                  ?.copyWith(
+                                                    backgroundColor:
+                                                        WidgetStatePropertyAll(
+                                                          isSelected
+                                                              ? Theme.of(
+                                                                      context,
+                                                                    )
+                                                                    .colorScheme
+                                                                    .primary
+                                                              : Theme.of(
+                                                                      context,
+                                                                    )
+                                                                    .colorScheme
+                                                                    .primaryContainer,
+                                                        ),
+                                                  ),
+                                              onPressed:
+                                                  slot?.is_available == true
+                                                  ? () {
+                                                      setState(() {
+                                                        selectedSlot = slot;
+                                                        scheduledAt =
+                                                            " ${slot?.start_time}";
+                                                      });
+                                                    }
+                                                  : null,
+                                              child: Text(
+                                                slot?.start_time ?? "",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .labelLarge
+                                                    ?.copyWith(
+                                                      fontFamily:
+                                                          FontConstants.fontFamily(
+                                                            context.locale,
+                                                          ),
+                                                      color: isSelected
+                                                          ? ColorManager
+                                                                .darkTextColor
+                                                          : Theme.of(context)
+                                                                .textTheme
+                                                                .labelLarge
+                                                                ?.color,
+                                                    ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                              ),
+                            ).animate().scaleXY(
+                              duration: 900.ms,
+                              curve: Curves.easeInOut,
+                            ),
+
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20.h),
+                              child:
+                                  SizedBox(
+                                    width: double.maxFinite,
+                                    child: Builder(
+                                      builder: (context) {
+                                        return ElevatedButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              showBookingDetails = false;
+                                              showBookingSchedule = false;
+                                            });
+                                            print(
+                                              "Selected Date: $selectedDate",
+                                            );
+                                            scheduledAt =
+                                                "${selectedDate ?? ""} $scheduledAt";
+                                            storeBookingModel =
+                                                storeBookingModel.copyWith(
+                                                  notes: nots,
+                                                  attachments: images,
+                                                  scheduledAt: scheduledAt,
+                                                );
+                                            context.read<StoreBookingBloc>().add(
+                                              StoreBookingEvent.storeBooking(
+                                                storeBookingModel:
+                                                    storeBookingModel,
+                                              ),
+                                            );
+                                          },
+                                          child: Text(
+                                            LocaleKeys
+                                                .serviceDetailsPage_ConfirmBooking
+                                                .tr(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelLarge
+                                                ?.copyWith(
+                                                  fontFamily:
+                                                      FontConstants.fontFamily(
+                                                        context.locale,
+                                                      ),
+                                                  color: ColorManager
+                                                      .darkTextColor,
+                                                ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ).animate().scaleXY(
+                                    duration: 900.ms,
+                                    curve: Curves.easeInOut,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ).animate().slideY(
+                        begin: 1.0,
+                        end: 0.0,
+                        duration: 600.ms,
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -5,22 +7,29 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../config/route/routes_manager.dart';
 import '../../../../config/theme/app_theme.dart';
 import '../../../../core/constants/font_constants.dart';
 import '../../../../core/constants/language_constant.dart';
 
+import '../../../../core/data_state/data_state.dart';
 import '../../../../core/resource/color_manager.dart';
+import '../../../../core/resource/common_service/common_service.dart';
 import '../../../../core/resource/common_state_widget/error_state_widget.dart';
 import '../../../../core/resource/common_state_widget/no_data_state_widget.dart';
 import '../../../../core/resource/common_state_widget/no_internet_state_widget.dart';
 import '../../../../core/resource/custom_widget/snake_bar_widget/snake_bar_widget.dart';
 
 import '../../../../core/resource/main_page/main_page.dart';
+import '../../../../core/resource/rst_stream/rst_stream.dart';
 import '../../../../core/util/helper/helper.dart';
 import '../../../categories_page/data/models/get_category_model.dart';
 import '../../../categories_page/presentation/bloc/categories_page_bloc.dart';
 import '../../../categories_page/presentation/widgets/category_container.dart';
+import '../../../refresh_token/data/models/refresh_token_model.dart';
+import '../../../refresh_token/domain/usecases/refresh_token_usecase.dart';
 import '../../domain/entities/home_page_entity.dart';
 
 import '../../../login_page/domain/entities/login_state_entity.dart';
@@ -34,6 +43,7 @@ import '../../../../core/dependencies_injection.dart';
 
 import '../../../../core/resource/image_widget.dart';
 import '../../data/models/home_page_model.dart';
+import '../widgets/notification_number_widget.dart';
 
 class HomePagePage extends StatefulWidget {
   const HomePagePage({super.key});
@@ -54,7 +64,131 @@ class _HomePagePageState extends State<HomePagePage> {
   GetCategoryModel? getCategoryModel = GetCategoryModel();
   bool isAnimationCompleted = false;
   int currentImage = 0;
+  int notificationCount = 0;
   PageController imageController = PageController(initialPage: 0);
+  Future<int> getUnreadCount() async {
+    try {
+      LoginStateEntity? loginState = await getItInstance<AppPreferences>()
+          .getUserInfo();
+      int count = 0;
+      await getItInstance<RefreshTokenUsecase>()
+          .call(
+            params: RefreshTokenModel(
+              token: loginState?.access_token ?? "",
+              refresh_token: loginState?.refresh_token ?? "",
+            ),
+          )
+          .then((refreshTokenOnValue) async {
+            if (refreshTokenOnValue is DataSuccess) {
+              CommonService commonService = CommonService(
+                headers: {
+                  "Authorization":
+                      "Bearer ${refreshTokenOnValue?.data?.access_token}",
+                },
+              );
+              await commonService.get('/notifications/unread-count').then((
+                onValue,
+              ) {
+                if (onValue is DataSuccess) {
+                  count = onValue.data?.data?['unread_count'] ?? 0;
+
+                  return count;
+                } else {
+                  count = 0;
+                  return count;
+                }
+              });
+            } else if (refreshTokenOnValue is UnauthenticatedDataState) {
+              getItInstance<AppPreferences>().setUserInfo(
+                loginStateEntity: LoginStateEntity(),
+              );
+            } else {
+              count = 0;
+              return count;
+            }
+          });
+
+      return count;
+    } catch (e) {
+      print("❌ Error fetching unread count: $e");
+      return 0;
+    }
+  }
+
+  IO.Socket? socket;
+  void connectAndListen() {
+    socket = IO.io(
+      'https://hosta-api.lenda-agency.com',
+      IO.OptionBuilder()
+          .setPath('/socket.io/')
+          .setTransports(['websocket'])
+          .enableForceNew()
+          .enableReconnection()
+          .setExtraHeaders({'Connection': 'upgrade', 'Upgrade': 'websocket'})
+          .enableAutoConnect()
+          .build(),
+    );
+
+    socket?.connect();
+
+    // Connection status
+    socket?.onConnect((_) {
+      print('✅ Connected to Socket.IO');
+
+      socket?.emit('authenticate', {
+        'userId': "5",
+        'token':
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2hvc3RhLWFwaS5sZW5kYS1hZ2VuY3kuY29tL2FwaS9sb2dpbiIsImlhdCI6MTc2NTI0NTExOSwiZXhwIjoxNzY1MjQ4NzE5LCJuYmYiOjE3NjUyNDUxMTksImp0aSI6Im5sN2lmdEtDbFNNUDZoYnYiLCJzdWIiOiI1IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyIsInJvbGVfaWQiOjMsInJvbGVfbmFtZSI6IlByb3ZpZGVyIn0.sM5hxv7U7wNJynQ0Hx6ERDBcjTLXlrMGKVM6D2zylJA",
+      });
+    });
+
+    socket?.onConnectError((error) {
+      print('⛔ connect_error: $error');
+    });
+
+    socket?.onError((error) {
+      print('⛔ error: $error');
+    });
+
+    socket?.onDisconnect((_) {
+      print('❌ disconnected from socket');
+    });
+
+    // 🔍 Log EVERY event received from the server
+    socket?.onAny((event, data) {
+      print('📡 onAny → event: $event | data: $data');
+    });
+
+    // Your specific event listener
+    socket?.on('notification:new', (data) async {
+      print("🔔 New Notification: $data");
+
+      int count = await getUnreadCount();
+
+      streamSocket.addResponse(count.toString());
+    });
+  }
+
+  Future<int> getUnreadNotification() async {
+    return await getUnreadCount();
+  }
+
+  @override
+  void dispose() {
+    socket?.close();
+    socket?.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUnreadNotification().then((onValue) {
+      notificationCount = onValue;
+      streamSocket.addResponse(onValue.toString());
+    });
+  }
+
   @override
   void didChangeDependencies() {
     model = model?.copyWith(acceptLanguage: Helper.getCountryCode(context));
@@ -99,7 +233,7 @@ class _HomePagePageState extends State<HomePagePage> {
           actions: [
             IconButton(
               onPressed: () {
-                //context.pushNamed(RoutesName.notificationPage);
+                context.pushNamed(RoutesName.notificationPage);
               },
               icon: SizedBox(
                 width: 36.w,
@@ -113,22 +247,17 @@ class _HomePagePageState extends State<HomePagePage> {
                       child: Icon(
                         Icons.notifications,
                         size: 28.sp,
-                        color: ColorManager.darkTextColor,
+                        color: ColorManager.backgroundColor,
                       ),
                     ),
-                    // AnimatedPositionedDirectional(
-                    //   duration: Duration(milliseconds: 300),
-                    //   top: 0.h,
-                    //   end: 4.w,
-                    //   child: Icon(
-                    //     Icons.brightness_1,
-                    //     size: 12.sp,
-                    //     color: Colors.red,
-                    //   ),
-                    //   // BuildWithSocketStream(
-                    //   //   onValueChanged: (value) => notificationCount = value,
-                    //   // ).animate().flipV(duration: Duration(milliseconds: 300)),
-                    // ),
+                    AnimatedPositionedDirectional(
+                      duration: Duration(milliseconds: 300),
+                      top: 0.h,
+                      end: 4.w,
+                      child: BuildWithSocketStream(
+                        onValueChanged: (value) => notificationCount = value,
+                      ).animate().flipV(duration: Duration(milliseconds: 300)),
+                    ),
                   ],
                 ),
               ),

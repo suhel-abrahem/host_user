@@ -48,6 +48,15 @@ import '../features/my_services_page/data/repositories/my_service_repository_imp
 import '../features/my_services_page/domain/repositories/my_services_repository.dart';
 import '../features/my_services_page/domain/usecases/my_service_usecase.dart';
 import '../features/my_services_page/presentation/bloc/my_service_bloc.dart';
+import '../features/notification_page/data/models/notification_model.dart';
+import '../features/notification_page/data/repositories/notification_repository_implements.dart';
+import '../features/notification_page/domain/entities/notification_entity.dart';
+import '../features/notification_page/domain/repositories/notification_repository.dart';
+import '../features/notification_page/domain/usecases/get_notification_usecase.dart';
+import '../features/notification_page/domain/usecases/set_all_notification_as_read_usecase.dart';
+import '../features/notification_page/domain/usecases/set_notification_as_read_usecase.dart'
+    show SetNotificationAsReadUseCase;
+import '../features/notification_page/presentation/bloc/notification_page_bloc.dart';
 import '../features/otp_page/data/models/otp_model.dart';
 import '../features/otp_page/data/repositories/otp_verify_repository_implements.dart';
 import '../features/otp_page/domain/repositories/otp_verifiy_repository.dart';
@@ -117,6 +126,7 @@ import '../features/signup_page/presentation/bloc/signup_bloc_bloc.dart';
 import 'resource/common_entity/service_entity.dart';
 import 'resource/common_service/common_service.dart';
 import 'resource/connectivity/check_connectivity.dart';
+import 'resource/firebase_common_services/firebase_messageing_service.dart';
 
 GetIt getItInstance = GetIt.instance;
 Future<void> initDependencies() async {
@@ -127,6 +137,9 @@ Future<void> initDependencies() async {
   //common services and utilities
   getItInstance.registerSingleton<CommonService>(CommonService());
   getItInstance.registerSingleton<CheckConnectivity>(CheckConnectivity());
+  getItInstance.registerSingleton<FirebaseMessagingService>(
+    FirebaseMessagingService(),
+  );
   //login feature dependencies
   getItInstance.registerSingleton<LoginStateEntity>(LoginStateEntity());
   getItInstance.registerSingleton<LoginModel>(LoginModel());
@@ -445,4 +458,31 @@ Future<void> initDependencies() async {
     () => StoreBookingBloc(getItInstance(), getItInstance()),
   );
   // end of service details
+  // notification page
+  // entities and models
+  getItInstance.registerSingleton<NotificationEntity>(NotificationEntity());
+  getItInstance.registerSingleton<NotificationModel>(NotificationModel());
+  // repository
+  getItInstance.registerSingleton<NotificationRepository>(
+    NotificationRepositoryImpl(getItInstance()),
+  );
+  // usecase
+  getItInstance.registerSingleton<GetNotificationUseCase>(
+    GetNotificationUseCase(getItInstance()),
+  );
+  getItInstance.registerSingleton<SetNotificationAsReadUseCase>(
+    SetNotificationAsReadUseCase(getItInstance()),
+  );
+  getItInstance.registerSingleton<SetAllNotificationAsReadUseCase>(
+    SetAllNotificationAsReadUseCase(getItInstance()),
+  );
+  // bloc
+  getItInstance.registerFactory<NotificationPageBloc>(
+    () => NotificationPageBloc(
+      getItInstance(),
+      getItInstance(),
+      getItInstance(),
+      getItInstance(),
+    ),
+  );
 }

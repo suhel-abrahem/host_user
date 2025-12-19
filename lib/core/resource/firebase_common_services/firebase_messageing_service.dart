@@ -1,14 +1,14 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import '/config/app/app_preferences.dart';
+import '/core/constants/api_constant.dart';
 
-import '../../../config/app/app_preferences.dart';
-import '../../../features/login_page/domain/entities/login_state_entity.dart';
-import '../../../features/refresh_token/data/models/refresh_token_model.dart';
-import '../../../features/refresh_token/domain/entities/token_entity.dart';
-import '../../../features/refresh_token/domain/usecases/refresh_token_usecase.dart';
-import '../../constants/api_constant.dart';
-import '../../data_state/data_state.dart';
-import '../../dependencies_injection.dart';
-import '../common_service/common_service.dart';
+import '/core/data_state/data_state.dart';
+import '/core/dependencies_injection.dart';
+import '/core/resource/common_service/common_service.dart';
+import '/features/login_page/domain/entities/login_state_entity.dart';
+import '/features/refresh_token/data/models/refresh_token_model.dart';
+import '/features/refresh_token/domain/entities/token_entity.dart';
+import '/features/refresh_token/domain/usecases/refresh_token_usecase.dart';
 
 class FirebaseMessagingService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
