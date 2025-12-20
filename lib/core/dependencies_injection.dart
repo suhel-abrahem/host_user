@@ -137,8 +137,8 @@ Future<void> initDependencies() async {
   //common services and utilities
   getItInstance.registerSingleton<CommonService>(CommonService());
   getItInstance.registerSingleton<CheckConnectivity>(CheckConnectivity());
-  getItInstance.registerSingleton<FirebaseMessagingService>(
-    FirebaseMessagingService(),
+  getItInstance.registerLazySingleton<FirebaseMessagingService>(
+   ()=> FirebaseMessagingService(),
   );
   //login feature dependencies
   getItInstance.registerSingleton<LoginStateEntity>(LoginStateEntity());

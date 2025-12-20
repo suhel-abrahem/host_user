@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:hosta_user/core/util/helper/helper.dart';
 import '/config/app/app_preferences.dart';
 import '/core/constants/api_constant.dart';
 
@@ -11,7 +12,7 @@ import '/features/refresh_token/domain/entities/token_entity.dart';
 import '/features/refresh_token/domain/usecases/refresh_token_usecase.dart';
 
 class FirebaseMessagingService {
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+   FirebaseMessaging get _firebaseMessaging => FirebaseMessaging.instance;
 
   Future<DataState<String?>?> getDeviceToken() async {
     try {
@@ -57,13 +58,16 @@ class FirebaseMessagingService {
         },
       );
       await getDeviceToken().then((value) async {
+        String locale =
+            Helper.getLanguageName(getItInstance<AppPreferences>().getLanguage() ?? 'ar');
         if (value is DataSuccess<String?>) {
           await commonService
               .post(
                 ApiConstant.postDeviceTokenEndpoint,
-                data: {"device_token": value.data, "device_type": "android"},
+                data: {"device_token": value.data, "device_type": "android", "locale": locale},
               )
               .then((onValue) {
+                print("Device token response: ${onValue.error}");
                 if (onValue is DataSuccess) {
                   result = DataSuccess(data: value.data);
                   return result;
@@ -80,6 +84,7 @@ class FirebaseMessagingService {
 
       return result;
     } catch (e) {
+      print("Error in setDeviceToken: $e");
       result = DataFailed(error: e.toString());
       return result;
     }

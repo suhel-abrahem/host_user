@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hosta_user/firebase_options.dart';
 
 import 'config/app/app.dart';
 import 'config/app/app_preferences.dart';
@@ -14,16 +15,17 @@ import 'core/util/helper/helper.dart';
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
+  
 
-  print("Handling a background message: ${message.messageId}");
+  
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
+  
   await initDependencies();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -44,9 +46,13 @@ void main() async {
           : Brightness.light,
     ),
   );
-  getItInstance<FirebaseMessagingService>().notificationPermission();
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
+  
+  getItInstance<FirebaseMessagingService>().notificationPermission();
   getItInstance<FirebaseMessagingService>().getDeviceToken();
+});
   print('user info: ${getItInstance<AppPreferences>().getUserInfo()}');
   runApp(
     EasyLocalization(
