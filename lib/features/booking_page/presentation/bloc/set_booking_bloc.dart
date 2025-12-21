@@ -11,9 +11,9 @@ import '../../data/models/get_booking_model.dart';
 import '../../domain/entities/booking_entity.dart';
 import '../../domain/usecases/set_booking_usecase.dart';
 
-part 'set_booking_bloc.freezed.dart';
 part 'set_booking_event.dart';
 part 'set_booking_state.dart';
+part 'set_booking_bloc.freezed.dart';
 
 class SetBookingBloc extends Bloc<SetBookingEvent, SetBookingState> {
   final SetBookingUsecase _setBookingUsecase;

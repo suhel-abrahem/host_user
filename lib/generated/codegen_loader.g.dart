@@ -150,6 +150,7 @@ class CodegenLoader extends AssetLoader{
     "acceptBooking": "قبول الحجز",
     "rejectBooking": "رفض الحجز",
     "startService": "بدء الخدمة",
+    "cancelBooking": "إلغاء الحجز",
     "areYouSureYouWantToRejectThisBooking": "هل أنت متأكد من أنك تريد رفض هذا الحجز؟",
     "yesReject": "نعم، رفض",
     "noCancel": "لا، إلغاء",
@@ -158,7 +159,8 @@ class CodegenLoader extends AssetLoader{
     "endTime": "وقت الانتهاء",
     "serviceImages": "صور الخدمة",
     "rejectReason": "سبب الرفض",
-    "pleaseProvideAReasonForRejection": "يرجى تقديم سبب الرفض"
+    "pleaseProvideAReasonForRejection": "يرجى تقديم سبب الرفض",
+    "providerDetails": "تفاصيل المزود"
   },
   "profilePage": {
     "title": "صفحة الملف الشخصي",
@@ -503,6 +505,7 @@ static const Map<String,dynamic> _en = {
     "acceptBooking": "Accept booking",
     "rejectBooking": "Reject booking",
     "startService": "Start service",
+    "cancelBooking": "Cancel booking",
     "areYouSureYouWantToRejectThisBooking": "Are you sure you want to reject this booking?",
     "yesReject": "Yes, reject",
     "noCancel": "No, cancel",
@@ -511,7 +514,8 @@ static const Map<String,dynamic> _en = {
     "endTime": "End time",
     "serviceImages": "Service images",
     "rejectReason": "Reject reason",
-    "pleaseProvideAReasonForRejection": "Please provide a reason for rejection"
+    "pleaseProvideAReasonForRejection": "Please provide a reason for rejection",
+    "providerDetails": "Provider details"
   },
   "profilePage": {
     "title": "Profile page",
@@ -856,6 +860,7 @@ static const Map<String,dynamic> _fa = {
     "acceptBooking": "پەسەندکردنی ئاراستەکردن",
     "rejectBooking": "رەتکردنەوەی ئاراستەکردن",
     "startService": "دەست پێکردنی خزمەت",
+    "cancelBooking": "هەڵوەشاندنەوەی ئاراستەکردن",
     "areYouSureYouWantToRejectThisBooking": "دڵنیای کە دەتەوێت ئەم ئاراستەکردنە رەت بکەیتەوە؟",
     "yesReject": "بەڵێ، رەت بکە",
     "noCancel": "نەخێر، هەڵبوەشێنەوە",
@@ -864,7 +869,8 @@ static const Map<String,dynamic> _fa = {
     "endTime": "کاتژمێری کۆتایی",
     "serviceImages": "وێنەکانی خزمەتگوزاری",
     "rejectReason": "هۆکاری رەتکردنەوە",
-    "pleaseProvideAReasonForRejection": "تکایە هۆکاری رەتکردنەوەکە دابنێ"
+    "pleaseProvideAReasonForRejection": "تکایە هۆکاری رەتکردنەوەکە دابنێ",
+    "providerDetails": "زانیاری دابینکەر"
   },
   "profilePage": {
     "title": "پەیجی پڕۆفایل",

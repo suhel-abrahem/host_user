@@ -14,14 +14,13 @@ import '/features/login_page/domain/entities/login_state_entity.dart';
 import '/generated/locale_keys.g.dart';
 import '../../../config/app/app_preferences.dart';
 import '../../../config/route/routes_manager.dart';
-import '../../../main.dart';
+
 import '../../constants/font_constants.dart';
-import '../../data_state/data_state.dart';
+
 import '../../dependencies_injection.dart';
 
 import '../custom_widget/snake_bar_widget/snake_bar_widget.dart';
 
-import '../firebase_common_services/firebase_messageing_service.dart';
 import 'drawer.dart';
 
 class MainPage extends StatefulWidget {

@@ -52,22 +52,26 @@ class CategoryContainer extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
             decoration: BoxDecoration(color: Colors.transparent),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                ImageWidget(
-                  imageUrl: categoryEntity?.icon ?? "",
-                  width: 150.w,
-                  height: 50.h,
-                  errorIconSize: 26.sp,
-                ),
                 SizedBox(
-                  height: 80.h,
+                  width: !isHomePage ? 150.w : 100.w,
+                  height: !isHomePage ? 50.h : 50.h,
+                  child: ImageWidget(
+                    imageUrl: categoryEntity?.icon ?? "",
+                    width: !isHomePage ? 150.w : 100.w,
+                    height: !isHomePage ? 50.h : 50.h,
+                    errorIconSize: 26.sp,
+                    boxFit: BoxFit.scaleDown,
+                  ),
+                ),
+                Flexible(
                   child: Center(
                     child: Text(
                       categoryEntity?.name ?? "",
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         fontFamily: FontConstants.fontFamily(context.locale),
-                        fontSize: 16.sp,
+                        fontSize: isHomePage ? 12.sp : 14.sp,
                       ),
                       textAlign: TextAlign.center,
                     ),

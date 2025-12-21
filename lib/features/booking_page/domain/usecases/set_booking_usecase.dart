@@ -2,6 +2,7 @@ import '../../../../core/data_state/data_state.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../data/models/get_booking_model.dart';
 import '../entities/booking_entity.dart';
+
 import '../repositories/booking_repository.dart';
 
 class SetBookingUsecase

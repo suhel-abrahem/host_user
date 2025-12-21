@@ -1,16 +1,20 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:hosta_user/core/resource/main_page/glew_effect.dart';
+import 'package:restart/restart.dart';
 
 import '../../../config/app/app_preferences.dart';
 
+import '../../data_state/data_state.dart';
 import '../../dependencies_injection.dart';
 import '../color_manager.dart';
+import '../firebase_common_services/firebase_messageing_service.dart';
 import '../image_widget.dart';
 import 'drawer_button.dart';
 import '../../../features/profile_page/domain/entities/profile_entity.dart';
@@ -256,18 +260,65 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     labelPosition: Position.upper,
                     backgroundColor: Theme.of(context).primaryColor,
                     items: LanguageConstant.supportedLanguagesNames,
-                    onChange: (newLanguage) {
+                    onChange: (newLanguage) async {
                       if (newLanguage != null) {
                         setState(() {
                           selectedLanguage = newLanguage;
                         });
                         context.setLocale(Helper.getLocaleByName(newLanguage));
-                        getItInstance<AppPreferences>().setLanguage(
-                          languageCode: Helper.getLocaleByName(
-                            newLanguage,
-                          ).languageCode,
+                        await getItInstance<AppPreferences>().setLanguage(
+                          languageCode: newLanguage,
                         );
-                        context.go(RoutesPath.homePage);
+                        final LoginStateEntity? loginState =
+                            getItInstance<AppPreferences>().getUserInfo();
+
+                        getItInstance<FirebaseMessagingService>()
+                            .updateDeviceLanguage()
+                            .then((value) async {
+                              if (value is DataSuccess) {
+                                await getItInstance<AppPreferences>()
+                                    .setUserInfo(
+                                      loginStateEntity: loginState?.copyWith(
+                                        isFcmTokenSet: true,
+                                        fcmToken: value?.data,
+                                      ),
+                                    );
+                                if (context.mounted) {
+                                  showMessage(
+                                    message: LocaleKeys.common_success.tr(),
+                                    context: context,
+                                  );
+                                }
+                              } else {
+                                await getItInstance<AppPreferences>()
+                                    .setUserInfo(
+                                      loginStateEntity: loginState?.copyWith(
+                                        isFcmTokenSet: false,
+                                      ),
+                                    );
+                                if (context.mounted) {
+                                  showMessage(
+                                    message: LocaleKeys
+                                        .common_notificationTokenErrorPleaseFixItOnSettings
+                                        .tr(),
+                                    context: context,
+                                    haveButton: true,
+                                    buttonWidget: Icon(
+                                      Icons.settings,
+                                      size: 16.w,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      context.push(RoutesPath.settingPage);
+                                    },
+                                  );
+                                }
+                              }
+                            });
+
+                        setState(() {
+                          lastPath = newLanguage;
+                        });
                       }
                     },
                     stringConverter: (string) {
@@ -393,16 +444,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     return DrawerButtonWidget(
                       title: LocaleKeys.profilePage_logout.tr(),
                       icon: Icons.logout_outlined,
-                      onPressed: () {
-                        context.read<GetProfileBloc>().add(
-                          GetProfileEvent.logout(
-                            profileModel: ProfileModel(
-                              authToken: getItInstance<AppPreferences>()
-                                  .getUserInfo()
-                                  ?.access_token,
+                      onPressed: () async {
+                        if (context.mounted) {
+                          context.read<GetProfileBloc>().add(
+                            GetProfileEvent.logout(
+                              profileModel: ProfileModel(
+                                authToken: getItInstance<AppPreferences>()
+                                    .getUserInfo()
+                                    ?.access_token,
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
                       },
                     );
                   },

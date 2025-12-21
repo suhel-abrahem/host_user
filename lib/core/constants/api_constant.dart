@@ -7,7 +7,7 @@ class ApiConstant {
   static const String registerEndpoint = "/register";
   static const String getLanguagesEndpoint = "/provider/languages";
   static const String setLanguagesEndpoint = "/provider/languages/set";
-  static const String bookingEndpoint = "/provider/bookings";
+  static const String bookingEndpoint = "/client/bookings";
   static const String verifyOtpEndpoint = "/users/{user}/verify-otp";
   static const String resendOtpEndpoint = "/users/{user}/resend-otp";
   static const String meEndpoint = "/me";
@@ -23,6 +23,9 @@ class ApiConstant {
   static const String getProvidersEndpoint = "/client/providers";
   static const String postDeviceTokenEndpoint =
       "/notifications/register-device";
+  static const String updateDeviceLanguageEndpoint =
+      "/notifications/device-locale";
+
   static const String getNotificationsEndpoint = "/notifications";
   static const String timeSlotsEndpoint = "/availability/slots";
   static const String storeBookingEndpoint = "/client/bookings";

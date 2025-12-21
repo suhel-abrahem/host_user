@@ -131,6 +131,7 @@ abstract class  LocaleKeys {
   static const bookingPage_acceptBooking = 'bookingPage.acceptBooking';
   static const bookingPage_rejectBooking = 'bookingPage.rejectBooking';
   static const bookingPage_startService = 'bookingPage.startService';
+  static const bookingPage_cancelBooking = 'bookingPage.cancelBooking';
   static const bookingPage_areYouSureYouWantToRejectThisBooking = 'bookingPage.areYouSureYouWantToRejectThisBooking';
   static const bookingPage_yesReject = 'bookingPage.yesReject';
   static const bookingPage_noCancel = 'bookingPage.noCancel';
@@ -140,6 +141,7 @@ abstract class  LocaleKeys {
   static const bookingPage_serviceImages = 'bookingPage.serviceImages';
   static const bookingPage_rejectReason = 'bookingPage.rejectReason';
   static const bookingPage_pleaseProvideAReasonForRejection = 'bookingPage.pleaseProvideAReasonForRejection';
+  static const bookingPage_providerDetails = 'bookingPage.providerDetails';
   static const bookingPage = 'bookingPage';
   static const profilePage_title = 'profilePage.title';
   static const profilePage_label = 'profilePage.label';

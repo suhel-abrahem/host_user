@@ -2,12 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
-
 import '../../../../config/theme/app_theme.dart';
+import '../../../../core/resource/color_manager.dart';
+import '../../domain/entities/booking_entity.dart';
+
 import '../../../../core/constants/font_constants.dart';
 import '../../../../core/util/helper/helper.dart';
 import '../../../../generated/locale_keys.g.dart';
-import '../../domain/entities/booking_entity.dart';
 
 class ServiceInfoWidget extends StatelessWidget {
   final BookingEntity? bookingEntity;
@@ -40,9 +41,10 @@ class ServiceInfoWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  bookingEntity?.status ?? "",
+                  Helper.getStatusName(bookingEntity?.status ?? "") ?? "",
                   style: Theme.of(context).textTheme.labelMedium?.copyWith(
                     fontFamily: FontConstants.fontFamily(context.locale),
+                    color: ColorManager.backgroundColor,
                   ),
                 ),
               ),

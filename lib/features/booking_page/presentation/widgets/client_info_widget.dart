@@ -6,6 +6,7 @@ import '../../../../config/theme/app_theme.dart';
 
 import '../../../../core/constants/font_constants.dart';
 import '../../../../core/resource/common_entity/customer_entity.dart';
+import '../../../../core/resource/common_entity/provider_entity.dart';
 import '../../../../core/resource/custom_widget/snake_bar_widget/snake_bar_widget.dart';
 import '../../../../core/resource/image_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,8 +14,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../generated/locale_keys.g.dart';
 
 class ClientInfoWidget extends StatelessWidget {
-  final CustomerEntity? customerEntity;
-  const ClientInfoWidget({super.key, this.customerEntity});
+  final ProviderEntity? providerEntity;
+  const ClientInfoWidget({super.key, this.providerEntity});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class ClientInfoWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            LocaleKeys.serviceDetailsPage_clientInfo.tr(),
+            LocaleKeys.bookingPage_providerDetails.tr(),
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
               fontFamily: FontConstants.fontFamily(context.locale),
             ),
@@ -43,7 +44,7 @@ class ClientInfoWidget extends StatelessWidget {
                       size: 30.sp,
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
                     ),
-                    imageUrl: customerEntity?.avatar ?? "",
+                    imageUrl: providerEntity?.image ?? "",
                   ),
                 ),
               ),
@@ -54,7 +55,7 @@ class ClientInfoWidget extends StatelessWidget {
                   FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      customerEntity?.name ?? "",
+                      providerEntity?.name ?? "",
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontFamily: FontConstants.fontFamily(context.locale),
                       ),
@@ -63,7 +64,7 @@ class ClientInfoWidget extends StatelessWidget {
                   FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      customerEntity?.phone ?? "",
+                      providerEntity?.phone ?? "",
                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         fontFamily: FontConstants.fontFamily(context.locale),
                       ),
@@ -78,7 +79,7 @@ class ClientInfoWidget extends StatelessWidget {
                   onPressed: () async {
                     final Uri phoneUri = Uri(
                       scheme: 'tel',
-                      path: customerEntity?.phone ?? "",
+                      path: providerEntity?.phone ?? "",
                     );
 
                     if (await canLaunchUrl(phoneUri)) {

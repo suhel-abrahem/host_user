@@ -54,6 +54,9 @@ class _NotificationPageState extends State<NotificationPage> {
       title: LocaleKeys.notificationPage_title.tr(),
       body: Builder(
         builder: (context) {
+          notificationModel = notificationModel.copyWith(
+            acceptLanguage: Helper.getCountryCode(context),
+          );
           return BlocProvider<NotificationPageBloc>(
             create: (context) => getItInstance<NotificationPageBloc>()
               ..add(

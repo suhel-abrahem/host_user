@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -33,6 +33,7 @@ import '../../features/profile_page/presentation/pages/help_page_page.dart';
 import '../../features/profile_page/presentation/pages/setting_page_page.dart';
 
 String? currentPath = RoutesPath.homePage;
+IO.Socket? socket;
 
 class RoutesName {
   static String homePage = "homePage";
@@ -49,7 +50,7 @@ class RoutesName {
   static String otpPage = "otpPage";
   static String categoryServicesPage = "categoryServicesPage";
   static String accountPage = "accountPage";
-  static String settingsPage = "settingsPage";
+
   static String helpPage = "helpPage";
   static String serviceDetailsPage = "serviceDetailsPage";
   static String providerPage = "providerPage";
@@ -71,7 +72,7 @@ class RoutesPath {
   static String categoryServicesPage = "/categoryServicesPage/:categoryEntity";
   static String serviceInfoPage = "/serviceInfoPage/:serviceId";
   static String accountPage = "/accountPage";
-  static String settingsPage = "/settingsPage";
+
   static String helpPage = "/helpPage";
   static String serviceDetailsPage = "/serviceDetailsPage/:serviceEntity";
   static String providerPage = "/providerPage";
@@ -79,10 +80,14 @@ class RoutesPath {
 }
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+String? lastPath;
 GoRouter goRouter = GoRouter(
   observers: [RouteTracker()],
   redirect: (context, state) {
     currentPath = state.uri.toString();
+    // if (currentPath?.endsWith(lastPath ?? "") == false) {
+    //   return lastPath;
+    // }
     if (getItInstance<AppPreferences>().isFirstUse() == false) {
       return RoutesPath.firstUsePage;
     } else if (getItInstance<AppPreferences>().getUserInfo()?.loginStateEnum ==
@@ -91,7 +96,10 @@ GoRouter goRouter = GoRouter(
             state.uri.toString().endsWith(RoutesPath.otpPage))) {
       return RoutesPath.loginPage;
     }
-
+    if (currentPath?.endsWith(RoutesPath.homePage) == false) {
+      socket?.disconnect();
+      socket?.dispose();
+    }
     return null;
   },
   initialLocation: RoutesPath.homePage,

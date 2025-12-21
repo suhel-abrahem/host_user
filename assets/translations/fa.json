@@ -134,6 +134,7 @@
     "acceptBooking": "پەسەندکردنی ئاراستەکردن",
     "rejectBooking": "رەتکردنەوەی ئاراستەکردن",
     "startService": "دەست پێکردنی خزمەت",
+    "cancelBooking": "هەڵوەشاندنەوەی ئاراستەکردن",
     "areYouSureYouWantToRejectThisBooking": "دڵنیای کە دەتەوێت ئەم ئاراستەکردنە رەت بکەیتەوە؟",
     "yesReject": "بەڵێ، رەت بکە",
     "noCancel": "نەخێر، هەڵبوەشێنەوە",
@@ -142,7 +143,8 @@
     "endTime": "کاتژمێری کۆتایی",
     "serviceImages": "وێنەکانی خزمەتگوزاری",
     "rejectReason": "هۆکاری رەتکردنەوە",
-    "pleaseProvideAReasonForRejection": "تکایە هۆکاری رەتکردنەوەکە دابنێ"
+    "pleaseProvideAReasonForRejection": "تکایە هۆکاری رەتکردنەوەکە دابنێ",
+    "providerDetails": "زانیاری دابینکەر"
   },
   "profilePage": {
     "title": "پەیجی پڕۆفایل",

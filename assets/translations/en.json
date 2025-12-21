@@ -134,6 +134,7 @@
     "acceptBooking": "Accept booking",
     "rejectBooking": "Reject booking",
     "startService": "Start service",
+    "cancelBooking": "Cancel booking",
     "areYouSureYouWantToRejectThisBooking": "Are you sure you want to reject this booking?",
     "yesReject": "Yes, reject",
     "noCancel": "No, cancel",
@@ -142,7 +143,8 @@
     "endTime": "End time",
     "serviceImages": "Service images",
     "rejectReason": "Reject reason",
-    "pleaseProvideAReasonForRejection": "Please provide a reason for rejection"
+    "pleaseProvideAReasonForRejection": "Please provide a reason for rejection",
+    "providerDetails": "Provider details"
   },
   "profilePage": {
     "title": "Profile page",

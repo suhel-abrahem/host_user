@@ -26,7 +26,7 @@ class BookingRepositoryImpl implements BookingRepository {
     }
     CommonService commonService = CommonService(
       headers: {
-        "Accept-Language": getBookingModel?.acceptLanguage,
+        "Accept-Language": getBookingModel?.acceptLanguage ?? "ar",
         "Authorization": "Bearer ${getBookingModel?.auth}",
         "accept": "application/json",
       },
@@ -39,6 +39,9 @@ class BookingRepositoryImpl implements BookingRepository {
             params: {"status": getBookingModel?.status ?? ""},
           )
           .then((onValue) {
+            print(
+              "BookingRepositoryImpl: Get bookings response: ${ApiConstant.bookingEndpoint}/${getBookingModel?.id}",
+            );
             if (onValue is DataSuccess) {
               List? rawBookings;
               if (onValue.data?.data["data"] is List) {

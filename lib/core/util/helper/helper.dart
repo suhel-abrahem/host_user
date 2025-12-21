@@ -41,7 +41,7 @@ class Helper {
       case LanguageConstant.faName:
         return LanguageConstant.faLocale;
       default:
-        return LanguageConstant.enLoacle;
+        return LanguageConstant.arLoacle;
     }
   }
 
@@ -182,5 +182,24 @@ class Helper {
     return dateToCheck.day == now.day &&
         dateToCheck.month == now.month &&
         dateToCheck.year == now.year;
+  }
+
+  static String? getStatusName(String? status) {
+    switch (status?.toLowerCase()) {
+      case 'pending':
+        return LocaleKeys.bookingPage_pending.tr();
+      case 'confirmed':
+        return LocaleKeys.bookingPage_accepted.tr();
+      case 'in_progress':
+        return LocaleKeys.bookingPage_inProgress.tr();
+      case 'completed':
+        return LocaleKeys.bookingPage_completed.tr();
+      case 'cancelled':
+        return LocaleKeys.bookingPage_canceled.tr();
+      case "rejected":
+        return LocaleKeys.bookingPage_canceled.tr();
+      default:
+        return null;
+    }
   }
 }

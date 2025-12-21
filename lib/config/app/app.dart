@@ -46,6 +46,7 @@ class HostaUser extends StatelessWidget {
               ? darkTheme()
               : lightTheme(),
           child: MaterialApp.router(
+            key: ValueKey(lastPath),
             debugShowCheckedModeBanner: false,
             title: LocaleKeys.app_name.tr(),
             themeMode: (getItInstance<AppPreferences>().getAppTheme() ?? false)

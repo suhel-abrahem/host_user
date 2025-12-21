@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -68,7 +67,7 @@ class _HomePagePageState extends State<HomePagePage> {
   PageController imageController = PageController(initialPage: 0);
   Future<int> getUnreadCount() async {
     try {
-      LoginStateEntity? loginState = await getItInstance<AppPreferences>()
+      LoginStateEntity? loginState = getItInstance<AppPreferences>()
           .getUserInfo();
       int count = 0;
       await getItInstance<RefreshTokenUsecase>()
@@ -115,58 +114,77 @@ class _HomePagePageState extends State<HomePagePage> {
     }
   }
 
-  IO.Socket? socket;
-  void connectAndListen() {
-    socket = IO.io(
-      'https://hosta-api.lenda-agency.com',
-      IO.OptionBuilder()
-          .setPath('/socket.io/')
-          .setTransports(['websocket'])
-          .enableForceNew()
-          .enableReconnection()
-          .setExtraHeaders({'Connection': 'upgrade', 'Upgrade': 'websocket'})
-          .enableAutoConnect()
-          .build(),
-    );
+  Future<void> connectAndListen() async {
+    LoginStateEntity? loginState = getItInstance<AppPreferences>()
+        .getUserInfo();
+    await getItInstance<RefreshTokenUsecase>()
+        .call(
+          params: RefreshTokenModel(
+            token: loginState?.access_token ?? "",
+            refresh_token: loginState?.refresh_token ?? "",
+          ),
+        )
+        .then((onValue) {
+          print("Refreshed token result socket: $onValue");
+          if (onValue is DataSuccess) {
+            socket = IO.io(
+              'https://hosta-api.lenda-agency.com',
+              IO.OptionBuilder()
+                  .setPath('/socket.io/')
+                  .setTransports(['websocket'])
+                  .enableForceNew()
+                  .enableReconnection()
+                  .setExtraHeaders({
+                    'Connection': 'upgrade',
+                    'Upgrade': 'websocket',
+                  })
+                  .enableAutoConnect()
+                  .build(),
+            );
 
-    socket?.connect();
+            socket?.connect();
 
-    // Connection status
-    socket?.onConnect((_) {
-      print('✅ Connected to Socket.IO');
+            // Connection status
+            socket?.onConnect((_) {
+              print('✅ Connected to Socket.IO');
 
-      socket?.emit('authenticate', {
-        'userId': "5",
-        'token':
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2hvc3RhLWFwaS5sZW5kYS1hZ2VuY3kuY29tL2FwaS9sb2dpbiIsImlhdCI6MTc2NTI0NTExOSwiZXhwIjoxNzY1MjQ4NzE5LCJuYmYiOjE3NjUyNDUxMTksImp0aSI6Im5sN2lmdEtDbFNNUDZoYnYiLCJzdWIiOiI1IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyIsInJvbGVfaWQiOjMsInJvbGVfbmFtZSI6IlByb3ZpZGVyIn0.sM5hxv7U7wNJynQ0Hx6ERDBcjTLXlrMGKVM6D2zylJA",
-      });
-    });
+              // socket?.emit('authenticate', {
+              //   'userId': loginState?.user['id'],
+              //   'token': onValue?.data?.access_token,
+              // });
+              // socket?.emit('notification:new', {"unread_count": "0"});
+            });
 
-    socket?.onConnectError((error) {
-      print('⛔ connect_error: $error');
-    });
+            socket?.onConnectError((error) {
+              streamSocket.addResponse("0");
+              print('⛔ connect_error: $error');
+            });
 
-    socket?.onError((error) {
-      print('⛔ error: $error');
-    });
+            socket?.onError((error) {
+              streamSocket.addResponse("0");
+              print('⛔ error: $error');
+            });
 
-    socket?.onDisconnect((_) {
-      print('❌ disconnected from socket');
-    });
+            socket?.onDisconnect((_) {
+              streamSocket.addResponse("0");
+              print('❌ disconnected from socket');
+            });
 
-    // 🔍 Log EVERY event received from the server
-    socket?.onAny((event, data) {
-      print('📡 onAny → event: $event | data: $data');
-    });
+            // 🔍 Log EVERY event received from the server
+            socket?.onAny((event, data) {
+              print('📡 onAny → event: $event | data: $data');
+            });
 
-    // Your specific event listener
-    socket?.on('notification:new', (data) async {
-      print("🔔 New Notification: $data");
+            // Your specific event listener
+            socket?.on('notification:new', (data) async {
+              print("🔔 New Notification: $data");
 
-      int count = await getUnreadCount();
+              // int count = await getUnreadCount();
 
-      streamSocket.addResponse(count.toString());
-    });
+              streamSocket.addResponse(data["unread_count"].toString());
+            });
+          }
+        });
   }
 
   Future<int> getUnreadNotification() async {
@@ -174,19 +192,27 @@ class _HomePagePageState extends State<HomePagePage> {
   }
 
   @override
+  // void deactivate() {
+  //   socket?.disconnect();
+  //   super.deactivate();
+  // }
+  @override
   void dispose() {
-    socket?.close();
+    socket?.disconnect();
     socket?.dispose();
+
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    getUnreadNotification().then((onValue) {
-      notificationCount = onValue;
-      streamSocket.addResponse(onValue.toString());
-    });
+    // getUnreadNotification().then((onValue) {
+    //   notificationCount = onValue;
+    //   streamSocket.addResponse(onValue.toString());
+    // });
+
+    connectAndListen();
   }
 
   @override
@@ -218,6 +244,13 @@ class _HomePagePageState extends State<HomePagePage> {
 
   @override
   Widget build(BuildContext context) {
+    model = model?.copyWith(acceptLanguage: Helper.getCountryCode(context));
+    profileModel = profileModel.copyWith(
+      acceptLanguage: Helper.getCountryCode(context),
+    );
+    getCategoryModel = getCategoryModel?.copyWith(
+      acceptLanguage: Helper.getCountryCode(context),
+    );
     return MainPage(
       onAnimationComplete: (completed) {
         setState(() {
