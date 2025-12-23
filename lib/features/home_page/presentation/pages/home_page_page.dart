@@ -1,3 +1,4 @@
+import 'package:hosta_user/core/resource/main_page/glew_effect.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -756,10 +757,16 @@ class _HomePagePageState extends State<HomePagePage> {
                                             borderRadius: BorderRadius.circular(
                                               12.r,
                                             ),
-                                            child: ImageWidget(
-                                              imageUrl:
-                                                  sliders[index]?.image ?? "",
-                                              boxFit: BoxFit.cover,
+                                            child: GlowOverlay(
+                                              glowHeight: 0.35,
+                                              glowColor: Theme.of(context)
+                                                  .primaryColor
+                                                  .withValues(alpha: 1),
+                                              child: ImageWidget(
+                                                imageUrl:
+                                                    sliders[index]?.image ?? "",
+                                                boxFit: BoxFit.cover,
+                                              ),
                                             ),
                                           ).animate().scaleXY(
                                             duration: Duration(
@@ -778,6 +785,15 @@ class _HomePagePageState extends State<HomePagePage> {
                                       width: 200.w,
                                       height: 40.h,
                                       decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Theme.of(
+                                              context,
+                                            ).shadowColor,
+                                            blurRadius: 8.r,
+                                            offset: Offset(0, 2.h),
+                                          ),
+                                        ],
                                         color: Theme.of(context).primaryColor,
                                         borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(30.r),

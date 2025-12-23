@@ -143,20 +143,24 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             borderRadius: BorderRadiusDirectional.only(
                               topEnd: Radius.circular(50.r),
                             ),
-                            child: GlowOverlay(
-                              glowColor: ColorManager.primaryColor,
-                              child: ImageWidget(
-                                width: 250.w,
-                                height: 200.h,
-                                boxFit: BoxFit.cover,
-                                errorWidget: Icon(
-                                  Icons.account_circle,
-                                  size: 60.sp,
-                                  color: Theme.of(
-                                    context,
-                                  ).textTheme.labelLarge?.color,
+                            child: SizedBox(
+                              width: 250.w,
+                              height: 200.h,
+                              child: GlowOverlay(
+                                glowColor: ColorManager.primaryColor,
+                                child: ImageWidget(
+                                  width: 250.w,
+                                  height: 200.h,
+                                  boxFit: BoxFit.cover,
+                                  errorWidget: Icon(
+                                    Icons.account_circle,
+                                    size: 60.sp,
+                                    color: Theme.of(
+                                      context,
+                                    ).textTheme.labelLarge?.color,
+                                  ),
+                                  imageUrl: userInfo?.avatar ?? "",
                                 ),
-                                imageUrl: userInfo?.avatar ?? "",
                               ),
                             ),
                           ),
