@@ -182,30 +182,30 @@ class _NotificationPageState extends State<NotificationPage> {
                                 itemCount: newNotifs.length,
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) =>
-                                    NotificationWidget(
-                                      notification: newNotifs[index],
-                                      onTap: () {
-                                        context.read<NotificationPageBloc>().add(
-                                          NotificationPageEvent.readNotification(
-                                            model: notificationModel.copyWith(
-                                              id: newNotifs[index]?.id
-                                                  .toString(),
-                                            ),
+                                itemBuilder: (context, index) => NotificationWidget(
+                                  notification: newNotifs[index],
+                                  onTap: () {
+                                    if (newNotifs[index]?.is_read == false) {
+                                      context.read<NotificationPageBloc>().add(
+                                        NotificationPageEvent.readNotification(
+                                          model: notificationModel.copyWith(
+                                            id: newNotifs[index]?.id.toString(),
                                           ),
-                                        );
-                                        context.pushNamed(
-                                          RoutesName.serviceInfoPage,
-                                          pathParameters: {
-                                            "serviceId":
-                                                newNotifs[index]
-                                                    ?.data?["booking_id"]
-                                                    .toString() ??
-                                                "",
-                                          },
-                                        );
+                                        ),
+                                      );
+                                    }
+                                    context.pushNamed(
+                                      RoutesName.serviceInfoPage,
+                                      pathParameters: {
+                                        "serviceId":
+                                            newNotifs[index]
+                                                ?.data?["booking_id"]
+                                                .toString() ??
+                                            "",
                                       },
-                                    ),
+                                    );
+                                  },
+                                ),
                               ),
                             )
                           else
@@ -244,30 +244,31 @@ class _NotificationPageState extends State<NotificationPage> {
                                 itemCount: todayNotifs.length,
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) =>
-                                    NotificationWidget(
-                                      notification: todayNotifs[index],
-                                      onTap: () {
-                                        context.read<NotificationPageBloc>().add(
-                                          NotificationPageEvent.readNotification(
-                                            model: notificationModel.copyWith(
-                                              id: todayNotifs[index]?.id
-                                                  .toString(),
-                                            ),
+                                itemBuilder: (context, index) => NotificationWidget(
+                                  notification: todayNotifs[index],
+                                  onTap: () {
+                                    if (todayNotifs[index]?.is_read == false) {
+                                      context.read<NotificationPageBloc>().add(
+                                        NotificationPageEvent.readNotification(
+                                          model: notificationModel.copyWith(
+                                            id: todayNotifs[index]?.id
+                                                .toString(),
                                           ),
-                                        );
-                                        context.pushNamed(
-                                          RoutesName.serviceInfoPage,
-                                          pathParameters: {
-                                            "serviceId":
-                                                todayNotifs[index]
-                                                    ?.data?["booking_id"]
-                                                    .toString() ??
-                                                "",
-                                          },
-                                        );
+                                        ),
+                                      );
+                                    }
+                                    context.pushNamed(
+                                      RoutesName.serviceInfoPage,
+                                      pathParameters: {
+                                        "serviceId":
+                                            todayNotifs[index]
+                                                ?.data?["booking_id"]
+                                                .toString() ??
+                                            "",
                                       },
-                                    ),
+                                    );
+                                  },
+                                ),
                               ),
                             )
                           else
@@ -306,30 +307,32 @@ class _NotificationPageState extends State<NotificationPage> {
                                 itemCount: earlierNotifs.length,
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) =>
-                                    NotificationWidget(
-                                      notification: earlierNotifs[index],
-                                      onTap: () {
-                                        context.read<NotificationPageBloc>().add(
-                                          NotificationPageEvent.readNotification(
-                                            model: notificationModel.copyWith(
-                                              id: earlierNotifs[index]?.id
-                                                  .toString(),
-                                            ),
+                                itemBuilder: (context, index) => NotificationWidget(
+                                  notification: earlierNotifs[index],
+                                  onTap: () {
+                                    if (earlierNotifs[index]?.is_read ==
+                                        false) {
+                                      context.read<NotificationPageBloc>().add(
+                                        NotificationPageEvent.readNotification(
+                                          model: notificationModel.copyWith(
+                                            id: earlierNotifs[index]?.id
+                                                .toString(),
                                           ),
-                                        );
-                                        context.pushNamed(
-                                          RoutesName.serviceInfoPage,
-                                          pathParameters: {
-                                            "serviceId":
-                                                earlierNotifs[index]
-                                                    ?.data?["booking_id"]
-                                                    .toString() ??
-                                                "",
-                                          },
-                                        );
+                                        ),
+                                      );
+                                    }
+                                    context.pushNamed(
+                                      RoutesName.serviceInfoPage,
+                                      pathParameters: {
+                                        "serviceId":
+                                            earlierNotifs[index]
+                                                ?.data?["booking_id"]
+                                                .toString() ??
+                                            "",
                                       },
-                                    ),
+                                    );
+                                  },
+                                ),
                               ),
                             )
                           else

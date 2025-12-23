@@ -29,4 +29,5 @@ class ApiConstant {
   static const String getNotificationsEndpoint = "/notifications";
   static const String timeSlotsEndpoint = "/availability/slots";
   static const String storeBookingEndpoint = "/client/bookings";
+  static const String slidersEndpoint = "/client/app-sliders";
 }

@@ -228,12 +228,12 @@ $StoreBookingEventStoreBookingCopyWith<StoreBookingEventStoreBooking> get copyWi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StoreBookingEventStoreBooking&&const DeepCollectionEquality().equals(other.storeBookingModel, storeBookingModel));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StoreBookingEventStoreBooking&&(identical(other.storeBookingModel, storeBookingModel) || other.storeBookingModel == storeBookingModel));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(storeBookingModel));
+int get hashCode => Object.hash(runtimeType,storeBookingModel);
 
 @override
 String toString() {
@@ -252,7 +252,7 @@ $Res call({
 });
 
 
-
+$StoreBookingModelCopyWith<$Res>? get storeBookingModel;
 
 }
 /// @nodoc
@@ -272,7 +272,19 @@ as StoreBookingModel?,
   ));
 }
 
+/// Create a copy of StoreBookingEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$StoreBookingModelCopyWith<$Res>? get storeBookingModel {
+    if (_self.storeBookingModel == null) {
+    return null;
+  }
 
+  return $StoreBookingModelCopyWith<$Res>(_self.storeBookingModel!, (value) {
+    return _then(_self.copyWith(storeBookingModel: value));
+  });
+}
 }
 
 /// @nodoc

@@ -42,6 +42,7 @@ import '../../../../core/dependencies_injection.dart';
 
 import '../../../../core/resource/image_widget.dart';
 import '../../data/models/home_page_model.dart';
+import '../bloc/get_sliders_bloc.dart';
 import '../widgets/notification_number_widget.dart';
 
 class HomePagePage extends StatefulWidget {
@@ -148,10 +149,10 @@ class _HomePagePageState extends State<HomePagePage> {
             socket?.onConnect((_) {
               print('✅ Connected to Socket.IO');
 
-              // socket?.emit('authenticate', {
-              //   'userId': loginState?.user['id'],
-              //   'token': onValue?.data?.access_token,
-              // });
+              socket?.emit('authenticate', {
+                'userId': loginState?.user['id'],
+                'token': onValue?.data?.access_token,
+              });
               // socket?.emit('notification:new', {"unread_count": "0"});
             });
 
@@ -174,7 +175,13 @@ class _HomePagePageState extends State<HomePagePage> {
             socket?.onAny((event, data) {
               print('📡 onAny → event: $event | data: $data');
             });
+            socket?.on('notification:unread_count', (data) async {
+              print("🔔 New Notification: $data");
 
+              // int count = await getUnreadCount();
+
+              streamSocket.addResponse(data["unread_count"].toString());
+            });
             // Your specific event listener
             socket?.on('notification:new', (data) async {
               print("🔔 New Notification: $data");
@@ -681,104 +688,177 @@ class _HomePagePageState extends State<HomePagePage> {
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 180.h,
-                  child: PageView(
-                    controller: imageController,
-                    onPageChanged: (value) {
-                      setState(() {
-                        currentImage = value;
-                      });
-                    },
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12.r),
-                        child: ImageWidget(
-                          boxFit: BoxFit.cover,
-                          imageUrl:
-                              "https://m.media-amazon.com/images/M/MV5BM2JhZWJmMDEtNTU5MS00YmQ3LTk1NjMtOGFlMjM2MjZlNjg5XkEyXkFqcGc@._V1_.jpg",
+            child: BlocProvider<GetSlidersBloc>(
+              create: (context) =>
+                  getItInstance<GetSlidersBloc>()
+                    ..add(GetSlidersEvent.getSliders(model: model)),
+              child: BlocBuilder<GetSlidersBloc, GetSlidersState>(
+                builder: (context, state) {
+                  print("Home Page Sliders State: $state");
+                  return state.when(
+                    initial: () => SizedBox(
+                      height: 150.h,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
                         ),
-                      ).animate().fadeIn(
-                        curve: Curves.easeInOut,
-                        duration: 500.ms,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.w),
-                        child:
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12.r),
-                              child: ImageWidget(
-                                width: 200.w,
-                                height: 180.h,
-                                boxFit: BoxFit.cover,
-                                imageUrl:
-                                    "https://fapello.com/content/x/c/xcandylashes/1000/xcandylashes_0044.jpg",
-                              ),
-                            ).animate().fadeIn(
-                              curve: Curves.easeInOut,
-                              duration: 500.ms,
-                            ),
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12.r),
-                        child: ImageWidget(
-                          width: 200.w,
-                          height: 180.h,
-                          boxFit: BoxFit.cover,
-                          imageUrl:
-                              "https://fapello.com/content/x/c/xcandylashes/1000/xcandylashes_0095.jpg",
-                        ),
-                      ).animate().fadeIn(
-                        curve: Curves.easeInOut,
-                        duration: 500.ms,
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 8.h),
-                  child: SizedBox(
-                    height: 30.h,
-                    width: 52.w,
-                    child: Center(
-                      child: ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                currentImage = index;
-                                imageController.animateToPage(
-                                  currentImage,
-                                  duration: 300.ms,
-                                  curve: Curves.easeInOut,
-                                );
-                              });
-                            },
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 4.w),
-                              width: currentImage == index ? 12.w : 8.w,
-                              height: currentImage == index ? 12.h : 8.h,
-                              decoration: BoxDecoration(
-                                color: currentImage == index
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Theme.of(
-                                        context,
-                                      ).disabledColor.withValues(alpha: 0.5),
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                          );
-                        },
-                        itemCount: 3,
-                        scrollDirection: Axis.horizontal,
                       ),
                     ),
-                  ),
-                ),
-              ],
+                    loading: () => SizedBox(
+                      height: 150.h,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ),
+                    loaded: (sliders) => sliders == null || (sliders.isEmpty)
+                        ? NodataStateWidget(
+                            lottieHeight: 150.h,
+                            lottieWidth: double.infinity,
+                          )
+                        : Container(
+                            height: 200.h,
+                            padding: EdgeInsets.zero,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Theme.of(context).shadowColor,
+                                  blurRadius: 8.r,
+                                  offset: Offset(0, 2.h),
+                                ),
+                              ],
+                              color: Theme.of(context).primaryColor,
+                              border: Border.fromBorderSide(
+                                Theme.of(context).defaultBorderSide,
+                              ),
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            child: Stack(
+                              children: [
+                                PageView.builder(
+                                  controller: imageController,
+                                  itemCount: sliders.length,
+                                  onPageChanged: (index) {
+                                    setState(() {
+                                      currentImage = index;
+                                    });
+                                  },
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 4.w,
+                                        vertical: 4.h,
+                                      ),
+                                      child:
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                              12.r,
+                                            ),
+                                            child: ImageWidget(
+                                              imageUrl:
+                                                  sliders[index]?.image ?? "",
+                                              boxFit: BoxFit.cover,
+                                            ),
+                                          ).animate().scaleXY(
+                                            duration: Duration(
+                                              milliseconds: 500,
+                                            ),
+                                          ),
+                                    );
+                                  },
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: Center(
+                                    child: Container(
+                                      width: 200.w,
+                                      height: 40.h,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).primaryColor,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(30.r),
+                                          topRight: Radius.circular(30.r),
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: ListView.builder(
+                                          itemBuilder: (context, index) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                imageController.animateToPage(
+                                                  index,
+                                                  duration: Duration(
+                                                    milliseconds: 300,
+                                                  ),
+                                                  curve: Curves.easeInOut,
+                                                );
+                                              },
+                                              child: AnimatedContainer(
+                                                duration: Duration(
+                                                  milliseconds: 300,
+                                                ),
+                                                margin:
+                                                    EdgeInsetsDirectional.only(
+                                                      start: 8.w,
+                                                      end: 8.w,
+                                                      bottom:
+                                                          currentImage == index
+                                                          ? 6.h
+                                                          : 0.h,
+                                                    ),
+
+                                                width: currentImage == index
+                                                    ? 20.w
+                                                    : 16.w,
+                                                height: 8.h,
+                                                decoration: BoxDecoration(
+                                                  color: currentImage == index
+                                                      ? Theme.of(
+                                                          context,
+                                                        ).colorScheme.onSurface
+                                                      : Theme.of(context)
+                                                            .colorScheme
+                                                            .onSurface
+                                                            .withOpacity(0.5),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: sliders.length,
+                                          shrinkWrap: true,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                    noData: () => NodataStateWidget(
+                      lottieHeight: 100.h,
+                      lottieWidth: 100.w,
+                    ),
+                    error: (message) => ErrorStateWidget(
+                      lottieHeight: 100.h,
+                      lottieWidth: 100.w,
+                    ),
+                    noInternet: () => NoInternetStateWidget(
+                      lottieHeight: 100.h,
+                      lottieWidth: 100.w,
+                    ),
+                    unauthenticated: () => ErrorStateWidget(
+                      lottieHeight: 100.h,
+                      lottieWidth: 100.w,
+                    ),
+                  );
+                },
+              ),
             ),
           ),
           Padding(

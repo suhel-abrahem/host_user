@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:hosta_user/core/resource/rst_stream/rst_stream.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ import '../../features/profile_page/presentation/pages/setting_page_page.dart';
 
 String? currentPath = RoutesPath.homePage;
 IO.Socket? socket;
+String? lastNotificationCount = "0";
 
 class RoutesName {
   static String homePage = "homePage";
@@ -96,9 +98,12 @@ GoRouter goRouter = GoRouter(
             state.uri.toString().endsWith(RoutesPath.otpPage))) {
       return RoutesPath.loginPage;
     }
+
     if (currentPath?.endsWith(RoutesPath.homePage) == false) {
       socket?.disconnect();
       socket?.dispose();
+    } else {
+      streamSocket.addResponse(lastNotificationCount.toString());
     }
     return null;
   },

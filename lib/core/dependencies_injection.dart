@@ -34,8 +34,11 @@ import '../features/category_services_page/presentation/bloc/set_service_bloc.da
 import '../features/home_page/data/models/home_page_model.dart';
 import '../features/home_page/data/repositories/home_page_repository_implements.dart';
 import '../features/home_page/domain/entities/home_page_entity.dart';
+import '../features/home_page/domain/entities/slider_entity.dart';
 import '../features/home_page/domain/repositories/home_page_repository.dart';
+import '../features/home_page/domain/usecases/get_slider_usecase.dart';
 import '../features/home_page/domain/usecases/home_page_usecase.dart';
+import '../features/home_page/presentation/bloc/get_sliders_bloc.dart';
 import '../features/home_page/presentation/bloc/home_page_bloc.dart';
 import '../features/login_page/data/models/login_model.dart';
 import '../features/login_page/data/models/login_state_model.dart';
@@ -138,7 +141,7 @@ Future<void> initDependencies() async {
   getItInstance.registerSingleton<CommonService>(CommonService());
   getItInstance.registerSingleton<CheckConnectivity>(CheckConnectivity());
   getItInstance.registerLazySingleton<FirebaseMessagingService>(
-   ()=> FirebaseMessagingService(),
+    () => FirebaseMessagingService(),
   );
   //login feature dependencies
   getItInstance.registerSingleton<LoginStateEntity>(LoginStateEntity());
@@ -402,19 +405,26 @@ Future<void> initDependencies() async {
   //entities and models
   getItInstance.registerSingleton<HomePageEntity>(HomePageEntity());
   getItInstance.registerSingleton<HomePageModel>(HomePageModel());
+  getItInstance.registerSingleton<SliderEntity>(SliderEntity());
 
   //repository
   getItInstance.registerSingleton<HomePageRepository>(
     HomePageRepositoryImpl(getItInstance()),
   );
+
   //usecase
   getItInstance.registerSingleton<HomePageUseCase>(
     HomePageUseCase(getItInstance()),
   );
-
+  getItInstance.registerSingleton<GetSliderUsecase>(
+    GetSliderUsecase(getItInstance()),
+  );
   //bloc
   getItInstance.registerFactory<HomePageBloc>(
     () => HomePageBloc(getItInstance(), getItInstance()),
+  );
+  getItInstance.registerFactory<GetSlidersBloc>(
+    () => GetSlidersBloc(getItInstance(), getItInstance()),
   );
 
   // end of home page
