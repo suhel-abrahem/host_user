@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SetProfileModel {
 
- String? get name; String? get email; String? get phone; String? get dob;@FilePathConverter() File? get avatar; String? get address; int? get city_id;
+ String? get name; String? get email; String? get phone; String? get dob;@FileJsonConverter() File? get avatar; String? get address; int? get city_id;
 /// Create a copy of SetProfileModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $SetProfileModelCopyWith<$Res>  {
   factory $SetProfileModelCopyWith(SetProfileModel value, $Res Function(SetProfileModel) _then) = _$SetProfileModelCopyWithImpl;
 @useResult
 $Res call({
- String? name, String? email, String? phone, String? dob,@FilePathConverter() File? avatar, String? address, int? city_id
+ String? name, String? email, String? phone, String? dob,@FileJsonConverter() File? avatar, String? address, int? city_id
 });
 
 
@@ -159,7 +159,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? name,  String? email,  String? phone,  String? dob, @FilePathConverter()  File? avatar,  String? address,  int? city_id)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? name,  String? email,  String? phone,  String? dob, @FileJsonConverter()  File? avatar,  String? address,  int? city_id)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SetProfileModel() when $default != null:
 return $default(_that.name,_that.email,_that.phone,_that.dob,_that.avatar,_that.address,_that.city_id);case _:
@@ -180,7 +180,7 @@ return $default(_that.name,_that.email,_that.phone,_that.dob,_that.avatar,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? name,  String? email,  String? phone,  String? dob, @FilePathConverter()  File? avatar,  String? address,  int? city_id)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? name,  String? email,  String? phone,  String? dob, @FileJsonConverter()  File? avatar,  String? address,  int? city_id)  $default,) {final _that = this;
 switch (_that) {
 case _SetProfileModel():
 return $default(_that.name,_that.email,_that.phone,_that.dob,_that.avatar,_that.address,_that.city_id);case _:
@@ -200,7 +200,7 @@ return $default(_that.name,_that.email,_that.phone,_that.dob,_that.avatar,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? name,  String? email,  String? phone,  String? dob, @FilePathConverter()  File? avatar,  String? address,  int? city_id)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? name,  String? email,  String? phone,  String? dob, @FileJsonConverter()  File? avatar,  String? address,  int? city_id)?  $default,) {final _that = this;
 switch (_that) {
 case _SetProfileModel() when $default != null:
 return $default(_that.name,_that.email,_that.phone,_that.dob,_that.avatar,_that.address,_that.city_id);case _:
@@ -215,14 +215,14 @@ return $default(_that.name,_that.email,_that.phone,_that.dob,_that.avatar,_that.
 @JsonSerializable()
 
 class _SetProfileModel implements SetProfileModel {
-  const _SetProfileModel({this.name = "", this.email = "", this.phone = "", this.dob = "", @FilePathConverter() this.avatar, this.address = "", this.city_id = null});
+  const _SetProfileModel({this.name = "", this.email = "", this.phone = "", this.dob = "", @FileJsonConverter() this.avatar, this.address = "", this.city_id = null});
   factory _SetProfileModel.fromJson(Map<String, dynamic> json) => _$SetProfileModelFromJson(json);
 
 @override@JsonKey() final  String? name;
 @override@JsonKey() final  String? email;
 @override@JsonKey() final  String? phone;
 @override@JsonKey() final  String? dob;
-@override@FilePathConverter() final  File? avatar;
+@override@FileJsonConverter() final  File? avatar;
 @override@JsonKey() final  String? address;
 @override@JsonKey() final  int? city_id;
 
@@ -259,7 +259,7 @@ abstract mixin class _$SetProfileModelCopyWith<$Res> implements $SetProfileModel
   factory _$SetProfileModelCopyWith(_SetProfileModel value, $Res Function(_SetProfileModel) _then) = __$SetProfileModelCopyWithImpl;
 @override @useResult
 $Res call({
- String? name, String? email, String? phone, String? dob,@FilePathConverter() File? avatar, String? address, int? city_id
+ String? name, String? email, String? phone, String? dob,@FileJsonConverter() File? avatar, String? address, int? city_id
 });
 
 

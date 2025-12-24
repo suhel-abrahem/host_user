@@ -367,6 +367,11 @@ class CodegenLoader extends AssetLoader{
     "allowLocationServices": "السماح بخدمات الموقع",
     "location": "الموقع",
     "allowAppAccessYourLocation": "السماح للتطبيق بالوصول إلى موقعك"
+  },
+  "chatsPage": {
+    "title": "صفحة الدردشات",
+    "label": "الدردشات",
+    "noChatsAvailable": "لا توجد دردشات متاحة"
   }
 };
 static const Map<String,dynamic> _en = {
@@ -722,6 +727,11 @@ static const Map<String,dynamic> _en = {
     "allowLocationServices": "Allow location services",
     "location": "Location",
     "allowAppAccessYourLocation": "Allow app to access your location"
+  },
+  "chatsPage": {
+    "title": "Chats page",
+    "label": "Chats",
+    "noChatsAvailable": "No chats available"
   }
 };
 static const Map<String,dynamic> _fa = {
@@ -1077,6 +1087,11 @@ static const Map<String,dynamic> _fa = {
     "allowLocationServices": "ڕێگە بدە بۆ خزمەتگوزارییەکانی شوێن",
     "location": "شوێن",
     "allowAppAccessYourLocation": "ڕێگە بدە بۆ ئەپلیکەیشن بۆ گەیشتن بە شوێنەکەت"
+  },
+  "chatsPage": {
+    "title": "شاشەی چات",
+    "label": "چاتەکان",
+    "noChatsAvailable": "هیچ چاتێک بوونی نییە"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": _ar, "en": _en, "fa": _fa};

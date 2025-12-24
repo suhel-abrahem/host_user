@@ -351,5 +351,10 @@
     "allowLocationServices": "السماح بخدمات الموقع",
     "location": "الموقع",
     "allowAppAccessYourLocation": "السماح للتطبيق بالوصول إلى موقعك"
+  },
+  "chatsPage": {
+    "title": "صفحة الدردشات",
+    "label": "الدردشات",
+    "noChatsAvailable": "لا توجد دردشات متاحة"
   }
 }

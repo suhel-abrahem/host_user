@@ -63,7 +63,7 @@ class StoreBookingRepositoryImplements implements StoreBookingRepository {
         for (final file in storeBookingModel.attachments!) {
           formData.files.add(
             MapEntry(
-              'images[]', // ⚠️ confirm backend key
+              'images[]',
               await MultipartFile.fromFile(
                 file!.path,
                 filename: file.path.split('/').last,

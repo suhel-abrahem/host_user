@@ -340,5 +340,9 @@ abstract class  LocaleKeys {
   static const settingsPage_location = 'settingsPage.location';
   static const settingsPage_allowAppAccessYourLocation = 'settingsPage.allowAppAccessYourLocation';
   static const settingsPage = 'settingsPage';
+  static const chatsPage_title = 'chatsPage.title';
+  static const chatsPage_label = 'chatsPage.label';
+  static const chatsPage_noChatsAvailable = 'chatsPage.noChatsAvailable';
+  static const chatsPage = 'chatsPage';
 
 }

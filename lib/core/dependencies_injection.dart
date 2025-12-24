@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:hosta_user/features/chat/domain/entities/message/message_entity.dart';
 import 'package:hosta_user/features/service_details/data/models/store_booking_model.dart';
 import 'package:hosta_user/features/service_details/data/models/time_slots_model.dart';
 import 'package:hosta_user/features/service_details/domain/entities/service_details_entity.dart';
@@ -31,6 +32,17 @@ import '../features/category_services_page/domain/usecases/set_service_usecase.d
 import '../features/category_services_page/domain/usecases/update_service_usecase.dart';
 import '../features/category_services_page/presentation/bloc/category_services_bloc.dart';
 import '../features/category_services_page/presentation/bloc/set_service_bloc.dart';
+import '../features/chat/data/models/chat_model.dart' show ChatModel;
+import '../features/chat/data/repositories/chat_repository_implements.dart';
+import '../features/chat/domain/entities/chat/chat_entity.dart';
+import '../features/chat/domain/entities/chats/chats_entity.dart';
+import '../features/chat/domain/entities/conversation/conversation_entity.dart';
+import '../features/chat/domain/repositories/chat_repository.dart';
+import '../features/chat/domain/usecases/get_chat_details_usecase.dart';
+import '../features/chat/domain/usecases/get_chats_usecase.dart';
+import '../features/chat/domain/usecases/send_chat_usecase.dart';
+import '../features/chat/presentation/bloc/get_chat_bloc.dart';
+import '../features/chat/presentation/bloc/send_chat_bloc.dart';
 import '../features/home_page/data/models/home_page_model.dart';
 import '../features/home_page/data/repositories/home_page_repository_implements.dart';
 import '../features/home_page/domain/entities/home_page_entity.dart';
@@ -495,4 +507,34 @@ Future<void> initDependencies() async {
       getItInstance(),
     ),
   );
+  // end of notification page
+  //chat
+  //entities and models
+  getItInstance.registerSingleton<ConversationEntity>(ConversationEntity());
+  getItInstance.registerSingleton<ChatEntity>(ChatEntity());
+  getItInstance.registerSingleton<ChatsEntity>(ChatsEntity());
+  getItInstance.registerSingleton<MessageEntity>(MessageEntity());
+  getItInstance.registerSingleton<ChatModel>(ChatModel());
+  //repository
+  getItInstance.registerSingleton<ChatRepository>(
+    ChatRepositoryImplements(getItInstance()),
+  );
+  //usecase
+  getItInstance.registerSingleton<GetChatsUsecase>(
+    GetChatsUsecase(getItInstance()),
+  );
+  getItInstance.registerSingleton<GetChatDetailsUsecase>(
+    GetChatDetailsUsecase(getItInstance()),
+  );
+  getItInstance.registerSingleton<SendChatUsecase>(
+    SendChatUsecase(getItInstance()),
+  );
+  //bloc
+  getItInstance.registerFactory<GetChatBloc>(
+    () => GetChatBloc(getItInstance(), getItInstance(), getItInstance()),
+  );
+  getItInstance.registerFactory<SendChatBloc>(
+    () => SendChatBloc(getItInstance(), getItInstance()),
+  );
+  //end of chat
 }

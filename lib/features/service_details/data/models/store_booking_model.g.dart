@@ -13,7 +13,7 @@ _StoreBookingModel _$StoreBookingModelFromJson(Map<String, dynamic> json) =>
       serviceId: (json['serviceId'] as num?)?.toInt() ?? 0,
       providerId: (json['providerId'] as num?)?.toInt() ?? 0,
       notes: json['notes'] as String? ?? '',
-      attachments: const ImagesJsonConverter().fromJson(
+      attachments: const FileListJsonConverter().fromJson(
         json['attachments'] as List<String?>?,
       ),
       scheduledAt: json['scheduledAt'] as String? ?? '',
@@ -26,6 +26,6 @@ Map<String, dynamic> _$StoreBookingModelToJson(_StoreBookingModel instance) =>
       'serviceId': instance.serviceId,
       'providerId': instance.providerId,
       'notes': instance.notes,
-      'attachments': const ImagesJsonConverter().toJson(instance.attachments),
+      'attachments': const FileListJsonConverter().toJson(instance.attachments),
       'scheduledAt': instance.scheduledAt,
     };

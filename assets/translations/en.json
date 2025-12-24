@@ -351,5 +351,10 @@
     "allowLocationServices": "Allow location services",
     "location": "Location",
     "allowAppAccessYourLocation": "Allow app to access your location"
+  },
+  "chatsPage": {
+    "title": "Chats page",
+    "label": "Chats",
+    "noChatsAvailable": "No chats available"
   }
 }

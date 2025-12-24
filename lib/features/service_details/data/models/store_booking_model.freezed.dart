@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$StoreBookingModel {
 
- String? get acceptLanguage; String? get authToken; int? get serviceId; int? get providerId; String? get notes;@ImagesJsonConverter() List<File?>? get attachments; String? get scheduledAt;
+ String? get acceptLanguage; String? get authToken; int? get serviceId; int? get providerId; String? get notes;@FileListJsonConverter() List<File?>? get attachments; String? get scheduledAt;
 /// Create a copy of StoreBookingModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $StoreBookingModelCopyWith<$Res>  {
   factory $StoreBookingModelCopyWith(StoreBookingModel value, $Res Function(StoreBookingModel) _then) = _$StoreBookingModelCopyWithImpl;
 @useResult
 $Res call({
- String? acceptLanguage, String? authToken, int? serviceId, int? providerId, String? notes,@ImagesJsonConverter() List<File?>? attachments, String? scheduledAt
+ String? acceptLanguage, String? authToken, int? serviceId, int? providerId, String? notes,@FileListJsonConverter() List<File?>? attachments, String? scheduledAt
 });
 
 
@@ -159,7 +159,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? acceptLanguage,  String? authToken,  int? serviceId,  int? providerId,  String? notes, @ImagesJsonConverter()  List<File?>? attachments,  String? scheduledAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? acceptLanguage,  String? authToken,  int? serviceId,  int? providerId,  String? notes, @FileListJsonConverter()  List<File?>? attachments,  String? scheduledAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _StoreBookingModel() when $default != null:
 return $default(_that.acceptLanguage,_that.authToken,_that.serviceId,_that.providerId,_that.notes,_that.attachments,_that.scheduledAt);case _:
@@ -180,7 +180,7 @@ return $default(_that.acceptLanguage,_that.authToken,_that.serviceId,_that.provi
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? acceptLanguage,  String? authToken,  int? serviceId,  int? providerId,  String? notes, @ImagesJsonConverter()  List<File?>? attachments,  String? scheduledAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? acceptLanguage,  String? authToken,  int? serviceId,  int? providerId,  String? notes, @FileListJsonConverter()  List<File?>? attachments,  String? scheduledAt)  $default,) {final _that = this;
 switch (_that) {
 case _StoreBookingModel():
 return $default(_that.acceptLanguage,_that.authToken,_that.serviceId,_that.providerId,_that.notes,_that.attachments,_that.scheduledAt);case _:
@@ -200,7 +200,7 @@ return $default(_that.acceptLanguage,_that.authToken,_that.serviceId,_that.provi
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? acceptLanguage,  String? authToken,  int? serviceId,  int? providerId,  String? notes, @ImagesJsonConverter()  List<File?>? attachments,  String? scheduledAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? acceptLanguage,  String? authToken,  int? serviceId,  int? providerId,  String? notes, @FileListJsonConverter()  List<File?>? attachments,  String? scheduledAt)?  $default,) {final _that = this;
 switch (_that) {
 case _StoreBookingModel() when $default != null:
 return $default(_that.acceptLanguage,_that.authToken,_that.serviceId,_that.providerId,_that.notes,_that.attachments,_that.scheduledAt);case _:
@@ -215,7 +215,7 @@ return $default(_that.acceptLanguage,_that.authToken,_that.serviceId,_that.provi
 @JsonSerializable()
 
 class _StoreBookingModel implements StoreBookingModel {
-  const _StoreBookingModel({this.acceptLanguage = "ar", this.authToken = "", this.serviceId = 0, this.providerId = 0, this.notes = '', @ImagesJsonConverter() final  List<File?>? attachments, this.scheduledAt = ''}): _attachments = attachments;
+  const _StoreBookingModel({this.acceptLanguage = "ar", this.authToken = "", this.serviceId = 0, this.providerId = 0, this.notes = '', @FileListJsonConverter() final  List<File?>? attachments, this.scheduledAt = ''}): _attachments = attachments;
   factory _StoreBookingModel.fromJson(Map<String, dynamic> json) => _$StoreBookingModelFromJson(json);
 
 @override@JsonKey() final  String? acceptLanguage;
@@ -224,7 +224,7 @@ class _StoreBookingModel implements StoreBookingModel {
 @override@JsonKey() final  int? providerId;
 @override@JsonKey() final  String? notes;
  final  List<File?>? _attachments;
-@override@ImagesJsonConverter() List<File?>? get attachments {
+@override@FileListJsonConverter() List<File?>? get attachments {
   final value = _attachments;
   if (value == null) return null;
   if (_attachments is EqualUnmodifiableListView) return _attachments;
@@ -267,7 +267,7 @@ abstract mixin class _$StoreBookingModelCopyWith<$Res> implements $StoreBookingM
   factory _$StoreBookingModelCopyWith(_StoreBookingModel value, $Res Function(_StoreBookingModel) _then) = __$StoreBookingModelCopyWithImpl;
 @override @useResult
 $Res call({
- String? acceptLanguage, String? authToken, int? serviceId, int? providerId, String? notes,@ImagesJsonConverter() List<File?>? attachments, String? scheduledAt
+ String? acceptLanguage, String? authToken, int? serviceId, int? providerId, String? notes,@FileListJsonConverter() List<File?>? attachments, String? scheduledAt
 });
 
 

@@ -7,6 +7,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hosta_user/features/service_details/presentation/pages/service_details_page.dart';
 import '../../core/resource/common_entity/service_entity.dart';
+import '../../features/chat/presentation/pages/chats_page.dart';
 import '../../features/notification_page/presentation/pages/notification_page.dart';
 import '../../features/provider_page/presentation/pages/provider_page.dart';
 import '../app/app_preferences.dart';
@@ -57,6 +58,7 @@ class RoutesName {
   static String serviceDetailsPage = "serviceDetailsPage";
   static String providerPage = "providerPage";
   static String notificationPage = "notificationPage";
+  static String chatsPage = "chatsPage";
 }
 
 class RoutesPath {
@@ -79,6 +81,7 @@ class RoutesPath {
   static String serviceDetailsPage = "/serviceDetailsPage/:serviceEntity";
   static String providerPage = "/providerPage";
   static String notificationPage = "/notificationPage";
+  static String chatsPage = "/chatsPage";
 }
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -327,6 +330,13 @@ GoRouter goRouter = GoRouter(
                   child: NotificationPage(),
                   state: state,
                 );
+              },
+            ),
+            GoRoute(
+              path: RoutesPath.chatsPage,
+              name: RoutesName.chatsPage,
+              pageBuilder: (context, state) {
+                return _customTransitionPage(child: ChatsPage(), state: state);
               },
             ),
           ],

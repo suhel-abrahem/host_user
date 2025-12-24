@@ -351,5 +351,10 @@
     "allowLocationServices": "ڕێگە بدە بۆ خزمەتگوزارییەکانی شوێن",
     "location": "شوێن",
     "allowAppAccessYourLocation": "ڕێگە بدە بۆ ئەپلیکەیشن بۆ گەیشتن بە شوێنەکەت"
+  },
+  "chatsPage": {
+    "title": "شاشەی چات",
+    "label": "چاتەکان",
+    "noChatsAvailable": "هیچ چاتێک بوونی نییە"
   }
 }
