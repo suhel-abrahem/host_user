@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MessageEntity {
 
- int? get id; int? get sender_id; String? get sender_name; String? get message_type; String? get content; bool? get me; bool? get is_read; String? get read_at; String? get created_at; UploadingStateEnum? get uploadingState; String? get localKey;
+ int? get id; int? get sender_id; String? get sender_name; String? get message_type; String? get content; bool? get me; bool? get is_read; String? get read_at; String? get created_at; UploadingStateEnum? get uploadingState; String? get localKey;@FileListJsonConverter() List<File?>? get files;
 /// Create a copy of MessageEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $MessageEntityCopyWith<MessageEntity> get copyWith => _$MessageEntityCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MessageEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.sender_id, sender_id) || other.sender_id == sender_id)&&(identical(other.sender_name, sender_name) || other.sender_name == sender_name)&&(identical(other.message_type, message_type) || other.message_type == message_type)&&(identical(other.content, content) || other.content == content)&&(identical(other.me, me) || other.me == me)&&(identical(other.is_read, is_read) || other.is_read == is_read)&&(identical(other.read_at, read_at) || other.read_at == read_at)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.uploadingState, uploadingState) || other.uploadingState == uploadingState)&&(identical(other.localKey, localKey) || other.localKey == localKey));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MessageEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.sender_id, sender_id) || other.sender_id == sender_id)&&(identical(other.sender_name, sender_name) || other.sender_name == sender_name)&&(identical(other.message_type, message_type) || other.message_type == message_type)&&(identical(other.content, content) || other.content == content)&&(identical(other.me, me) || other.me == me)&&(identical(other.is_read, is_read) || other.is_read == is_read)&&(identical(other.read_at, read_at) || other.read_at == read_at)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.uploadingState, uploadingState) || other.uploadingState == uploadingState)&&(identical(other.localKey, localKey) || other.localKey == localKey)&&const DeepCollectionEquality().equals(other.files, files));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,sender_id,sender_name,message_type,content,me,is_read,read_at,created_at,uploadingState,localKey);
+int get hashCode => Object.hash(runtimeType,id,sender_id,sender_name,message_type,content,me,is_read,read_at,created_at,uploadingState,localKey,const DeepCollectionEquality().hash(files));
 
 @override
 String toString() {
-  return 'MessageEntity(id: $id, sender_id: $sender_id, sender_name: $sender_name, message_type: $message_type, content: $content, me: $me, is_read: $is_read, read_at: $read_at, created_at: $created_at, uploadingState: $uploadingState, localKey: $localKey)';
+  return 'MessageEntity(id: $id, sender_id: $sender_id, sender_name: $sender_name, message_type: $message_type, content: $content, me: $me, is_read: $is_read, read_at: $read_at, created_at: $created_at, uploadingState: $uploadingState, localKey: $localKey, files: $files)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $MessageEntityCopyWith<$Res>  {
   factory $MessageEntityCopyWith(MessageEntity value, $Res Function(MessageEntity) _then) = _$MessageEntityCopyWithImpl;
 @useResult
 $Res call({
- int? id, int? sender_id, String? sender_name, String? message_type, String? content, bool? me, bool? is_read, String? read_at, String? created_at, UploadingStateEnum? uploadingState, String? localKey
+ int? id, int? sender_id, String? sender_name, String? message_type, String? content, bool? me, bool? is_read, String? read_at, String? created_at, UploadingStateEnum? uploadingState, String? localKey,@FileListJsonConverter() List<File?>? files
 });
 
 
@@ -65,7 +65,7 @@ class _$MessageEntityCopyWithImpl<$Res>
 
 /// Create a copy of MessageEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? sender_id = freezed,Object? sender_name = freezed,Object? message_type = freezed,Object? content = freezed,Object? me = freezed,Object? is_read = freezed,Object? read_at = freezed,Object? created_at = freezed,Object? uploadingState = freezed,Object? localKey = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? sender_id = freezed,Object? sender_name = freezed,Object? message_type = freezed,Object? content = freezed,Object? me = freezed,Object? is_read = freezed,Object? read_at = freezed,Object? created_at = freezed,Object? uploadingState = freezed,Object? localKey = freezed,Object? files = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,sender_id: freezed == sender_id ? _self.sender_id : sender_id // ignore: cast_nullable_to_non_nullable
@@ -78,7 +78,8 @@ as bool?,read_at: freezed == read_at ? _self.read_at : read_at // ignore: cast_n
 as String?,created_at: freezed == created_at ? _self.created_at : created_at // ignore: cast_nullable_to_non_nullable
 as String?,uploadingState: freezed == uploadingState ? _self.uploadingState : uploadingState // ignore: cast_nullable_to_non_nullable
 as UploadingStateEnum?,localKey: freezed == localKey ? _self.localKey : localKey // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,files: freezed == files ? _self.files : files // ignore: cast_nullable_to_non_nullable
+as List<File?>?,
   ));
 }
 
@@ -163,10 +164,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  int? sender_id,  String? sender_name,  String? message_type,  String? content,  bool? me,  bool? is_read,  String? read_at,  String? created_at,  UploadingStateEnum? uploadingState,  String? localKey)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  int? sender_id,  String? sender_name,  String? message_type,  String? content,  bool? me,  bool? is_read,  String? read_at,  String? created_at,  UploadingStateEnum? uploadingState,  String? localKey, @FileListJsonConverter()  List<File?>? files)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MessageEntity() when $default != null:
-return $default(_that.id,_that.sender_id,_that.sender_name,_that.message_type,_that.content,_that.me,_that.is_read,_that.read_at,_that.created_at,_that.uploadingState,_that.localKey);case _:
+return $default(_that.id,_that.sender_id,_that.sender_name,_that.message_type,_that.content,_that.me,_that.is_read,_that.read_at,_that.created_at,_that.uploadingState,_that.localKey,_that.files);case _:
   return orElse();
 
 }
@@ -184,10 +185,10 @@ return $default(_that.id,_that.sender_id,_that.sender_name,_that.message_type,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  int? sender_id,  String? sender_name,  String? message_type,  String? content,  bool? me,  bool? is_read,  String? read_at,  String? created_at,  UploadingStateEnum? uploadingState,  String? localKey)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  int? sender_id,  String? sender_name,  String? message_type,  String? content,  bool? me,  bool? is_read,  String? read_at,  String? created_at,  UploadingStateEnum? uploadingState,  String? localKey, @FileListJsonConverter()  List<File?>? files)  $default,) {final _that = this;
 switch (_that) {
 case _MessageEntity():
-return $default(_that.id,_that.sender_id,_that.sender_name,_that.message_type,_that.content,_that.me,_that.is_read,_that.read_at,_that.created_at,_that.uploadingState,_that.localKey);case _:
+return $default(_that.id,_that.sender_id,_that.sender_name,_that.message_type,_that.content,_that.me,_that.is_read,_that.read_at,_that.created_at,_that.uploadingState,_that.localKey,_that.files);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -204,10 +205,10 @@ return $default(_that.id,_that.sender_id,_that.sender_name,_that.message_type,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  int? sender_id,  String? sender_name,  String? message_type,  String? content,  bool? me,  bool? is_read,  String? read_at,  String? created_at,  UploadingStateEnum? uploadingState,  String? localKey)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  int? sender_id,  String? sender_name,  String? message_type,  String? content,  bool? me,  bool? is_read,  String? read_at,  String? created_at,  UploadingStateEnum? uploadingState,  String? localKey, @FileListJsonConverter()  List<File?>? files)?  $default,) {final _that = this;
 switch (_that) {
 case _MessageEntity() when $default != null:
-return $default(_that.id,_that.sender_id,_that.sender_name,_that.message_type,_that.content,_that.me,_that.is_read,_that.read_at,_that.created_at,_that.uploadingState,_that.localKey);case _:
+return $default(_that.id,_that.sender_id,_that.sender_name,_that.message_type,_that.content,_that.me,_that.is_read,_that.read_at,_that.created_at,_that.uploadingState,_that.localKey,_that.files);case _:
   return null;
 
 }
@@ -219,7 +220,7 @@ return $default(_that.id,_that.sender_id,_that.sender_name,_that.message_type,_t
 @JsonSerializable()
 
 class _MessageEntity implements MessageEntity {
-  const _MessageEntity({this.id = 0, this.sender_id = 0, this.sender_name = "", this.message_type = "", this.content = "", this.me = false, this.is_read = false, this.read_at = "", this.created_at = "", this.uploadingState = UploadingStateEnum.uploaded, this.localKey = ""});
+  const _MessageEntity({this.id = 0, this.sender_id = 0, this.sender_name = "", this.message_type = "", this.content = "", this.me = false, this.is_read = false, this.read_at = "", this.created_at = "", this.uploadingState = UploadingStateEnum.uploaded, this.localKey = "", @FileListJsonConverter() final  List<File?>? files}): _files = files;
   factory _MessageEntity.fromJson(Map<String, dynamic> json) => _$MessageEntityFromJson(json);
 
 @override@JsonKey() final  int? id;
@@ -233,6 +234,15 @@ class _MessageEntity implements MessageEntity {
 @override@JsonKey() final  String? created_at;
 @override@JsonKey() final  UploadingStateEnum? uploadingState;
 @override@JsonKey() final  String? localKey;
+ final  List<File?>? _files;
+@override@FileListJsonConverter() List<File?>? get files {
+  final value = _files;
+  if (value == null) return null;
+  if (_files is EqualUnmodifiableListView) return _files;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 
 /// Create a copy of MessageEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -247,16 +257,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MessageEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.sender_id, sender_id) || other.sender_id == sender_id)&&(identical(other.sender_name, sender_name) || other.sender_name == sender_name)&&(identical(other.message_type, message_type) || other.message_type == message_type)&&(identical(other.content, content) || other.content == content)&&(identical(other.me, me) || other.me == me)&&(identical(other.is_read, is_read) || other.is_read == is_read)&&(identical(other.read_at, read_at) || other.read_at == read_at)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.uploadingState, uploadingState) || other.uploadingState == uploadingState)&&(identical(other.localKey, localKey) || other.localKey == localKey));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MessageEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.sender_id, sender_id) || other.sender_id == sender_id)&&(identical(other.sender_name, sender_name) || other.sender_name == sender_name)&&(identical(other.message_type, message_type) || other.message_type == message_type)&&(identical(other.content, content) || other.content == content)&&(identical(other.me, me) || other.me == me)&&(identical(other.is_read, is_read) || other.is_read == is_read)&&(identical(other.read_at, read_at) || other.read_at == read_at)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.uploadingState, uploadingState) || other.uploadingState == uploadingState)&&(identical(other.localKey, localKey) || other.localKey == localKey)&&const DeepCollectionEquality().equals(other._files, _files));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,sender_id,sender_name,message_type,content,me,is_read,read_at,created_at,uploadingState,localKey);
+int get hashCode => Object.hash(runtimeType,id,sender_id,sender_name,message_type,content,me,is_read,read_at,created_at,uploadingState,localKey,const DeepCollectionEquality().hash(_files));
 
 @override
 String toString() {
-  return 'MessageEntity(id: $id, sender_id: $sender_id, sender_name: $sender_name, message_type: $message_type, content: $content, me: $me, is_read: $is_read, read_at: $read_at, created_at: $created_at, uploadingState: $uploadingState, localKey: $localKey)';
+  return 'MessageEntity(id: $id, sender_id: $sender_id, sender_name: $sender_name, message_type: $message_type, content: $content, me: $me, is_read: $is_read, read_at: $read_at, created_at: $created_at, uploadingState: $uploadingState, localKey: $localKey, files: $files)';
 }
 
 
@@ -267,7 +277,7 @@ abstract mixin class _$MessageEntityCopyWith<$Res> implements $MessageEntityCopy
   factory _$MessageEntityCopyWith(_MessageEntity value, $Res Function(_MessageEntity) _then) = __$MessageEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int? id, int? sender_id, String? sender_name, String? message_type, String? content, bool? me, bool? is_read, String? read_at, String? created_at, UploadingStateEnum? uploadingState, String? localKey
+ int? id, int? sender_id, String? sender_name, String? message_type, String? content, bool? me, bool? is_read, String? read_at, String? created_at, UploadingStateEnum? uploadingState, String? localKey,@FileListJsonConverter() List<File?>? files
 });
 
 
@@ -284,7 +294,7 @@ class __$MessageEntityCopyWithImpl<$Res>
 
 /// Create a copy of MessageEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? sender_id = freezed,Object? sender_name = freezed,Object? message_type = freezed,Object? content = freezed,Object? me = freezed,Object? is_read = freezed,Object? read_at = freezed,Object? created_at = freezed,Object? uploadingState = freezed,Object? localKey = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? sender_id = freezed,Object? sender_name = freezed,Object? message_type = freezed,Object? content = freezed,Object? me = freezed,Object? is_read = freezed,Object? read_at = freezed,Object? created_at = freezed,Object? uploadingState = freezed,Object? localKey = freezed,Object? files = freezed,}) {
   return _then(_MessageEntity(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,sender_id: freezed == sender_id ? _self.sender_id : sender_id // ignore: cast_nullable_to_non_nullable
@@ -297,7 +307,8 @@ as bool?,read_at: freezed == read_at ? _self.read_at : read_at // ignore: cast_n
 as String?,created_at: freezed == created_at ? _self.created_at : created_at // ignore: cast_nullable_to_non_nullable
 as String?,uploadingState: freezed == uploadingState ? _self.uploadingState : uploadingState // ignore: cast_nullable_to_non_nullable
 as UploadingStateEnum?,localKey: freezed == localKey ? _self.localKey : localKey // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,files: freezed == files ? _self._files : files // ignore: cast_nullable_to_non_nullable
+as List<File?>?,
   ));
 }
 

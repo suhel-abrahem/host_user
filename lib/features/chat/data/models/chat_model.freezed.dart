@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ChatModel {
 
- String? get acceptLanguage; String? get authToken; int? get id; String? get content; String? get message_type;@FileJsonConverter() File? get file; bool? get is_typing;
+ String? get acceptLanguage; String? get authToken; int? get id; String? get content; String? get message_type;@FileListJsonConverter() List<File?>? get attachments; bool? get is_typing;
 /// Create a copy of ChatModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ChatModelCopyWith<ChatModel> get copyWith => _$ChatModelCopyWithImpl<ChatModel>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatModel&&(identical(other.acceptLanguage, acceptLanguage) || other.acceptLanguage == acceptLanguage)&&(identical(other.authToken, authToken) || other.authToken == authToken)&&(identical(other.id, id) || other.id == id)&&(identical(other.content, content) || other.content == content)&&(identical(other.message_type, message_type) || other.message_type == message_type)&&(identical(other.file, file) || other.file == file)&&(identical(other.is_typing, is_typing) || other.is_typing == is_typing));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatModel&&(identical(other.acceptLanguage, acceptLanguage) || other.acceptLanguage == acceptLanguage)&&(identical(other.authToken, authToken) || other.authToken == authToken)&&(identical(other.id, id) || other.id == id)&&(identical(other.content, content) || other.content == content)&&(identical(other.message_type, message_type) || other.message_type == message_type)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&(identical(other.is_typing, is_typing) || other.is_typing == is_typing));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,acceptLanguage,authToken,id,content,message_type,file,is_typing);
+int get hashCode => Object.hash(runtimeType,acceptLanguage,authToken,id,content,message_type,const DeepCollectionEquality().hash(attachments),is_typing);
 
 @override
 String toString() {
-  return 'ChatModel(acceptLanguage: $acceptLanguage, authToken: $authToken, id: $id, content: $content, message_type: $message_type, file: $file, is_typing: $is_typing)';
+  return 'ChatModel(acceptLanguage: $acceptLanguage, authToken: $authToken, id: $id, content: $content, message_type: $message_type, attachments: $attachments, is_typing: $is_typing)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ChatModelCopyWith<$Res>  {
   factory $ChatModelCopyWith(ChatModel value, $Res Function(ChatModel) _then) = _$ChatModelCopyWithImpl;
 @useResult
 $Res call({
- String? acceptLanguage, String? authToken, int? id, String? content, String? message_type,@FileJsonConverter() File? file, bool? is_typing
+ String? acceptLanguage, String? authToken, int? id, String? content, String? message_type,@FileListJsonConverter() List<File?>? attachments, bool? is_typing
 });
 
 
@@ -65,15 +65,15 @@ class _$ChatModelCopyWithImpl<$Res>
 
 /// Create a copy of ChatModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? acceptLanguage = freezed,Object? authToken = freezed,Object? id = freezed,Object? content = freezed,Object? message_type = freezed,Object? file = freezed,Object? is_typing = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? acceptLanguage = freezed,Object? authToken = freezed,Object? id = freezed,Object? content = freezed,Object? message_type = freezed,Object? attachments = freezed,Object? is_typing = freezed,}) {
   return _then(_self.copyWith(
 acceptLanguage: freezed == acceptLanguage ? _self.acceptLanguage : acceptLanguage // ignore: cast_nullable_to_non_nullable
 as String?,authToken: freezed == authToken ? _self.authToken : authToken // ignore: cast_nullable_to_non_nullable
 as String?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String?,message_type: freezed == message_type ? _self.message_type : message_type // ignore: cast_nullable_to_non_nullable
-as String?,file: freezed == file ? _self.file : file // ignore: cast_nullable_to_non_nullable
-as File?,is_typing: freezed == is_typing ? _self.is_typing : is_typing // ignore: cast_nullable_to_non_nullable
+as String?,attachments: freezed == attachments ? _self.attachments : attachments // ignore: cast_nullable_to_non_nullable
+as List<File?>?,is_typing: freezed == is_typing ? _self.is_typing : is_typing // ignore: cast_nullable_to_non_nullable
 as bool?,
   ));
 }
@@ -159,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? acceptLanguage,  String? authToken,  int? id,  String? content,  String? message_type, @FileJsonConverter()  File? file,  bool? is_typing)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? acceptLanguage,  String? authToken,  int? id,  String? content,  String? message_type, @FileListJsonConverter()  List<File?>? attachments,  bool? is_typing)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatModel() when $default != null:
-return $default(_that.acceptLanguage,_that.authToken,_that.id,_that.content,_that.message_type,_that.file,_that.is_typing);case _:
+return $default(_that.acceptLanguage,_that.authToken,_that.id,_that.content,_that.message_type,_that.attachments,_that.is_typing);case _:
   return orElse();
 
 }
@@ -180,10 +180,10 @@ return $default(_that.acceptLanguage,_that.authToken,_that.id,_that.content,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? acceptLanguage,  String? authToken,  int? id,  String? content,  String? message_type, @FileJsonConverter()  File? file,  bool? is_typing)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? acceptLanguage,  String? authToken,  int? id,  String? content,  String? message_type, @FileListJsonConverter()  List<File?>? attachments,  bool? is_typing)  $default,) {final _that = this;
 switch (_that) {
 case _ChatModel():
-return $default(_that.acceptLanguage,_that.authToken,_that.id,_that.content,_that.message_type,_that.file,_that.is_typing);case _:
+return $default(_that.acceptLanguage,_that.authToken,_that.id,_that.content,_that.message_type,_that.attachments,_that.is_typing);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +200,10 @@ return $default(_that.acceptLanguage,_that.authToken,_that.id,_that.content,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? acceptLanguage,  String? authToken,  int? id,  String? content,  String? message_type, @FileJsonConverter()  File? file,  bool? is_typing)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? acceptLanguage,  String? authToken,  int? id,  String? content,  String? message_type, @FileListJsonConverter()  List<File?>? attachments,  bool? is_typing)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatModel() when $default != null:
-return $default(_that.acceptLanguage,_that.authToken,_that.id,_that.content,_that.message_type,_that.file,_that.is_typing);case _:
+return $default(_that.acceptLanguage,_that.authToken,_that.id,_that.content,_that.message_type,_that.attachments,_that.is_typing);case _:
   return null;
 
 }
@@ -215,7 +215,7 @@ return $default(_that.acceptLanguage,_that.authToken,_that.id,_that.content,_tha
 @JsonSerializable()
 
 class _ChatModel implements ChatModel {
-  const _ChatModel({this.acceptLanguage = "", this.authToken = "", this.id = 0, this.content = "", this.message_type = "", @FileJsonConverter() this.file, this.is_typing = false});
+  const _ChatModel({this.acceptLanguage = "", this.authToken = "", this.id = 0, this.content = "", this.message_type = "", @FileListJsonConverter() final  List<File?>? attachments, this.is_typing = false}): _attachments = attachments;
   factory _ChatModel.fromJson(Map<String, dynamic> json) => _$ChatModelFromJson(json);
 
 @override@JsonKey() final  String? acceptLanguage;
@@ -223,7 +223,15 @@ class _ChatModel implements ChatModel {
 @override@JsonKey() final  int? id;
 @override@JsonKey() final  String? content;
 @override@JsonKey() final  String? message_type;
-@override@FileJsonConverter() final  File? file;
+ final  List<File?>? _attachments;
+@override@FileListJsonConverter() List<File?>? get attachments {
+  final value = _attachments;
+  if (value == null) return null;
+  if (_attachments is EqualUnmodifiableListView) return _attachments;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
 @override@JsonKey() final  bool? is_typing;
 
 /// Create a copy of ChatModel
@@ -239,16 +247,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatModel&&(identical(other.acceptLanguage, acceptLanguage) || other.acceptLanguage == acceptLanguage)&&(identical(other.authToken, authToken) || other.authToken == authToken)&&(identical(other.id, id) || other.id == id)&&(identical(other.content, content) || other.content == content)&&(identical(other.message_type, message_type) || other.message_type == message_type)&&(identical(other.file, file) || other.file == file)&&(identical(other.is_typing, is_typing) || other.is_typing == is_typing));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatModel&&(identical(other.acceptLanguage, acceptLanguage) || other.acceptLanguage == acceptLanguage)&&(identical(other.authToken, authToken) || other.authToken == authToken)&&(identical(other.id, id) || other.id == id)&&(identical(other.content, content) || other.content == content)&&(identical(other.message_type, message_type) || other.message_type == message_type)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&(identical(other.is_typing, is_typing) || other.is_typing == is_typing));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,acceptLanguage,authToken,id,content,message_type,file,is_typing);
+int get hashCode => Object.hash(runtimeType,acceptLanguage,authToken,id,content,message_type,const DeepCollectionEquality().hash(_attachments),is_typing);
 
 @override
 String toString() {
-  return 'ChatModel(acceptLanguage: $acceptLanguage, authToken: $authToken, id: $id, content: $content, message_type: $message_type, file: $file, is_typing: $is_typing)';
+  return 'ChatModel(acceptLanguage: $acceptLanguage, authToken: $authToken, id: $id, content: $content, message_type: $message_type, attachments: $attachments, is_typing: $is_typing)';
 }
 
 
@@ -259,7 +267,7 @@ abstract mixin class _$ChatModelCopyWith<$Res> implements $ChatModelCopyWith<$Re
   factory _$ChatModelCopyWith(_ChatModel value, $Res Function(_ChatModel) _then) = __$ChatModelCopyWithImpl;
 @override @useResult
 $Res call({
- String? acceptLanguage, String? authToken, int? id, String? content, String? message_type,@FileJsonConverter() File? file, bool? is_typing
+ String? acceptLanguage, String? authToken, int? id, String? content, String? message_type,@FileListJsonConverter() List<File?>? attachments, bool? is_typing
 });
 
 
@@ -276,15 +284,15 @@ class __$ChatModelCopyWithImpl<$Res>
 
 /// Create a copy of ChatModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? acceptLanguage = freezed,Object? authToken = freezed,Object? id = freezed,Object? content = freezed,Object? message_type = freezed,Object? file = freezed,Object? is_typing = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? acceptLanguage = freezed,Object? authToken = freezed,Object? id = freezed,Object? content = freezed,Object? message_type = freezed,Object? attachments = freezed,Object? is_typing = freezed,}) {
   return _then(_ChatModel(
 acceptLanguage: freezed == acceptLanguage ? _self.acceptLanguage : acceptLanguage // ignore: cast_nullable_to_non_nullable
 as String?,authToken: freezed == authToken ? _self.authToken : authToken // ignore: cast_nullable_to_non_nullable
 as String?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String?,message_type: freezed == message_type ? _self.message_type : message_type // ignore: cast_nullable_to_non_nullable
-as String?,file: freezed == file ? _self.file : file // ignore: cast_nullable_to_non_nullable
-as File?,is_typing: freezed == is_typing ? _self.is_typing : is_typing // ignore: cast_nullable_to_non_nullable
+as String?,attachments: freezed == attachments ? _self._attachments : attachments // ignore: cast_nullable_to_non_nullable
+as List<File?>?,is_typing: freezed == is_typing ? _self.is_typing : is_typing // ignore: cast_nullable_to_non_nullable
 as bool?,
   ));
 }

@@ -24,6 +24,9 @@ _MessageEntity _$MessageEntityFromJson(Map<String, dynamic> json) =>
           ) ??
           UploadingStateEnum.uploaded,
       localKey: json['localKey'] as String? ?? "",
+      files: const FileListJsonConverter().fromJson(
+        json['files'] as List<String?>?,
+      ),
     );
 
 Map<String, dynamic> _$MessageEntityToJson(_MessageEntity instance) =>
@@ -39,6 +42,7 @@ Map<String, dynamic> _$MessageEntityToJson(_MessageEntity instance) =>
       'created_at': instance.created_at,
       'uploadingState': _$UploadingStateEnumEnumMap[instance.uploadingState],
       'localKey': instance.localKey,
+      'files': const FileListJsonConverter().toJson(instance.files),
     };
 
 const _$UploadingStateEnumEnumMap = {

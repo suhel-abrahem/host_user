@@ -12,7 +12,9 @@ _ChatModel _$ChatModelFromJson(Map<String, dynamic> json) => _ChatModel(
   id: (json['id'] as num?)?.toInt() ?? 0,
   content: json['content'] as String? ?? "",
   message_type: json['message_type'] as String? ?? "",
-  file: const FileJsonConverter().fromJson(json['file'] as String?),
+  attachments: const FileListJsonConverter().fromJson(
+    json['attachments'] as List<String?>?,
+  ),
   is_typing: json['is_typing'] as bool? ?? false,
 );
 
@@ -23,6 +25,6 @@ Map<String, dynamic> _$ChatModelToJson(_ChatModel instance) =>
       'id': instance.id,
       'content': instance.content,
       'message_type': instance.message_type,
-      'file': const FileJsonConverter().toJson(instance.file),
+      'attachments': const FileListJsonConverter().toJson(instance.attachments),
       'is_typing': instance.is_typing,
     };

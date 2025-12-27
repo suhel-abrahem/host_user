@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hosta_user/core/resource/json_converter/file_json_converter.dart';
+
+import '../../../../core/resource/json_converter/file_list_json_converter.dart';
 part 'chat_model.freezed.dart';
 part 'chat_model.g.dart';
 
@@ -15,7 +17,7 @@ abstract class ChatModel with _$ChatModel {
     @Default(0) int? id,
     @Default("") String? content,
     @Default("") String? message_type,
-    @FileJsonConverter() File? file,
+    @FileListJsonConverter() List<File?>? attachments,
     @Default(false) bool? is_typing,
   }) = _ChatModel;
   factory ChatModel.fromJson(Map<String, dynamic> json) =>

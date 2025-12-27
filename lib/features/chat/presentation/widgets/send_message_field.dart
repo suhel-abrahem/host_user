@@ -12,6 +12,7 @@ import 'package:hosta_user/core/resource/custom_widget/snake_bar_widget/snake_ba
 import 'package:hosta_user/features/chat/data/models/chat_model.dart';
 import 'package:hosta_user/features/chat/domain/entities/message/message_entity.dart';
 import 'package:hosta_user/features/chat/presentation/bloc/send_chat_bloc.dart';
+import 'package:hosta_user/features/chat/presentation/widgets/message_container.dart';
 import 'package:hosta_user/generated/locale_keys.g.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
@@ -20,14 +21,9 @@ import '../../../../core/enums/uploading_state_enum.dart';
 
 class SendMessageField extends StatefulWidget {
   final ValueChanged<MessageEntity?>? onSend;
-  final ValueChanged<MessageEntity?>? onImageSentStatusChanged;
+
   final int? chatId;
-  const SendMessageField({
-    super.key,
-    this.onSend,
-    this.onImageSentStatusChanged,
-    this.chatId,
-  });
+  const SendMessageField({super.key, this.onSend, this.chatId});
 
   @override
   State<SendMessageField> createState() => _SendMessageFieldState();
@@ -231,53 +227,40 @@ class _SendMessageFieldState extends State<SendMessageField> {
                 color: Theme.of(context).textTheme.labelLarge?.color,
               ),
             ),
-            BlocProvider<SendChatBloc>(
-              create: (context) =>
-                  getItInstance<SendChatBloc>()..add(SendChatEvent.started()),
-              child: BlocListener<SendChatBloc, SendChatState>(
-                listener: (context, state) {
-                  print("SendChatState: $state");
-                  if (state is SendChatStateLoading) {
-                  } else if (state is SendChatStateSent) {
-                    widget.onSend?.call(
-                      state.messageEntity?.copyWith(
-                        uploadingState: UploadingStateEnum.uploaded,
-                      ),
-                    );
-                    setState(() {
-                      messageText = null;
-                      images = [];
-                    });
-                    formKey.currentState?.reset();
-                  } else if (state is SendChatStateError) {}
-                },
-                child: Builder(
-                  builder: (context) {
-                    return IconButton(
-                      onPressed: () {
-                        print("Send Message Clicked:${widget.chatId}");
-                        if ((formKey.currentState?.validate() ?? false) ||
-                            (images?.isNotEmpty ?? false)) {
-                          context.read<SendChatBloc>().add(
-                            SendChatEvent.sendChat(
-                              chatModel: ChatModel(
-                                id: widget.chatId,
-                                content: images?.isNotEmpty == true
-                                    ? null
-                                    : messageText,
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                      icon: Icon(
-                        Icons.send,
-                        color: Theme.of(context).textTheme.labelLarge?.color,
-                      ),
-                    );
+            Builder(
+              builder: (context) {
+                return IconButton(
+                  onPressed: () {
+                    print("Send Message Clicked:${widget.chatId}");
+                    if ((formKey.currentState?.validate() ?? false) ||
+                        (images?.isNotEmpty ?? false)) {
+                      if (widget.onSend != null) {
+                        widget.onSend?.call(
+                          MessageEntity(
+                            uploadingState: UploadingStateEnum.uploading,
+                            message_type: images?.isNotEmpty == true
+                                ? "image"
+                                : "text",
+                            content: images?.isNotEmpty == true
+                                ? null
+                                : messageText,
+                            files: images?.isNotEmpty == true ? images : null,
+                          ),
+                        );
+                      }
+                      formKey.currentState?.reset();
+                      setState(() {
+                        images = [];
+                        messageText = null;
+                      });
+                    }
                   },
-                ),
-              ),
+                  icon: Icon(
+                    Icons.send,
+                    color: Theme.of(context).textTheme.labelLarge?.color,
+                  ),
+                );
+              },
             ),
           ],
         ),

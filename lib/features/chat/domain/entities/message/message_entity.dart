@@ -1,7 +1,11 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:io';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hosta_user/core/enums/uploading_state_enum.dart';
+
+import '../../../../../core/resource/json_converter/file_list_json_converter.dart';
 part 'message_entity.freezed.dart';
 part 'message_entity.g.dart';
 
@@ -19,8 +23,10 @@ abstract class MessageEntity with _$MessageEntity {
     @Default("") String? created_at,
     @Default(UploadingStateEnum.uploaded) UploadingStateEnum? uploadingState,
     @Default("") String? localKey,
+    @FileListJsonConverter() List<File?>? files,
   }) = _MessageEntity;
 
   factory MessageEntity.fromJson(Map<String, dynamic> json) =>
       _$MessageEntityFromJson(json);
 }
+

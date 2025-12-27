@@ -66,8 +66,10 @@ class _ChatPageState extends State<ChatPage> {
                       getChatDetailsLoaded: (data) => ListView.builder(
                         shrinkWrap: true,
                         itemCount: messages?.length ?? 0,
-                        itemBuilder: (context, index) =>
-                            MessageContainer(messageEntity: messages?[index]),
+                        itemBuilder: (context, index) => MessageContainer(
+                          messageEntity: messages?[index],
+                          chatId: widget.chatId,
+                        ),
                       ),
                       error: (e) => Center(
                         child: ErrorStateWidget(
@@ -112,14 +114,6 @@ class _ChatPageState extends State<ChatPage> {
                 setState(() {
                   messages?.add(value);
                 });
-              },
-              onImageSentStatusChanged: (value) {
-                messages?[messages?.indexWhere(
-                          (element) => element?.localKey == value?.localKey,
-                        ) ??
-                        0] =
-                    value;
-                setState(() {});
               },
             ),
           ),

@@ -134,16 +134,18 @@ class ChatRepositoryImplements implements ChatRepository {
       if (chatModel?.content != null && chatModel!.content!.isNotEmpty) {
         dataForm.fields.add(MapEntry('content', chatModel.content ?? ''));
       }
-      if (chatModel?.file != null) {
-        dataForm.files.add(
-          MapEntry(
-            'file',
-            await MultipartFile.fromFile(
-              chatModel!.file!.path,
-              filename: chatModel.file!.path.split('/').last,
-            ),
-          ),
-        );
+      if (chatModel?.attachments != null) {
+        for (var file in chatModel!.attachments!) {
+          if (file != null) {
+            String fileName = file.path.split('/').last;
+            dataForm.files.add(
+              MapEntry(
+                'file[]',
+                await MultipartFile.fromFile(file.path, filename: fileName),
+              ),
+            );
+          }
+        }
       }
       print("api headers: ${chatModel?.authToken}");
       CommonService commonService = CommonService(
@@ -152,10 +154,13 @@ class ChatRepositoryImplements implements ChatRepository {
       print(
         "SendMessage Request: ${{"conversation_id": chatModel?.id, "message_type": "text", "content": chatModel?.content}}",
       );
+      print("SendMessage Request with file: ${dataForm.fields}");
       await commonService
           .post(
             ApiConstant.sendMessageEndpoint,
-            data: chatModel?.file != null
+            data:
+                (chatModel?.attachments != null &&
+                    (chatModel!.attachments!.isNotEmpty))
                 ? dataForm
                 : {
                     "conversation_id": chatModel?.id ?? 0,
