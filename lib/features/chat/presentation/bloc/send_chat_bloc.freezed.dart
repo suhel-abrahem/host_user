@@ -497,12 +497,12 @@ return typingStatusUpdated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  sent,TResult Function( String? message)?  error,TResult Function()?  unAuthenticated,TResult Function()?  noInternet,TResult Function( bool? isTyping)?  typingStatusUpdated,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( MessageEntity? messageEntity)?  sent,TResult Function( String? message)?  error,TResult Function()?  unAuthenticated,TResult Function()?  noInternet,TResult Function( bool? isTyping)?  typingStatusUpdated,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case SendChatStateInitial() when initial != null:
 return initial();case SendChatStateLoading() when loading != null:
 return loading();case SendChatStateSent() when sent != null:
-return sent();case SendChatStateError() when error != null:
+return sent(_that.messageEntity);case SendChatStateError() when error != null:
 return error(_that.message);case SendChatStateUnAuthenticated() when unAuthenticated != null:
 return unAuthenticated();case SendChatStateNoInternet() when noInternet != null:
 return noInternet();case SendChatStateTypingStatusUpdated() when typingStatusUpdated != null:
@@ -524,12 +524,12 @@ return typingStatusUpdated(_that.isTyping);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  sent,required TResult Function( String? message)  error,required TResult Function()  unAuthenticated,required TResult Function()  noInternet,required TResult Function( bool? isTyping)  typingStatusUpdated,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( MessageEntity? messageEntity)  sent,required TResult Function( String? message)  error,required TResult Function()  unAuthenticated,required TResult Function()  noInternet,required TResult Function( bool? isTyping)  typingStatusUpdated,}) {final _that = this;
 switch (_that) {
 case SendChatStateInitial():
 return initial();case SendChatStateLoading():
 return loading();case SendChatStateSent():
-return sent();case SendChatStateError():
+return sent(_that.messageEntity);case SendChatStateError():
 return error(_that.message);case SendChatStateUnAuthenticated():
 return unAuthenticated();case SendChatStateNoInternet():
 return noInternet();case SendChatStateTypingStatusUpdated():
@@ -550,12 +550,12 @@ return typingStatusUpdated(_that.isTyping);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  sent,TResult? Function( String? message)?  error,TResult? Function()?  unAuthenticated,TResult? Function()?  noInternet,TResult? Function( bool? isTyping)?  typingStatusUpdated,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( MessageEntity? messageEntity)?  sent,TResult? Function( String? message)?  error,TResult? Function()?  unAuthenticated,TResult? Function()?  noInternet,TResult? Function( bool? isTyping)?  typingStatusUpdated,}) {final _that = this;
 switch (_that) {
 case SendChatStateInitial() when initial != null:
 return initial();case SendChatStateLoading() when loading != null:
 return loading();case SendChatStateSent() when sent != null:
-return sent();case SendChatStateError() when error != null:
+return sent(_that.messageEntity);case SendChatStateError() when error != null:
 return error(_that.message);case SendChatStateUnAuthenticated() when unAuthenticated != null:
 return unAuthenticated();case SendChatStateNoInternet() when noInternet != null:
 return noInternet();case SendChatStateTypingStatusUpdated() when typingStatusUpdated != null:
@@ -635,33 +635,79 @@ String toString() {
 
 
 class SendChatStateSent implements SendChatState {
-  const SendChatStateSent();
+  const SendChatStateSent(this.messageEntity);
   
 
+ final  MessageEntity? messageEntity;
 
-
+/// Create a copy of SendChatState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SendChatStateSentCopyWith<SendChatStateSent> get copyWith => _$SendChatStateSentCopyWithImpl<SendChatStateSent>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SendChatStateSent);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SendChatStateSent&&(identical(other.messageEntity, messageEntity) || other.messageEntity == messageEntity));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,messageEntity);
 
 @override
 String toString() {
-  return 'SendChatState.sent()';
+  return 'SendChatState.sent(messageEntity: $messageEntity)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class $SendChatStateSentCopyWith<$Res> implements $SendChatStateCopyWith<$Res> {
+  factory $SendChatStateSentCopyWith(SendChatStateSent value, $Res Function(SendChatStateSent) _then) = _$SendChatStateSentCopyWithImpl;
+@useResult
+$Res call({
+ MessageEntity? messageEntity
+});
 
 
+$MessageEntityCopyWith<$Res>? get messageEntity;
+
+}
+/// @nodoc
+class _$SendChatStateSentCopyWithImpl<$Res>
+    implements $SendChatStateSentCopyWith<$Res> {
+  _$SendChatStateSentCopyWithImpl(this._self, this._then);
+
+  final SendChatStateSent _self;
+  final $Res Function(SendChatStateSent) _then;
+
+/// Create a copy of SendChatState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? messageEntity = freezed,}) {
+  return _then(SendChatStateSent(
+freezed == messageEntity ? _self.messageEntity : messageEntity // ignore: cast_nullable_to_non_nullable
+as MessageEntity?,
+  ));
+}
+
+/// Create a copy of SendChatState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MessageEntityCopyWith<$Res>? get messageEntity {
+    if (_self.messageEntity == null) {
+    return null;
+  }
+
+  return $MessageEntityCopyWith<$Res>(_self.messageEntity!, (value) {
+    return _then(_self.copyWith(messageEntity: value));
+  });
+}
+}
 
 /// @nodoc
 

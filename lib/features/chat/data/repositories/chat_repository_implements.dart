@@ -12,6 +12,7 @@ import 'package:hosta_user/features/chat/data/models/chat_model.dart';
 import 'package:hosta_user/features/chat/domain/entities/chat/chat_entity.dart';
 
 import 'package:hosta_user/features/chat/domain/entities/chats/chats_entity.dart';
+import 'package:hosta_user/features/chat/domain/entities/message/message_entity.dart';
 
 import '../../domain/repositories/chat_repository.dart';
 
@@ -114,9 +115,9 @@ class ChatRepositoryImplements implements ChatRepository {
   }
 
   @override
-  Future<DataState<void>?> sendMessage(ChatModel? chatModel) async {
+  Future<DataState<MessageEntity?>?> sendMessage(ChatModel? chatModel) async {
     ConnectivityResult? connectivityResult;
-    DataState<void>? dataState;
+    DataState<MessageEntity?>? dataState;
     await checkConnectivity.checkConnectivity().then((value) {
       connectivityResult = value.last;
     });
@@ -129,9 +130,7 @@ class ChatRepositoryImplements implements ChatRepository {
       dataForm.fields.add(
         MapEntry('conversation_id', chatModel?.id.toString() ?? '0'),
       );
-      dataForm.fields.add(
-        MapEntry('message_type', chatModel?.message_type ?? 'text'),
-      );
+      dataForm.fields.add(MapEntry('message_type', "image"));
       if (chatModel?.content != null && chatModel!.content!.isNotEmpty) {
         dataForm.fields.add(MapEntry('content', chatModel.content ?? ''));
       }
@@ -146,17 +145,29 @@ class ChatRepositoryImplements implements ChatRepository {
           ),
         );
       }
+      print("api headers: ${chatModel?.authToken}");
       CommonService commonService = CommonService(
-        headers: {
-          "Accept-Language": chatModel?.acceptLanguage ?? "",
-          "Authorization": "Bearer ${chatModel?.authToken ?? ""}",
-        },
+        headers: {"Authorization": "Bearer ${chatModel?.authToken ?? ""}"},
+      );
+      print(
+        "SendMessage Request: ${{"conversation_id": chatModel?.id, "message_type": "text", "content": chatModel?.content}}",
       );
       await commonService
-          .post(ApiConstant.sendMessageEndpoint, data: dataForm)
+          .post(
+            ApiConstant.sendMessageEndpoint,
+            data: chatModel?.file != null
+                ? dataForm
+                : {
+                    "conversation_id": chatModel?.id ?? 0,
+                    "message_type": "text",
+                    "content": chatModel?.content,
+                  },
+          )
           .then((response) {
             if (response is DataSuccess) {
-              dataState = DataSuccess(data: null);
+              dataState = DataSuccess(
+                data: MessageEntity.fromJson(response.data?.data['data']),
+              );
               return dataState;
             } else if (response is UnauthenticatedDataState) {
               dataState = UnauthenticatedDataState(
@@ -167,7 +178,10 @@ class ChatRepositoryImplements implements ChatRepository {
               dataState = DataError(error: response.error ?? "Error");
               return dataState;
             } else {
-              dataState = DataFailed(error: "Something went wrong");
+              dataState = DataFailed(
+                error: response.error ?? "Something went wrong",
+              );
+              print("SendMessage Error: ${dataState?.error}");
               return dataState;
             }
           });
@@ -175,6 +189,7 @@ class ChatRepositoryImplements implements ChatRepository {
       dataState = DataFailed(error: e.toString());
       return dataState;
     }
+    print("SendMessage DataState: $dataState");
     return dataState;
   }
 }

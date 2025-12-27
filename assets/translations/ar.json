@@ -355,6 +355,11 @@
   "chatsPage": {
     "title": "صفحة الدردشات",
     "label": "الدردشات",
-    "noChatsAvailable": "لا توجد دردشات متاحة"
+    "noChatsAvailable": "لا توجد دردشات متاحة",
+    "noMesagesYet": "لا توجد رسائل بعد",
+    "typeYourMessageHere": "اكتب رسالتك هنا...",
+    "send": "إرسال",
+    "sentAImage": "أرسل صورة",
+    "you": "أنت"
   }
 }

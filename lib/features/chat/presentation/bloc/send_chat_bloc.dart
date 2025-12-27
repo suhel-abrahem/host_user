@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hosta_user/features/chat/domain/entities/message/message_entity.dart';
 import 'package:hosta_user/features/chat/domain/usecases/send_chat_usecase.dart';
 import 'package:hosta_user/features/login_page/domain/entities/login_state_entity.dart';
 import 'package:hosta_user/features/refresh_token/domain/usecases/refresh_token_usecase.dart';
@@ -43,7 +44,7 @@ class SendChatBloc extends Bloc<SendChatEvent, SendChatState> {
                   )
                   .then((value) {
                     if (value is DataSuccess) {
-                      emit(SendChatState.sent());
+                      emit(SendChatState.sent(value?.data));
                     } else if (value is NOInternetDataState) {
                       emit(SendChatState.noInternet());
                     } else if (value is UnauthenticatedDataState) {

@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hosta_user/core/enums/uploading_state_enum.dart';
 part 'message_entity.freezed.dart';
 part 'message_entity.g.dart';
 
@@ -12,9 +13,12 @@ abstract class MessageEntity with _$MessageEntity {
     @Default("") String? sender_name,
     @Default("") String? message_type,
     @Default("") String? content,
+    @Default(false) bool? me,
     @Default(false) bool? is_read,
     @Default("") String? read_at,
     @Default("") String? created_at,
+    @Default(UploadingStateEnum.uploaded) UploadingStateEnum? uploadingState,
+    @Default("") String? localKey,
   }) = _MessageEntity;
 
   factory MessageEntity.fromJson(Map<String, dynamic> json) =>

@@ -71,6 +71,7 @@ class _ChatsPageState extends State<ChatsPage> {
                       itemBuilder: (context, index) => Padding(
                         padding: EdgeInsets.zero,
                         child: ConversionWidget(
+                          chatId: data?[index]?.id,
                           messageEntity: MessageEntity.fromJson(
                             data?[index]?.last_message ?? {},
                           ),

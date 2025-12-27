@@ -371,7 +371,12 @@ class CodegenLoader extends AssetLoader{
   "chatsPage": {
     "title": "صفحة الدردشات",
     "label": "الدردشات",
-    "noChatsAvailable": "لا توجد دردشات متاحة"
+    "noChatsAvailable": "لا توجد دردشات متاحة",
+    "noMesagesYet": "لا توجد رسائل بعد",
+    "typeYourMessageHere": "اكتب رسالتك هنا...",
+    "send": "إرسال",
+    "sentAImage": "أرسل صورة",
+    "you": "أنت"
   }
 };
 static const Map<String,dynamic> _en = {
@@ -731,7 +736,12 @@ static const Map<String,dynamic> _en = {
   "chatsPage": {
     "title": "Chats page",
     "label": "Chats",
-    "noChatsAvailable": "No chats available"
+    "noChatsAvailable": "No chats available",
+    "noMesagesYet": "No messages yet",
+    "typeYourMessageHere": "Type your message here...",
+    "send": "Send",
+    "sentAImage": "Sent an image",
+    "you": "You"
   }
 };
 static const Map<String,dynamic> _fa = {
@@ -1091,7 +1101,12 @@ static const Map<String,dynamic> _fa = {
   "chatsPage": {
     "title": "شاشەی چات",
     "label": "چاتەکان",
-    "noChatsAvailable": "هیچ چاتێک بوونی نییە"
+    "noChatsAvailable": "هیچ چاتێک بوونی نییە",
+    "noMesagesYet": "هیچ نامەیەک بوونی نییە",
+    "typeYourMessageHere": "نامەکەت لێرە بنوسە...",
+    "send": "ناردن",
+    "sentAImage": "وێنەیەک نارد",
+    "you": "تۆ"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": _ar, "en": _en, "fa": _fa};
