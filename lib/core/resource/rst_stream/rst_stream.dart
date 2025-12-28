@@ -17,4 +17,5 @@ class StreamSocket<T> {
 }
 
 // Create a global instance
-final streamSocket = StreamSocket<dynamic>();
+final notificationStreamSocket = StreamSocket<dynamic>();
+final chatUnReadCountStreamSocket = StreamSocket<int>();

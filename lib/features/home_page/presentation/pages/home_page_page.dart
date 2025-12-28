@@ -1,5 +1,5 @@
 import 'package:hosta_user/core/resource/main_page/glew_effect.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +12,9 @@ import 'package:go_router/go_router.dart';
 import '../../../../config/route/routes_manager.dart';
 import '../../../../config/theme/app_theme.dart';
 import '../../../../core/constants/font_constants.dart';
-import '../../../../core/constants/language_constant.dart';
 
-import '../../../../core/data_state/data_state.dart';
 import '../../../../core/resource/color_manager.dart';
-import '../../../../core/resource/common_service/common_service.dart';
+
 import '../../../../core/resource/common_state_widget/error_state_widget.dart';
 import '../../../../core/resource/common_state_widget/no_data_state_widget.dart';
 import '../../../../core/resource/common_state_widget/no_internet_state_widget.dart';
@@ -24,12 +22,12 @@ import '../../../../core/resource/custom_widget/snake_bar_widget/snake_bar_widge
 
 import '../../../../core/resource/main_page/main_page.dart';
 import '../../../../core/resource/rst_stream/rst_stream.dart';
+
 import '../../../../core/util/helper/helper.dart';
 import '../../../categories_page/data/models/get_category_model.dart';
 import '../../../categories_page/presentation/bloc/categories_page_bloc.dart';
 import '../../../categories_page/presentation/widgets/category_container.dart';
-import '../../../refresh_token/data/models/refresh_token_model.dart';
-import '../../../refresh_token/domain/usecases/refresh_token_usecase.dart';
+
 import '../../domain/entities/home_page_entity.dart';
 
 import '../../../login_page/domain/entities/login_state_entity.dart';
@@ -67,160 +65,10 @@ class _HomePagePageState extends State<HomePagePage> {
   int currentImage = 0;
   int notificationCount = 0;
   PageController imageController = PageController(initialPage: 0);
-  Future<int> getUnreadCount() async {
-    try {
-      LoginStateEntity? loginState = getItInstance<AppPreferences>()
-          .getUserInfo();
-      int count = 0;
-      await getItInstance<RefreshTokenUsecase>()
-          .call(
-            params: RefreshTokenModel(
-              token: loginState?.access_token ?? "",
-              refresh_token: loginState?.refresh_token ?? "",
-            ),
-          )
-          .then((refreshTokenOnValue) async {
-            if (refreshTokenOnValue is DataSuccess) {
-              CommonService commonService = CommonService(
-                headers: {
-                  "Authorization":
-                      "Bearer ${refreshTokenOnValue?.data?.access_token}",
-                },
-              );
-              await commonService.get('/notifications/unread-count').then((
-                onValue,
-              ) {
-                if (onValue is DataSuccess) {
-                  count = onValue.data?.data?['unread_count'] ?? 0;
-
-                  return count;
-                } else {
-                  count = 0;
-                  return count;
-                }
-              });
-            } else if (refreshTokenOnValue is UnauthenticatedDataState) {
-              getItInstance<AppPreferences>().setUserInfo(
-                loginStateEntity: LoginStateEntity(),
-              );
-            } else {
-              count = 0;
-              return count;
-            }
-          });
-
-      return count;
-    } catch (e) {
-      print("❌ Error fetching unread count: $e");
-      return 0;
-    }
-  }
-
-  Future<void> connectAndListen() async {
-    LoginStateEntity? loginState = getItInstance<AppPreferences>()
-        .getUserInfo();
-    await getItInstance<RefreshTokenUsecase>()
-        .call(
-          params: RefreshTokenModel(
-            token: loginState?.access_token ?? "",
-            refresh_token: loginState?.refresh_token ?? "",
-          ),
-        )
-        .then((onValue) {
-          print("Refreshed token result socket: $onValue");
-          if (onValue is DataSuccess) {
-            socket = IO.io(
-              'https://hosta-api.lenda-agency.com',
-              IO.OptionBuilder()
-                  .setPath('/socket.io/')
-                  .setTransports(['websocket'])
-                  .enableForceNew()
-                  .enableReconnection()
-                  .setExtraHeaders({
-                    'Connection': 'upgrade',
-                    'Upgrade': 'websocket',
-                  })
-                  .enableAutoConnect()
-                  .build(),
-            );
-
-            socket?.connect();
-
-            // Connection status
-            socket?.onConnect((_) {
-              print('✅ Connected to Socket.IO');
-
-              socket?.emit('authenticate', {
-                'userId': loginState?.user['id'],
-                'token': onValue?.data?.access_token,
-              });
-              // socket?.emit('notification:new', {"unread_count": "0"});
-            });
-
-            socket?.onConnectError((error) {
-              streamSocket.addResponse("0");
-              print('⛔ connect_error: $error');
-            });
-
-            socket?.onError((error) {
-              streamSocket.addResponse("0");
-              print('⛔ error: $error');
-            });
-
-            socket?.onDisconnect((_) {
-              streamSocket.addResponse("0");
-              print('❌ disconnected from socket');
-            });
-
-            // 🔍 Log EVERY event received from the server
-            socket?.onAny((event, data) {
-              print('📡 onAny → event: $event | data: $data');
-            });
-            socket?.on('notification:unread_count', (data) async {
-              print("🔔 New Notification: $data");
-
-              // int count = await getUnreadCount();
-
-              streamSocket.addResponse(data["unread_count"].toString());
-            });
-            // Your specific event listener
-            socket?.on('notification:new', (data) async {
-              print("🔔 New Notification: $data");
-
-              // int count = await getUnreadCount();
-
-              streamSocket.addResponse(data["unread_count"].toString());
-            });
-          }
-        });
-  }
-
-  Future<int> getUnreadNotification() async {
-    return await getUnreadCount();
-  }
-
-  @override
-  // void deactivate() {
-  //   socket?.disconnect();
-  //   super.deactivate();
-  // }
-  @override
-  void dispose() {
-    socket?.disconnect();
-    socket?.dispose();
-
-    super.dispose();
-  }
 
   @override
   void initState() {
     super.initState();
-    // getUnreadNotification().then((onValue) {
-    //   notificationCount = onValue;
-    //   streamSocket.addResponse(onValue.toString());
-    // });
-
-    connectAndListen();
   }
 
   @override
@@ -296,6 +144,7 @@ class _HomePagePageState extends State<HomePagePage> {
                       top: 0.h,
                       end: 4.w,
                       child: BuildWithSocketStream(
+                        stream: notificationStreamSocket.stream,
                         onValueChanged: (value) => notificationCount = value,
                       ).animate().flipV(duration: Duration(milliseconds: 300)),
                     ),
@@ -327,6 +176,7 @@ class _HomePagePageState extends State<HomePagePage> {
                       top: 0.h,
                       end: 4.w,
                       child: BuildWithSocketStream(
+                        stream: chatUnReadCountStreamSocket.stream,
                         onValueChanged: (value) => notificationCount = value,
                       ).animate().flipV(duration: Duration(milliseconds: 300)),
                     ),

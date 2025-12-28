@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosta_user/config/route/routes_manager.dart';
 import '/core/constants/font_constants.dart';
-import '/core/resource/rst_stream/rst_stream.dart';
 
 class BuildWithSocketStream extends StatefulWidget {
   final ValueChanged<int>? onValueChanged;
-  const BuildWithSocketStream({super.key, this.onValueChanged});
+  final Stream? stream;
+  const BuildWithSocketStream({super.key, this.onValueChanged, this.stream});
 
   @override
   State<BuildWithSocketStream> createState() => _BuildWithSocketStreamState();
@@ -23,8 +23,7 @@ class _BuildWithSocketStreamState extends State<BuildWithSocketStream> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream:
-          streamSocket.stream, // <--- updated based on your new StreamSocket
+      stream: widget.stream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         lastNotificationCount = snapshot.data?.toString() ?? "0";
         String value = snapshot.data?.toString() ?? "";

@@ -142,6 +142,7 @@ import 'resource/common_entity/service_entity.dart';
 import 'resource/common_service/common_service.dart';
 import 'resource/connectivity/check_connectivity.dart';
 import 'resource/firebase_common_services/firebase_messageing_service.dart';
+import 'resource/socketio_service.dart/socketio_service.dart';
 
 GetIt getItInstance = GetIt.instance;
 Future<void> initDependencies() async {
@@ -155,6 +156,8 @@ Future<void> initDependencies() async {
   getItInstance.registerLazySingleton<FirebaseMessagingService>(
     () => FirebaseMessagingService(),
   );
+  getItInstance.registerLazySingleton<SocketService>(() => SocketService());
+
   //login feature dependencies
   getItInstance.registerSingleton<LoginStateEntity>(LoginStateEntity());
   getItInstance.registerSingleton<LoginModel>(LoginModel());
