@@ -16,17 +16,16 @@ abstract class MessageEntity with _$MessageEntity {
     @Default(0) int? sender_id,
     @Default("") String? sender_name,
     @Default("") String? message_type,
-    @Default("") String? content,
+    @Default([]) List<String?>? content,
     @Default(false) bool? me,
     @Default(false) bool? is_read,
     @Default("") String? read_at,
     @Default("") String? created_at,
     @Default(UploadingStateEnum.uploaded) UploadingStateEnum? uploadingState,
-    @Default("") String? localKey,
+
     @FileListJsonConverter() List<File?>? files,
   }) = _MessageEntity;
 
   factory MessageEntity.fromJson(Map<String, dynamic> json) =>
       _$MessageEntityFromJson(json);
 }
-

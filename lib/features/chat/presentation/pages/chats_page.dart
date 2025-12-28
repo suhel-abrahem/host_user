@@ -67,6 +67,7 @@ class _ChatsPageState extends State<ChatsPage> {
                     loading: () => Center(child: CircularProgressIndicator()),
                     getChatStateLoaded: (data) => ListView.builder(
                       shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: data?.length ?? 0,
                       itemBuilder: (context, index) => Padding(
                         padding: EdgeInsets.zero,

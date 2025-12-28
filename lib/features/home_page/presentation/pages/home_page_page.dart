@@ -317,7 +317,7 @@ class _HomePagePageState extends State<HomePagePage> {
                       top: 0,
                       start: 0,
                       child: Icon(
-                        Icons.message,
+                        Icons.chat_bubble_rounded,
                         size: 28.sp,
                         color: ColorManager.darkTextColor,
                       ),
@@ -446,7 +446,7 @@ class _HomePagePageState extends State<HomePagePage> {
                         width: 130.w,
                         height: 60.h,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
@@ -481,140 +481,6 @@ class _HomePagePageState extends State<HomePagePage> {
                                         textAlign: TextAlign.start,
                                       ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 20.h,
-                              width: 130.w,
-                              child: isProfileDataLoading
-                                  ? SizedBox(
-                                      width: 70.w,
-                                      height: 10.h,
-                                      child: Center(
-                                        child: LinearProgressIndicator(
-                                          color: ColorManager.darkTextColor,
-
-                                          backgroundColor: Theme.of(
-                                            context,
-                                          ).colorScheme.primary,
-                                        ),
-                                      ),
-                                    )
-                                  : Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Center(
-                                          child: SizedBox(
-                                            width:
-                                                context.locale ==
-                                                    LanguageConstant.arLoacle
-                                                ? 30.w
-                                                : 70.w,
-                                            child: Align(
-                                              alignment: AlignmentDirectional
-                                                  .centerStart,
-                                              child: FittedBox(
-                                                fit: BoxFit.scaleDown,
-                                                child: Text(
-                                                  LocaleKeys.homePage_myRating,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .labelSmall
-                                                      ?.copyWith(
-                                                        fontFamily:
-                                                            FontConstants.fontFamily(
-                                                              context.locale,
-                                                            ),
-                                                        color: ColorManager
-                                                            .darkTextColor,
-                                                      ),
-                                                  textAlign: TextAlign.center,
-                                                ).tr(),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 4.w,
-                                          ),
-                                          child:
-                                              Container(
-                                                padding:
-                                                    EdgeInsetsDirectional.symmetric(
-                                                      horizontal: 4.w,
-                                                    ),
-                                                width: 42.w,
-                                                height: 40.h,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.transparent,
-                                                ),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Align(
-                                                      alignment:
-                                                          AlignmentGeometry
-                                                              .center,
-                                                      child: SizedBox(
-                                                        width: 20.w,
-                                                        child: FittedBox(
-                                                          fit: BoxFit.scaleDown,
-                                                          child: Text(
-                                                            "4.5",
-                                                            style: Theme.of(context)
-                                                                .textTheme
-                                                                .labelLarge
-                                                                ?.copyWith(
-                                                                  fontFamily:
-                                                                      FontConstants.fontFamily(
-                                                                        context
-                                                                            .locale,
-                                                                      ),
-                                                                  color: ColorManager
-                                                                      .darkTextColor,
-                                                                ),
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Icon(
-                                                      Icons.star,
-                                                      size: 12.sp,
-                                                      color: Theme.of(
-                                                        context,
-                                                      ).colorScheme.onSurface,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ).asGlass(
-                                                frosted: true,
-                                                blurX: 20,
-                                                blurY: 20,
-                                                tintColor: Theme.of(context)
-                                                    .focusColor
-                                                    .withValues(alpha: 0.7),
-                                                clipBorderRadius:
-                                                    BorderRadius.circular(12.r),
-                                                border: Theme.of(context)
-                                                    .defaultBorderSide
-                                                    .copyWith(
-                                                      color: Theme.of(
-                                                        context,
-                                                      ).focusColor,
-                                                    ),
-                                              ),
-                                        ),
-                                      ],
-                                    ),
                             ),
                           ],
                         ),

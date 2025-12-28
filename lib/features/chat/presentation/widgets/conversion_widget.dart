@@ -103,7 +103,7 @@ class ConversionWidget extends StatelessWidget {
                       Text(
                         messageEntity?.content != null &&
                                 messageEntity!.content!.isNotEmpty
-                            ? messageEntity?.content ??
+                            ? messageEntity?.content?.last ??
                                   LocaleKeys.chatsPage_noMesagesYet.tr()
                             : LocaleKeys.chatsPage_noMesagesYet.tr(),
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(

@@ -3,8 +3,6 @@
 import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hosta_user/core/resource/json_converter/file_json_converter.dart';
-
 import '../../../../core/resource/json_converter/file_list_json_converter.dart';
 part 'chat_model.freezed.dart';
 part 'chat_model.g.dart';

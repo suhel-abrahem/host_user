@@ -3,16 +3,14 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hosta_user/core/dependencies_injection.dart';
 
 import 'package:hosta_user/core/resource/custom_widget/custom_input_field/custom_input_field.dart';
 import 'package:hosta_user/core/resource/custom_widget/snake_bar_widget/snake_bar_widget.dart';
-import 'package:hosta_user/features/chat/data/models/chat_model.dart';
+
 import 'package:hosta_user/features/chat/domain/entities/message/message_entity.dart';
-import 'package:hosta_user/features/chat/presentation/bloc/send_chat_bloc.dart';
-import 'package:hosta_user/features/chat/presentation/widgets/message_container.dart';
+
 import 'package:hosta_user/generated/locale_keys.g.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
@@ -76,20 +74,6 @@ class _SendMessageFieldState extends State<SendMessageField> {
         context: context,
       );
     }
-  }
-
-  String generateLocaleKey({
-    String? textMessage,
-    String? imagePath,
-    String? sentTime,
-  }) {
-    final uuid = Uuid();
-    return uuid.v5(
-      Uuid.NAMESPACE_URL,
-      images?.isNotEmpty == true
-          ? "$imagePath+$sentTime"
-          : " $textMessage+$sentTime",
-    );
   }
 
   @override
@@ -242,8 +226,8 @@ class _SendMessageFieldState extends State<SendMessageField> {
                                 ? "image"
                                 : "text",
                             content: images?.isNotEmpty == true
-                                ? null
-                                : messageText,
+                                ? images?.map((e) => e?.path).toList()
+                                : [messageText ?? ""],
                             files: images?.isNotEmpty == true ? images : null,
                           ),
                         );

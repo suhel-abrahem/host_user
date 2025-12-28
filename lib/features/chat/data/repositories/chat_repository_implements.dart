@@ -40,6 +40,7 @@ class ChatRepositoryImplements implements ChatRepository {
       await commonService
           .get("${ApiConstant.chatEndpoint}/${chatModel?.id ?? 0}")
           .then((response) {
+            print("GetChatDetails Response: ${response.data?.data?['data']}");
             if (response is DataSuccess) {
               dataState = DataSuccess(
                 data: ChatEntity.fromJson(response.data?.data?['data']),
@@ -125,50 +126,43 @@ class ChatRepositoryImplements implements ChatRepository {
       dataState = NOInternetDataState();
       return dataState;
     }
+    print("SendMessage ChatModel: $chatModel");
     try {
       final dataForm = FormData();
       dataForm.fields.add(
         MapEntry('conversation_id', chatModel?.id.toString() ?? '0'),
       );
-      dataForm.fields.add(MapEntry('message_type', "image"));
-      if (chatModel?.content != null && chatModel!.content!.isNotEmpty) {
-        dataForm.fields.add(MapEntry('content', chatModel.content ?? ''));
-      }
-      if (chatModel?.attachments != null) {
-        for (var file in chatModel!.attachments!) {
-          if (file != null) {
-            String fileName = file.path.split('/').last;
-            dataForm.files.add(
-              MapEntry(
-                'file[]',
-                await MultipartFile.fromFile(file.path, filename: fileName),
-              ),
-            );
-          }
+
+      if (chatModel?.attachments == null ||
+          (chatModel!.attachments?.isEmpty == true)) {
+        print("Adding text content: ${chatModel?.content}");
+        dataForm.fields.add(MapEntry('content', chatModel?.content ?? ""));
+      } else {
+        print("Adding file attachments");
+        for (var file in chatModel.attachments ?? []) {
+          String fileName = file.path.split('/').last;
+          dataForm.files.add(
+            MapEntry(
+              'files[]',
+              await MultipartFile.fromFile(file.path, filename: fileName),
+            ),
+          );
         }
       }
       print("api headers: ${chatModel?.authToken}");
       CommonService commonService = CommonService(
         headers: {"Authorization": "Bearer ${chatModel?.authToken ?? ""}"},
       );
-      print(
-        "SendMessage Request: ${{"conversation_id": chatModel?.id, "message_type": "text", "content": chatModel?.content}}",
-      );
-      print("SendMessage Request with file: ${dataForm.fields}");
+      print("SendMessage Request: ${dataForm.fields} ");
+
       await commonService
           .post(
             ApiConstant.sendMessageEndpoint,
-            data:
-                (chatModel?.attachments != null &&
-                    (chatModel!.attachments!.isNotEmpty))
-                ? dataForm
-                : {
-                    "conversation_id": chatModel?.id ?? 0,
-                    "message_type": "text",
-                    "content": chatModel?.content,
-                  },
+            data: dataForm,
+            options: Options(contentType: 'multipart/form-data'),
           )
           .then((response) {
+            print("SendMessage Response: ${response.data?.data}");
             if (response is DataSuccess) {
               dataState = DataSuccess(
                 data: MessageEntity.fromJson(response.data?.data['data']),
@@ -191,6 +185,7 @@ class ChatRepositoryImplements implements ChatRepository {
             }
           });
     } catch (e) {
+      print("SendMessage Exception: $e");
       dataState = DataFailed(error: e.toString());
       return dataState;
     }

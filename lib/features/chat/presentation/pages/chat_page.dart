@@ -65,6 +65,11 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                       getChatDetailsLoaded: (data) => ListView.builder(
                         shrinkWrap: true,
+                        controller: ScrollController(
+                          initialScrollOffset: messages != null
+                              ? messages!.length * 260.h
+                              : 0,
+                        ),
                         itemCount: messages?.length ?? 0,
                         itemBuilder: (context, index) => MessageContainer(
                           messageEntity: messages?[index],
