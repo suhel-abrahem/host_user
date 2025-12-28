@@ -4,14 +4,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hosta_user/config/theme/app_theme.dart';
-import 'package:hosta_user/core/constants/font_constants.dart';
-import 'package:hosta_user/core/dependencies_injection.dart';
-import 'package:hosta_user/core/resource/image_widget.dart';
-import 'package:hosta_user/features/chat/data/models/chat_model.dart';
-import 'package:hosta_user/features/chat/domain/entities/message/message_entity.dart';
-import 'package:hosta_user/features/chat/presentation/bloc/send_chat_bloc.dart';
-import 'package:hosta_user/generated/locale_keys.g.dart';
+import '/config/theme/app_theme.dart';
+import '/core/constants/font_constants.dart';
+import '/core/dependencies_injection.dart';
+import '/core/resource/image_widget.dart';
+import '/features/chat/data/models/chat_model.dart';
+import '/features/chat/domain/entities/message/message_entity.dart';
+import '/features/chat/presentation/bloc/send_chat_bloc.dart';
+import '/generated/locale_keys.g.dart';
 
 import '../../../../core/enums/uploading_state_enum.dart';
 
@@ -62,7 +62,10 @@ class _MessageContainerState extends State<MessageContainer> {
             });
           } else if (state is SendChatStateSent) {
             setState(() {
-              messageEntity = messageEntity?.copyWith(
+              print(
+                "Message sent successfully: ${state.messageEntity?.content}",
+              );
+              messageEntity = state.messageEntity?.copyWith(
                 uploadingState: UploadingStateEnum.uploaded,
               );
             });
@@ -198,10 +201,7 @@ class _MessageContainerState extends State<MessageContainer> {
                                       boxFit: BoxFit.cover,
 
                                       imageUrl:
-                                          widget
-                                              .messageEntity
-                                              ?.content?[index] ??
-                                          '',
+                                          messageEntity?.content?[index] ?? '',
                                       errorIconSize: 50.sp,
                                       errorWidget: Icon(
                                         Icons.broken_image_outlined,
