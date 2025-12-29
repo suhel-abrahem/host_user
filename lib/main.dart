@@ -3,6 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hosta_user/core/enums/login_state_enum.dart';
+import 'package:hosta_user/core/resource/socketio_service.dart/home_socket_initializer.dart';
+import 'package:hosta_user/core/resource/socketio_service.dart/socketio_service.dart';
 import 'package:hosta_user/firebase_options.dart';
 
 import 'config/app/app.dart';
@@ -12,20 +15,16 @@ import 'core/dependencies_injection.dart';
 import 'core/resource/firebase_common_services/firebase_messageing_service.dart';
 import 'core/util/helper/helper.dart';
 
+final socketService = getItInstance<SocketService>();
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
-  
-
-  
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
-);
-  
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   await initDependencies();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -49,11 +48,15 @@ void main() async {
   WidgetsBinding.instance.addPostFrameCallback((_) {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  
-  getItInstance<FirebaseMessagingService>().notificationPermission();
-  getItInstance<FirebaseMessagingService>().getDeviceToken();
-});
+    getItInstance<FirebaseMessagingService>().notificationPermission();
+    getItInstance<FirebaseMessagingService>().getDeviceToken();
+  });
   print('user info: ${getItInstance<AppPreferences>().getUserInfo()}');
+  if (getItInstance<AppPreferences>().getUserInfo()?.loginStateEnum ==
+      LoginStateEnum.logined) {
+    socketService.connect();
+    initHomeAndChatSocketListeners();
+  }
   runApp(
     EasyLocalization(
       supportedLocales: LanguageConstant.supportedLocales,

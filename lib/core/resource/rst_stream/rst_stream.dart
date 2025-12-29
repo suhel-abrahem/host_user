@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:hosta_user/features/chat/domain/entities/message/message_entity.dart';
+
 class StreamSocket<T> {
   final _controller = StreamController<T>.broadcast();
 
@@ -19,3 +21,4 @@ class StreamSocket<T> {
 // Create a global instance
 final notificationStreamSocket = StreamSocket<dynamic>();
 final chatUnReadCountStreamSocket = StreamSocket<int>();
+final chatMessageStreamSocket = StreamSocket<MessageEntity?>();

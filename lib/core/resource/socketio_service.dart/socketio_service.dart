@@ -43,9 +43,10 @@ class SocketService {
           )
           .then((onValue) {
             if (onValue is DataSuccess) {
-              _socket!.emit('authentication', {
+              print('🔑 Socket authentication emitted');
+              _socket?.emit('authenticate', {
+                'userId': loginState?.user['id'],
                 'token': onValue?.data?.access_token,
-                "userId": loginState?.user['id'],
               });
             }
           });

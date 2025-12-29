@@ -1,38 +1,41 @@
-import 'package:hosta_user/core/dependencies_injection.dart';
-import 'package:hosta_user/core/resource/socketio_service.dart/socketio_service.dart';
+import 'package:hosta_user/features/chat/domain/entities/message/message_entity.dart';
 
+import '../../../main.dart';
 import '../rst_stream/rst_stream.dart';
 
 bool _homeSocketInitialized = false;
-final homePageSocket = getItInstance<SocketService>();
-void initHomeSocketListeners() {
+
+void initHomeAndChatSocketListeners() {
   if (_homeSocketInitialized) return;
 
-  homePageSocket.on(
+  socketService.on(
     event: "notification:unread_count",
     callback: (data) {
       notificationStreamSocket.addResponse(data["unread_count"].toString());
     },
   );
 
-  homePageSocket.on(
+  socketService.on(
     event: "notification:new",
     callback: (data) {
       notificationStreamSocket.addResponse(data["unread_count"].toString());
     },
   );
 
-  homePageSocket.on(
+  socketService.on(
     event: "chat:unread_messages",
     callback: (data) {
       chatUnReadCountStreamSocket.addResponse(data["unread_count"]);
     },
   );
 
-  homePageSocket.on(
+  socketService.on(
     event: "chat:new_message",
     callback: (data) {
       chatUnReadCountStreamSocket.addResponse(data["unread_count"]);
+      chatMessageStreamSocket.addResponse(
+        MessageEntity.fromJson(data["message"]).copyWith(me: false),
+      );
     },
   );
 

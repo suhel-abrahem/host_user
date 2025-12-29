@@ -18,7 +18,13 @@ import '../../../../core/enums/uploading_state_enum.dart';
 class MessageContainer extends StatefulWidget {
   final MessageEntity? messageEntity;
   final int? chatId;
-  const MessageContainer({super.key, this.messageEntity, this.chatId});
+  final ValueChanged<MessageEntity?>? onMessageSent;
+  const MessageContainer({
+    super.key,
+    this.messageEntity,
+    this.chatId,
+    this.onMessageSent,
+  });
 
   @override
   State<MessageContainer> createState() => _MessageContainerState();
@@ -68,6 +74,7 @@ class _MessageContainerState extends State<MessageContainer> {
               messageEntity = state.messageEntity?.copyWith(
                 uploadingState: UploadingStateEnum.uploaded,
               );
+              widget.onMessageSent?.call(messageEntity);
             });
           } else if (state is SendChatStateError) {
             setState(() {
