@@ -81,7 +81,7 @@ class _MessageNotificationWidgetState extends State<MessageNotificationWidget> {
               ),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (widget.message?.data["sender_image"].isNotEmpty)
                   Container(
