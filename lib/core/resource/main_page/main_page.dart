@@ -417,36 +417,36 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
         ),
-        AnimatedPositioned(
-          duration: 300.ms,
-          top: 10.h,
-          left: 0,
-          right: 0,
-          child: SizedBox(
-            height: 100.h + ((notifications?.length ?? 0)) * 5.h,
-            width: 360.w,
-            child: Stack(
-              key: ValueKey(notifications?.length ?? UniqueKey()),
-              children: [
-                ...List.generate(notifications?.length ?? 0, (index) {
-                  return Positioned(
-                    top: index * 5.h,
-                    left: 0,
-                    right: 0,
-                    child: MessageNotificationWidget(
-                      message: notifications?[index],
-                      onRemove: (val) {
-                        setState(() {
-                          notifications?.removeAt(index);
-                        });
-                      },
-                    ),
-                  );
-                }),
-              ],
+        if (notifications != null && notifications?.isNotEmpty == true)
+          Positioned(
+            top: 10.h,
+            left: 0,
+            right: 0,
+            child: SizedBox(
+              height: 100.h + ((notifications?.length ?? 0)) * 5.h,
+              width: 360.w,
+              child: Stack(
+                key: ValueKey(notifications?.length ?? UniqueKey()),
+                children: [
+                  ...List.generate(notifications?.length ?? 0, (index) {
+                    return Positioned(
+                      top: index * 5.h,
+                      left: 0,
+                      right: 0,
+                      child: MessageNotificationWidget(
+                        message: notifications?[index],
+                        onRemove: (val) {
+                          setState(() {
+                            notifications?.removeAt(index);
+                          });
+                        },
+                      ),
+                    );
+                  }),
+                ],
+              ),
             ),
-          ),
-        ),
+          ).animate().slideY(duration: 500.ms, begin: -1.0),
       ],
     );
   }
