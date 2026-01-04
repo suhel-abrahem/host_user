@@ -32,7 +32,10 @@ void initHomeAndChatSocketListeners() {
   socketService.on(
     event: "chat:new_message",
     callback: (data) {
-      chatUnReadCountStreamSocket.addResponse(data["unread_count"]);
+      // chatUnReadCountStreamSocket.addResponse(data["unread_count"]);
+      print(
+        'New chat message data: ${MessageEntity.fromJson(data["message"]).copyWith(me: false)}',
+      );
       chatMessageStreamSocket.addResponse(
         MessageEntity.fromJson(data["message"]).copyWith(me: false),
       );

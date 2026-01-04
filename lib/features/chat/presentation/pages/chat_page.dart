@@ -8,7 +8,7 @@ import 'package:hosta_user/core/resource/common_state_widget/error_state_widget.
 import 'package:hosta_user/core/resource/common_state_widget/no_internet_state_widget.dart';
 import 'package:hosta_user/core/resource/common_state_widget/unAuth_state_widget.dart';
 import 'package:hosta_user/core/resource/main_page/main_page.dart';
-import 'package:hosta_user/core/resource/socketio_service.dart/home_socket_initializer.dart';
+
 import 'package:hosta_user/features/chat/data/models/chat_model.dart';
 import 'package:hosta_user/features/chat/presentation/bloc/get_chat_bloc.dart';
 import 'package:hosta_user/features/chat/presentation/widgets/send_message_field.dart';
@@ -30,6 +30,22 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   List<MessageEntity?>? chatMesages;
   ScrollController scrollController = ScrollController(keepScrollOffset: true);
+  void _scrollToBottom({bool animated = true}) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      double max = scrollController.position.maxScrollExtent;
+
+      if (animated) {
+        scrollController.animateTo(
+          max,
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.easeOut,
+        );
+      } else {
+        scrollController.jumpTo(max);
+      }
+    });
+  }
+
   @override
   void initState() {
     chatMesages = [];
@@ -54,17 +70,22 @@ class _ChatPageState extends State<ChatPage> {
               child: BlocListener<GetChatBloc, GetChatState>(
                 listener: (context, state) {
                   if (state is GetChatStateGetChatDetailsLoaded) {
-                    state.chatEntity?.messages?.forEach((element) {
-                      if (!(chatMesages?.any(
-                            (msg) => msg?.id == element["id"],
-                          ) ??
-                          false)) {
-                        chatMesages?.add(MessageEntity.fromJson(element));
+                    bool added = false;
+
+                    for (final element in state.chatEntity?.messages ?? []) {
+                      final msg = MessageEntity.fromJson(element);
+                      final exists =
+                          chatMesages?.any((m) => m?.id == msg.id) ?? false;
+                      if (!exists) {
+                        chatMesages?.add(msg);
+                        added = true;
                       }
-                    });
-                    scrollController.jumpTo(
-                      chatMesages != null ? chatMesages!.length * 260.h : 0,
-                    );
+                    }
+
+                    if (added) {
+                      setState(() {});
+                      _scrollToBottom();
+                    }
                   }
                 },
                 child: BlocBuilder<GetChatBloc, GetChatState>(
@@ -78,30 +99,44 @@ class _ChatPageState extends State<ChatPage> {
                           lottieWidth: 200.w,
                         ),
                       ),
-                      getChatDetailsLoaded: (data) => StreamBuilder(
-                        stream: chatMessageStreamSocket.stream,
-                        builder: (context, asyncSnapshot) {
-                          print('New message received: ${asyncSnapshot.data}');
-                          chatMesages?.contains(asyncSnapshot.data) == true
-                              ? null
-                              : chatMesages?.add(asyncSnapshot.data);
+                      getChatDetailsLoaded: (data) {
+                        return StreamBuilder(
+                          stream: chatMessageStreamSocket.stream,
+                          builder: (context, asyncSnapshot) {
+                            print(
+                              'New message received: ${asyncSnapshot.data}',
+                            );
+                            if (asyncSnapshot.data != null) {
+                              final msg = asyncSnapshot.data as MessageEntity;
 
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            controller: scrollController,
-                            itemCount: chatMesages?.length ?? 0,
-                            itemBuilder: (context, index) => MessageContainer(
-                              onMessageSent: (value) {
-                                setState(() {
-                                  chatMesages?[index] = value;
-                                });
+                              final exists =
+                                  chatMesages?.any((m) => m?.id == msg.id) ??
+                                  false;
+                              if (!exists) {
+                                chatMesages?.add(msg);
+                                _scrollToBottom(animated: true);
+                              }
+                            }
+
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              controller: scrollController,
+                              itemCount: chatMesages?.length ?? 0,
+                              itemBuilder: (context, index) {
+                                return MessageContainer(
+                                  onMessageSent: (value) {
+                                    setState(() {
+                                      chatMesages?[index] = value;
+                                    });
+                                  },
+                                  messageEntity: chatMesages?[index],
+                                  chatId: widget.chatId,
+                                );
                               },
-                              messageEntity: chatMesages?[index],
-                              chatId: widget.chatId,
-                            ),
-                          );
-                        },
-                      ),
+                            );
+                          },
+                        );
+                      },
                       error: (e) => Center(
                         child: ErrorStateWidget(
                           lottieHeight: 200.h,
@@ -145,9 +180,8 @@ class _ChatPageState extends State<ChatPage> {
                 setState(() {
                   chatMesages?.add(value);
                 });
-                scrollController.jumpTo(
-                  chatMesages != null ? chatMesages!.length * 260.h : 0,
-                );
+
+                _scrollToBottom();
               },
             ),
           ),
