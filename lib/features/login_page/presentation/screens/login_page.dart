@@ -15,7 +15,9 @@ import '../../../../core/resource/assets_manager.dart';
 import '../../../../core/resource/custom_widget/custom_input_field/custom_input_field.dart';
 import '../../../../core/resource/custom_widget/snake_bar_widget/snake_bar_widget.dart';
 
+import '../../../../core/resource/socketio_service.dart/home_socket_initializer.dart';
 import '../../../../core/resource/validator.dart';
+import '../../../../main.dart';
 import '../../data/models/login_state_model.dart';
 import '../bloc/login_bloc_bloc.dart';
 
@@ -61,6 +63,11 @@ class _LoginPageState extends State<LoginPage> {
                 created_at: DateTime.now().toString(),
               ),
             );
+            if (getItInstance<AppPreferences>().getUserInfo()?.loginStateEnum ==
+                LoginStateEnum.logined) {
+              socketService.connect();
+              initHomeAndChatSocketListeners();
+            }
             setState(() {
               currentPath = RoutesPath.homePage;
             });

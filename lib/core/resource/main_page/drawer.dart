@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:hosta_user/core/resource/main_page/glew_effect.dart';
+import 'package:hosta_user/main.dart';
 import 'package:restart/restart.dart';
 
 import '../../../config/app/app_preferences.dart';
@@ -433,6 +434,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     getItInstance<AppPreferences>().setUserInfo(
                       loginStateEntity: LoginStateEntity(),
                     );
+                    socketService.disconnect();
                     // Navigate to login page or perform other actions
                     context.goNamed(RoutesName.loginPage);
                   } else if (state is GetProfileStateLogoutError) {
