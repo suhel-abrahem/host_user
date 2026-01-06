@@ -2,13 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hosta_user/config/route/routes_manager.dart';
+import '/config/route/routes_manager.dart';
 
-import 'package:hosta_user/core/constants/font_constants.dart';
-import 'package:hosta_user/core/resource/image_widget.dart';
+import '/core/constants/font_constants.dart';
+import '/core/resource/image_widget.dart';
 
-import 'package:hosta_user/features/chat/domain/entities/message/message_entity.dart';
-import 'package:hosta_user/features/chat/domain/entities/other_participant/other_participant_entity.dart';
+import '/features/chat/domain/entities/message/message_entity.dart';
+import '/features/chat/domain/entities/other_participant/other_participant_entity.dart';
 
 import '../../../../generated/locale_keys.g.dart';
 
@@ -79,6 +79,7 @@ class ConversionWidget extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontFamily: FontConstants.fontFamily(context.locale),
                   ),
+                  overflow: TextOverflow.ellipsis,
                 ),
                 Row(
                   children: [
@@ -90,6 +91,7 @@ class ConversionWidget extends StatelessWidget {
                         fontFamily: FontConstants.fontFamily(context.locale),
                         fontWeight: FontWeight.bold,
                       ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                     if (messageEntity?.message_type == "image")
                       Text(

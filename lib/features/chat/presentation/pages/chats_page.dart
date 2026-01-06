@@ -2,19 +2,19 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hosta_user/core/constants/font_constants.dart';
-import 'package:hosta_user/core/dependencies_injection.dart';
-import 'package:hosta_user/core/resource/common_state_widget/error_state_widget.dart';
-import 'package:hosta_user/core/resource/common_state_widget/no_data_state_widget.dart';
-import 'package:hosta_user/core/resource/common_state_widget/no_internet_state_widget.dart';
-import 'package:hosta_user/core/resource/common_state_widget/unAuth_state_widget.dart';
-import 'package:hosta_user/core/resource/main_page/main_page.dart';
-import 'package:hosta_user/core/util/helper/helper.dart';
-import 'package:hosta_user/features/chat/data/models/chat_model.dart';
-import 'package:hosta_user/features/chat/domain/entities/message/message_entity.dart';
-import 'package:hosta_user/features/chat/presentation/bloc/get_chat_bloc.dart';
-import 'package:hosta_user/features/chat/presentation/widgets/conversion_widget.dart';
-import 'package:hosta_user/generated/locale_keys.g.dart';
+import '/core/constants/font_constants.dart';
+import '/core/dependencies_injection.dart';
+import '/core/resource/common_state_widget/error_state_widget.dart';
+import '/core/resource/common_state_widget/no_data_state_widget.dart';
+import '/core/resource/common_state_widget/no_internet_state_widget.dart';
+import '/core/resource/common_state_widget/unAuth_state_widget.dart';
+import '/core/resource/main_page/main_page.dart';
+import '/core/util/helper/helper.dart';
+import '/features/chat/data/models/chat_model.dart';
+import '/features/chat/domain/entities/message/message_entity.dart';
+import '/features/chat/presentation/bloc/get_chat_bloc.dart';
+import '/features/chat/presentation/widgets/conversion_widget.dart';
+import '/generated/locale_keys.g.dart';
 
 import '../../domain/entities/other_participant/other_participant_entity.dart';
 
@@ -71,17 +71,20 @@ class _ChatsPageState extends State<ChatsPage> {
                       itemCount: data?.length ?? 0,
                       itemBuilder: (context, index) => Padding(
                         padding: EdgeInsets.zero,
-                        child: ConversionWidget(
-                          chatId: data?[index]?.id,
-                          messageEntity: MessageEntity.fromJson(
-                            data?[index]?.last_message ?? {},
+                        child: SizedBox(
+                          width: 1.sw,
+                          child: ConversionWidget(
+                            chatId: data?[index]?.id,
+                            messageEntity: MessageEntity.fromJson(
+                              data?[index]?.last_message ?? {},
+                            ),
+                            bookingNumber: data?[index]?.booking_number,
+                            unreadCount: data?[index]?.unread_count,
+                            otherParticipantEntity:
+                                OtherParticipantEntity.fromJson(
+                                  data?[index]?.other_participant ?? {},
+                                ),
                           ),
-                          bookingNumber: data?[index]?.booking_number,
-                          unreadCount: data?[index]?.unread_count,
-                          otherParticipantEntity:
-                              OtherParticipantEntity.fromJson(
-                                data?[index]?.other_participant ?? {},
-                              ),
                         ),
                       ),
                     ),
