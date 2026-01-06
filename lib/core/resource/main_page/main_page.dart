@@ -7,8 +7,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:go_router/go_router.dart';
-import 'package:hosta_user/core/resource/main_page/booking_notification_widget.dart';
-import 'package:hosta_user/core/resource/main_page/message_notification_widget.dart';
+import '/core/resource/main_page/booking_notification_widget.dart';
+import '/core/resource/main_page/message_notification_widget.dart';
 
 import '/core/enums/login_state_enum.dart';
 import '/core/resource/color_manager.dart';
@@ -64,6 +64,7 @@ class _MainPageState extends State<MainPage> {
   bool animationDone = false;
   List<RemoteMessage?>? notifications = [];
   double startPosition = 0;
+  RemoteMessage? lastMessage;
   void checkSessionValidity() {
     final loginState = getItInstance<AppPreferences>().getUserInfo();
     if (loginState == null ||
@@ -80,14 +81,16 @@ class _MainPageState extends State<MainPage> {
         print('Got a message whilst in the foreground!: ${message.data}');
         if (mounted) {
           message.data["type"].toString().contains("booking")
-              ? showDialog(
-                  context: context,
-                  builder: (context) => StatefulBuilder(
-                    builder: (context, setState) {
-                      return BookingNotificationWidget(message: message);
-                    },
-                  ),
-                )
+              ? lastMessage != message
+                    ? showDialog(
+                        context: context,
+                        builder: (context) => StatefulBuilder(
+                          builder: (context, setState) {
+                            return BookingNotificationWidget(message: message);
+                          },
+                        ),
+                      )
+                    : null
               : setState(() {
                   if (!(notifications?.contains(message) ?? true) &&
                       ((notifications?.length ?? 0) <= 10)) {
@@ -109,6 +112,7 @@ class _MainPageState extends State<MainPage> {
                     ];
                   }
                 });
+          lastMessage = message;
         }
       });
     } catch (e) {
@@ -123,12 +127,20 @@ class _MainPageState extends State<MainPage> {
     try {
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
         if (mounted) {
-          context.pushNamed(
-            RoutesName.serviceInfoPage,
-            pathParameters: {
-              "serviceId": message.data["booking_id"].toString(),
-            },
-          );
+          message.data["type"].toString().contains("booking")
+              ? context.pushNamed(
+                  RoutesName.serviceInfoPage,
+                  pathParameters: {
+                    "serviceId": message.data["booking_id"].toString(),
+                  },
+                )
+              : context.pushNamed(
+                  RoutesName.chatPage,
+                  pathParameters: {
+                    "chatId": message.data["conversationId"] ?? "",
+                    "bookingNumber": message.data["bookingId"] ?? "",
+                  },
+                );
         }
       });
     } catch (e) {
@@ -145,12 +157,20 @@ class _MainPageState extends State<MainPage> {
           .getInitialMessage();
       if (initialMessage != null) {
         if (mounted) {
-          context.pushNamed(
-            RoutesName.serviceInfoPage,
-            pathParameters: {
-              "serviceId": initialMessage.data["booking_id"].toString(),
-            },
-          );
+          initialMessage.data["type"].toString().contains("booking")
+              ? context.pushNamed(
+                  RoutesName.serviceInfoPage,
+                  pathParameters: {
+                    "serviceId": initialMessage.data["booking_id"].toString(),
+                  },
+                )
+              : context.pushNamed(
+                  RoutesName.chatPage,
+                  pathParameters: {
+                    "chatId": initialMessage.data["conversationId"] ?? "",
+                    "bookingNumber": initialMessage.data["bookingId"] ?? "",
+                  },
+                );
         }
       }
     } catch (e) {

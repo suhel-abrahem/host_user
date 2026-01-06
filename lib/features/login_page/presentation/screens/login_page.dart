@@ -50,14 +50,14 @@ class _LoginPageState extends State<LoginPage> {
     return BlocProvider.value(
       value: bloc,
       child: BlocListener<LoginBlocBloc, LoginBlocState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is LoginStateError) {
             showMessage(
               message: LocaleKeys.loginPage_loginFailed.tr(),
               context: context,
             );
           } else if (state is LoginStateLoaded) {
-            getItInstance<AppPreferences>().setUserInfo(
+            await getItInstance<AppPreferences>().setUserInfo(
               loginStateEntity: state.loginStateEntity?.copyWith(
                 loginStateEnum: LoginStateEnum.logined,
                 created_at: DateTime.now().toString(),
