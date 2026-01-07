@@ -269,73 +269,64 @@ class _HomePagePageState extends State<HomePagePage> {
                       });
                     }
                   },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      isProfileDataLoading
-                          ? CircularProgressIndicator(
-                              backgroundColor: ColorManager.darkTextColor,
-                            )
-                          : Container(
-                              width: 50.w,
-
-                              clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(shape: BoxShape.circle),
-                              child: ImageWidget(
-                                boxFit: BoxFit.cover,
-                                errorWidget: Icon(
-                                  Icons.account_circle,
-                                  size: 40.sp,
-                                  color: ColorManager.darkTextColor,
+                  child: SizedBox(
+                    width: 210.w,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        isProfileDataLoading
+                            ? CircularProgressIndicator(
+                                backgroundColor: ColorManager.darkTextColor,
+                              )
+                            : Container(
+                                width: 60.w,
+                                height: 60.h,
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
                                 ),
-                                imageUrl: profileEntity?.avatar ?? "",
+                                child: ImageWidget(
+                                  boxFit: BoxFit.cover,
+                                  errorWidget: Icon(
+                                    Icons.account_circle,
+                                    size: 40.sp,
+                                    color: ColorManager.darkTextColor,
+                                  ),
+                                  imageUrl: profileEntity?.avatar ?? "",
+                                ),
                               ),
-                            ),
-                      SizedBox(
-                        width: 130.w,
-                        height: 60.h,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 20.h,
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: isProfileDataLoading
-                                    ? SizedBox(
-                                        width: 70.w,
-                                        height: 1.h,
-                                        child: Center(
-                                          child: LinearProgressIndicator(
-                                            color: ColorManager.darkTextColor,
-                                            backgroundColor: Theme.of(
-                                              context,
-                                            ).colorScheme.primary,
+                        Align(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: SizedBox(
+                            width: 130.w,
+                            child: isProfileDataLoading
+                                ? Center(
+                                    child: LinearProgressIndicator(
+                                      color: ColorManager.darkTextColor,
+                                      backgroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                    ),
+                                  )
+                                : Text(
+                                    profileEntity?.name ?? "",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge
+                                        ?.copyWith(
+                                          fontFamily: FontConstants.fontFamily(
+                                            context.locale,
                                           ),
+                                          color: ColorManager.darkTextColor,
                                         ),
-                                      )
-                                    : Text(
-                                        profileEntity?.name ?? "",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelLarge
-                                            ?.copyWith(
-                                              fontFamily:
-                                                  FontConstants.fontFamily(
-                                                    context.locale,
-                                                  ),
-                                              color: ColorManager.darkTextColor,
-                                            ),
-                                        textAlign: TextAlign.start,
-                                      ),
-                              ),
-                            ),
-                          ],
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

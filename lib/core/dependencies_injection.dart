@@ -85,6 +85,7 @@ import '../features/profile_page/data/repositories/profile_repository_implements
 import '../features/profile_page/domain/entities/profile_entity.dart';
 import '../features/profile_page/domain/entities/working_hours_entity.dart';
 import '../features/profile_page/domain/repositories/profile_repository.dart';
+import '../features/profile_page/domain/usecases/delete_account_usecase.dart';
 import '../features/profile_page/domain/usecases/get_languages_usecase.dart';
 import '../features/profile_page/domain/usecases/get_profile_usecase.dart';
 import '../features/profile_page/domain/usecases/get_working_time_usecase.dart';
@@ -93,6 +94,7 @@ import '../features/profile_page/domain/usecases/set_languages_usecase.dart';
 import '../features/profile_page/domain/usecases/set_working_time_usecase.dart';
 import '../features/profile_page/domain/usecases/update_profile_usecase.dart';
 import '../features/profile_page/domain/usecases/update_working_time_usecase.dart';
+import '../features/profile_page/presentation/bloc/delete_account_bloc.dart';
 import '../features/profile_page/presentation/bloc/get_profile_bloc.dart';
 import '../features/profile_page/presentation/bloc/get_working_time_bloc.dart';
 import '../features/profile_page/presentation/bloc/languges_bloc.dart';
@@ -395,6 +397,9 @@ Future<void> initDependencies() async {
   getItInstance.registerSingleton<UpdateProfileUsecase>(
     UpdateProfileUsecase(getItInstance()),
   );
+  getItInstance.registerSingleton<DeleteAccountUsecase>(
+    DeleteAccountUsecase(getItInstance()),
+  );
   //bloc
   getItInstance.registerFactory<GetProfileBloc>(
     () => GetProfileBloc(
@@ -414,6 +419,9 @@ Future<void> initDependencies() async {
   );
   getItInstance.registerFactory<LangugesBloc>(
     () => LangugesBloc(getItInstance(), getItInstance(), getItInstance()),
+  );
+  getItInstance.registerFactory<DeleteAccountBloc>(
+    () => DeleteAccountBloc(getItInstance(), getItInstance()),
   );
   // end of profile page
   // home page

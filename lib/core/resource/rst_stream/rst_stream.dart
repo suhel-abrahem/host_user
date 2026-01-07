@@ -24,3 +24,5 @@ final notificationStreamSocket = StreamSocket<dynamic>();
 final chatUnReadCountStreamSocket = StreamSocket<int>();
 final chatMessageStreamSocket = StreamSocket<MessageEntity?>();
 final fcmNotificationStreamSocket = StreamSocket<RemoteMessage?>();
+String? lastNotificationCount;
+String? lastChatUnReadCount;
