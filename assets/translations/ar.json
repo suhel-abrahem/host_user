@@ -204,7 +204,29 @@
     "profileImage": "صورة الملف الشخصي",
     "dob": "تاريخ الميلاد",
     "deleteAccountWarning": "بحذفك لحسابك، ستفقد الوصول إلى جميع بياناتك ولن تتمكن من استعادتها.",
-    "areYouSure": "هل أنت متأكد؟"
+    "areYouSure": "هل أنت متأكد؟",
+    "createNewTicket": "إنشاء تذكرة جديدة",
+    "viewMyTickets": "عرض تذاكري",
+    "ticketCategory": {
+      "technical": "فني",
+      "complaint": "شكوى",
+      "suggestion": "اقتراح",
+      "others": "أخرى"
+    },
+    "ticketCreatedSuccessfully": "تم إنشاء التذكرة بنجاح",
+    "noTicketsAvailable": "لا توجد تذاكر متاحة",
+    "category": "الفئة",
+    "status": "الحالة",
+    "open": "مفتوحة",
+    "closed": "مغلقة",
+    "createdAt": "تاريخ الإنشاء",
+    "ticketDetails": "تفاصيل التذكرة",
+    "reply": "رد",
+    "noRepliesYet": "لا توجد ردود بعد",
+    "typeYourReplyHere": "اكتب ردك هنا...",
+    "inProgress": "قيد التنفيذ",
+    "resolved": "تم الحل",
+    "categoryIsRequired": "الفئة مطلوبة"
   },
   "myServicesPage": {
     "title": "صفحة خدماتي",

@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:hosta_user/features/chat/domain/entities/message/message_entity.dart';
+import 'package:hosta_user/features/profile_page/domain/entities/help/tickets_entity.dart';
+import 'package:hosta_user/features/profile_page/presentation/bloc/tickets_bloc_bloc.dart';
 import 'package:hosta_user/features/service_details/data/models/store_booking_model.dart';
 import 'package:hosta_user/features/service_details/data/models/time_slots_model.dart';
 import 'package:hosta_user/features/service_details/domain/entities/service_details_entity.dart';
@@ -78,17 +80,23 @@ import '../features/otp_page/domain/repositories/otp_verifiy_repository.dart';
 import '../features/otp_page/domain/usecases/otp_resend_usecase.dart';
 import '../features/otp_page/domain/usecases/otp_verify_usecase.dart';
 import '../features/otp_page/presentation/bloc/otp_page_bloc.dart';
+import '../features/profile_page/data/models/help/create_ticket_model.dart';
+import '../features/profile_page/data/models/help/get_tickets_model.dart';
 import '../features/profile_page/data/models/profile_model.dart';
 import '../features/profile_page/data/models/set_profile_model.dart';
 import '../features/profile_page/data/models/set_working_hours_model.dart';
+import '../features/profile_page/data/repositories/help/ticket_repository_implements.dart';
 import '../features/profile_page/data/repositories/profile_repository_implements.dart';
 import '../features/profile_page/domain/entities/profile_entity.dart';
 import '../features/profile_page/domain/entities/working_hours_entity.dart';
+import '../features/profile_page/domain/repositories/help/tickets_repository.dart';
 import '../features/profile_page/domain/repositories/profile_repository.dart';
 import '../features/profile_page/domain/usecases/delete_account_usecase.dart';
 import '../features/profile_page/domain/usecases/get_languages_usecase.dart';
 import '../features/profile_page/domain/usecases/get_profile_usecase.dart';
 import '../features/profile_page/domain/usecases/get_working_time_usecase.dart';
+import '../features/profile_page/domain/usecases/help/create_ticket_usecase.dart';
+import '../features/profile_page/domain/usecases/help/get_tickets_usecase.dart';
 import '../features/profile_page/domain/usecases/logout_usecase.dart';
 import '../features/profile_page/domain/usecases/set_languages_usecase.dart';
 import '../features/profile_page/domain/usecases/set_working_time_usecase.dart';
@@ -548,4 +556,25 @@ Future<void> initDependencies() async {
     () => SendChatBloc(getItInstance(), getItInstance()),
   );
   //end of chat
+  // help
+  // entities and models
+  getItInstance.registerSingleton<TicketsEntity>(TicketsEntity());
+  getItInstance.registerSingleton<CreateTicketModel>(CreateTicketModel());
+  getItInstance.registerSingleton<GetTicketsModel>(GetTicketsModel());
+  // repository
+  getItInstance.registerSingleton<TicketsRepository>(
+    TicketRepositoryImplements(getItInstance()),
+  );
+  // usecase
+  getItInstance.registerSingleton<GetTicketsUsecase>(
+    GetTicketsUsecase(getItInstance()),
+  );
+  getItInstance.registerSingleton<CreateTicketUsecase>(
+    CreateTicketUsecase(getItInstance()),
+  );
+  // bloc
+  getItInstance.registerFactory<TicketsBlocBloc>(
+    () => TicketsBlocBloc(getItInstance(), getItInstance(), getItInstance()),
+  );
+  // end of help
 }

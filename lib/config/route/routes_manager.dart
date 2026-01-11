@@ -9,6 +9,7 @@ import '../../core/resource/common_entity/service_entity.dart';
 import '../../features/chat/presentation/pages/chat_page.dart';
 import '../../features/chat/presentation/pages/chats_page.dart';
 import '../../features/notification_page/presentation/pages/notification_page.dart';
+import '../../features/profile_page/presentation/pages/tickets_page.dart';
 import '../../features/provider_page/presentation/pages/provider_page.dart';
 import '../app/app_preferences.dart';
 import 'route_tracker.dart';
@@ -31,7 +32,7 @@ import '../../core/resource/main_page/main_bottom_bar.dart';
 import '../../features/booking_page/presentation/pages/booking_page_page.dart';
 
 import '../../features/profile_page/presentation/pages/account_page_page.dart';
-import '../../features/profile_page/presentation/pages/help_page_page.dart';
+import '../../features/profile_page/presentation/pages/create_ticket_page_page.dart';
 import '../../features/profile_page/presentation/pages/setting_page_page.dart';
 
 String? currentPath = RoutesPath.homePage;
@@ -52,7 +53,8 @@ class RoutesName {
   static String categoryServicesPage = "categoryServicesPage";
   static String accountPage = "accountPage";
 
-  static String helpPage = "helpPage";
+  static String createTicketPage = "createTicketPage";
+  static String ticketsPage = "ticketsPage";
   static String serviceDetailsPage = "serviceDetailsPage";
   static String providerPage = "providerPage";
   static String notificationPage = "notificationPage";
@@ -76,7 +78,8 @@ class RoutesPath {
   static String serviceInfoPage = "/serviceInfoPage/:serviceId";
   static String accountPage = "/accountPage";
 
-  static String helpPage = "/helpPage";
+  static String createTicketPage = "/createTicketPage";
+  static String ticketsPage = "/ticketsPage";
   static String serviceDetailsPage = "/serviceDetailsPage/:serviceEntity";
   static String providerPage = "/providerPage";
   static String notificationPage = "/notificationPage";
@@ -281,11 +284,21 @@ GoRouter goRouter = GoRouter(
               },
             ),
             GoRoute(
-              path: RoutesPath.helpPage,
-              name: RoutesName.helpPage,
+              path: RoutesPath.createTicketPage,
+              name: RoutesName.createTicketPage,
               pageBuilder: (context, state) {
                 return _customTransitionPage(
-                  child: HelpPagePage(),
+                  child: TicketCreationPage(),
+                  state: state,
+                );
+              },
+            ),
+            GoRoute(
+              path: RoutesPath.ticketsPage,
+              name: RoutesName.ticketsPage,
+              pageBuilder: (context, state) {
+                return _customTransitionPage(
+                  child: TicketsPage(),
                   state: state,
                 );
               },

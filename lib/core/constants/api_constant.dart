@@ -33,4 +33,5 @@ class ApiConstant {
   static const String chatEndpoint = "/chat/conversations";
   static const String sendMessageEndpoint = "/chat/messages";
   static const String deleteAccountEndpoint = "/profile/account";
+  static const String ticketsEndpoint = "/support/tickets";
 }

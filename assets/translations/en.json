@@ -204,7 +204,29 @@
     "profileImage": "Profile image",
     "dob": "Date of Birth",
     "deleteAccountWarning": "By deleting your account, you will lose access to all your data and will not be able to recover it.",
-    "areYouSure": "Are you sure?"
+    "areYouSure": "Are you sure?",
+    "createNewTicket": "Create new ticket",
+    "viewMyTickets": "View my tickets",
+    "ticketCategory": {
+      "technical": "Technical",
+      "complaint": "Complaint",
+      "suggestion": "Suggestion",
+      "others": "Other"
+    },
+    "ticketCreatedSuccessfully": "Ticket created successfully",
+    "noTicketsAvailable": "No tickets available",
+    "category": "Category",
+    "status": "Status",
+    "open": "Open",
+    "closed": "Closed",
+    "createdAt": "Created at",
+    "ticketDetails": "Ticket details",
+    "reply": "Reply",
+    "noRepliesYet": "No replies yet",
+    "typeYourReplyHere": "Type your reply here...",
+    "inProgress": "In progress",
+    "resolved": "Resolved",
+    "categoryIsRequired": "Category is required"
   },
   "myServicesPage": {
     "title": "My services page",

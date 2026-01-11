@@ -204,7 +204,29 @@
     "profileImage": "وێنەی پڕۆفایل",
     "dob": "ڕۆژی لەدایکبوون",
     "deleteAccountWarning": "بە سڕینەوەی ئەژمارەکەت، دەستگەیشتنت بە هەموو داتاکانت دەکەیت و ناتوانیت دووبارە وەرگرێیت.",
-    "areYouSure": "دڵنیایت؟"
+    "areYouSure": "دڵنیایت؟",
+    "createNewTicket": "دروستکردنی تیکەتێکی نوێ",
+    "viewMyTickets": "بینینی تیکەتەکانم",
+    "ticketCategory": {
+      "technical": "تیکنیکی",
+      "complaint": "شکایت",
+      "suggestion": "پێشنیاز",
+      "others": "تر"
+    },
+    "ticketCreatedSuccessfully": "تیکەت بە سەرکەوتوویی دروستکرا",
+    "noTicketsAvailable": "هیچ تیکەتێک بوونی نیە",
+    "category": "کەیسی",
+    "status": "دۆخ",
+    "open": "کردنەوە",
+    "closed": "داخستن",
+    "createdAt": "ڕێکەوتی دروستکردن",
+    "ticketDetails": "وردەکاریی تیکەت",
+    "reply": "وەڵام",
+    "noRepliesYet": "هێشتا وەڵام نیە",
+    "typeYourReplyHere": "وەڵامەکەت لێرە بنووسە...",
+    "inProgress": "لە پڕۆسەدا",
+    "resolved": "چاککراوە",
+    "categoryIsRequired": "کەیسی پێویستە"
   },
   "myServicesPage": {
     "title": "شاشەی خزمەتگوزاریەکانم",

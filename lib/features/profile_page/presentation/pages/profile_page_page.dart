@@ -289,8 +289,74 @@ class _ProfilePagePageState extends State<ProfilePagePage> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: ElevatedButton(
-                onPressed: () {
-                  context.pushNamed(RoutesName.helpPage);
+                onPressed: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (context) => Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        height: 150.h,
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 16.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16.r),
+                            topRight: Radius.circular(16.r),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context).shadowColor,
+                              blurRadius: 2.r,
+                              offset: Offset(-1, -2.h),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                context.pop();
+                                context.pushNamed(RoutesName.ticketsPage);
+                              },
+
+                              child: Text(
+                                LocaleKeys.profilePage_viewMyTickets.tr(),
+                                style: Theme.of(context).textTheme.labelLarge
+                                    ?.copyWith(
+                                      fontFamily: FontConstants.fontFamily(
+                                        context.locale,
+                                      ),
+                                    ),
+                              ),
+                            ),
+
+                            TextButton(
+                              onPressed: () {
+                                context.pop();
+                                context.pushNamed(RoutesName.createTicketPage);
+                              },
+                              child: Text(
+                                LocaleKeys.profilePage_contactAsForAssistance
+                                    .tr(),
+                                style: Theme.of(context).textTheme.labelLarge
+                                    ?.copyWith(
+                                      fontFamily: FontConstants.fontFamily(
+                                        context.locale,
+                                      ),
+                                    ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
                 },
                 style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
                   backgroundColor: WidgetStatePropertyAll(Colors.transparent),

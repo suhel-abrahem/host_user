@@ -220,7 +220,29 @@ class CodegenLoader extends AssetLoader{
     "profileImage": "صورة الملف الشخصي",
     "dob": "تاريخ الميلاد",
     "deleteAccountWarning": "بحذفك لحسابك، ستفقد الوصول إلى جميع بياناتك ولن تتمكن من استعادتها.",
-    "areYouSure": "هل أنت متأكد؟"
+    "areYouSure": "هل أنت متأكد؟",
+    "createNewTicket": "إنشاء تذكرة جديدة",
+    "viewMyTickets": "عرض تذاكري",
+    "ticketCategory": {
+      "technical": "فني",
+      "complaint": "شكوى",
+      "suggestion": "اقتراح",
+      "others": "أخرى"
+    },
+    "ticketCreatedSuccessfully": "تم إنشاء التذكرة بنجاح",
+    "noTicketsAvailable": "لا توجد تذاكر متاحة",
+    "category": "الفئة",
+    "status": "الحالة",
+    "open": "مفتوحة",
+    "closed": "مغلقة",
+    "createdAt": "تاريخ الإنشاء",
+    "ticketDetails": "تفاصيل التذكرة",
+    "reply": "رد",
+    "noRepliesYet": "لا توجد ردود بعد",
+    "typeYourReplyHere": "اكتب ردك هنا...",
+    "inProgress": "قيد التنفيذ",
+    "resolved": "تم الحل",
+    "categoryIsRequired": "الفئة مطلوبة"
   },
   "myServicesPage": {
     "title": "صفحة خدماتي",
@@ -588,7 +610,29 @@ static const Map<String,dynamic> _en = {
     "profileImage": "Profile image",
     "dob": "Date of Birth",
     "deleteAccountWarning": "By deleting your account, you will lose access to all your data and will not be able to recover it.",
-    "areYouSure": "Are you sure?"
+    "areYouSure": "Are you sure?",
+    "createNewTicket": "Create new ticket",
+    "viewMyTickets": "View my tickets",
+    "ticketCategory": {
+      "technical": "Technical",
+      "complaint": "Complaint",
+      "suggestion": "Suggestion",
+      "others": "Other"
+    },
+    "ticketCreatedSuccessfully": "Ticket created successfully",
+    "noTicketsAvailable": "No tickets available",
+    "category": "Category",
+    "status": "Status",
+    "open": "Open",
+    "closed": "Closed",
+    "createdAt": "Created at",
+    "ticketDetails": "Ticket details",
+    "reply": "Reply",
+    "noRepliesYet": "No replies yet",
+    "typeYourReplyHere": "Type your reply here...",
+    "inProgress": "In progress",
+    "resolved": "Resolved",
+    "categoryIsRequired": "Category is required"
   },
   "myServicesPage": {
     "title": "My services page",
@@ -956,7 +1000,29 @@ static const Map<String,dynamic> _fa = {
     "profileImage": "وێنەی پڕۆفایل",
     "dob": "ڕۆژی لەدایکبوون",
     "deleteAccountWarning": "بە سڕینەوەی ئەژمارەکەت، دەستگەیشتنت بە هەموو داتاکانت دەکەیت و ناتوانیت دووبارە وەرگرێیت.",
-    "areYouSure": "دڵنیایت؟"
+    "areYouSure": "دڵنیایت؟",
+    "createNewTicket": "دروستکردنی تیکەتێکی نوێ",
+    "viewMyTickets": "بینینی تیکەتەکانم",
+    "ticketCategory": {
+      "technical": "تیکنیکی",
+      "complaint": "شکایت",
+      "suggestion": "پێشنیاز",
+      "others": "تر"
+    },
+    "ticketCreatedSuccessfully": "تیکەت بە سەرکەوتوویی دروستکرا",
+    "noTicketsAvailable": "هیچ تیکەتێک بوونی نیە",
+    "category": "کەیسی",
+    "status": "دۆخ",
+    "open": "کردنەوە",
+    "closed": "داخستن",
+    "createdAt": "ڕێکەوتی دروستکردن",
+    "ticketDetails": "وردەکاریی تیکەت",
+    "reply": "وەڵام",
+    "noRepliesYet": "هێشتا وەڵام نیە",
+    "typeYourReplyHere": "وەڵامەکەت لێرە بنووسە...",
+    "inProgress": "لە پڕۆسەدا",
+    "resolved": "چاککراوە",
+    "categoryIsRequired": "کەیسی پێویستە"
   },
   "myServicesPage": {
     "title": "شاشەی خزمەتگوزاریەکانم",

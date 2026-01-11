@@ -1,0 +1,128 @@
+import 'package:bloc/bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hosta_user/config/app/app_preferences.dart';
+import 'package:hosta_user/core/dependencies_injection.dart';
+import 'package:hosta_user/features/login_page/domain/entities/login_state_entity.dart';
+import 'package:hosta_user/features/profile_page/domain/usecases/help/get_tickets_usecase.dart';
+import 'package:hosta_user/features/refresh_token/data/models/refresh_token_model.dart';
+import 'package:hosta_user/features/refresh_token/domain/usecases/refresh_token_usecase.dart';
+
+import '../../../../core/data_state/data_state.dart';
+import '../../data/models/help/create_ticket_model.dart';
+import '../../data/models/help/get_tickets_model.dart';
+import '../../domain/entities/help/tickets_entity.dart';
+import '../../domain/usecases/help/create_ticket_usecase.dart';
+
+part 'tickets_bloc_event.dart';
+part 'tickets_bloc_state.dart';
+part 'tickets_bloc_bloc.freezed.dart';
+
+class TicketsBlocBloc extends Bloc<TicketsBlocEvent, TicketsBlocState> {
+  final RefreshTokenUsecase? _refreshTokenUsecase;
+  final GetTicketsUsecase? _getTicketsUsecase;
+  final CreateTicketUsecase? _createTicketUsecase;
+  TicketsBlocBloc(
+    this._refreshTokenUsecase,
+    this._getTicketsUsecase,
+    this._createTicketUsecase,
+  ) : super(TicketsBlocState.initial()) {
+    on<TicketsBlocEventStarted>((event, emit) {
+      emit(TicketsBlocState.initial());
+    });
+    on<TicketsBlocEventGetTickets>((event, emit) async {
+      emit(TicketsBlocState.loading());
+      final LoginStateEntity? loginState = getItInstance<AppPreferences>()
+          .getUserInfo();
+      await _refreshTokenUsecase
+          ?.call(
+            params: RefreshTokenModel(
+              refresh_token: loginState?.refresh_token,
+              token: loginState?.access_token,
+            ),
+          )
+          .then((refreshTokenState) async {
+            if (refreshTokenState is DataSuccess) {
+              await _getTicketsUsecase
+                  ?.call(
+                    params: event.model?.copyWith(
+                      token: refreshTokenState?.data?.access_token,
+                    ),
+                  )
+                  .then((ticketsState) {
+                    if (ticketsState is DataSuccess) {
+                      if (ticketsState?.data != null &&
+                          ticketsState?.data?.isNotEmpty == true) {
+                        emit(
+                          TicketsBlocState.loadedTickets(
+                            tickets: ticketsState?.data,
+                          ),
+                        );
+                      } else {
+                        emit(TicketsBlocState.noData());
+                      }
+                    } else if (ticketsState is NOInternetDataState) {
+                      emit(TicketsBlocState.connectionError());
+                    } else if (ticketsState is UnauthenticatedDataState) {
+                      emit(TicketsBlocState.sessionExpired());
+                    } else {
+                      emit(
+                        TicketsBlocState.error(
+                          message: "Failed to load tickets",
+                        ),
+                      );
+                    }
+                  });
+            } else if (refreshTokenState is NOInternetDataState) {
+              emit(TicketsBlocState.connectionError());
+            } else {
+              emit(TicketsBlocState.sessionExpired());
+            }
+          });
+    });
+    on<TicketsBlocEventCreateTicket>((event, emit) async {
+      emit(TicketsBlocState.loading());
+      final LoginStateEntity? loginState = getItInstance<AppPreferences>()
+          .getUserInfo();
+      await _refreshTokenUsecase
+          ?.call(
+            params: RefreshTokenModel(
+              refresh_token: loginState?.refresh_token,
+              token: loginState?.access_token,
+            ),
+          )
+          .then((refreshTokenState) async {
+            if (refreshTokenState is DataSuccess) {
+              await _createTicketUsecase
+                  ?.call(
+                    params: event.model?.copyWith(
+                      token: refreshTokenState?.data?.access_token,
+                    ),
+                  )
+                  .then((createTicketState) {
+                    if (createTicketState is DataSuccess) {
+                      emit(
+                        TicketsBlocState.ticketCreated(
+                          ticket: createTicketState?.data,
+                        ),
+                      );
+                    } else if (createTicketState is NOInternetDataState) {
+                      emit(TicketsBlocState.connectionError());
+                    } else if (createTicketState is UnauthenticatedDataState) {
+                      emit(TicketsBlocState.sessionExpired());
+                    } else {
+                      emit(
+                        TicketsBlocState.error(
+                          message: "Failed to create ticket",
+                        ),
+                      );
+                    }
+                  });
+            } else if (refreshTokenState is NOInternetDataState) {
+              emit(TicketsBlocState.connectionError());
+            } else {
+              emit(TicketsBlocState.sessionExpired());
+            }
+          });
+    });
+  }
+}
