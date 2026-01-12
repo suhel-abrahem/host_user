@@ -107,11 +107,11 @@ class TicketRepositoryImplements implements TicketsRepository {
       );
       await commonService.get(ApiConstant.ticketsEndpoint).then((response) {
         if (response is DataSuccess) {
-          List<TicketsEntity?>? tickets = [];
-          response.data?.data["data"]
-              .map((e) => {TicketsEntity.fromJson(e)})
-              .toList();
-          dataState = DataSuccess(data: tickets);
+          dataState = DataSuccess(
+            data: (response.data?.data["data"] as List)
+                .map((e) => TicketsEntity.fromJson(e))
+                .toList(),
+          );
           return dataState;
         } else {
           dataState = DataFailed(error: response.error);

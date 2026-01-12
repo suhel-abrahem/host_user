@@ -12,11 +12,7 @@ _MessageEntity _$MessageEntityFromJson(Map<String, dynamic> json) =>
       sender_id: (json['sender_id'] as num?)?.toInt() ?? 0,
       sender_name: json['sender_name'] as String? ?? "",
       message_type: json['message_type'] as String? ?? "",
-      content:
-          (json['content'] as List<dynamic>?)
-              ?.map((e) => e as String?)
-              .toList() ??
-          const [],
+      content: json['content'] as List<dynamic>? ?? const [],
       me: json['me'] as bool? ?? false,
       is_read: json['is_read'] as bool? ?? false,
       read_at: json['read_at'] as String? ?? "",

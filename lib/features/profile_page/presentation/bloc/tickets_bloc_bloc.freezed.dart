@@ -234,12 +234,12 @@ $TicketsBlocEventGetTicketsCopyWith<TicketsBlocEventGetTickets> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketsBlocEventGetTickets&&const DeepCollectionEquality().equals(other.model, model));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketsBlocEventGetTickets&&(identical(other.model, model) || other.model == model));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(model));
+int get hashCode => Object.hash(runtimeType,model);
 
 @override
 String toString() {
@@ -258,7 +258,7 @@ $Res call({
 });
 
 
-
+$GetTicketsModelCopyWith<$Res>? get model;
 
 }
 /// @nodoc
@@ -278,7 +278,19 @@ as GetTicketsModel?,
   ));
 }
 
+/// Create a copy of TicketsBlocEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$GetTicketsModelCopyWith<$Res>? get model {
+    if (_self.model == null) {
+    return null;
+  }
 
+  return $GetTicketsModelCopyWith<$Res>(_self.model!, (value) {
+    return _then(_self.copyWith(model: value));
+  });
+}
 }
 
 /// @nodoc
@@ -300,12 +312,12 @@ $TicketsBlocEventCreateTicketCopyWith<TicketsBlocEventCreateTicket> get copyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketsBlocEventCreateTicket&&const DeepCollectionEquality().equals(other.model, model));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketsBlocEventCreateTicket&&(identical(other.model, model) || other.model == model));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(model));
+int get hashCode => Object.hash(runtimeType,model);
 
 @override
 String toString() {
@@ -324,7 +336,7 @@ $Res call({
 });
 
 
-
+$CreateTicketModelCopyWith<$Res>? get model;
 
 }
 /// @nodoc
@@ -344,7 +356,19 @@ as CreateTicketModel?,
   ));
 }
 
+/// Create a copy of TicketsBlocEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CreateTicketModelCopyWith<$Res>? get model {
+    if (_self.model == null) {
+    return null;
+  }
 
+  return $CreateTicketModelCopyWith<$Res>(_self.model!, (value) {
+    return _then(_self.copyWith(model: value));
+  });
+}
 }
 
 /// @nodoc
@@ -706,12 +730,12 @@ $TicketsBlocStateTicketCreatedCopyWith<TicketsBlocStateTicketCreated> get copyWi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketsBlocStateTicketCreated&&const DeepCollectionEquality().equals(other.ticket, ticket));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketsBlocStateTicketCreated&&(identical(other.ticket, ticket) || other.ticket == ticket));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(ticket));
+int get hashCode => Object.hash(runtimeType,ticket);
 
 @override
 String toString() {
@@ -730,7 +754,7 @@ $Res call({
 });
 
 
-
+$TicketsEntityCopyWith<$Res>? get ticket;
 
 }
 /// @nodoc
@@ -750,7 +774,19 @@ as TicketsEntity?,
   ));
 }
 
+/// Create a copy of TicketsBlocState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$TicketsEntityCopyWith<$Res>? get ticket {
+    if (_self.ticket == null) {
+    return null;
+  }
 
+  return $TicketsEntityCopyWith<$Res>(_self.ticket!, (value) {
+    return _then(_self.copyWith(ticket: value));
+  });
+}
 }
 
 /// @nodoc

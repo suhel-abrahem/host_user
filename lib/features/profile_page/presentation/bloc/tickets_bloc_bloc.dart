@@ -50,6 +50,7 @@ class TicketsBlocBloc extends Bloc<TicketsBlocEvent, TicketsBlocState> {
                   )
                   .then((ticketsState) {
                     if (ticketsState is DataSuccess) {
+                      print("TicketsState Data: ${ticketsState?.data}");
                       if (ticketsState?.data != null &&
                           ticketsState?.data?.isNotEmpty == true) {
                         emit(

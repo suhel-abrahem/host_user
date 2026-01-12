@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MessageEntity {
 
- int? get id; int? get sender_id; String? get sender_name; String? get message_type; List<String?>? get content; bool? get me; bool? get is_read; String? get read_at; String? get created_at; UploadingStateEnum? get uploadingState;@FileListJsonConverter() List<File?>? get files;
+ int? get id; int? get sender_id; String? get sender_name; String? get message_type; List? get content; bool? get me; bool? get is_read; String? get read_at; String? get created_at; UploadingStateEnum? get uploadingState;@FileListJsonConverter() List<File?>? get files;
 /// Create a copy of MessageEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $MessageEntityCopyWith<$Res>  {
   factory $MessageEntityCopyWith(MessageEntity value, $Res Function(MessageEntity) _then) = _$MessageEntityCopyWithImpl;
 @useResult
 $Res call({
- int? id, int? sender_id, String? sender_name, String? message_type, List<String?>? content, bool? me, bool? is_read, String? read_at, String? created_at, UploadingStateEnum? uploadingState,@FileListJsonConverter() List<File?>? files
+ int? id, int? sender_id, String? sender_name, String? message_type, List? content, bool? me, bool? is_read, String? read_at, String? created_at, UploadingStateEnum? uploadingState,@FileListJsonConverter() List<File?>? files
 });
 
 
@@ -72,7 +72,7 @@ as int?,sender_id: freezed == sender_id ? _self.sender_id : sender_id // ignore:
 as int?,sender_name: freezed == sender_name ? _self.sender_name : sender_name // ignore: cast_nullable_to_non_nullable
 as String?,message_type: freezed == message_type ? _self.message_type : message_type // ignore: cast_nullable_to_non_nullable
 as String?,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
-as List<String?>?,me: freezed == me ? _self.me : me // ignore: cast_nullable_to_non_nullable
+as List?,me: freezed == me ? _self.me : me // ignore: cast_nullable_to_non_nullable
 as bool?,is_read: freezed == is_read ? _self.is_read : is_read // ignore: cast_nullable_to_non_nullable
 as bool?,read_at: freezed == read_at ? _self.read_at : read_at // ignore: cast_nullable_to_non_nullable
 as String?,created_at: freezed == created_at ? _self.created_at : created_at // ignore: cast_nullable_to_non_nullable
@@ -163,7 +163,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  int? sender_id,  String? sender_name,  String? message_type,  List<String?>? content,  bool? me,  bool? is_read,  String? read_at,  String? created_at,  UploadingStateEnum? uploadingState, @FileListJsonConverter()  List<File?>? files)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  int? sender_id,  String? sender_name,  String? message_type,  List? content,  bool? me,  bool? is_read,  String? read_at,  String? created_at,  UploadingStateEnum? uploadingState, @FileListJsonConverter()  List<File?>? files)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MessageEntity() when $default != null:
 return $default(_that.id,_that.sender_id,_that.sender_name,_that.message_type,_that.content,_that.me,_that.is_read,_that.read_at,_that.created_at,_that.uploadingState,_that.files);case _:
@@ -184,7 +184,7 @@ return $default(_that.id,_that.sender_id,_that.sender_name,_that.message_type,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  int? sender_id,  String? sender_name,  String? message_type,  List<String?>? content,  bool? me,  bool? is_read,  String? read_at,  String? created_at,  UploadingStateEnum? uploadingState, @FileListJsonConverter()  List<File?>? files)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  int? sender_id,  String? sender_name,  String? message_type,  List? content,  bool? me,  bool? is_read,  String? read_at,  String? created_at,  UploadingStateEnum? uploadingState, @FileListJsonConverter()  List<File?>? files)  $default,) {final _that = this;
 switch (_that) {
 case _MessageEntity():
 return $default(_that.id,_that.sender_id,_that.sender_name,_that.message_type,_that.content,_that.me,_that.is_read,_that.read_at,_that.created_at,_that.uploadingState,_that.files);case _:
@@ -204,7 +204,7 @@ return $default(_that.id,_that.sender_id,_that.sender_name,_that.message_type,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  int? sender_id,  String? sender_name,  String? message_type,  List<String?>? content,  bool? me,  bool? is_read,  String? read_at,  String? created_at,  UploadingStateEnum? uploadingState, @FileListJsonConverter()  List<File?>? files)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  int? sender_id,  String? sender_name,  String? message_type,  List? content,  bool? me,  bool? is_read,  String? read_at,  String? created_at,  UploadingStateEnum? uploadingState, @FileListJsonConverter()  List<File?>? files)?  $default,) {final _that = this;
 switch (_that) {
 case _MessageEntity() when $default != null:
 return $default(_that.id,_that.sender_id,_that.sender_name,_that.message_type,_that.content,_that.me,_that.is_read,_that.read_at,_that.created_at,_that.uploadingState,_that.files);case _:
@@ -219,15 +219,15 @@ return $default(_that.id,_that.sender_id,_that.sender_name,_that.message_type,_t
 @JsonSerializable()
 
 class _MessageEntity implements MessageEntity {
-  const _MessageEntity({this.id = 0, this.sender_id = 0, this.sender_name = "", this.message_type = "", final  List<String?>? content = const [], this.me = false, this.is_read = false, this.read_at = "", this.created_at = "", this.uploadingState = UploadingStateEnum.uploaded, @FileListJsonConverter() final  List<File?>? files}): _content = content,_files = files;
+  const _MessageEntity({this.id = 0, this.sender_id = 0, this.sender_name = "", this.message_type = "", final  List? content = const [], this.me = false, this.is_read = false, this.read_at = "", this.created_at = "", this.uploadingState = UploadingStateEnum.uploaded, @FileListJsonConverter() final  List<File?>? files}): _content = content,_files = files;
   factory _MessageEntity.fromJson(Map<String, dynamic> json) => _$MessageEntityFromJson(json);
 
 @override@JsonKey() final  int? id;
 @override@JsonKey() final  int? sender_id;
 @override@JsonKey() final  String? sender_name;
 @override@JsonKey() final  String? message_type;
- final  List<String?>? _content;
-@override@JsonKey() List<String?>? get content {
+ final  List? _content;
+@override@JsonKey() List? get content {
   final value = _content;
   if (value == null) return null;
   if (_content is EqualUnmodifiableListView) return _content;
@@ -283,7 +283,7 @@ abstract mixin class _$MessageEntityCopyWith<$Res> implements $MessageEntityCopy
   factory _$MessageEntityCopyWith(_MessageEntity value, $Res Function(_MessageEntity) _then) = __$MessageEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int? id, int? sender_id, String? sender_name, String? message_type, List<String?>? content, bool? me, bool? is_read, String? read_at, String? created_at, UploadingStateEnum? uploadingState,@FileListJsonConverter() List<File?>? files
+ int? id, int? sender_id, String? sender_name, String? message_type, List? content, bool? me, bool? is_read, String? read_at, String? created_at, UploadingStateEnum? uploadingState,@FileListJsonConverter() List<File?>? files
 });
 
 
@@ -307,7 +307,7 @@ as int?,sender_id: freezed == sender_id ? _self.sender_id : sender_id // ignore:
 as int?,sender_name: freezed == sender_name ? _self.sender_name : sender_name // ignore: cast_nullable_to_non_nullable
 as String?,message_type: freezed == message_type ? _self.message_type : message_type // ignore: cast_nullable_to_non_nullable
 as String?,content: freezed == content ? _self._content : content // ignore: cast_nullable_to_non_nullable
-as List<String?>?,me: freezed == me ? _self.me : me // ignore: cast_nullable_to_non_nullable
+as List?,me: freezed == me ? _self.me : me // ignore: cast_nullable_to_non_nullable
 as bool?,is_read: freezed == is_read ? _self.is_read : is_read // ignore: cast_nullable_to_non_nullable
 as bool?,read_at: freezed == read_at ? _self.read_at : read_at // ignore: cast_nullable_to_non_nullable
 as String?,created_at: freezed == created_at ? _self.created_at : created_at // ignore: cast_nullable_to_non_nullable

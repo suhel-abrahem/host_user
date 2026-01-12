@@ -16,7 +16,7 @@ abstract class MessageEntity with _$MessageEntity {
     @Default(0) int? sender_id,
     @Default("") String? sender_name,
     @Default("") String? message_type,
-    @Default([]) List<String?>? content,
+    @Default([]) List? content,
     @Default(false) bool? me,
     @Default(false) bool? is_read,
     @Default("") String? read_at,
