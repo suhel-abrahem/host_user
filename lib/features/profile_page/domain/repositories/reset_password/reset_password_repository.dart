@@ -1,0 +1,18 @@
+import 'package:hosta_user/core/data_state/data_state.dart';
+import 'package:hosta_user/features/profile_page/data/models/reset_password/request_reset_password_model.dart';
+import 'package:hosta_user/features/profile_page/data/models/reset_password/reset_password_model.dart';
+import 'package:hosta_user/features/profile_page/data/models/reset_password/verify_otp_model.dart';
+import 'package:hosta_user/features/profile_page/domain/entities/reset_password/request_reset_password_entity.dart';
+import 'package:hosta_user/features/profile_page/domain/entities/reset_password/verify_otp_entity.dart';
+
+abstract class ResetPasswordRepository {
+  Future<DataState<RequestResetPasswordEntity?>?> requestResetPassword({
+    RequestResetPasswordModel? requestResetPasswordModel,
+  });
+  Future<DataState<VerifyOtpEntity?>?> verifyOtp({
+    VerifyOtpModel? verifyOtpModel,
+  });
+  Future<DataState<void>?> resetPassword({
+    ResetPasswordModel? resetPasswordModel,
+  });
+}

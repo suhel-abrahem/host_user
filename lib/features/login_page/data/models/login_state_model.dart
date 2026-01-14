@@ -7,8 +7,8 @@ part 'login_state_model.g.dart';
 abstract class LoginStateModel with _$LoginStateModel {
   const factory LoginStateModel({
     @Default("") String? password,
-    @Default("") String? email,
-    @Default("") String? phone,
+    @Default("") String? login,
+
     @Default("") String? token,
     @Default("") String? otp,
   }) = _LoginStateModel;

@@ -123,26 +123,33 @@ class _LoginPageState extends State<LoginPage> {
 
                         label: LocaleKeys.loginPage_emailOrPhone.tr(),
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          String? login = value?.trim();
+                          if (login == null || login.isEmpty) {
                             return LocaleKeys.loginPage_emailOrPhoneIsRequired
                                 .tr();
                           }
 
-                          if (RegExp(Validator.numberRegex).hasMatch(value)) {
-                            if (value.length < 10) {
+                          if (RegExp(Validator.numberRegex).hasMatch(login)) {
+                            if (login.length < 10) {
                               return Validator.phoneExample;
                             }
                           }
-                          if (RegExp(Validator.stringRegex).hasMatch(value)) {
-                            if (!RegExp(Validator.emailRegex).hasMatch(value)) {
+                          if (RegExp(Validator.stringRegex).hasMatch(login)) {
+                            if (!RegExp(Validator.emailRegex).hasMatch(login)) {
                               return Validator.emailExample;
                             }
                           }
                           return null;
                         },
-                        onChanged: (value) {
+                        onChanged: (newValue) {
+                          String? value = newValue?.trim();
                           loginStateModel = loginStateModel.copyWith(
-                            email: value,
+                            login:
+                                RegExp(
+                                  Validator.numberRegex,
+                                ).hasMatch(value ?? "")
+                                ? "+964${value.toString().trim()}"
+                                : value.toString().trim(),
                           );
                         },
                       ),
@@ -214,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
                                       Theme.of(context).colorScheme.primary,
                                     ),
                                   ),
-                              // ✅ Validation happens *on press*, not during build
+
                               onPressed: () {
                                 if (formKey.currentState?.validate() ?? false) {
                                   context.read<LoginBlocBloc>().add(

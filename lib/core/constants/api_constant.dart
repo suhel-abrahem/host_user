@@ -34,4 +34,7 @@ class ApiConstant {
   static const String sendMessageEndpoint = "/chat/messages";
   static const String deleteAccountEndpoint = "/profile/account";
   static const String ticketsEndpoint = "/support/tickets";
+  static const String requestResetPasswordEndpoint = "/password/request";
+  static const String resetPasswordEndpoint = "/password/reset";
+  static const String verifyOtpResetPasswordEndpoint = "/password/verify-otp";
 }

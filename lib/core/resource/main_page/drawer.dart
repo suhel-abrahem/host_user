@@ -429,14 +429,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   getItInstance<GetProfileBloc>()
                     ..add(GetProfileEvent.started()),
               child: BlocListener<GetProfileBloc, GetProfileState>(
-                listener: (context, state) {
+                listener: (context, state) async {
                   if (state is GetProfileStateLoggedOut) {
-                    getItInstance<AppPreferences>().setUserInfo(
+                    await getItInstance<AppPreferences>().setUserInfo(
                       loginStateEntity: LoginStateEntity(),
                     );
                     socketService.disconnect();
                     // Navigate to login page or perform other actions
-                    context.goNamed(RoutesName.loginPage);
+                    if (context.mounted) {
+                      context.pop();
+                      context.goNamed(RoutesName.loginPage);
+                    }
                   } else if (state is GetProfileStateLogoutError) {
                     // Show error message
                     showMessage(
