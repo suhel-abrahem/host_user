@@ -226,7 +226,22 @@
     "typeYourReplyHere": "وەڵامەکەت لێرە بنووسە...",
     "inProgress": "لە پڕۆسەدا",
     "resolved": "چاککراوە",
-    "categoryIsRequired": "کەیسی پێویستە"
+    "categoryIsRequired": "کەیسی پێویستە",
+    "resetPassword": "گۆڕینی وشەی نهێنی",
+    "requestPasswordReset": "داواکردنی گۆڕینی وشەی نهێنی",
+    "requestPasswordResetSuccessful": "داواکردنی گۆڕینی وشەی نهێنی بە سەرکەوتوویی نێردرا",
+    "enterYourEmailOrPhoneToResetYourPassword": "ئیمەیڵ یان ژمارەی مۆبایلی خۆت بنووسە بۆ گۆڕینی وشەی نهێنی",
+    "resendResetOtp": "دووبارە ناردنی کۆدی پشکنین",
+    "wrongOtp": "کۆدی پشکنین هەڵەیە",
+    "verifyBy": "پشکنین بە",
+    "viaWhatsapp": "بە واتسئاپ",
+    "viaEmail": "بە ئیمەیڵ",
+    "newPassword": "وشەی نهێنی نوێ",
+    "newPasswordIsRequired": "وشەی نهێنی نوێ پێویستە",
+    "confirmNewPassword": "دووبارەی وشەی نهێنی نوێ",
+    "confirmNewPasswordIsRequired": "دووبارەی وشەی نهێنی نوێ پێویستە",
+    "passwordResetSuccessful": "وشەی نهێنی بە سەرکەوتوویی گۆڕدرا",
+    "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "وشەی نهێنی نوێ و دووبارەی وشەی نهێنی نوێ یەک ناگرن"
   },
   "myServicesPage": {
     "title": "شاشەی خزمەتگوزاریەکانم",

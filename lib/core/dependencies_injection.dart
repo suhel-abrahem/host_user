@@ -83,14 +83,21 @@ import '../features/otp_page/presentation/bloc/otp_page_bloc.dart';
 import '../features/profile_page/data/models/help/create_ticket_model.dart';
 import '../features/profile_page/data/models/help/get_tickets_model.dart';
 import '../features/profile_page/data/models/profile_model.dart';
+import '../features/profile_page/data/models/reset_password/request_reset_password_model.dart';
+import '../features/profile_page/data/models/reset_password/reset_password_model.dart';
+import '../features/profile_page/data/models/reset_password/verify_otp_model.dart';
 import '../features/profile_page/data/models/set_profile_model.dart';
 import '../features/profile_page/data/models/set_working_hours_model.dart';
 import '../features/profile_page/data/repositories/help/ticket_repository_implements.dart';
 import '../features/profile_page/data/repositories/profile_repository_implements.dart';
+import '../features/profile_page/data/repositories/reset_password/reset_password_repository_implements.dart';
 import '../features/profile_page/domain/entities/profile_entity.dart';
+import '../features/profile_page/domain/entities/reset_password/request_reset_password_entity.dart';
+import '../features/profile_page/domain/entities/reset_password/verify_otp_entity.dart';
 import '../features/profile_page/domain/entities/working_hours_entity.dart';
 import '../features/profile_page/domain/repositories/help/tickets_repository.dart';
 import '../features/profile_page/domain/repositories/profile_repository.dart';
+import '../features/profile_page/domain/repositories/reset_password/reset_password_repository.dart';
 import '../features/profile_page/domain/usecases/delete_account_usecase.dart';
 import '../features/profile_page/domain/usecases/get_languages_usecase.dart';
 import '../features/profile_page/domain/usecases/get_profile_usecase.dart';
@@ -98,6 +105,9 @@ import '../features/profile_page/domain/usecases/get_working_time_usecase.dart';
 import '../features/profile_page/domain/usecases/help/create_ticket_usecase.dart';
 import '../features/profile_page/domain/usecases/help/get_tickets_usecase.dart';
 import '../features/profile_page/domain/usecases/logout_usecase.dart';
+import '../features/profile_page/domain/usecases/reset_password/request_reset_password_usecase.dart';
+import '../features/profile_page/domain/usecases/reset_password/reset_password_usecase.dart';
+import '../features/profile_page/domain/usecases/reset_password/verify_otp_usecase.dart';
 import '../features/profile_page/domain/usecases/set_languages_usecase.dart';
 import '../features/profile_page/domain/usecases/set_working_time_usecase.dart';
 import '../features/profile_page/domain/usecases/update_profile_usecase.dart';
@@ -106,6 +116,7 @@ import '../features/profile_page/presentation/bloc/delete_account_bloc.dart';
 import '../features/profile_page/presentation/bloc/get_profile_bloc.dart';
 import '../features/profile_page/presentation/bloc/get_working_time_bloc.dart';
 import '../features/profile_page/presentation/bloc/languges_bloc.dart';
+import '../features/profile_page/presentation/bloc/reset_password_bloc.dart';
 import '../features/refresh_token/data/repositories/refresh_token_repository_implements.dart';
 import '../features/refresh_token/domain/entities/token_entity.dart';
 import '../features/refresh_token/domain/repositories/refresh_token_repository.dart';
@@ -577,4 +588,34 @@ Future<void> initDependencies() async {
     () => TicketsBlocBloc(getItInstance(), getItInstance(), getItInstance()),
   );
   // end of help
+  // reset password
+  // entities and models
+  getItInstance.registerSingleton<RequestResetPasswordEntity>(
+    RequestResetPasswordEntity(),
+  );
+  getItInstance.registerSingleton<VerifyOtpEntity>(VerifyOtpEntity());
+  getItInstance.registerSingleton<ResetPasswordModel>(ResetPasswordModel());
+  getItInstance.registerSingleton<VerifyOtpModel>(VerifyOtpModel());
+  getItInstance.registerSingleton<RequestResetPasswordModel>(
+    RequestResetPasswordModel(),
+  );
+
+  // repository
+  getItInstance.registerSingleton<ResetPasswordRepository>(
+    ResetPasswordRepositoryImplements(getItInstance()),
+  );
+  // usecase
+  getItInstance.registerSingleton<RequestResetPasswordUsecase>(
+    RequestResetPasswordUsecase(resetPasswordRepository: getItInstance()),
+  );
+  getItInstance.registerSingleton<VerifyOtpUsecase>(
+    VerifyOtpUsecase(getItInstance()),
+  );
+  getItInstance.registerSingleton<ResetPasswordUsecase>(
+    ResetPasswordUsecase(getItInstance()),
+  );
+  // bloc
+  getItInstance.registerFactory<ResetPasswordBloc>(
+    () => ResetPasswordBloc(getItInstance(), getItInstance(), getItInstance()),
+  );
 }

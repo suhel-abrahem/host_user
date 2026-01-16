@@ -9,6 +9,7 @@ import '../../core/resource/common_entity/service_entity.dart';
 import '../../features/chat/presentation/pages/chat_page.dart';
 import '../../features/chat/presentation/pages/chats_page.dart';
 import '../../features/notification_page/presentation/pages/notification_page.dart';
+import '../../features/profile_page/presentation/pages/resert_password/reset_password_page.dart';
 import '../../features/profile_page/presentation/pages/tickets_page.dart';
 import '../../features/provider_page/presentation/pages/provider_page.dart';
 import '../app/app_preferences.dart';
@@ -60,6 +61,7 @@ class RoutesName {
   static String notificationPage = "notificationPage";
   static String chatsPage = "chatsPage";
   static String chatPage = "chatPage";
+  static String resetPasswordPage = "resetPasswordPage";
 }
 
 class RoutesPath {
@@ -85,6 +87,7 @@ class RoutesPath {
   static String notificationPage = "/notificationPage";
   static String chatsPage = "/chatsPage";
   static String chatPage = "/chatPage/:bookingNumber/:chatId";
+  static String resetPasswordPage = "/resetPasswordPage";
 }
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -353,6 +356,16 @@ GoRouter goRouter = GoRouter(
                     bookingNumber: state.pathParameters["bookingNumber"],
                     chatId: int.tryParse(state.pathParameters["chatId"] ?? ""),
                   ),
+                  state: state,
+                );
+              },
+            ),
+            GoRoute(
+              path: RoutesPath.resetPasswordPage,
+              name: RoutesName.resetPasswordPage,
+              pageBuilder: (context, state) {
+                return _customTransitionPage(
+                  child: ResetPasswordPage(),
                   state: state,
                 );
               },

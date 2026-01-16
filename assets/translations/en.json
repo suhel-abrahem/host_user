@@ -226,7 +226,22 @@
     "typeYourReplyHere": "Type your reply here...",
     "inProgress": "In progress",
     "resolved": "Resolved",
-    "categoryIsRequired": "Category is required"
+    "categoryIsRequired": "Category is required",
+    "resetPassword": "Reset password",
+    "requestPasswordReset": "Request password reset",
+    "requestPasswordResetSuccessful": "Password reset request successful",
+    "enterYourEmailOrPhoneToResetYourPassword": "Enter your email or phone to reset your password",
+    "resendResetOtp": "Resend reset verification code",
+    "wrongOtp": "Incorrect verification code",
+    "verifyBy": "Verify by",
+    "viaWhatsapp": "Via WhatsApp",
+    "viaEmail": "Via Email",
+    "newPassword": "New password",
+    "newPasswordIsRequired": "New password is required",
+    "confirmNewPassword": "Confirm new password",
+    "confirmNewPasswordIsRequired": "Confirm new password is required",
+    "passwordResetSuccessful": "Password reset successful",
+    "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "The new password and confirm new password fields do not match"
   },
   "myServicesPage": {
     "title": "My services page",
