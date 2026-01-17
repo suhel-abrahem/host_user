@@ -103,9 +103,11 @@ import '../features/profile_page/domain/usecases/get_languages_usecase.dart';
 import '../features/profile_page/domain/usecases/get_profile_usecase.dart';
 import '../features/profile_page/domain/usecases/get_working_time_usecase.dart';
 import '../features/profile_page/domain/usecases/help/create_ticket_usecase.dart';
+import '../features/profile_page/domain/usecases/help/get_ticket_details_usecase.dart';
 import '../features/profile_page/domain/usecases/help/get_tickets_usecase.dart';
 import '../features/profile_page/domain/usecases/logout_usecase.dart';
 import '../features/profile_page/domain/usecases/reset_password/request_reset_password_usecase.dart';
+import '../features/profile_page/domain/usecases/reset_password/resent_reset_password_otp_usecase.dart';
 import '../features/profile_page/domain/usecases/reset_password/reset_password_usecase.dart';
 import '../features/profile_page/domain/usecases/reset_password/verify_otp_usecase.dart';
 import '../features/profile_page/domain/usecases/set_languages_usecase.dart';
@@ -583,9 +585,17 @@ Future<void> initDependencies() async {
   getItInstance.registerSingleton<CreateTicketUsecase>(
     CreateTicketUsecase(getItInstance()),
   );
+  getItInstance.registerSingleton<GetTicketDetailsUsecase>(
+    GetTicketDetailsUsecase(getItInstance()),
+  );
   // bloc
   getItInstance.registerFactory<TicketsBlocBloc>(
-    () => TicketsBlocBloc(getItInstance(), getItInstance(), getItInstance()),
+    () => TicketsBlocBloc(
+      getItInstance(),
+      getItInstance(),
+      getItInstance(),
+      getItInstance(),
+    ),
   );
   // end of help
   // reset password
@@ -614,8 +624,16 @@ Future<void> initDependencies() async {
   getItInstance.registerSingleton<ResetPasswordUsecase>(
     ResetPasswordUsecase(getItInstance()),
   );
+  getItInstance.registerSingleton<ResentResetPasswordOtpUsecase>(
+    ResentResetPasswordOtpUsecase(getItInstance()),
+  );
   // bloc
   getItInstance.registerFactory<ResetPasswordBloc>(
-    () => ResetPasswordBloc(getItInstance(), getItInstance(), getItInstance()),
+    () => ResetPasswordBloc(
+      getItInstance(),
+      getItInstance(),
+      getItInstance(),
+      getItInstance(),
+    ),
   );
 }

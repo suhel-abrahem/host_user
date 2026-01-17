@@ -2,9 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hosta_user/features/profile_page/presentation/bloc/tickets_bloc_bloc.dart';
 
+import '../../../../core/util/helper/helper.dart';
 import '../../../chat/domain/entities/message/message_entity.dart';
 import '../../../chat/presentation/widgets/message_container.dart';
+import '../../data/models/help/get_tickets_model.dart';
+import '../../domain/entities/help/ticket_entity.dart';
+import '../../domain/entities/help/tickets_entity.dart';
 import '/features/login_page/domain/entities/login_state_entity.dart';
 import '../../../../config/app/app_preferences.dart';
 
@@ -17,7 +22,6 @@ import '/core/dependencies_injection.dart';
 
 import '/core/resource/main_page/main_page.dart';
 
-import '/features/chat/data/models/chat_model.dart';
 import '/features/chat/presentation/bloc/get_chat_bloc.dart';
 import '/features/chat/presentation/widgets/send_message_field.dart';
 
@@ -36,8 +40,8 @@ class TicketChatPage extends StatefulWidget {
 class _TicketChatPageState extends State<TicketChatPage> {
   List<MessageEntity?>? chatMesages;
   ScrollController scrollController = ScrollController(keepScrollOffset: true);
-
-  GetChatState currentState = GetChatState.initial();
+  GetTicketsModel? model = GetTicketsModel();
+  TicketsBlocState currentState = TicketsBlocState.initial();
   void _scrollToBottom({bool animated = true}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       double max = scrollController.position.maxScrollExtent;
@@ -57,31 +61,30 @@ class _TicketChatPageState extends State<TicketChatPage> {
   @override
   void initState() {
     chatMesages = [];
-
+    model = model?.copyWith(id: widget.chatId.toString());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    model = model?.copyWith(accepted_language: Helper.getCountryCode(context));
     return MainPage(
       title: widget.bookingNumber,
       body: Column(
         children: [
           Expanded(
-            child: BlocProvider<GetChatBloc>(
-              create: (context) => getItInstance<GetChatBloc>()
-                ..add(
-                  GetChatEvent.getChatDetails(
-                    chatModel: ChatModel(id: widget.chatId),
-                  ),
-                ),
-              child: BlocListener<GetChatBloc, GetChatState>(
+            child: BlocProvider<TicketsBlocBloc>(
+              create: (context) =>
+                  getItInstance<TicketsBlocBloc>()
+                    ..add(TicketsBlocEvent.getTicketDetails(model: model)),
+              child: BlocListener<TicketsBlocBloc, TicketsBlocState>(
                 listener: (context, state) async {
+                  print("TicketChatPage Listener: $state");
                   currentState = state;
-                  if (state is GetChatStateGetChatDetailsLoaded) {
+                  if (state is TicketsBlocStateTicketDetailsLoaded) {
                     bool added = false;
 
-                    for (final element in state.chatEntity?.messages ?? []) {
+                    for (final element in state.ticketDetails?.messages ?? []) {
                       final msg = MessageEntity.fromJson(element);
                       final exists =
                           chatMesages?.any((m) => m?.id == msg.id) ?? false;
@@ -95,7 +98,7 @@ class _TicketChatPageState extends State<TicketChatPage> {
                       setState(() {});
                       _scrollToBottom();
                     }
-                  } else if (state is GetChatStateError) {
+                  } else if (state is TicketsBlocStateError) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
@@ -109,7 +112,7 @@ class _TicketChatPageState extends State<TicketChatPage> {
                         ),
                       ),
                     );
-                  } else if (state is GetChatStateUnAuthenticated) {
+                  } else if (state is TicketsBlocStateSessionExpired) {
                     await await getItInstance<AppPreferences>().setUserInfo(
                       loginStateEntity: LoginStateEntity(),
                     );
@@ -118,13 +121,47 @@ class _TicketChatPageState extends State<TicketChatPage> {
                 child: currentState.when(
                   initial: () => Center(child: CircularProgressIndicator()),
                   loading: () => Center(child: CircularProgressIndicator()),
-                  getChatStateLoaded: (data) => Center(
+
+                  error: (e) => Center(
                     child: ErrorStateWidget(
                       lottieHeight: 200.h,
                       lottieWidth: 200.w,
                     ),
                   ),
-                  getChatDetailsLoaded: (data) {
+
+                  loadedTickets: (List<TicketsEntity?>? tickets) => Center(
+                    child: ErrorStateWidget(
+                      lottieHeight: 200.h,
+                      lottieWidth: 200.w,
+                    ),
+                  ),
+                  ticketCreated: (TicketsEntity? ticket) => Center(
+                    child: ErrorStateWidget(
+                      lottieHeight: 200.h,
+                      lottieWidth: 200.w,
+                    ),
+                  ),
+                  noData: () => Center(
+                    child: Text(
+                      LocaleKeys.chatsPage_noChatsAvailable.tr(),
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontFamily: FontConstants.fontFamily(context.locale),
+                      ),
+                    ),
+                  ),
+                  connectionError: () => Center(
+                    child: NoInternetStateWidget(
+                      lottieHeight: 200.h,
+                      lottieWidth: 200.w,
+                    ),
+                  ),
+                  sessionExpired: () => Center(
+                    child: UnauthStateWidget(
+                      lottieHeight: 200.h,
+                      lottieWidth: 200.w,
+                    ),
+                  ),
+                  ticketDetailsLoaded: (data) {
                     return StreamBuilder(
                       stream: chatMessageStreamSocket.stream,
                       builder: (context, asyncSnapshot) {
@@ -158,32 +195,6 @@ class _TicketChatPageState extends State<TicketChatPage> {
                       },
                     );
                   },
-                  error: (e) => Center(
-                    child: ErrorStateWidget(
-                      lottieHeight: 200.h,
-                      lottieWidth: 200.w,
-                    ),
-                  ),
-                  unAuthenticated: () => Center(
-                    child: UnauthStateWidget(
-                      lottieHeight: 200.h,
-                      lottieWidth: 200.w,
-                    ),
-                  ),
-                  noInternet: () => Center(
-                    child: NoInternetStateWidget(
-                      lottieHeight: 200.h,
-                      lottieWidth: 200.w,
-                    ),
-                  ),
-                  noChats: () => Center(
-                    child: Text(
-                      LocaleKeys.chatsPage_noChatsAvailable.tr(),
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: FontConstants.fontFamily(context.locale),
-                      ),
-                    ),
-                  ),
                 ),
               ),
             ),
@@ -195,8 +206,8 @@ class _TicketChatPageState extends State<TicketChatPage> {
               onSend: (value) {
                 setState(() {
                   chatMesages?.add(value);
-                  currentState = GetChatState.getChatDetailsLoaded(
-                    chatEntity: null,
+                  currentState = TicketsBlocState.ticketDetailsLoaded(
+                    ticketDetails: null,
                   );
                 });
 

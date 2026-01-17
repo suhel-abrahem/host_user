@@ -3,8 +3,10 @@ import 'package:hosta_user/features/profile_page/domain/entities/help/tickets_en
 
 import '../../../data/models/help/create_ticket_model.dart';
 import '../../../data/models/help/get_tickets_model.dart';
+import '../../entities/help/ticket_entity.dart';
 
 abstract class TicketsRepository {
   Future<DataState<List<TicketsEntity?>?>?> getTickets(GetTicketsModel? model);
   Future<DataState<TicketsEntity?>?> createTicket(CreateTicketModel? model);
+  Future<DataState<TicketEntity?>?> getTicketDetails(GetTicketsModel? model);
 }

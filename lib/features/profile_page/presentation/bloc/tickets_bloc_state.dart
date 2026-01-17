@@ -17,4 +17,7 @@ class TicketsBlocState with _$TicketsBlocState {
       TicketsBlocStateConnectionError;
   const factory TicketsBlocState.sessionExpired() =
       TicketsBlocStateSessionExpired;
+  const factory TicketsBlocState.ticketDetailsLoaded({
+    required TicketEntity? ticketDetails,
+  }) = TicketsBlocStateTicketDetailsLoaded;
 }

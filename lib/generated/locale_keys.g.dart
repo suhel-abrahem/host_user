@@ -237,6 +237,8 @@ abstract class  LocaleKeys {
   static const profilePage_confirmNewPasswordIsRequired = 'profilePage.confirmNewPasswordIsRequired';
   static const profilePage_passwordResetSuccessful = 'profilePage.passwordResetSuccessful';
   static const profilePage_theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch = 'profilePage.theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch';
+  static const profilePage_identifierIsRequired = 'profilePage.identifierIsRequired';
+  static const profilePage_enterTheOtpSentToYourEmail = 'profilePage.enterTheOtpSentToYourEmail';
   static const profilePage = 'profilePage';
   static const myServicesPage_title = 'myServicesPage.title';
   static const myServicesPage_label = 'myServicesPage.label';

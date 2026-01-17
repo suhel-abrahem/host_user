@@ -10,6 +10,7 @@ abstract class VerifyOtpModel with _$VerifyOtpModel {
     @Default("") String? otp,
     @Default(0) int? user_id,
     @Default("") String? acceptLanguage,
+    @Default("") String? reset_via,
   }) = _VerifyOtpModel;
   factory VerifyOtpModel.fromJson(Map<String, dynamic> json) =>
       _$VerifyOtpModelFromJson(json);

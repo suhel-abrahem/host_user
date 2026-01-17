@@ -18,6 +18,7 @@ import '../../../chat/domain/entities/other_participant/other_participant_entity
 import '../../../chat/presentation/bloc/get_chat_bloc.dart';
 import '../../../chat/presentation/widgets/conversion_widget.dart';
 import '../../data/models/help/get_tickets_model.dart';
+import '../../domain/entities/help/ticket_entity.dart';
 import '../../domain/entities/help/tickets_entity.dart';
 
 class TicketsPage extends StatefulWidget {
@@ -72,6 +73,8 @@ class _TicketsPageState extends State<TicketsPage> {
                         child: SizedBox(
                           width: 1.sw,
                           child: ConversionWidget(
+                            isTicket: true,
+                            ticketImage: data?[index]?.user?["avatar"],
                             chatId: data?[index]?.id,
                             messageEntity: MessageEntity.fromJson(
                               data?[index]?.last_message ?? {},
@@ -114,6 +117,9 @@ class _TicketsPageState extends State<TicketsPage> {
                           lottieWidth: 150.w,
                         ),
                       );
+                    },
+                    ticketDetailsLoaded: (TicketEntity? ticketDetails) {
+                      return SizedBox.shrink();
                     },
                   );
                 },

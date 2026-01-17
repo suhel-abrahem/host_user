@@ -11,6 +11,7 @@ abstract class GetTicketsModel with _$GetTicketsModel {
     @Default("") String? token,
     @Default("") String? accepted_language,
     @Default("") String? status,
+    @Default("") String? id,
   }) = _GetTicketsModel;
 
   factory GetTicketsModel.fromJson(Map<String, dynamic> json) =>

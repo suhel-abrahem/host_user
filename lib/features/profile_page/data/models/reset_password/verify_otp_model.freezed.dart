@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$VerifyOtpModel {
 
- String? get otp; int? get user_id; String? get acceptLanguage;
+ String? get otp; int? get user_id; String? get acceptLanguage; String? get reset_via;
 /// Create a copy of VerifyOtpModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $VerifyOtpModelCopyWith<VerifyOtpModel> get copyWith => _$VerifyOtpModelCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is VerifyOtpModel&&(identical(other.otp, otp) || other.otp == otp)&&(identical(other.user_id, user_id) || other.user_id == user_id)&&(identical(other.acceptLanguage, acceptLanguage) || other.acceptLanguage == acceptLanguage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is VerifyOtpModel&&(identical(other.otp, otp) || other.otp == otp)&&(identical(other.user_id, user_id) || other.user_id == user_id)&&(identical(other.acceptLanguage, acceptLanguage) || other.acceptLanguage == acceptLanguage)&&(identical(other.reset_via, reset_via) || other.reset_via == reset_via));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,otp,user_id,acceptLanguage);
+int get hashCode => Object.hash(runtimeType,otp,user_id,acceptLanguage,reset_via);
 
 @override
 String toString() {
-  return 'VerifyOtpModel(otp: $otp, user_id: $user_id, acceptLanguage: $acceptLanguage)';
+  return 'VerifyOtpModel(otp: $otp, user_id: $user_id, acceptLanguage: $acceptLanguage, reset_via: $reset_via)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $VerifyOtpModelCopyWith<$Res>  {
   factory $VerifyOtpModelCopyWith(VerifyOtpModel value, $Res Function(VerifyOtpModel) _then) = _$VerifyOtpModelCopyWithImpl;
 @useResult
 $Res call({
- String? otp, int? user_id, String? acceptLanguage
+ String? otp, int? user_id, String? acceptLanguage, String? reset_via
 });
 
 
@@ -65,11 +65,12 @@ class _$VerifyOtpModelCopyWithImpl<$Res>
 
 /// Create a copy of VerifyOtpModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? otp = freezed,Object? user_id = freezed,Object? acceptLanguage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? otp = freezed,Object? user_id = freezed,Object? acceptLanguage = freezed,Object? reset_via = freezed,}) {
   return _then(_self.copyWith(
 otp: freezed == otp ? _self.otp : otp // ignore: cast_nullable_to_non_nullable
 as String?,user_id: freezed == user_id ? _self.user_id : user_id // ignore: cast_nullable_to_non_nullable
 as int?,acceptLanguage: freezed == acceptLanguage ? _self.acceptLanguage : acceptLanguage // ignore: cast_nullable_to_non_nullable
+as String?,reset_via: freezed == reset_via ? _self.reset_via : reset_via // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? otp,  int? user_id,  String? acceptLanguage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? otp,  int? user_id,  String? acceptLanguage,  String? reset_via)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _VerifyOtpModel() when $default != null:
-return $default(_that.otp,_that.user_id,_that.acceptLanguage);case _:
+return $default(_that.otp,_that.user_id,_that.acceptLanguage,_that.reset_via);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.otp,_that.user_id,_that.acceptLanguage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? otp,  int? user_id,  String? acceptLanguage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? otp,  int? user_id,  String? acceptLanguage,  String? reset_via)  $default,) {final _that = this;
 switch (_that) {
 case _VerifyOtpModel():
-return $default(_that.otp,_that.user_id,_that.acceptLanguage);case _:
+return $default(_that.otp,_that.user_id,_that.acceptLanguage,_that.reset_via);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.otp,_that.user_id,_that.acceptLanguage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? otp,  int? user_id,  String? acceptLanguage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? otp,  int? user_id,  String? acceptLanguage,  String? reset_via)?  $default,) {final _that = this;
 switch (_that) {
 case _VerifyOtpModel() when $default != null:
-return $default(_that.otp,_that.user_id,_that.acceptLanguage);case _:
+return $default(_that.otp,_that.user_id,_that.acceptLanguage,_that.reset_via);case _:
   return null;
 
 }
@@ -211,12 +212,13 @@ return $default(_that.otp,_that.user_id,_that.acceptLanguage);case _:
 @JsonSerializable()
 
 class _VerifyOtpModel implements VerifyOtpModel {
-  const _VerifyOtpModel({this.otp = "", this.user_id = 0, this.acceptLanguage = ""});
+  const _VerifyOtpModel({this.otp = "", this.user_id = 0, this.acceptLanguage = "", this.reset_via = ""});
   factory _VerifyOtpModel.fromJson(Map<String, dynamic> json) => _$VerifyOtpModelFromJson(json);
 
 @override@JsonKey() final  String? otp;
 @override@JsonKey() final  int? user_id;
 @override@JsonKey() final  String? acceptLanguage;
+@override@JsonKey() final  String? reset_via;
 
 /// Create a copy of VerifyOtpModel
 /// with the given fields replaced by the non-null parameter values.
@@ -231,16 +233,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VerifyOtpModel&&(identical(other.otp, otp) || other.otp == otp)&&(identical(other.user_id, user_id) || other.user_id == user_id)&&(identical(other.acceptLanguage, acceptLanguage) || other.acceptLanguage == acceptLanguage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VerifyOtpModel&&(identical(other.otp, otp) || other.otp == otp)&&(identical(other.user_id, user_id) || other.user_id == user_id)&&(identical(other.acceptLanguage, acceptLanguage) || other.acceptLanguage == acceptLanguage)&&(identical(other.reset_via, reset_via) || other.reset_via == reset_via));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,otp,user_id,acceptLanguage);
+int get hashCode => Object.hash(runtimeType,otp,user_id,acceptLanguage,reset_via);
 
 @override
 String toString() {
-  return 'VerifyOtpModel(otp: $otp, user_id: $user_id, acceptLanguage: $acceptLanguage)';
+  return 'VerifyOtpModel(otp: $otp, user_id: $user_id, acceptLanguage: $acceptLanguage, reset_via: $reset_via)';
 }
 
 
@@ -251,7 +253,7 @@ abstract mixin class _$VerifyOtpModelCopyWith<$Res> implements $VerifyOtpModelCo
   factory _$VerifyOtpModelCopyWith(_VerifyOtpModel value, $Res Function(_VerifyOtpModel) _then) = __$VerifyOtpModelCopyWithImpl;
 @override @useResult
 $Res call({
- String? otp, int? user_id, String? acceptLanguage
+ String? otp, int? user_id, String? acceptLanguage, String? reset_via
 });
 
 
@@ -268,11 +270,12 @@ class __$VerifyOtpModelCopyWithImpl<$Res>
 
 /// Create a copy of VerifyOtpModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? otp = freezed,Object? user_id = freezed,Object? acceptLanguage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? otp = freezed,Object? user_id = freezed,Object? acceptLanguage = freezed,Object? reset_via = freezed,}) {
   return _then(_VerifyOtpModel(
 otp: freezed == otp ? _self.otp : otp // ignore: cast_nullable_to_non_nullable
 as String?,user_id: freezed == user_id ? _self.user_id : user_id // ignore: cast_nullable_to_non_nullable
 as int?,acceptLanguage: freezed == acceptLanguage ? _self.acceptLanguage : acceptLanguage // ignore: cast_nullable_to_non_nullable
+as String?,reset_via: freezed == reset_via ? _self.reset_via : reset_via // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

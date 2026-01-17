@@ -8,4 +8,7 @@ class TicketsBlocEvent with _$TicketsBlocEvent {
   const factory TicketsBlocEvent.createTicket({
     required CreateTicketModel? model,
   }) = TicketsBlocEventCreateTicket;
+  const factory TicketsBlocEvent.getTicketDetails({
+    required GetTicketsModel? model,
+  }) = TicketsBlocEventGetTicketDetails;
 }

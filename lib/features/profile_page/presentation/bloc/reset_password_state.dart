@@ -17,4 +17,6 @@ class ResetPasswordState with _$ResetPasswordState {
   const factory ResetPasswordState.noInternet() = ResetPasswordStateNoInternet;
   const factory ResetPasswordState.unauthenticated({required String error}) =
       ResetPasswordStateUnauthenticated;
+  const factory ResetPasswordState.resentResetPasswordOtpSuccess() =
+      ResetPasswordStateResentResetPasswordOtpSuccess;
 }

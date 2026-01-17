@@ -11,6 +11,7 @@ _GetTicketsModel _$GetTicketsModelFromJson(Map<String, dynamic> json) =>
       token: json['token'] as String? ?? "",
       accepted_language: json['accepted_language'] as String? ?? "",
       status: json['status'] as String? ?? "",
+      id: json['id'] as String? ?? "",
     );
 
 Map<String, dynamic> _$GetTicketsModelToJson(_GetTicketsModel instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$GetTicketsModelToJson(_GetTicketsModel instance) =>
       'token': instance.token,
       'accepted_language': instance.accepted_language,
       'status': instance.status,
+      'id': instance.id,
     };

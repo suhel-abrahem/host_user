@@ -12,4 +12,7 @@ class ResetPasswordEvent with _$ResetPasswordEvent {
   const factory ResetPasswordEvent.resetPassword({
     required ResetPasswordModel? resetPasswordModel,
   }) = ResetPasswordEventResetPassword;
+  const factory ResetPasswordEvent.resentResetPasswordOtp({
+    required ResendResetPasswordOtpModel? resendResetPasswordOtpModel,
+  }) = ResetPasswordEventResentResetPasswordOtp;
 }

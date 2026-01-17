@@ -241,7 +241,9 @@
     "confirmNewPassword": "دووبارەی وشەی نهێنی نوێ",
     "confirmNewPasswordIsRequired": "دووبارەی وشەی نهێنی نوێ پێویستە",
     "passwordResetSuccessful": "وشەی نهێنی بە سەرکەوتوویی گۆڕدرا",
-    "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "وشەی نهێنی نوێ و دووبارەی وشەی نهێنی نوێ یەک ناگرن"
+    "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "وشەی نهێنی نوێ و دووبارەی وشەی نهێنی نوێ یەک ناگرن",
+    "identifierIsRequired": "ناسەر پێویستە",
+    "enterTheOtpSentToYourEmail": "کۆدی پشکنین بنووسە کە بۆ ئیمەیڵەکەت نێردرا"
   },
   "myServicesPage": {
     "title": "شاشەی خزمەتگوزاریەکانم",

@@ -257,7 +257,9 @@ class CodegenLoader extends AssetLoader{
     "confirmNewPassword": "تأكيد كلمة المرور الجديدة",
     "confirmNewPasswordIsRequired": "تأكيد كلمة المرور الجديدة مطلوب",
     "passwordResetSuccessful": "تم إعادة تعيين كلمة المرور بنجاح",
-    "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "حقلي كلمة المرور الجديدة وتأكيد كلمة المرور الجديدة غير متطابقين"
+    "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "حقلي كلمة المرور الجديدة وتأكيد كلمة المرور الجديدة غير متطابقين",
+    "identifierIsRequired": "المعرف مطلوب",
+    "enterTheOtpSentToYourEmail": "أدخل رمز التحقق المرسل إلى بريدك الإلكتروني "
   },
   "myServicesPage": {
     "title": "صفحة خدماتي",
@@ -662,7 +664,9 @@ static const Map<String,dynamic> _en = {
     "confirmNewPassword": "Confirm new password",
     "confirmNewPasswordIsRequired": "Confirm new password is required",
     "passwordResetSuccessful": "Password reset successful",
-    "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "The new password and confirm new password fields do not match"
+    "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "The new password and confirm new password fields do not match",
+    "identifierIsRequired": "Identifier is required",
+    "enterTheOtpSentToYourEmail": "Enter the OTP sent to your email"
   },
   "myServicesPage": {
     "title": "My services page",
@@ -1067,7 +1071,9 @@ static const Map<String,dynamic> _fa = {
     "confirmNewPassword": "دووبارەی وشەی نهێنی نوێ",
     "confirmNewPasswordIsRequired": "دووبارەی وشەی نهێنی نوێ پێویستە",
     "passwordResetSuccessful": "وشەی نهێنی بە سەرکەوتوویی گۆڕدرا",
-    "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "وشەی نهێنی نوێ و دووبارەی وشەی نهێنی نوێ یەک ناگرن"
+    "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "وشەی نهێنی نوێ و دووبارەی وشەی نهێنی نوێ یەک ناگرن",
+    "identifierIsRequired": "ناسەر پێویستە",
+    "enterTheOtpSentToYourEmail": "کۆدی پشکنین بنووسە کە بۆ ئیمەیڵەکەت نێردرا"
   },
   "myServicesPage": {
     "title": "شاشەی خزمەتگوزاریەکانم",

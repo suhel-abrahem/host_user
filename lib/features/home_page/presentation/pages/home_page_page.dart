@@ -339,54 +339,14 @@ class _HomePagePageState extends State<HomePagePage> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 40.h,
-                  width: 40.w,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: Theme.of(context).elevatedButtonTheme.style
-                        ?.copyWith(
-                          backgroundColor: WidgetStatePropertyAll(
-                            Colors.transparent,
-                          ),
-                          padding: WidgetStatePropertyAll(EdgeInsets.zero),
-                          shadowColor: WidgetStatePropertyAll(
-                            Colors.transparent,
-                          ),
-                        ),
-                    child:
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 8.h,
-                            horizontal: 8.w,
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.pin_drop,
-                              size: 24.sp,
-                              color: Theme.of(
-                                context,
-                              ).textTheme.labelLarge?.color,
-                            ),
-                          ),
-                        ).asGlass(
-                          tintColor: Theme.of(context).primaryColor,
-                          clipBorderRadius: BorderRadius.circular(12.r),
-                          blurX: 30,
-                          blurY: 30,
-                          frosted: true,
-                          border: Theme.of(context).defaultBorderSide,
-                        ),
-                  ),
-                ),
                 SizedBox(
                   child:
                       SearchBar(
                         constraints: BoxConstraints(
                           maxHeight: 40.h,
-                          maxWidth: 280.w,
+                          maxWidth: 320.w,
                           minHeight: 40.h,
                           minWidth: 250.w,
                         ),

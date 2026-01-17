@@ -241,7 +241,9 @@
     "confirmNewPassword": "تأكيد كلمة المرور الجديدة",
     "confirmNewPasswordIsRequired": "تأكيد كلمة المرور الجديدة مطلوب",
     "passwordResetSuccessful": "تم إعادة تعيين كلمة المرور بنجاح",
-    "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "حقلي كلمة المرور الجديدة وتأكيد كلمة المرور الجديدة غير متطابقين"
+    "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "حقلي كلمة المرور الجديدة وتأكيد كلمة المرور الجديدة غير متطابقين",
+    "identifierIsRequired": "المعرف مطلوب",
+    "enterTheOtpSentToYourEmail": "أدخل رمز التحقق المرسل إلى بريدك الإلكتروني "
   },
   "myServicesPage": {
     "title": "صفحة خدماتي",

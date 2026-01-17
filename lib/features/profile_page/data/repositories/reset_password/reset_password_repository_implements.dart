@@ -5,6 +5,7 @@ import 'package:hosta_user/core/resource/common_service/common_service.dart';
 import 'package:hosta_user/core/resource/connectivity/check_connectivity.dart';
 
 import 'package:hosta_user/features/profile_page/data/models/reset_password/request_reset_password_model.dart';
+import 'package:hosta_user/features/profile_page/data/models/reset_password/resend_reset_password_otp_model.dart';
 
 import 'package:hosta_user/features/profile_page/data/models/reset_password/reset_password_model.dart';
 
@@ -148,6 +149,54 @@ class ResetPasswordRepositoryImplements implements ResetPasswordRepository {
               dataState = DataSuccess(
                 data: VerifyOtpEntity.fromJson(onValue.data?.data),
               );
+            } else if (onValue is DataError) {
+              dataState = DataError(error: onValue.data?.data?["errors"]);
+            } else if (onValue is UnauthenticatedDataState) {
+              dataState = UnauthenticatedDataState(error: onValue.error);
+            } else {
+              dataState = DataFailed(error: onValue.toString());
+            }
+          });
+      return dataState;
+    } catch (e) {
+      dataState = DataFailed(error: e.toString());
+      return dataState;
+    }
+  }
+
+  @override
+  Future<DataState<void>?> resendOtp({
+    ResendResetPasswordOtpModel? resendResetPasswordOtpModel,
+  }) async {
+    DataState<void>? dataState;
+    ConnectivityResult? connectivityResult = ConnectivityResult.none;
+    await _checkConnectivity.checkConnectivity().then(
+      (value) => connectivityResult = value.last,
+    );
+    if (connectivityResult == ConnectivityResult.none) {
+      dataState = NOInternetDataState();
+      return dataState;
+    }
+    try {
+      CommonService commonService = CommonService(
+        headers: {
+          'Content-Type': 'application/json',
+          "Accepted_Language":
+              resendResetPasswordOtpModel?.acceptLanguage ?? "ar",
+        },
+      );
+      print("Resend OTP Repository: ${resendResetPasswordOtpModel?.toJson()}");
+      await commonService
+          .post(
+            ApiConstant.resendResetPasswordOtpEndpoint,
+            data: {
+              "user_id": resendResetPasswordOtpModel?.user_id,
+              "reset_via": resendResetPasswordOtpModel?.reset_via,
+            },
+          )
+          .then((onValue) {
+            if (onValue is DataSuccess) {
+              dataState = DataSuccess(data: null);
             } else if (onValue is DataError) {
               dataState = DataError(error: onValue.data?.data?["errors"]);
             } else if (onValue is UnauthenticatedDataState) {

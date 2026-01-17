@@ -55,13 +55,14 @@ extension TicketsBlocEventPatterns on TicketsBlocEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TicketsBlocEventStarted value)?  started,TResult Function( TicketsBlocEventGetTickets value)?  getTickets,TResult Function( TicketsBlocEventCreateTicket value)?  createTicket,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TicketsBlocEventStarted value)?  started,TResult Function( TicketsBlocEventGetTickets value)?  getTickets,TResult Function( TicketsBlocEventCreateTicket value)?  createTicket,TResult Function( TicketsBlocEventGetTicketDetails value)?  getTicketDetails,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case TicketsBlocEventStarted() when started != null:
 return started(_that);case TicketsBlocEventGetTickets() when getTickets != null:
 return getTickets(_that);case TicketsBlocEventCreateTicket() when createTicket != null:
-return createTicket(_that);case _:
+return createTicket(_that);case TicketsBlocEventGetTicketDetails() when getTicketDetails != null:
+return getTicketDetails(_that);case _:
   return orElse();
 
 }
@@ -79,13 +80,14 @@ return createTicket(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TicketsBlocEventStarted value)  started,required TResult Function( TicketsBlocEventGetTickets value)  getTickets,required TResult Function( TicketsBlocEventCreateTicket value)  createTicket,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TicketsBlocEventStarted value)  started,required TResult Function( TicketsBlocEventGetTickets value)  getTickets,required TResult Function( TicketsBlocEventCreateTicket value)  createTicket,required TResult Function( TicketsBlocEventGetTicketDetails value)  getTicketDetails,}){
 final _that = this;
 switch (_that) {
 case TicketsBlocEventStarted():
 return started(_that);case TicketsBlocEventGetTickets():
 return getTickets(_that);case TicketsBlocEventCreateTicket():
-return createTicket(_that);case _:
+return createTicket(_that);case TicketsBlocEventGetTicketDetails():
+return getTicketDetails(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -102,13 +104,14 @@ return createTicket(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TicketsBlocEventStarted value)?  started,TResult? Function( TicketsBlocEventGetTickets value)?  getTickets,TResult? Function( TicketsBlocEventCreateTicket value)?  createTicket,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TicketsBlocEventStarted value)?  started,TResult? Function( TicketsBlocEventGetTickets value)?  getTickets,TResult? Function( TicketsBlocEventCreateTicket value)?  createTicket,TResult? Function( TicketsBlocEventGetTicketDetails value)?  getTicketDetails,}){
 final _that = this;
 switch (_that) {
 case TicketsBlocEventStarted() when started != null:
 return started(_that);case TicketsBlocEventGetTickets() when getTickets != null:
 return getTickets(_that);case TicketsBlocEventCreateTicket() when createTicket != null:
-return createTicket(_that);case _:
+return createTicket(_that);case TicketsBlocEventGetTicketDetails() when getTicketDetails != null:
+return getTicketDetails(_that);case _:
   return null;
 
 }
@@ -125,12 +128,13 @@ return createTicket(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( GetTicketsModel? model)?  getTickets,TResult Function( CreateTicketModel? model)?  createTicket,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( GetTicketsModel? model)?  getTickets,TResult Function( CreateTicketModel? model)?  createTicket,TResult Function( GetTicketsModel? model)?  getTicketDetails,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case TicketsBlocEventStarted() when started != null:
 return started();case TicketsBlocEventGetTickets() when getTickets != null:
 return getTickets(_that.model);case TicketsBlocEventCreateTicket() when createTicket != null:
-return createTicket(_that.model);case _:
+return createTicket(_that.model);case TicketsBlocEventGetTicketDetails() when getTicketDetails != null:
+return getTicketDetails(_that.model);case _:
   return orElse();
 
 }
@@ -148,12 +152,13 @@ return createTicket(_that.model);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( GetTicketsModel? model)  getTickets,required TResult Function( CreateTicketModel? model)  createTicket,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( GetTicketsModel? model)  getTickets,required TResult Function( CreateTicketModel? model)  createTicket,required TResult Function( GetTicketsModel? model)  getTicketDetails,}) {final _that = this;
 switch (_that) {
 case TicketsBlocEventStarted():
 return started();case TicketsBlocEventGetTickets():
 return getTickets(_that.model);case TicketsBlocEventCreateTicket():
-return createTicket(_that.model);case _:
+return createTicket(_that.model);case TicketsBlocEventGetTicketDetails():
+return getTicketDetails(_that.model);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -170,12 +175,13 @@ return createTicket(_that.model);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( GetTicketsModel? model)?  getTickets,TResult? Function( CreateTicketModel? model)?  createTicket,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( GetTicketsModel? model)?  getTickets,TResult? Function( CreateTicketModel? model)?  createTicket,TResult? Function( GetTicketsModel? model)?  getTicketDetails,}) {final _that = this;
 switch (_that) {
 case TicketsBlocEventStarted() when started != null:
 return started();case TicketsBlocEventGetTickets() when getTickets != null:
 return getTickets(_that.model);case TicketsBlocEventCreateTicket() when createTicket != null:
-return createTicket(_that.model);case _:
+return createTicket(_that.model);case TicketsBlocEventGetTicketDetails() when getTicketDetails != null:
+return getTicketDetails(_that.model);case _:
   return null;
 
 }
@@ -372,6 +378,84 @@ $CreateTicketModelCopyWith<$Res>? get model {
 }
 
 /// @nodoc
+
+
+class TicketsBlocEventGetTicketDetails implements TicketsBlocEvent {
+  const TicketsBlocEventGetTicketDetails({required this.model});
+  
+
+ final  GetTicketsModel? model;
+
+/// Create a copy of TicketsBlocEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TicketsBlocEventGetTicketDetailsCopyWith<TicketsBlocEventGetTicketDetails> get copyWith => _$TicketsBlocEventGetTicketDetailsCopyWithImpl<TicketsBlocEventGetTicketDetails>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketsBlocEventGetTicketDetails&&(identical(other.model, model) || other.model == model));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,model);
+
+@override
+String toString() {
+  return 'TicketsBlocEvent.getTicketDetails(model: $model)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $TicketsBlocEventGetTicketDetailsCopyWith<$Res> implements $TicketsBlocEventCopyWith<$Res> {
+  factory $TicketsBlocEventGetTicketDetailsCopyWith(TicketsBlocEventGetTicketDetails value, $Res Function(TicketsBlocEventGetTicketDetails) _then) = _$TicketsBlocEventGetTicketDetailsCopyWithImpl;
+@useResult
+$Res call({
+ GetTicketsModel? model
+});
+
+
+$GetTicketsModelCopyWith<$Res>? get model;
+
+}
+/// @nodoc
+class _$TicketsBlocEventGetTicketDetailsCopyWithImpl<$Res>
+    implements $TicketsBlocEventGetTicketDetailsCopyWith<$Res> {
+  _$TicketsBlocEventGetTicketDetailsCopyWithImpl(this._self, this._then);
+
+  final TicketsBlocEventGetTicketDetails _self;
+  final $Res Function(TicketsBlocEventGetTicketDetails) _then;
+
+/// Create a copy of TicketsBlocEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? model = freezed,}) {
+  return _then(TicketsBlocEventGetTicketDetails(
+model: freezed == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
+as GetTicketsModel?,
+  ));
+}
+
+/// Create a copy of TicketsBlocEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$GetTicketsModelCopyWith<$Res>? get model {
+    if (_self.model == null) {
+    return null;
+  }
+
+  return $GetTicketsModelCopyWith<$Res>(_self.model!, (value) {
+    return _then(_self.copyWith(model: value));
+  });
+}
+}
+
+/// @nodoc
 mixin _$TicketsBlocState {
 
 
@@ -415,7 +499,7 @@ extension TicketsBlocStatePatterns on TicketsBlocState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TicketsBlocStateInitial value)?  initial,TResult Function( TicketsBlocStateLoading value)?  loading,TResult Function( TicketsBlocStateLoadedTickets value)?  loadedTickets,TResult Function( TicketsBlocStateTicketCreated value)?  ticketCreated,TResult Function( TicketsBlocStateError value)?  error,TResult Function( TicketsBlocStateNoData value)?  noData,TResult Function( TicketsBlocStateConnectionError value)?  connectionError,TResult Function( TicketsBlocStateSessionExpired value)?  sessionExpired,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TicketsBlocStateInitial value)?  initial,TResult Function( TicketsBlocStateLoading value)?  loading,TResult Function( TicketsBlocStateLoadedTickets value)?  loadedTickets,TResult Function( TicketsBlocStateTicketCreated value)?  ticketCreated,TResult Function( TicketsBlocStateError value)?  error,TResult Function( TicketsBlocStateNoData value)?  noData,TResult Function( TicketsBlocStateConnectionError value)?  connectionError,TResult Function( TicketsBlocStateSessionExpired value)?  sessionExpired,TResult Function( TicketsBlocStateTicketDetailsLoaded value)?  ticketDetailsLoaded,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case TicketsBlocStateInitial() when initial != null:
@@ -426,7 +510,8 @@ return ticketCreated(_that);case TicketsBlocStateError() when error != null:
 return error(_that);case TicketsBlocStateNoData() when noData != null:
 return noData(_that);case TicketsBlocStateConnectionError() when connectionError != null:
 return connectionError(_that);case TicketsBlocStateSessionExpired() when sessionExpired != null:
-return sessionExpired(_that);case _:
+return sessionExpired(_that);case TicketsBlocStateTicketDetailsLoaded() when ticketDetailsLoaded != null:
+return ticketDetailsLoaded(_that);case _:
   return orElse();
 
 }
@@ -444,7 +529,7 @@ return sessionExpired(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TicketsBlocStateInitial value)  initial,required TResult Function( TicketsBlocStateLoading value)  loading,required TResult Function( TicketsBlocStateLoadedTickets value)  loadedTickets,required TResult Function( TicketsBlocStateTicketCreated value)  ticketCreated,required TResult Function( TicketsBlocStateError value)  error,required TResult Function( TicketsBlocStateNoData value)  noData,required TResult Function( TicketsBlocStateConnectionError value)  connectionError,required TResult Function( TicketsBlocStateSessionExpired value)  sessionExpired,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TicketsBlocStateInitial value)  initial,required TResult Function( TicketsBlocStateLoading value)  loading,required TResult Function( TicketsBlocStateLoadedTickets value)  loadedTickets,required TResult Function( TicketsBlocStateTicketCreated value)  ticketCreated,required TResult Function( TicketsBlocStateError value)  error,required TResult Function( TicketsBlocStateNoData value)  noData,required TResult Function( TicketsBlocStateConnectionError value)  connectionError,required TResult Function( TicketsBlocStateSessionExpired value)  sessionExpired,required TResult Function( TicketsBlocStateTicketDetailsLoaded value)  ticketDetailsLoaded,}){
 final _that = this;
 switch (_that) {
 case TicketsBlocStateInitial():
@@ -455,7 +540,8 @@ return ticketCreated(_that);case TicketsBlocStateError():
 return error(_that);case TicketsBlocStateNoData():
 return noData(_that);case TicketsBlocStateConnectionError():
 return connectionError(_that);case TicketsBlocStateSessionExpired():
-return sessionExpired(_that);case _:
+return sessionExpired(_that);case TicketsBlocStateTicketDetailsLoaded():
+return ticketDetailsLoaded(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -472,7 +558,7 @@ return sessionExpired(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TicketsBlocStateInitial value)?  initial,TResult? Function( TicketsBlocStateLoading value)?  loading,TResult? Function( TicketsBlocStateLoadedTickets value)?  loadedTickets,TResult? Function( TicketsBlocStateTicketCreated value)?  ticketCreated,TResult? Function( TicketsBlocStateError value)?  error,TResult? Function( TicketsBlocStateNoData value)?  noData,TResult? Function( TicketsBlocStateConnectionError value)?  connectionError,TResult? Function( TicketsBlocStateSessionExpired value)?  sessionExpired,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TicketsBlocStateInitial value)?  initial,TResult? Function( TicketsBlocStateLoading value)?  loading,TResult? Function( TicketsBlocStateLoadedTickets value)?  loadedTickets,TResult? Function( TicketsBlocStateTicketCreated value)?  ticketCreated,TResult? Function( TicketsBlocStateError value)?  error,TResult? Function( TicketsBlocStateNoData value)?  noData,TResult? Function( TicketsBlocStateConnectionError value)?  connectionError,TResult? Function( TicketsBlocStateSessionExpired value)?  sessionExpired,TResult? Function( TicketsBlocStateTicketDetailsLoaded value)?  ticketDetailsLoaded,}){
 final _that = this;
 switch (_that) {
 case TicketsBlocStateInitial() when initial != null:
@@ -483,7 +569,8 @@ return ticketCreated(_that);case TicketsBlocStateError() when error != null:
 return error(_that);case TicketsBlocStateNoData() when noData != null:
 return noData(_that);case TicketsBlocStateConnectionError() when connectionError != null:
 return connectionError(_that);case TicketsBlocStateSessionExpired() when sessionExpired != null:
-return sessionExpired(_that);case _:
+return sessionExpired(_that);case TicketsBlocStateTicketDetailsLoaded() when ticketDetailsLoaded != null:
+return ticketDetailsLoaded(_that);case _:
   return null;
 
 }
@@ -500,7 +587,7 @@ return sessionExpired(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<TicketsEntity?>? tickets)?  loadedTickets,TResult Function( TicketsEntity? ticket)?  ticketCreated,TResult Function( String? message)?  error,TResult Function()?  noData,TResult Function()?  connectionError,TResult Function()?  sessionExpired,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<TicketsEntity?>? tickets)?  loadedTickets,TResult Function( TicketsEntity? ticket)?  ticketCreated,TResult Function( String? message)?  error,TResult Function()?  noData,TResult Function()?  connectionError,TResult Function()?  sessionExpired,TResult Function( TicketEntity? ticketDetails)?  ticketDetailsLoaded,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case TicketsBlocStateInitial() when initial != null:
 return initial();case TicketsBlocStateLoading() when loading != null:
@@ -510,7 +597,8 @@ return ticketCreated(_that.ticket);case TicketsBlocStateError() when error != nu
 return error(_that.message);case TicketsBlocStateNoData() when noData != null:
 return noData();case TicketsBlocStateConnectionError() when connectionError != null:
 return connectionError();case TicketsBlocStateSessionExpired() when sessionExpired != null:
-return sessionExpired();case _:
+return sessionExpired();case TicketsBlocStateTicketDetailsLoaded() when ticketDetailsLoaded != null:
+return ticketDetailsLoaded(_that.ticketDetails);case _:
   return orElse();
 
 }
@@ -528,7 +616,7 @@ return sessionExpired();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<TicketsEntity?>? tickets)  loadedTickets,required TResult Function( TicketsEntity? ticket)  ticketCreated,required TResult Function( String? message)  error,required TResult Function()  noData,required TResult Function()  connectionError,required TResult Function()  sessionExpired,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<TicketsEntity?>? tickets)  loadedTickets,required TResult Function( TicketsEntity? ticket)  ticketCreated,required TResult Function( String? message)  error,required TResult Function()  noData,required TResult Function()  connectionError,required TResult Function()  sessionExpired,required TResult Function( TicketEntity? ticketDetails)  ticketDetailsLoaded,}) {final _that = this;
 switch (_that) {
 case TicketsBlocStateInitial():
 return initial();case TicketsBlocStateLoading():
@@ -538,7 +626,8 @@ return ticketCreated(_that.ticket);case TicketsBlocStateError():
 return error(_that.message);case TicketsBlocStateNoData():
 return noData();case TicketsBlocStateConnectionError():
 return connectionError();case TicketsBlocStateSessionExpired():
-return sessionExpired();case _:
+return sessionExpired();case TicketsBlocStateTicketDetailsLoaded():
+return ticketDetailsLoaded(_that.ticketDetails);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -555,7 +644,7 @@ return sessionExpired();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<TicketsEntity?>? tickets)?  loadedTickets,TResult? Function( TicketsEntity? ticket)?  ticketCreated,TResult? Function( String? message)?  error,TResult? Function()?  noData,TResult? Function()?  connectionError,TResult? Function()?  sessionExpired,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<TicketsEntity?>? tickets)?  loadedTickets,TResult? Function( TicketsEntity? ticket)?  ticketCreated,TResult? Function( String? message)?  error,TResult? Function()?  noData,TResult? Function()?  connectionError,TResult? Function()?  sessionExpired,TResult? Function( TicketEntity? ticketDetails)?  ticketDetailsLoaded,}) {final _that = this;
 switch (_that) {
 case TicketsBlocStateInitial() when initial != null:
 return initial();case TicketsBlocStateLoading() when loading != null:
@@ -565,7 +654,8 @@ return ticketCreated(_that.ticket);case TicketsBlocStateError() when error != nu
 return error(_that.message);case TicketsBlocStateNoData() when noData != null:
 return noData();case TicketsBlocStateConnectionError() when connectionError != null:
 return connectionError();case TicketsBlocStateSessionExpired() when sessionExpired != null:
-return sessionExpired();case _:
+return sessionExpired();case TicketsBlocStateTicketDetailsLoaded() when ticketDetailsLoaded != null:
+return ticketDetailsLoaded(_that.ticketDetails);case _:
   return null;
 
 }
@@ -950,5 +1040,71 @@ String toString() {
 
 
 
+
+/// @nodoc
+
+
+class TicketsBlocStateTicketDetailsLoaded implements TicketsBlocState {
+  const TicketsBlocStateTicketDetailsLoaded({required this.ticketDetails});
+  
+
+ final  TicketEntity? ticketDetails;
+
+/// Create a copy of TicketsBlocState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TicketsBlocStateTicketDetailsLoadedCopyWith<TicketsBlocStateTicketDetailsLoaded> get copyWith => _$TicketsBlocStateTicketDetailsLoadedCopyWithImpl<TicketsBlocStateTicketDetailsLoaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TicketsBlocStateTicketDetailsLoaded&&const DeepCollectionEquality().equals(other.ticketDetails, ticketDetails));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(ticketDetails));
+
+@override
+String toString() {
+  return 'TicketsBlocState.ticketDetailsLoaded(ticketDetails: $ticketDetails)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $TicketsBlocStateTicketDetailsLoadedCopyWith<$Res> implements $TicketsBlocStateCopyWith<$Res> {
+  factory $TicketsBlocStateTicketDetailsLoadedCopyWith(TicketsBlocStateTicketDetailsLoaded value, $Res Function(TicketsBlocStateTicketDetailsLoaded) _then) = _$TicketsBlocStateTicketDetailsLoadedCopyWithImpl;
+@useResult
+$Res call({
+ TicketEntity? ticketDetails
+});
+
+
+
+
+}
+/// @nodoc
+class _$TicketsBlocStateTicketDetailsLoadedCopyWithImpl<$Res>
+    implements $TicketsBlocStateTicketDetailsLoadedCopyWith<$Res> {
+  _$TicketsBlocStateTicketDetailsLoadedCopyWithImpl(this._self, this._then);
+
+  final TicketsBlocStateTicketDetailsLoaded _self;
+  final $Res Function(TicketsBlocStateTicketDetailsLoaded) _then;
+
+/// Create a copy of TicketsBlocState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? ticketDetails = freezed,}) {
+  return _then(TicketsBlocStateTicketDetailsLoaded(
+ticketDetails: freezed == ticketDetails ? _self.ticketDetails : ticketDetails // ignore: cast_nullable_to_non_nullable
+as TicketEntity?,
+  ));
+}
+
+
+}
 
 // dart format on

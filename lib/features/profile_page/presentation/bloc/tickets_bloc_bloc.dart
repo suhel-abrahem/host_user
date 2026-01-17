@@ -10,8 +10,10 @@ import 'package:hosta_user/features/refresh_token/domain/usecases/refresh_token_
 import '../../../../core/data_state/data_state.dart';
 import '../../data/models/help/create_ticket_model.dart';
 import '../../data/models/help/get_tickets_model.dart';
+import '../../domain/entities/help/ticket_entity.dart';
 import '../../domain/entities/help/tickets_entity.dart';
 import '../../domain/usecases/help/create_ticket_usecase.dart';
+import '../../domain/usecases/help/get_ticket_details_usecase.dart';
 
 part 'tickets_bloc_event.dart';
 part 'tickets_bloc_state.dart';
@@ -21,10 +23,12 @@ class TicketsBlocBloc extends Bloc<TicketsBlocEvent, TicketsBlocState> {
   final RefreshTokenUsecase? _refreshTokenUsecase;
   final GetTicketsUsecase? _getTicketsUsecase;
   final CreateTicketUsecase? _createTicketUsecase;
+  final GetTicketDetailsUsecase? _getTicketDetailsUsecase;
   TicketsBlocBloc(
     this._refreshTokenUsecase,
     this._getTicketsUsecase,
     this._createTicketUsecase,
+    this._getTicketDetailsUsecase,
   ) : super(TicketsBlocState.initial()) {
     on<TicketsBlocEventStarted>((event, emit) {
       emit(TicketsBlocState.initial());
@@ -114,6 +118,51 @@ class TicketsBlocBloc extends Bloc<TicketsBlocEvent, TicketsBlocState> {
                       emit(
                         TicketsBlocState.error(
                           message: "Failed to create ticket",
+                        ),
+                      );
+                    }
+                  });
+            } else if (refreshTokenState is NOInternetDataState) {
+              emit(TicketsBlocState.connectionError());
+            } else {
+              emit(TicketsBlocState.sessionExpired());
+            }
+          });
+    });
+    on<TicketsBlocEventGetTicketDetails>((event, emit) async {
+      emit(TicketsBlocState.loading());
+      final LoginStateEntity? loginState = getItInstance<AppPreferences>()
+          .getUserInfo();
+      await _refreshTokenUsecase
+          ?.call(
+            params: RefreshTokenModel(
+              refresh_token: loginState?.refresh_token,
+              token: loginState?.access_token,
+            ),
+          )
+          .then((refreshTokenState) async {
+            if (refreshTokenState is DataSuccess) {
+              await _getTicketDetailsUsecase
+                  ?.call(
+                    params: event.model?.copyWith(
+                      token: refreshTokenState?.data?.access_token,
+                    ),
+                  )
+                  .then((ticketDetailsState) {
+                    if (ticketDetailsState is DataSuccess) {
+                      emit(
+                        TicketsBlocState.ticketDetailsLoaded(
+                          ticketDetails: ticketDetailsState?.data,
+                        ),
+                      );
+                    } else if (ticketDetailsState is NOInternetDataState) {
+                      emit(TicketsBlocState.connectionError());
+                    } else if (ticketDetailsState is UnauthenticatedDataState) {
+                      emit(TicketsBlocState.sessionExpired());
+                    } else {
+                      emit(
+                        TicketsBlocState.error(
+                          message: "Failed to load ticket details",
                         ),
                       );
                     }
