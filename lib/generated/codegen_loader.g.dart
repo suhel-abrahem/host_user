@@ -344,7 +344,16 @@ class CodegenLoader extends AssetLoader{
     "maximumOf5ImagesAllowed": "مسموح بحد أقصى 5 صور",
     "youCanSelectUpTo5Images": "يمكنك اختيار ما يصل إلى 5 صور",
     "uploading": "جارٍ التحميل...",
-    "oneImageOrMoreHasBeenDownGraded": "تم تقليل جودة صورة واحدة أو أكثر"
+    "oneImageOrMoreHasBeenDownGraded": "تم تقليل جودة صورة واحدة أو أكثر",
+    "sort": {
+      "sortBy": "فرز حسب",
+      "distance": "المسافة",
+      "rating": "التقييم",
+      "price": "السعر",
+      "language": "اللغة",
+      "city": "المدينة",
+      "none": "لا شيء"
+    }
   },
   "providerDetailsPage": {
     "title": "تفاصيل المزود",
@@ -751,7 +760,16 @@ static const Map<String,dynamic> _en = {
     "maximumOf5ImagesAllowed": "Maximum of 5 images allowed",
     "youCanSelectUpTo5Images": "You can select up to 5 images",
     "uploading": "Uploading...",
-    "oneImageOrMoreHasBeenDownGraded": "One or more images have been downgraded"
+    "oneImageOrMoreHasBeenDownGraded": "One or more images have been downgraded",
+    "sort": {
+      "sortBy": "Sort by",
+      "distance": "Distance",
+      "rating": "Rating",
+      "price": "Price",
+      "language": "Language",
+      "city": "City",
+      "none": "None"
+    }
   },
   "providerDetailsPage": {
     "title": "Provider Details",
@@ -1158,7 +1176,16 @@ static const Map<String,dynamic> _fa = {
     "maximumOf5ImagesAllowed": "زۆربەی 5 وێنە ڕێگەپێدراوە",
     "youCanSelectUpTo5Images": "دەتوانیت تا 5 وێنە هەڵبژێریت",
     "uploading": "لە بارکردندا...",
-    "oneImageOrMoreHasBeenDownGraded": "یەک یان زیاتر لە وێنەکان کەمکراونەوەی کەیفیەت"
+    "oneImageOrMoreHasBeenDownGraded": "یەک یان زیاتر لە وێنەکان کەمکراونەوەی کەیفیەت",
+    "sort": {
+      "sortBy": "ڕیزکردنەوە بە",
+      "distance": "دووری",
+      "rating": "هەڵسەنگاندن",
+      "price": "نرخ",
+      "language": "زمان",
+      "city": "شار",
+      "none": "هیچ"
+    }
   },
   "providerDetailsPage": {
     "title": "وردەکاریی دابینکەر",

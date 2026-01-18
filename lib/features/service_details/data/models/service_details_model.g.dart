@@ -14,7 +14,7 @@ _ServiceDetailsModel _$ServiceDetailsModelFromJson(Map<String, dynamic> json) =>
       city_id: (json['city_id'] as num?)?.toInt() ?? 0,
       min_price: (json['min_price'] as num?)?.toDouble() ?? 0,
       max_price: (json['max_price'] as num?)?.toDouble() ?? 0,
-      sort_by: json['sort_by'] as String? ?? "",
+      sort_by: json['sort_by'] as String? ?? "none",
     );
 
 Map<String, dynamic> _$ServiceDetailsModelToJson(

@@ -20,4 +20,9 @@ class TicketsBlocState with _$TicketsBlocState {
   const factory TicketsBlocState.ticketDetailsLoaded({
     required TicketEntity? ticketDetails,
   }) = TicketsBlocStateTicketDetailsLoaded;
+  const factory TicketsBlocState.messageSentSuccessfully({
+    MessageEntity? messageEntity,
+  }) = TicketsBlocStateMessageSentSuccessfully;
+  const factory TicketsBlocState.messageSendError({required String? message}) =
+      TicketsBlocStateMessageSendError;
 }

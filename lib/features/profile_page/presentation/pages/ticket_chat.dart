@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosta_user/features/profile_page/presentation/bloc/tickets_bloc_bloc.dart';
+import 'package:hosta_user/features/profile_page/presentation/widgets/help/ticket_send_container.dart';
 
 import '../../../../core/util/helper/helper.dart';
 import '../../../chat/domain/entities/message/message_entity.dart';
@@ -181,7 +182,7 @@ class _TicketChatPageState extends State<TicketChatPage> {
                           controller: scrollController,
                           itemCount: chatMesages?.length ?? 0,
                           itemBuilder: (context, index) {
-                            return MessageContainer(
+                            return TicketMessageContainer(
                               onMessageSent: (value) {
                                 setState(() {
                                   chatMesages?[index] = value;
@@ -194,6 +195,12 @@ class _TicketChatPageState extends State<TicketChatPage> {
                         );
                       },
                     );
+                  },
+                  messageSentSuccessfully: (e) {
+                    return null;
+                  },
+                  messageSendError: (String? message) {
+                    return null;
                   },
                 ),
               ),

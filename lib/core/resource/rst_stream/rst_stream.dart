@@ -23,6 +23,7 @@ class StreamSocket<T> {
 final notificationStreamSocket = StreamSocket<dynamic>();
 final chatUnReadCountStreamSocket = StreamSocket<int>();
 final chatMessageStreamSocket = StreamSocket<MessageEntity?>();
+final ticketMessageStreamSocket = StreamSocket<MessageEntity?>();
 final fcmNotificationStreamSocket = StreamSocket<RemoteMessage?>();
 String? lastNotificationCount;
 String? lastChatUnReadCount;

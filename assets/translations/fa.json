@@ -328,7 +328,16 @@
     "maximumOf5ImagesAllowed": "زۆربەی 5 وێنە ڕێگەپێدراوە",
     "youCanSelectUpTo5Images": "دەتوانیت تا 5 وێنە هەڵبژێریت",
     "uploading": "لە بارکردندا...",
-    "oneImageOrMoreHasBeenDownGraded": "یەک یان زیاتر لە وێنەکان کەمکراونەوەی کەیفیەت"
+    "oneImageOrMoreHasBeenDownGraded": "یەک یان زیاتر لە وێنەکان کەمکراونەوەی کەیفیەت",
+    "sort": {
+      "sortBy": "ڕیزکردنەوە بە",
+      "distance": "دووری",
+      "rating": "هەڵسەنگاندن",
+      "price": "نرخ",
+      "language": "زمان",
+      "city": "شار",
+      "none": "هیچ"
+    }
   },
   "providerDetailsPage": {
     "title": "وردەکاریی دابینکەر",

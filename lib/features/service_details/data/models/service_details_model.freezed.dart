@@ -215,7 +215,7 @@ return $default(_that.Authorization,_that.Accept_Language,_that.service_id,_that
 @JsonSerializable()
 
 class _ServiceDetailsModel implements ServiceDetailsModel {
-  const _ServiceDetailsModel({this.Authorization = "", this.Accept_Language = "", this.service_id = 0, this.city_id = 0, this.min_price = 0, this.max_price = 0, this.sort_by = ""});
+  const _ServiceDetailsModel({this.Authorization = "", this.Accept_Language = "", this.service_id = 0, this.city_id = 0, this.min_price = 0, this.max_price = 0, this.sort_by = "none"});
   factory _ServiceDetailsModel.fromJson(Map<String, dynamic> json) => _$ServiceDetailsModelFromJson(json);
 
 @override@JsonKey() final  String? Authorization;

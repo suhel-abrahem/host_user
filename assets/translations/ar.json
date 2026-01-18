@@ -328,7 +328,16 @@
     "maximumOf5ImagesAllowed": "مسموح بحد أقصى 5 صور",
     "youCanSelectUpTo5Images": "يمكنك اختيار ما يصل إلى 5 صور",
     "uploading": "جارٍ التحميل...",
-    "oneImageOrMoreHasBeenDownGraded": "تم تقليل جودة صورة واحدة أو أكثر"
+    "oneImageOrMoreHasBeenDownGraded": "تم تقليل جودة صورة واحدة أو أكثر",
+    "sort": {
+      "sortBy": "فرز حسب",
+      "distance": "المسافة",
+      "rating": "التقييم",
+      "price": "السعر",
+      "language": "اللغة",
+      "city": "المدينة",
+      "none": "لا شيء"
+    }
   },
   "providerDetailsPage": {
     "title": "تفاصيل المزود",

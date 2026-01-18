@@ -41,7 +41,12 @@ class ServiceDetailsRepositoryImpl implements ServiceDetailsRepository {
       await commonService
           .get(
             ApiConstant.getProvidersEndpoint,
-            params: {"service_id": serviceDetailsModel?.service_id},
+            params: {
+              "service_id": serviceDetailsModel?.service_id,
+              "filter_type": serviceDetailsModel?.sort_by == "none"
+                  ? null
+                  : serviceDetailsModel?.sort_by,
+            },
           )
           .then((onValue) {
             if (onValue is DataSuccess) {

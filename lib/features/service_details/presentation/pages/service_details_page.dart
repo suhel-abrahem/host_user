@@ -20,6 +20,7 @@ import 'package:hosta_user/core/resource/common_state_widget/error_state_widget.
 import 'package:hosta_user/core/resource/common_state_widget/no_data_state_widget.dart';
 import 'package:hosta_user/core/resource/common_state_widget/no_internet_state_widget.dart';
 import 'package:hosta_user/core/resource/custom_widget/custom_input_field/custom_input_field.dart';
+import 'package:hosta_user/core/resource/custom_widget/dropdown/drop_down_with_label.dart';
 import 'package:hosta_user/core/resource/custom_widget/snake_bar_widget/snake_bar_widget.dart';
 import 'package:hosta_user/core/resource/image_widget.dart';
 import 'package:hosta_user/core/resource/main_page/main_page.dart';
@@ -293,6 +294,14 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                   getItInstance<StoreBookingBloc>()
                     ..add(StoreBookingEvent.started()),
             ),
+            BlocProvider(
+              create: (context) => getItInstance<ServiceDetailsBloc>()
+                ..add(
+                  ServiceDetailsEvent.getServiceDetails(
+                    serviceDetailsModel: serviceDetailsModel,
+                  ),
+                ),
+            ),
             BlocProvider<TimeSlotsBloc>(
               create: (context) =>
                   getItInstance<TimeSlotsBloc>()..add(TimeSlotsEvent.started()),
@@ -418,216 +427,244 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                         horizontal: 12.w,
                         vertical: 8.h,
                       ),
-                      child:
-                          Text(
-                            LocaleKeys.serviceDetailsPage_availableProviders
-                                .tr(),
-                            textAlign: TextAlign.start,
-                            style: Theme.of(context).textTheme.labelMedium
-                                ?.copyWith(
-                                  fontFamily: FontConstants.fontFamily(
-                                    context.locale,
-                                  ),
+                      child: SizedBox(
+                        height: 40.h,
+                        child:
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  LocaleKeys
+                                      .serviceDetailsPage_availableProviders
+                                      .tr(),
+                                  textAlign: TextAlign.start,
+                                  style: Theme.of(context).textTheme.labelMedium
+                                      ?.copyWith(
+                                        fontFamily: FontConstants.fontFamily(
+                                          context.locale,
+                                        ),
+                                      ),
                                 ),
-                          ).animate().scaleXY(
-                            duration: 600.ms,
-                            delay: 300.ms,
-                            curve: Curves.easeInOut,
-                          ),
+                                Builder(
+                                  builder: (context) {
+                                    return DropDownWithLabel(
+                                      items: [
+                                        "none",
+                                        "price",
+                                        "distance",
+                                        "language",
+                                        "city",
+                                      ],
+                                      onChange: (value) {
+                                        serviceDetailsModel =
+                                            serviceDetailsModel.copyWith(
+                                              sort_by: value,
+                                            );
+                                        context.read<ServiceDetailsBloc>().add(
+                                          ServiceDetailsEvent.getServiceDetails(
+                                            serviceDetailsModel:
+                                                serviceDetailsModel,
+                                          ),
+                                        );
+                                      },
+                                      stringConverter: (value) {
+                                        switch (value) {
+                                          case "price":
+                                            return LocaleKeys
+                                                .serviceDetailsPage_sort_price
+                                                .tr();
+                                          case "distance":
+                                            return LocaleKeys
+                                                .serviceDetailsPage_sort_distance
+                                                .tr();
+                                          case "language":
+                                            return LocaleKeys
+                                                .serviceDetailsPage_sort_language
+                                                .tr();
+                                          case "city":
+                                            return LocaleKeys
+                                                .serviceDetailsPage_sort_city
+                                                .tr();
+                                          case "none":
+                                          default:
+                                            return LocaleKeys
+                                                .serviceDetailsPage_sort_none
+                                                .tr();
+                                        }
+                                      },
+                                      dropDownWidth: 100.w,
+                                      dropDownHeight: 40.h,
+                                      isLoading: false,
+                                      value:
+                                          serviceDetailsModel.sort_by ?? "none",
+                                      label: LocaleKeys
+                                          .serviceDetailsPage_sort_sortBy
+                                          .tr(),
+                                      labelPadding: EdgeInsetsDirectional.only(
+                                        top: 8.h,
+                                        end: 8.w,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ).animate().scaleXY(
+                              duration: 600.ms,
+                              delay: 300.ms,
+                              curve: Curves.easeInOut,
+                            ),
+                      ),
                     ),
 
-                    BlocProvider<ServiceDetailsBloc>(
-                      create: (context) =>
-                          getItInstance<ServiceDetailsBloc>()..add(
-                            ServiceDetailsEvent.getServiceDetails(
-                              serviceDetailsModel: serviceDetailsModel,
-                            ),
-                          ),
+                    BlocListener<TimeSlotsBloc, TimeSlotsState>(
+                      listener: (context, state) {
+                        print("time slots state: //");
+                        state.when(
+                          initial: () {
+                            timeSlots = [];
+                          },
+                          loading: () {
+                            timeSlots = [];
+                          },
+                          loaded: (data) {
+                            setState(() {
+                              timeSlots = data;
+                              if (selectedDate != null &&
+                                  (selectedDate?.trim().isNotEmpty ?? false)) {
+                                selectedTimeSlots = timeSlots?.firstWhere(
+                                  (element) => element?.date == selectedDate,
+                                  orElse: () => null,
+                                );
+                              }
+                            });
+                            print("selected date: , selected time slots: ");
+                          },
+                          error: (e) {
+                            showMessage(
+                              message: LocaleKeys.common_error.tr(),
+                              context: context,
+                            );
 
-                      child: BlocListener<TimeSlotsBloc, TimeSlotsState>(
-                        listener: (context, state) {
-                          print("time slots state: //");
-                          state.when(
-                            initial: () {
-                              timeSlots = [];
-                            },
-                            loading: () {
-                              timeSlots = [];
-                            },
-                            loaded: (data) {
-                              setState(() {
-                                timeSlots = data;
-                                if (selectedDate != null &&
-                                    (selectedDate?.trim().isNotEmpty ??
-                                        false)) {
-                                  selectedTimeSlots = timeSlots?.firstWhere(
-                                    (element) => element?.date == selectedDate,
-                                    orElse: () => null,
-                                  );
-                                }
-                              });
-                              print("selected date: , selected time slots: ");
-                            },
-                            error: (e) {
-                              showMessage(
-                                message: LocaleKeys.common_error.tr(),
-                                context: context,
-                              );
+                            timeSlots = [];
+                          },
+                          sessionExpired: () async {
+                            LoginStateEntity? loginStateEntity =
+                                getItInstance<AppPreferences>().getUserInfo();
+                            await getItInstance<AppPreferences>().setUserInfo(
+                              loginStateEntity: loginStateEntity?.copyWith(
+                                loginStateEnum: LoginStateEnum.unlogined,
+                              ),
+                            );
 
-                              timeSlots = [];
-                            },
-                            sessionExpired: () async {
-                              LoginStateEntity? loginStateEntity =
-                                  getItInstance<AppPreferences>().getUserInfo();
-                              await getItInstance<AppPreferences>().setUserInfo(
-                                loginStateEntity: loginStateEntity?.copyWith(
-                                  loginStateEnum: LoginStateEnum.unlogined,
-                                ),
-                              );
+                            timeSlots = [];
+                          },
+                          noInternet: () {
+                            showMessage(
+                              message: LocaleKeys.common_noInternetPullDown
+                                  .tr(),
+                              context: context,
+                            );
 
-                              timeSlots = [];
-                            },
-                            noInternet: () {
-                              showMessage(
-                                message: LocaleKeys.common_noInternetPullDown
-                                    .tr(),
-                                context: context,
-                              );
-
-                              timeSlots = [];
-                            },
-                            noData: () {
-                              timeSlots = [];
-                            },
-                          );
-                        },
-                        child: BlocBuilder<ServiceDetailsBloc, ServiceDetailsState>(
-                          builder: (context, state) {
-                            return state.when(
-                              initial: () => SizedBox.shrink(),
-                              loading: () => Center(
+                            timeSlots = [];
+                          },
+                          noData: () {
+                            timeSlots = [];
+                          },
+                        );
+                      },
+                      child: BlocBuilder<ServiceDetailsBloc, ServiceDetailsState>(
+                        builder: (context, state) {
+                          return state.when(
+                            initial: () => SizedBox.shrink(),
+                            loading: () => Padding(
+                              padding: EdgeInsets.symmetric(vertical: 100.h),
+                              child: Center(
                                 child: CircularProgressIndicator(
                                   color: Theme.of(context).primaryColor,
                                 ),
                               ),
-                              loaded: (serviceDetailsEntity) {
-                                return ListView.builder(
-                                  itemCount: serviceDetailsEntity?.length ?? 0,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 12.w,
-                                        vertical: 8.h,
-                                      ),
-                                      child:
-                                          Container(
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: 12.h,
-                                              horizontal: 12.w,
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Container(
-                                                      clipBehavior:
-                                                          Clip.antiAlias,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        border: Border.all(
-                                                          color: Theme.of(context)
-                                                              .defaultBorderSide
-                                                              .color,
-                                                          width: Theme.of(context)
-                                                              .defaultBorderSide
-                                                              .width,
-                                                        ),
-                                                      ),
-                                                      child: ImageWidget(
-                                                        width: 80.w,
-                                                        height: 80.h,
-                                                        imageUrl:
-                                                            "${serviceDetailsEntity?[index]?.provider?["avatar"]}",
-                                                        boxFit: BoxFit.fill,
-                                                        errorIconSize: 60.sp,
+                            ),
+                            loaded: (serviceDetailsEntity) {
+                              return ListView.builder(
+                                itemCount: serviceDetailsEntity?.length ?? 0,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 12.w,
+                                      vertical: 8.h,
+                                    ),
+                                    child:
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 12.h,
+                                            horizontal: 12.w,
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                        color: Theme.of(context)
+                                                            .defaultBorderSide
+                                                            .color,
+                                                        width: Theme.of(context)
+                                                            .defaultBorderSide
+                                                            .width,
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional.only(
-                                                            start: 20.w,
-                                                          ),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                    child: ImageWidget(
+                                                      width: 80.w,
+                                                      height: 80.h,
+                                                      imageUrl:
+                                                          "${serviceDetailsEntity?[index]?.provider?["avatar"]}",
+                                                      boxFit: BoxFit.fill,
+                                                      errorIconSize: 60.sp,
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional.only(
+                                                          start: 20.w,
+                                                        ),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
 
-                                                        children: [
-                                                          Text(
-                                                            serviceDetailsEntity?[index]
-                                                                    ?.provider?["name"] ??
-                                                                "",
-                                                            style: Theme.of(context)
-                                                                .textTheme
-                                                                .labelLarge
-                                                                ?.copyWith(
-                                                                  fontFamily:
-                                                                      FontConstants.fontFamily(
-                                                                        context
-                                                                            .locale,
-                                                                      ),
-                                                                ),
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.symmetric(
-                                                                  vertical: 4.h,
-                                                                ),
-                                                            child: Row(
-                                                              children: [
-                                                                Icon(
-                                                                  Icons
-                                                                      .location_pin,
-                                                                  size: 22.sp,
-                                                                  color: Theme.of(context)
-                                                                      .textTheme
-                                                                      .labelLarge
-                                                                      ?.color,
-                                                                ),
-                                                                Padding(
-                                                                  padding:
-                                                                      EdgeInsetsDirectional.only(
-                                                                        start:
-                                                                            4.w,
-                                                                      ),
-                                                                  child: Text(
-                                                                    serviceDetailsEntity?[index]
-                                                                            ?.provider?["address"]["address"] ??
-                                                                        "",
-                                                                    style: Theme.of(context)
-                                                                        .textTheme
-                                                                        .labelSmall
-                                                                        ?.copyWith(
-                                                                          fontFamily: FontConstants.fontFamily(
-                                                                            context.locale,
-                                                                          ),
-                                                                        ),
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Row(
+                                                      children: [
+                                                        Text(
+                                                          serviceDetailsEntity?[index]
+                                                                  ?.provider?["name"] ??
+                                                              "",
+                                                          style: Theme.of(context)
+                                                              .textTheme
+                                                              .labelLarge
+                                                              ?.copyWith(
+                                                                fontFamily:
+                                                                    FontConstants.fontFamily(
+                                                                      context
+                                                                          .locale,
+                                                                    ),
+                                                              ),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.symmetric(
+                                                                vertical: 4.h,
+                                                              ),
+                                                          child: Row(
                                                             children: [
                                                               Icon(
                                                                 Icons
-                                                                    .monetization_on,
+                                                                    .location_pin,
                                                                 size: 22.sp,
                                                                 color:
                                                                     Theme.of(
@@ -644,8 +681,9 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                                                           4.w,
                                                                     ),
                                                                 child: Text(
-                                                                  "${Helper.formatPrice(serviceDetailsEntity?[index]?.provider_service?["price"])} ${LocaleKeys.myServicesPage_iqd.tr()}/${LocaleKeys.serviceDetailsPage_service.tr()}",
-
+                                                                  serviceDetailsEntity?[index]
+                                                                          ?.provider?["address"]["address"] ??
+                                                                      "",
                                                                   style: Theme.of(context)
                                                                       .textTheme
                                                                       .labelSmall
@@ -662,182 +700,221 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                                               ),
                                                             ],
                                                           ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                  top: 8.h,
-                                                                ),
-                                                            child: SizedBox(
-                                                              height: 25.h,
-                                                              width: 200.w,
-                                                              child: ListView.builder(
-                                                                scrollDirection:
-                                                                    Axis.horizontal,
-                                                                itemCount:
-                                                                    serviceDetailsEntity?[index]
-                                                                        ?.languages
-                                                                        ?.length ??
-                                                                    0,
-                                                                physics:
-                                                                    NeverScrollableScrollPhysics(),
-                                                                itemBuilder:
-                                                                    (
-                                                                      context,
-                                                                      langIndex,
-                                                                    ) => Padding(
-                                                                      padding:
-                                                                          EdgeInsetsDirectional.only(
-                                                                            end:
-                                                                                8.w,
-                                                                          ),
-                                                                      child:
-                                                                          Container(
-                                                                            padding: EdgeInsets.symmetric(
-                                                                              horizontal: 8.w,
-                                                                              vertical: 4.h,
-                                                                            ),
-                                                                            width:
-                                                                                50.w,
-                                                                            height:
-                                                                                25.h,
-                                                                            child: Center(
-                                                                              child: FittedBox(
-                                                                                fit: BoxFit.scaleDown,
-                                                                                child: Text(
-                                                                                  serviceDetailsEntity?[index]?.languages?[langIndex]["name"] ??
-                                                                                      "",
-                                                                                  style:
-                                                                                      Theme.of(
-                                                                                        context,
-                                                                                      ).textTheme.labelSmall?.copyWith(
-                                                                                        fontFamily: FontConstants.fontFamily(
-                                                                                          context.locale,
-                                                                                        ),
-                                                                                      ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ).asGlass(
-                                                                            tintColor: Theme.of(
-                                                                              context,
-                                                                            ).scaffoldBackgroundColor,
-                                                                            clipBorderRadius: BorderRadius.circular(
-                                                                              8.r,
-                                                                            ),
-                                                                            blurX:
-                                                                                20,
-                                                                            blurY:
-                                                                                20,
-                                                                            border: Theme.of(
-                                                                              context,
-                                                                            ).defaultBorderSide,
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .monetization_on,
+                                                              size: 22.sp,
+                                                              color:
+                                                                  Theme.of(
+                                                                        context,
+                                                                      )
+                                                                      .textTheme
+                                                                      .labelLarge
+                                                                      ?.color,
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional.only(
+                                                                    start: 4.w,
+                                                                  ),
+                                                              child: Text(
+                                                                "${Helper.formatPrice(serviceDetailsEntity?[index]?.provider_service?["price"])} ${LocaleKeys.myServicesPage_iqd.tr()}/${LocaleKeys.serviceDetailsPage_service.tr()}",
+
+                                                                style: Theme.of(context)
+                                                                    .textTheme
+                                                                    .labelSmall
+                                                                    ?.copyWith(
+                                                                      fontFamily:
+                                                                          FontConstants.fontFamily(
+                                                                            context.locale,
                                                                           ),
                                                                     ),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                               ),
                                                             ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                    top: 12.h,
-                                                  ),
-                                                  child: SizedBox(
-                                                    width: 200.w,
-                                                    child: ElevatedButton(
-                                                      onPressed: () {
-                                                        print(
-                                                          "book now pressed for service id: ${serviceDetailsEntity?[index]?.provider_service?["id"]}",
-                                                        );
-                                                        setState(() {
-                                                          showBookingDetails =
-                                                              true;
-                                                          showBookingSchedule =
-                                                              false;
-
-                                                          timeSlotsModel =
-                                                              timeSlotsModel.copyWith(
-                                                                providerServiceId:
-                                                                    serviceDetailsEntity?[index]
-                                                                        ?.provider_service?["id"],
-                                                              );
-                                                          storeBookingModel = storeBookingModel.copyWith(
-                                                            providerId:
-                                                                serviceDetailsEntity?[index]
-                                                                    ?.provider?["id"],
-                                                            serviceId:
-                                                                serviceDetailsEntity?[index]
-                                                                    ?.provider_service?["id"],
-                                                          );
-                                                          context
-                                                              .read<
-                                                                TimeSlotsBloc
-                                                              >()
-                                                              .add(
-                                                                TimeSlotsEvent.getTimeSlots(
-                                                                  timeSlotsModel:
-                                                                      timeSlotsModel,
-                                                                ),
-                                                              );
-                                                        });
-                                                      },
-
-                                                      child: Text(
-                                                        LocaleKeys
-                                                            .serviceDetailsPage_bookNow
-                                                            .tr(),
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .labelLarge
-                                                            ?.copyWith(
-                                                              fontFamily:
-                                                                  FontConstants.fontFamily(
-                                                                    context
-                                                                        .locale,
+                                                          ],
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                top: 8.h,
+                                                              ),
+                                                          child: SizedBox(
+                                                            height: 25.h,
+                                                            width: 200.w,
+                                                            child: ListView.builder(
+                                                              scrollDirection:
+                                                                  Axis.horizontal,
+                                                              itemCount:
+                                                                  serviceDetailsEntity?[index]
+                                                                      ?.languages
+                                                                      ?.length ??
+                                                                  0,
+                                                              physics:
+                                                                  NeverScrollableScrollPhysics(),
+                                                              itemBuilder:
+                                                                  (
+                                                                    context,
+                                                                    langIndex,
+                                                                  ) => Padding(
+                                                                    padding:
+                                                                        EdgeInsetsDirectional.only(
+                                                                          end: 8
+                                                                              .w,
+                                                                        ),
+                                                                    child:
+                                                                        Container(
+                                                                          padding: EdgeInsets.symmetric(
+                                                                            horizontal:
+                                                                                8.w,
+                                                                            vertical:
+                                                                                4.h,
+                                                                          ),
+                                                                          width:
+                                                                              50.w,
+                                                                          height:
+                                                                              25.h,
+                                                                          child: Center(
+                                                                            child: FittedBox(
+                                                                              fit: BoxFit.scaleDown,
+                                                                              child: Text(
+                                                                                serviceDetailsEntity?[index]?.languages?[langIndex]["name"] ??
+                                                                                    "",
+                                                                                style:
+                                                                                    Theme.of(
+                                                                                      context,
+                                                                                    ).textTheme.labelSmall?.copyWith(
+                                                                                      fontFamily: FontConstants.fontFamily(
+                                                                                        context.locale,
+                                                                                      ),
+                                                                                    ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ).asGlass(
+                                                                          tintColor: Theme.of(
+                                                                            context,
+                                                                          ).scaffoldBackgroundColor,
+                                                                          clipBorderRadius: BorderRadius.circular(
+                                                                            8.r,
+                                                                          ),
+                                                                          blurX:
+                                                                              20,
+                                                                          blurY:
+                                                                              20,
+                                                                          border: Theme.of(
+                                                                            context,
+                                                                          ).defaultBorderSide,
+                                                                        ),
                                                                   ),
-                                                              color: ColorManager
-                                                                  .darkTextColor,
                                                             ),
-                                                      ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 12.h,
+                                                ),
+                                                child: SizedBox(
+                                                  width: 200.w,
+                                                  child: ElevatedButton(
+                                                    onPressed: () {
+                                                      print(
+                                                        "book now pressed for service id: ${serviceDetailsEntity?[index]?.provider_service?["id"]}",
+                                                      );
+                                                      setState(() {
+                                                        showBookingDetails =
+                                                            true;
+                                                        showBookingSchedule =
+                                                            false;
+
+                                                        timeSlotsModel =
+                                                            timeSlotsModel.copyWith(
+                                                              providerServiceId:
+                                                                  serviceDetailsEntity?[index]
+                                                                      ?.provider_service?["id"],
+                                                            );
+                                                        storeBookingModel = storeBookingModel.copyWith(
+                                                          providerId:
+                                                              serviceDetailsEntity?[index]
+                                                                  ?.provider?["id"],
+                                                          serviceId:
+                                                              serviceDetailsEntity?[index]
+                                                                  ?.provider_service?["id"],
+                                                        );
+                                                        context
+                                                            .read<
+                                                              TimeSlotsBloc
+                                                            >()
+                                                            .add(
+                                                              TimeSlotsEvent.getTimeSlots(
+                                                                timeSlotsModel:
+                                                                    timeSlotsModel,
+                                                              ),
+                                                            );
+                                                      });
+                                                    },
+
+                                                    child: Text(
+                                                      LocaleKeys
+                                                          .serviceDetailsPage_bookNow
+                                                          .tr(),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .labelLarge
+                                                          ?.copyWith(
+                                                            fontFamily:
+                                                                FontConstants.fontFamily(
+                                                                  context
+                                                                      .locale,
+                                                                ),
+                                                            color: ColorManager
+                                                                .darkTextColor,
+                                                          ),
                                                     ),
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                          ).asGlass(
-                                            tintColor: Theme.of(
-                                              context,
-                                            ).scaffoldBackgroundColor,
-                                            clipBorderRadius:
-                                                BorderRadius.circular(12.r),
-                                            blurX: 30,
-                                            blurY: 30,
-                                            border: Theme.of(
-                                              context,
-                                            ).defaultBorderSide,
+                                              ),
+                                            ],
                                           ),
-                                    );
-                                  },
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                ).animate().scaleXY(
-                                  duration: 600.ms,
-                                  curve: Curves.easeInOut,
-                                );
-                              },
-                              noData: () => Center(child: NodataStateWidget()),
-                              error: (error) =>
-                                  Center(child: ErrorStateWidget()),
-                              unauthenticated: (error) =>
-                                  Center(child: ErrorStateWidget()),
-                              noInternet: () =>
-                                  Center(child: NoInternetStateWidget()),
-                            );
-                          },
-                        ),
+                                        ).asGlass(
+                                          tintColor: Theme.of(
+                                            context,
+                                          ).scaffoldBackgroundColor,
+                                          clipBorderRadius:
+                                              BorderRadius.circular(12.r),
+                                          blurX: 30,
+                                          blurY: 30,
+                                          border: Theme.of(
+                                            context,
+                                          ).defaultBorderSide,
+                                        ),
+                                  );
+                                },
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                              ).animate().scaleXY(
+                                duration: 600.ms,
+                                curve: Curves.easeInOut,
+                              );
+                            },
+                            noData: () => Center(child: NodataStateWidget()),
+                            error: (error) => Center(child: ErrorStateWidget()),
+                            unauthenticated: (error) =>
+                                Center(child: ErrorStateWidget()),
+                            noInternet: () =>
+                                Center(child: NoInternetStateWidget()),
+                          );
+                        },
                       ),
                     ),
                   ],

@@ -105,6 +105,7 @@ import '../features/profile_page/domain/usecases/get_working_time_usecase.dart';
 import '../features/profile_page/domain/usecases/help/create_ticket_usecase.dart';
 import '../features/profile_page/domain/usecases/help/get_ticket_details_usecase.dart';
 import '../features/profile_page/domain/usecases/help/get_tickets_usecase.dart';
+import '../features/profile_page/domain/usecases/help/send_ticket_message_usecase.dart';
 import '../features/profile_page/domain/usecases/logout_usecase.dart';
 import '../features/profile_page/domain/usecases/reset_password/request_reset_password_usecase.dart';
 import '../features/profile_page/domain/usecases/reset_password/resent_reset_password_otp_usecase.dart';
@@ -588,9 +589,13 @@ Future<void> initDependencies() async {
   getItInstance.registerSingleton<GetTicketDetailsUsecase>(
     GetTicketDetailsUsecase(getItInstance()),
   );
+  getItInstance.registerSingleton<SendTicketMessageUsecase>(
+    SendTicketMessageUsecase(getItInstance()),
+  );
   // bloc
   getItInstance.registerFactory<TicketsBlocBloc>(
     () => TicketsBlocBloc(
+      getItInstance(),
       getItInstance(),
       getItInstance(),
       getItInstance(),

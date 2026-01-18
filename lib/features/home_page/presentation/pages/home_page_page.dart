@@ -24,6 +24,7 @@ import '../../../../core/resource/main_page/main_page.dart';
 import '../../../../core/resource/rst_stream/rst_stream.dart';
 
 import '../../../../core/util/helper/helper.dart';
+import '../../../../web_test.dart';
 import '../../../categories_page/data/models/get_category_model.dart';
 import '../../../categories_page/presentation/bloc/categories_page_bloc.dart';
 import '../../../categories_page/presentation/widgets/category_container.dart';
@@ -678,6 +679,7 @@ class _HomePagePageState extends State<HomePagePage> {
               ),
             ),
           ),
+          // SizedBox(width: 360.w, height: 600.h, child: UnityStorePage()),
         ],
       ),
     );

@@ -11,4 +11,7 @@ class TicketsBlocEvent with _$TicketsBlocEvent {
   const factory TicketsBlocEvent.getTicketDetails({
     required GetTicketsModel? model,
   }) = TicketsBlocEventGetTicketDetails;
+  const factory TicketsBlocEvent.sendTicketMessage({
+    required SendTicketMessageModel? model,
+  }) = TicketsBlocEventSendTicketMessage;
 }

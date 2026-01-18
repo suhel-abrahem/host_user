@@ -14,8 +14,6 @@ import '../../../../core/resource/common_state_widget/unAuth_state_widget.dart';
 import '../../../../core/util/helper/helper.dart';
 import '../../../../generated/locale_keys.g.dart';
 import '../../../chat/domain/entities/message/message_entity.dart';
-import '../../../chat/domain/entities/other_participant/other_participant_entity.dart';
-import '../../../chat/presentation/bloc/get_chat_bloc.dart';
 import '../../../chat/presentation/widgets/conversion_widget.dart';
 import '../../data/models/help/get_tickets_model.dart';
 import '../../domain/entities/help/ticket_entity.dart';
@@ -119,6 +117,12 @@ class _TicketsPageState extends State<TicketsPage> {
                       );
                     },
                     ticketDetailsLoaded: (TicketEntity? ticketDetails) {
+                      return SizedBox.shrink();
+                    },
+                    messageSentSuccessfully: (e) {
+                      return SizedBox.shrink();
+                    },
+                    messageSendError: (String? message) {
                       return SizedBox.shrink();
                     },
                   );

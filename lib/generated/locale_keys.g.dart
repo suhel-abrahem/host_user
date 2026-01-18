@@ -319,6 +319,14 @@ abstract class  LocaleKeys {
   static const serviceDetailsPage_youCanSelectUpTo5Images = 'serviceDetailsPage.youCanSelectUpTo5Images';
   static const serviceDetailsPage_uploading = 'serviceDetailsPage.uploading';
   static const serviceDetailsPage_oneImageOrMoreHasBeenDownGraded = 'serviceDetailsPage.oneImageOrMoreHasBeenDownGraded';
+  static const serviceDetailsPage_sort_sortBy = 'serviceDetailsPage.sort.sortBy';
+  static const serviceDetailsPage_sort_distance = 'serviceDetailsPage.sort.distance';
+  static const serviceDetailsPage_sort_rating = 'serviceDetailsPage.sort.rating';
+  static const serviceDetailsPage_sort_price = 'serviceDetailsPage.sort.price';
+  static const serviceDetailsPage_sort_language = 'serviceDetailsPage.sort.language';
+  static const serviceDetailsPage_sort_city = 'serviceDetailsPage.sort.city';
+  static const serviceDetailsPage_sort_none = 'serviceDetailsPage.sort.none';
+  static const serviceDetailsPage_sort = 'serviceDetailsPage.sort';
   static const serviceDetailsPage = 'serviceDetailsPage';
   static const providerDetailsPage_title = 'providerDetailsPage.title';
   static const providerDetailsPage_name = 'providerDetailsPage.name';

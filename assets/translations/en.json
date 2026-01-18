@@ -328,7 +328,16 @@
     "maximumOf5ImagesAllowed": "Maximum of 5 images allowed",
     "youCanSelectUpTo5Images": "You can select up to 5 images",
     "uploading": "Uploading...",
-    "oneImageOrMoreHasBeenDownGraded": "One or more images have been downgraded"
+    "oneImageOrMoreHasBeenDownGraded": "One or more images have been downgraded",
+    "sort": {
+      "sortBy": "Sort by",
+      "distance": "Distance",
+      "rating": "Rating",
+      "price": "Price",
+      "language": "Language",
+      "city": "City",
+      "none": "None"
+    }
   },
   "providerDetailsPage": {
     "title": "Provider Details",

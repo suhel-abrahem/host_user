@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'service_details_model.freezed.dart';
 part 'service_details_model.g.dart';
@@ -11,7 +13,7 @@ abstract class ServiceDetailsModel with _$ServiceDetailsModel {
     @Default(0) int? city_id,
     @Default(0) double? min_price,
     @Default(0) double? max_price,
-    @Default("") String? sort_by,
+    @Default("none") String? sort_by,
   }) = _ServiceDetailsModel;
   factory ServiceDetailsModel.fromJson(Map<String, dynamic> json) =>
       _$ServiceDetailsModelFromJson(json);
