@@ -128,19 +128,11 @@ class _CategoryServicesPagePageState extends State<CategoryServicesPagePage> {
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      child: CachedNetworkImage(
-                        cacheKey:
-                            widget.categoryEntity?.category_id.toString() ?? "",
+                      child: ImageWidget(
+                        imageUrl: widget.categoryEntity?.icon ?? "",
                         width: 50.w,
                         height: 50.h,
-                        progressIndicatorBuilder: (context, url, progress) =>
-                            CircularProgressIndicator(),
-                        imageUrl: widget.categoryEntity?.icon ?? "",
-                        errorWidget: (context, url, error) => Icon(
-                          Icons.error,
-                          color: Theme.of(context).textTheme.labelLarge?.color,
-                          size: 32.sp,
-                        ),
+                        errorIconSize: 32.sp,
                       ),
                     ),
                     Padding(

@@ -107,7 +107,8 @@ GoRouter goRouter = GoRouter(
     } else if (getItInstance<AppPreferences>().getUserInfo()?.loginStateEnum ==
             LoginStateEnum.unlogined &&
         !(state.uri.toString().endsWith(RoutesPath.signupPage) ||
-            state.uri.toString().endsWith(RoutesPath.otpPage))) {
+            state.uri.toString().endsWith(RoutesPath.otpPage) ||
+            state.uri.toString().endsWith(RoutesPath.resetPasswordPage))) {
       return RoutesPath.loginPage;
     }
   },
