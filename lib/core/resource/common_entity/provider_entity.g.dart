@@ -12,7 +12,7 @@ _ProviderEntity _$ProviderEntityFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String? ?? "",
       email: json['email'] as String? ?? "",
       phone: json['phone'] as String? ?? "",
-      image: json['image'] as String? ?? "",
+      avatar: json['avatar'] as String? ?? "",
       created_at: json['created_at'] as String? ?? "",
       updated_at: json['updated_at'] as String? ?? "",
     );
@@ -23,7 +23,7 @@ Map<String, dynamic> _$ProviderEntityToJson(_ProviderEntity instance) =>
       'name': instance.name,
       'email': instance.email,
       'phone': instance.phone,
-      'image': instance.image,
+      'avatar': instance.avatar,
       'created_at': instance.created_at,
       'updated_at': instance.updated_at,
     };

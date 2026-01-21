@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ServiceDetailsModel {
 
- String? get Authorization; String? get Accept_Language; int? get service_id; int? get city_id; double? get min_price; double? get max_price; String? get sort_by;
+ String? get Authorization; String? get Accept_Language; int? get service_id; int? get city_id; String? get price; bool? get distance; String? get language; String? get lat; String? get lng;
 /// Create a copy of ServiceDetailsModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ServiceDetailsModelCopyWith<ServiceDetailsModel> get copyWith => _$ServiceDetai
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServiceDetailsModel&&(identical(other.Authorization, Authorization) || other.Authorization == Authorization)&&(identical(other.Accept_Language, Accept_Language) || other.Accept_Language == Accept_Language)&&(identical(other.service_id, service_id) || other.service_id == service_id)&&(identical(other.city_id, city_id) || other.city_id == city_id)&&(identical(other.min_price, min_price) || other.min_price == min_price)&&(identical(other.max_price, max_price) || other.max_price == max_price)&&(identical(other.sort_by, sort_by) || other.sort_by == sort_by));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServiceDetailsModel&&(identical(other.Authorization, Authorization) || other.Authorization == Authorization)&&(identical(other.Accept_Language, Accept_Language) || other.Accept_Language == Accept_Language)&&(identical(other.service_id, service_id) || other.service_id == service_id)&&(identical(other.city_id, city_id) || other.city_id == city_id)&&(identical(other.price, price) || other.price == price)&&(identical(other.distance, distance) || other.distance == distance)&&(identical(other.language, language) || other.language == language)&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.lng, lng) || other.lng == lng));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,Authorization,Accept_Language,service_id,city_id,min_price,max_price,sort_by);
+int get hashCode => Object.hash(runtimeType,Authorization,Accept_Language,service_id,city_id,price,distance,language,lat,lng);
 
 @override
 String toString() {
-  return 'ServiceDetailsModel(Authorization: $Authorization, Accept_Language: $Accept_Language, service_id: $service_id, city_id: $city_id, min_price: $min_price, max_price: $max_price, sort_by: $sort_by)';
+  return 'ServiceDetailsModel(Authorization: $Authorization, Accept_Language: $Accept_Language, service_id: $service_id, city_id: $city_id, price: $price, distance: $distance, language: $language, lat: $lat, lng: $lng)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ServiceDetailsModelCopyWith<$Res>  {
   factory $ServiceDetailsModelCopyWith(ServiceDetailsModel value, $Res Function(ServiceDetailsModel) _then) = _$ServiceDetailsModelCopyWithImpl;
 @useResult
 $Res call({
- String? Authorization, String? Accept_Language, int? service_id, int? city_id, double? min_price, double? max_price, String? sort_by
+ String? Authorization, String? Accept_Language, int? service_id, int? city_id, String? price, bool? distance, String? language, String? lat, String? lng
 });
 
 
@@ -65,15 +65,17 @@ class _$ServiceDetailsModelCopyWithImpl<$Res>
 
 /// Create a copy of ServiceDetailsModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? Authorization = freezed,Object? Accept_Language = freezed,Object? service_id = freezed,Object? city_id = freezed,Object? min_price = freezed,Object? max_price = freezed,Object? sort_by = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? Authorization = freezed,Object? Accept_Language = freezed,Object? service_id = freezed,Object? city_id = freezed,Object? price = freezed,Object? distance = freezed,Object? language = freezed,Object? lat = freezed,Object? lng = freezed,}) {
   return _then(_self.copyWith(
 Authorization: freezed == Authorization ? _self.Authorization : Authorization // ignore: cast_nullable_to_non_nullable
 as String?,Accept_Language: freezed == Accept_Language ? _self.Accept_Language : Accept_Language // ignore: cast_nullable_to_non_nullable
 as String?,service_id: freezed == service_id ? _self.service_id : service_id // ignore: cast_nullable_to_non_nullable
 as int?,city_id: freezed == city_id ? _self.city_id : city_id // ignore: cast_nullable_to_non_nullable
-as int?,min_price: freezed == min_price ? _self.min_price : min_price // ignore: cast_nullable_to_non_nullable
-as double?,max_price: freezed == max_price ? _self.max_price : max_price // ignore: cast_nullable_to_non_nullable
-as double?,sort_by: freezed == sort_by ? _self.sort_by : sort_by // ignore: cast_nullable_to_non_nullable
+as int?,price: freezed == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as String?,distance: freezed == distance ? _self.distance : distance // ignore: cast_nullable_to_non_nullable
+as bool?,language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
+as String?,lat: freezed == lat ? _self.lat : lat // ignore: cast_nullable_to_non_nullable
+as String?,lng: freezed == lng ? _self.lng : lng // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -159,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? Authorization,  String? Accept_Language,  int? service_id,  int? city_id,  double? min_price,  double? max_price,  String? sort_by)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? Authorization,  String? Accept_Language,  int? service_id,  int? city_id,  String? price,  bool? distance,  String? language,  String? lat,  String? lng)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ServiceDetailsModel() when $default != null:
-return $default(_that.Authorization,_that.Accept_Language,_that.service_id,_that.city_id,_that.min_price,_that.max_price,_that.sort_by);case _:
+return $default(_that.Authorization,_that.Accept_Language,_that.service_id,_that.city_id,_that.price,_that.distance,_that.language,_that.lat,_that.lng);case _:
   return orElse();
 
 }
@@ -180,10 +182,10 @@ return $default(_that.Authorization,_that.Accept_Language,_that.service_id,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? Authorization,  String? Accept_Language,  int? service_id,  int? city_id,  double? min_price,  double? max_price,  String? sort_by)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? Authorization,  String? Accept_Language,  int? service_id,  int? city_id,  String? price,  bool? distance,  String? language,  String? lat,  String? lng)  $default,) {final _that = this;
 switch (_that) {
 case _ServiceDetailsModel():
-return $default(_that.Authorization,_that.Accept_Language,_that.service_id,_that.city_id,_that.min_price,_that.max_price,_that.sort_by);case _:
+return $default(_that.Authorization,_that.Accept_Language,_that.service_id,_that.city_id,_that.price,_that.distance,_that.language,_that.lat,_that.lng);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +202,10 @@ return $default(_that.Authorization,_that.Accept_Language,_that.service_id,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? Authorization,  String? Accept_Language,  int? service_id,  int? city_id,  double? min_price,  double? max_price,  String? sort_by)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? Authorization,  String? Accept_Language,  int? service_id,  int? city_id,  String? price,  bool? distance,  String? language,  String? lat,  String? lng)?  $default,) {final _that = this;
 switch (_that) {
 case _ServiceDetailsModel() when $default != null:
-return $default(_that.Authorization,_that.Accept_Language,_that.service_id,_that.city_id,_that.min_price,_that.max_price,_that.sort_by);case _:
+return $default(_that.Authorization,_that.Accept_Language,_that.service_id,_that.city_id,_that.price,_that.distance,_that.language,_that.lat,_that.lng);case _:
   return null;
 
 }
@@ -215,16 +217,18 @@ return $default(_that.Authorization,_that.Accept_Language,_that.service_id,_that
 @JsonSerializable()
 
 class _ServiceDetailsModel implements ServiceDetailsModel {
-  const _ServiceDetailsModel({this.Authorization = "", this.Accept_Language = "", this.service_id = 0, this.city_id = 0, this.min_price = 0, this.max_price = 0, this.sort_by = "none"});
+  const _ServiceDetailsModel({this.Authorization = "", this.Accept_Language = "", this.service_id = 0, this.city_id = 0, this.price = "none", this.distance = false, this.language = "none", this.lat = "none", this.lng = "none"});
   factory _ServiceDetailsModel.fromJson(Map<String, dynamic> json) => _$ServiceDetailsModelFromJson(json);
 
 @override@JsonKey() final  String? Authorization;
 @override@JsonKey() final  String? Accept_Language;
 @override@JsonKey() final  int? service_id;
 @override@JsonKey() final  int? city_id;
-@override@JsonKey() final  double? min_price;
-@override@JsonKey() final  double? max_price;
-@override@JsonKey() final  String? sort_by;
+@override@JsonKey() final  String? price;
+@override@JsonKey() final  bool? distance;
+@override@JsonKey() final  String? language;
+@override@JsonKey() final  String? lat;
+@override@JsonKey() final  String? lng;
 
 /// Create a copy of ServiceDetailsModel
 /// with the given fields replaced by the non-null parameter values.
@@ -239,16 +243,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ServiceDetailsModel&&(identical(other.Authorization, Authorization) || other.Authorization == Authorization)&&(identical(other.Accept_Language, Accept_Language) || other.Accept_Language == Accept_Language)&&(identical(other.service_id, service_id) || other.service_id == service_id)&&(identical(other.city_id, city_id) || other.city_id == city_id)&&(identical(other.min_price, min_price) || other.min_price == min_price)&&(identical(other.max_price, max_price) || other.max_price == max_price)&&(identical(other.sort_by, sort_by) || other.sort_by == sort_by));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ServiceDetailsModel&&(identical(other.Authorization, Authorization) || other.Authorization == Authorization)&&(identical(other.Accept_Language, Accept_Language) || other.Accept_Language == Accept_Language)&&(identical(other.service_id, service_id) || other.service_id == service_id)&&(identical(other.city_id, city_id) || other.city_id == city_id)&&(identical(other.price, price) || other.price == price)&&(identical(other.distance, distance) || other.distance == distance)&&(identical(other.language, language) || other.language == language)&&(identical(other.lat, lat) || other.lat == lat)&&(identical(other.lng, lng) || other.lng == lng));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,Authorization,Accept_Language,service_id,city_id,min_price,max_price,sort_by);
+int get hashCode => Object.hash(runtimeType,Authorization,Accept_Language,service_id,city_id,price,distance,language,lat,lng);
 
 @override
 String toString() {
-  return 'ServiceDetailsModel(Authorization: $Authorization, Accept_Language: $Accept_Language, service_id: $service_id, city_id: $city_id, min_price: $min_price, max_price: $max_price, sort_by: $sort_by)';
+  return 'ServiceDetailsModel(Authorization: $Authorization, Accept_Language: $Accept_Language, service_id: $service_id, city_id: $city_id, price: $price, distance: $distance, language: $language, lat: $lat, lng: $lng)';
 }
 
 
@@ -259,7 +263,7 @@ abstract mixin class _$ServiceDetailsModelCopyWith<$Res> implements $ServiceDeta
   factory _$ServiceDetailsModelCopyWith(_ServiceDetailsModel value, $Res Function(_ServiceDetailsModel) _then) = __$ServiceDetailsModelCopyWithImpl;
 @override @useResult
 $Res call({
- String? Authorization, String? Accept_Language, int? service_id, int? city_id, double? min_price, double? max_price, String? sort_by
+ String? Authorization, String? Accept_Language, int? service_id, int? city_id, String? price, bool? distance, String? language, String? lat, String? lng
 });
 
 
@@ -276,15 +280,17 @@ class __$ServiceDetailsModelCopyWithImpl<$Res>
 
 /// Create a copy of ServiceDetailsModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? Authorization = freezed,Object? Accept_Language = freezed,Object? service_id = freezed,Object? city_id = freezed,Object? min_price = freezed,Object? max_price = freezed,Object? sort_by = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? Authorization = freezed,Object? Accept_Language = freezed,Object? service_id = freezed,Object? city_id = freezed,Object? price = freezed,Object? distance = freezed,Object? language = freezed,Object? lat = freezed,Object? lng = freezed,}) {
   return _then(_ServiceDetailsModel(
 Authorization: freezed == Authorization ? _self.Authorization : Authorization // ignore: cast_nullable_to_non_nullable
 as String?,Accept_Language: freezed == Accept_Language ? _self.Accept_Language : Accept_Language // ignore: cast_nullable_to_non_nullable
 as String?,service_id: freezed == service_id ? _self.service_id : service_id // ignore: cast_nullable_to_non_nullable
 as int?,city_id: freezed == city_id ? _self.city_id : city_id // ignore: cast_nullable_to_non_nullable
-as int?,min_price: freezed == min_price ? _self.min_price : min_price // ignore: cast_nullable_to_non_nullable
-as double?,max_price: freezed == max_price ? _self.max_price : max_price // ignore: cast_nullable_to_non_nullable
-as double?,sort_by: freezed == sort_by ? _self.sort_by : sort_by // ignore: cast_nullable_to_non_nullable
+as int?,price: freezed == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as String?,distance: freezed == distance ? _self.distance : distance // ignore: cast_nullable_to_non_nullable
+as bool?,language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
+as String?,lat: freezed == lat ? _self.lat : lat // ignore: cast_nullable_to_non_nullable
+as String?,lng: freezed == lng ? _self.lng : lng // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

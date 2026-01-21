@@ -110,7 +110,6 @@ class _SignupPageState extends State<SignupPage> {
             listener: (context, getPositionState) {
               getPositionState.when(
                 initial: () {
-                  showMessage(message: "ini", context: context);
                   setState(() {
                     isSignupButtonLoading = false;
                   });

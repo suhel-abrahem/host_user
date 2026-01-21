@@ -77,7 +77,8 @@ class CodegenLoader extends AssetLoader{
     "unexpectedErrorOccurred": "حدث خطأ غير متوقع",
     "yourSessionHasExpiredPleaseLoginAgain": "انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى.",
     "ok": "موافق",
-    "tryAgain": "حاول مرة أخرى"
+    "tryAgain": "حاول مرة أخرى",
+    "clear": "مسح"
   },
   "theme": {
     "choose": "اختر سمة",
@@ -352,7 +353,15 @@ class CodegenLoader extends AssetLoader{
       "price": "السعر",
       "language": "اللغة",
       "city": "المدينة",
-      "none": "لا شيء"
+      "none": "لا شيء",
+      "max": "الأقصى",
+      "min": "الأدنى",
+      "ar": "العربية",
+      "en": "الإنجليزية",
+      "ku": "الكردية",
+      "lat": "خط العرض",
+      "lng": "خط الطول",
+      "setYourLocation": "حدد موقعك"
     }
   },
   "providerDetailsPage": {
@@ -493,7 +502,8 @@ static const Map<String,dynamic> _en = {
     "unexpectedErrorOccurred": "An unexpected error occurred",
     "yourSessionHasExpiredPleaseLoginAgain": "Your session has expired. Please login again.",
     "ok": "OK",
-    "tryAgain": "Try again"
+    "tryAgain": "Try again",
+    "clear": "Clear"
   },
   "theme": {
     "choose": "Choose theme",
@@ -768,7 +778,15 @@ static const Map<String,dynamic> _en = {
       "price": "Price",
       "language": "Language",
       "city": "City",
-      "none": "None"
+      "none": "None",
+      "max": "Maximum",
+      "min": "Minimum",
+      "ar": "Arabic",
+      "en": "English",
+      "ku": "Kurdish",
+      "lat": "Latitude",
+      "lng": "Longitude",
+      "setYourLocation": "Set your location"
     }
   },
   "providerDetailsPage": {
@@ -909,7 +927,8 @@ static const Map<String,dynamic> _fa = {
     "unexpectedErrorOccurred": "هەڵەیەکی نەهەڵبژاردوو ڕوودەدات",
     "yourSessionHasExpiredPleaseLoginAgain": "کاتی نیشتەجێبوونت کۆتایی هات. تکایە دووبارە بچۆ ژوورەوە.",
     "ok": "باشە",
-    "tryAgain": "دووبارە هەوڵبدەرەوە"
+    "tryAgain": "دووبارە هەوڵبدەرەوە",
+    "clear": "سڕینەوە"
   },
   "theme": {
     "choose": "مۆدێلێک هەڵبژێرە",
@@ -1184,7 +1203,15 @@ static const Map<String,dynamic> _fa = {
       "price": "نرخ",
       "language": "زمان",
       "city": "شار",
-      "none": "هیچ"
+      "none": "هیچ",
+      "max": "زیاترین",
+      "min": "کەمترین",
+      "ar": "عربی",
+      "en": "انگلیسی",
+      "ku": "کردی",
+      "lat": " عرض جغرافیایی",
+      "lng": "طول جغرافیایی",
+      "setYourLocation": "شوێنەکەت دیاری بکە"
     }
   },
   "providerDetailsPage": {

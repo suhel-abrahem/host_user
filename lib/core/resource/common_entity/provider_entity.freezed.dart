@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ProviderEntity {
 
- int? get id; String? get name; String? get email; String? get phone; String? get image; String? get created_at; String? get updated_at;
+ int? get id; String? get name; String? get email; String? get phone; String? get avatar; String? get created_at; String? get updated_at;
 /// Create a copy of ProviderEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ProviderEntityCopyWith<ProviderEntity> get copyWith => _$ProviderEntityCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProviderEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.image, image) || other.image == image)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updated_at, updated_at) || other.updated_at == updated_at));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProviderEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.avatar, avatar) || other.avatar == avatar)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updated_at, updated_at) || other.updated_at == updated_at));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,email,phone,image,created_at,updated_at);
+int get hashCode => Object.hash(runtimeType,id,name,email,phone,avatar,created_at,updated_at);
 
 @override
 String toString() {
-  return 'ProviderEntity(id: $id, name: $name, email: $email, phone: $phone, image: $image, created_at: $created_at, updated_at: $updated_at)';
+  return 'ProviderEntity(id: $id, name: $name, email: $email, phone: $phone, avatar: $avatar, created_at: $created_at, updated_at: $updated_at)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ProviderEntityCopyWith<$Res>  {
   factory $ProviderEntityCopyWith(ProviderEntity value, $Res Function(ProviderEntity) _then) = _$ProviderEntityCopyWithImpl;
 @useResult
 $Res call({
- int? id, String? name, String? email, String? phone, String? image, String? created_at, String? updated_at
+ int? id, String? name, String? email, String? phone, String? avatar, String? created_at, String? updated_at
 });
 
 
@@ -65,13 +65,13 @@ class _$ProviderEntityCopyWithImpl<$Res>
 
 /// Create a copy of ProviderEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = freezed,Object? email = freezed,Object? phone = freezed,Object? image = freezed,Object? created_at = freezed,Object? updated_at = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = freezed,Object? email = freezed,Object? phone = freezed,Object? avatar = freezed,Object? created_at = freezed,Object? updated_at = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
-as String?,image: freezed == image ? _self.image : image // ignore: cast_nullable_to_non_nullable
+as String?,avatar: freezed == avatar ? _self.avatar : avatar // ignore: cast_nullable_to_non_nullable
 as String?,created_at: freezed == created_at ? _self.created_at : created_at // ignore: cast_nullable_to_non_nullable
 as String?,updated_at: freezed == updated_at ? _self.updated_at : updated_at // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -159,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  String? name,  String? email,  String? phone,  String? image,  String? created_at,  String? updated_at)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  String? name,  String? email,  String? phone,  String? avatar,  String? created_at,  String? updated_at)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProviderEntity() when $default != null:
-return $default(_that.id,_that.name,_that.email,_that.phone,_that.image,_that.created_at,_that.updated_at);case _:
+return $default(_that.id,_that.name,_that.email,_that.phone,_that.avatar,_that.created_at,_that.updated_at);case _:
   return orElse();
 
 }
@@ -180,10 +180,10 @@ return $default(_that.id,_that.name,_that.email,_that.phone,_that.image,_that.cr
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  String? name,  String? email,  String? phone,  String? image,  String? created_at,  String? updated_at)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  String? name,  String? email,  String? phone,  String? avatar,  String? created_at,  String? updated_at)  $default,) {final _that = this;
 switch (_that) {
 case _ProviderEntity():
-return $default(_that.id,_that.name,_that.email,_that.phone,_that.image,_that.created_at,_that.updated_at);case _:
+return $default(_that.id,_that.name,_that.email,_that.phone,_that.avatar,_that.created_at,_that.updated_at);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +200,10 @@ return $default(_that.id,_that.name,_that.email,_that.phone,_that.image,_that.cr
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  String? name,  String? email,  String? phone,  String? image,  String? created_at,  String? updated_at)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  String? name,  String? email,  String? phone,  String? avatar,  String? created_at,  String? updated_at)?  $default,) {final _that = this;
 switch (_that) {
 case _ProviderEntity() when $default != null:
-return $default(_that.id,_that.name,_that.email,_that.phone,_that.image,_that.created_at,_that.updated_at);case _:
+return $default(_that.id,_that.name,_that.email,_that.phone,_that.avatar,_that.created_at,_that.updated_at);case _:
   return null;
 
 }
@@ -215,14 +215,14 @@ return $default(_that.id,_that.name,_that.email,_that.phone,_that.image,_that.cr
 @JsonSerializable()
 
 class _ProviderEntity implements ProviderEntity {
-  const _ProviderEntity({this.id = 0, this.name = "", this.email = "", this.phone = "", this.image = "", this.created_at = "", this.updated_at = ""});
+  const _ProviderEntity({this.id = 0, this.name = "", this.email = "", this.phone = "", this.avatar = "", this.created_at = "", this.updated_at = ""});
   factory _ProviderEntity.fromJson(Map<String, dynamic> json) => _$ProviderEntityFromJson(json);
 
 @override@JsonKey() final  int? id;
 @override@JsonKey() final  String? name;
 @override@JsonKey() final  String? email;
 @override@JsonKey() final  String? phone;
-@override@JsonKey() final  String? image;
+@override@JsonKey() final  String? avatar;
 @override@JsonKey() final  String? created_at;
 @override@JsonKey() final  String? updated_at;
 
@@ -239,16 +239,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProviderEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.image, image) || other.image == image)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updated_at, updated_at) || other.updated_at == updated_at));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProviderEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.avatar, avatar) || other.avatar == avatar)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updated_at, updated_at) || other.updated_at == updated_at));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,email,phone,image,created_at,updated_at);
+int get hashCode => Object.hash(runtimeType,id,name,email,phone,avatar,created_at,updated_at);
 
 @override
 String toString() {
-  return 'ProviderEntity(id: $id, name: $name, email: $email, phone: $phone, image: $image, created_at: $created_at, updated_at: $updated_at)';
+  return 'ProviderEntity(id: $id, name: $name, email: $email, phone: $phone, avatar: $avatar, created_at: $created_at, updated_at: $updated_at)';
 }
 
 
@@ -259,7 +259,7 @@ abstract mixin class _$ProviderEntityCopyWith<$Res> implements $ProviderEntityCo
   factory _$ProviderEntityCopyWith(_ProviderEntity value, $Res Function(_ProviderEntity) _then) = __$ProviderEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int? id, String? name, String? email, String? phone, String? image, String? created_at, String? updated_at
+ int? id, String? name, String? email, String? phone, String? avatar, String? created_at, String? updated_at
 });
 
 
@@ -276,13 +276,13 @@ class __$ProviderEntityCopyWithImpl<$Res>
 
 /// Create a copy of ProviderEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = freezed,Object? email = freezed,Object? phone = freezed,Object? image = freezed,Object? created_at = freezed,Object? updated_at = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = freezed,Object? email = freezed,Object? phone = freezed,Object? avatar = freezed,Object? created_at = freezed,Object? updated_at = freezed,}) {
   return _then(_ProviderEntity(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
-as String?,image: freezed == image ? _self.image : image // ignore: cast_nullable_to_non_nullable
+as String?,avatar: freezed == avatar ? _self.avatar : avatar // ignore: cast_nullable_to_non_nullable
 as String?,created_at: freezed == created_at ? _self.created_at : created_at // ignore: cast_nullable_to_non_nullable
 as String?,updated_at: freezed == updated_at ? _self.updated_at : updated_at // ignore: cast_nullable_to_non_nullable
 as String?,

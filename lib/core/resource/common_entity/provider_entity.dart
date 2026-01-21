@@ -10,7 +10,7 @@ abstract class ProviderEntity with _$ProviderEntity {
     @Default("") String? name,
     @Default("") String? email,
     @Default("") String? phone,
-    @Default("") String? image,
+    @Default("") String? avatar,
     @Default("") String? created_at,
     @Default("") String? updated_at,
   }) = _ProviderEntity;

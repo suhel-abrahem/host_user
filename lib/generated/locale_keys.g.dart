@@ -64,6 +64,7 @@ abstract class  LocaleKeys {
   static const common_yourSessionHasExpiredPleaseLoginAgain = 'common.yourSessionHasExpiredPleaseLoginAgain';
   static const common_ok = 'common.ok';
   static const common_tryAgain = 'common.tryAgain';
+  static const common_clear = 'common.clear';
   static const common = 'common';
   static const theme_choose = 'theme.choose';
   static const theme_system = 'theme.system';
@@ -326,6 +327,14 @@ abstract class  LocaleKeys {
   static const serviceDetailsPage_sort_language = 'serviceDetailsPage.sort.language';
   static const serviceDetailsPage_sort_city = 'serviceDetailsPage.sort.city';
   static const serviceDetailsPage_sort_none = 'serviceDetailsPage.sort.none';
+  static const serviceDetailsPage_sort_max = 'serviceDetailsPage.sort.max';
+  static const serviceDetailsPage_sort_min = 'serviceDetailsPage.sort.min';
+  static const serviceDetailsPage_sort_ar = 'serviceDetailsPage.sort.ar';
+  static const serviceDetailsPage_sort_en = 'serviceDetailsPage.sort.en';
+  static const serviceDetailsPage_sort_ku = 'serviceDetailsPage.sort.ku';
+  static const serviceDetailsPage_sort_lat = 'serviceDetailsPage.sort.lat';
+  static const serviceDetailsPage_sort_lng = 'serviceDetailsPage.sort.lng';
+  static const serviceDetailsPage_sort_setYourLocation = 'serviceDetailsPage.sort.setYourLocation';
   static const serviceDetailsPage_sort = 'serviceDetailsPage.sort';
   static const serviceDetailsPage = 'serviceDetailsPage';
   static const providerDetailsPage_title = 'providerDetailsPage.title';

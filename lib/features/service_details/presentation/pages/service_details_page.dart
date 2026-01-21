@@ -1,11 +1,14 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:glass/glass.dart';
 import 'package:hosta_user/config/app/app_preferences.dart';
 
@@ -35,6 +38,12 @@ import 'package:hosta_user/features/service_details/presentation/bloc/time_slots
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../generated/locale_keys.g.dart';
+import '../../../signup_page/data/models/city_model.dart';
+import '../../../signup_page/data/models/country_model.dart';
+import '../../../signup_page/domain/entities/country_entity.dart';
+import '../../../signup_page/presentation/bloc/get_cities_bloc.dart';
+import '../../../signup_page/presentation/bloc/get_countries_bloc.dart';
+import '../../../signup_page/presentation/bloc/get_position_bloc.dart';
 import '../../data/models/service_details_model.dart';
 import '../bloc/store_booking_bloc.dart';
 import '../widgets/seven_days_calender.dart';
@@ -68,6 +77,16 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
       DraggableScrollableController();
   DraggableScrollableController bookingScheduleScrollableController =
       DraggableScrollableController();
+
+  int requestLocationPermissionCounter = 0;
+  CityModel? cityModel = CityModel();
+  List? governmentList = [];
+  String? selectedGovernment;
+  bool filteringByCity = false;
+  int? selectedCountryId;
+  String? selectedCountry;
+  List? countriesList = [];
+  CountryModel? countryModel = CountryModel();
   Future<void> pickImages() async {
     ImageSource? source = ImageSource.gallery;
     int imagesNumber = images?.length ?? 0;
@@ -119,8 +138,10 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                             padding: EdgeInsetsDirectional.only(end: 12.w),
                             child: Icon(
                               Icons.photo_library,
-                              color: ColorManager.darkTextColor,
                               size: 24.sp,
+                              color: Theme.of(
+                                context,
+                              ).textTheme.labelLarge?.color,
                             ),
                           ),
                           Text(
@@ -131,7 +152,6 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                   fontFamily: FontConstants.fontFamily(
                                     context.locale,
                                   ),
-                                  color: ColorManager.darkTextColor,
                                 ),
                           ),
                         ],
@@ -149,8 +169,10 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                             padding: EdgeInsetsDirectional.only(end: 12.w),
                             child: Icon(
                               Icons.camera_alt,
-                              color: ColorManager.darkTextColor,
                               size: 24.sp,
+                              color: Theme.of(
+                                context,
+                              ).textTheme.labelLarge?.color,
                             ),
                           ),
                           Text(
@@ -160,7 +182,6 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                   fontFamily: FontConstants.fontFamily(
                                     context.locale,
                                   ),
-                                  color: ColorManager.darkTextColor,
                                 ),
                           ),
                         ],
@@ -202,6 +223,7 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
   @override
   void initState() {
     super.initState();
+    cityModel = cityModel?.copyWith(country_id: 1);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       bookingDetailsScrollableController.addListener(() {
         if (bookingDetailsScrollableController.isAttached) {
@@ -255,6 +277,13 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
 
   @override
   void didUpdateWidget(covariant ServiceDetailsPage oldWidget) {
+    countryModel = countryModel?.copyWith(
+      acceptLanguage: Helper.getCountryCode(context),
+    );
+    cityModel = cityModel?.copyWith(
+      country_id: selectedCountryId ?? 1,
+      acceptLanguage: Helper.getCountryCode(context),
+    );
     serviceDetailsModel = ServiceDetailsModel(
       Accept_Language: Helper.getCountryCode(context),
 
@@ -429,91 +458,1089 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                       ),
                       child: SizedBox(
                         height: 40.h,
-                        child:
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              LocaleKeys.serviceDetailsPage_availableProviders
+                                  .tr(),
+                              textAlign: TextAlign.start,
+                              style: Theme.of(context).textTheme.labelMedium
+                                  ?.copyWith(
+                                    fontFamily: FontConstants.fontFamily(
+                                      context.locale,
+                                    ),
+                                  ),
+                            ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                  LocaleKeys
-                                      .serviceDetailsPage_availableProviders
-                                      .tr(),
-                                  textAlign: TextAlign.start,
-                                  style: Theme.of(context).textTheme.labelMedium
-                                      ?.copyWith(
-                                        fontFamily: FontConstants.fontFamily(
-                                          context.locale,
+                                Padding(
+                                  padding: EdgeInsetsDirectional.only(end: 8.w),
+                                  child: Text(
+                                    "${LocaleKeys.serviceDetailsPage_sort_sortBy.tr()}:",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge
+                                        ?.copyWith(
+                                          fontFamily: FontConstants.fontFamily(
+                                            context.locale,
+                                          ),
                                         ),
-                                      ),
+                                  ),
                                 ),
                                 Builder(
                                   builder: (context) {
-                                    return DropDownWithLabel(
-                                      items: [
-                                        "none",
-                                        "price",
-                                        "distance",
-                                        "language",
-                                        "city",
-                                      ],
-                                      onChange: (value) {
-                                        serviceDetailsModel =
-                                            serviceDetailsModel.copyWith(
-                                              sort_by: value,
-                                            );
-                                        context.read<ServiceDetailsBloc>().add(
-                                          ServiceDetailsEvent.getServiceDetails(
-                                            serviceDetailsModel:
-                                                serviceDetailsModel,
+                                    return ElevatedButton.icon(
+                                      style: Theme.of(context)
+                                          .elevatedButtonTheme
+                                          .style
+                                          ?.copyWith(
+                                            padding: WidgetStatePropertyAll(
+                                              EdgeInsets.zero,
+                                            ),
+                                            shape: WidgetStatePropertyAll(
+                                              CircleBorder(),
+                                            ),
                                           ),
+                                      onPressed: () async {
+                                        showDialog(
+                                          context: context,
+                                          builder: (dContext) {
+                                            return BlocProvider.value(
+                                              value: context
+                                                  .read<ServiceDetailsBloc>(),
+                                              child: AlertDialog(
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .scaffoldBackgroundColor
+                                                        .withValues(
+                                                          alpha: 0.65,
+                                                        ),
+                                                title: Text(
+                                                  LocaleKeys
+                                                      .serviceDetailsPage_sort_sortBy
+                                                      .tr(),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .labelLarge
+                                                      ?.copyWith(
+                                                        fontFamily:
+                                                            FontConstants.fontFamily(
+                                                              context.locale,
+                                                            ),
+                                                      ),
+                                                ),
+                                                content: SizedBox(
+                                                  width: 300.w,
+
+                                                  child: ListView(
+                                                    shrinkWrap: true,
+                                                    children: [
+                                                      //price
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            LocaleKeys
+                                                                .serviceDetailsPage_sort_price
+                                                                .tr(),
+                                                            style: Theme.of(context)
+                                                                .textTheme
+                                                                .labelLarge
+                                                                ?.copyWith(
+                                                                  fontFamily:
+                                                                      FontConstants.fontFamily(
+                                                                        context
+                                                                            .locale,
+                                                                      ),
+                                                                ),
+                                                          ),
+                                                          DropDownWithLabel(
+                                                            items: [
+                                                              "max",
+                                                              "min",
+                                                              "none",
+                                                            ],
+                                                            onChange: (value) {
+                                                              serviceDetailsModel =
+                                                                  serviceDetailsModel
+                                                                      .copyWith(
+                                                                        price:
+                                                                            value,
+                                                                      );
+                                                            },
+                                                            stringConverter: (s) {
+                                                              switch (s) {
+                                                                case "max":
+                                                                  return LocaleKeys
+                                                                      .serviceDetailsPage_sort_max
+                                                                      .tr();
+                                                                case "min":
+                                                                  return LocaleKeys
+                                                                      .serviceDetailsPage_sort_min
+                                                                      .tr();
+                                                                case "none":
+                                                                  return LocaleKeys
+                                                                      .serviceDetailsPage_sort_none
+                                                                      .tr();
+                                                                default:
+                                                                  return "";
+                                                              }
+                                                            },
+                                                            value:
+                                                                serviceDetailsModel
+                                                                    .price,
+                                                            dropDownWidth:
+                                                                150.w,
+                                                            dropDownHeight:
+                                                                40.h,
+                                                            isLoading: false,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      //distance
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.symmetric(
+                                                              vertical: 12.h,
+                                                            ),
+                                                        child: StatefulBuilder(
+                                                          builder: (context, setState) {
+                                                            return Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Text(
+                                                                      LocaleKeys
+                                                                          .serviceDetailsPage_sort_distance
+                                                                          .tr(),
+                                                                      style: Theme.of(context)
+                                                                          .textTheme
+                                                                          .labelLarge
+                                                                          ?.copyWith(
+                                                                            fontFamily: FontConstants.fontFamily(
+                                                                              context.locale,
+                                                                            ),
+                                                                          ),
+                                                                    ),
+                                                                    Switch.adaptive(
+                                                                      value:
+                                                                          serviceDetailsModel
+                                                                              .distance ??
+                                                                          false,
+                                                                      onChanged: (value) {
+                                                                        setState(() {
+                                                                          serviceDetailsModel = serviceDetailsModel.copyWith(
+                                                                            distance:
+                                                                                value,
+                                                                          );
+                                                                        });
+                                                                      },
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                AnimatedSwitcher(
+                                                                  duration:
+                                                                      Duration(
+                                                                        milliseconds:
+                                                                            300,
+                                                                      ),
+                                                                  child: Visibility(
+                                                                    key: ValueKey(
+                                                                      serviceDetailsModel
+                                                                          .distance,
+                                                                    ),
+                                                                    visible:
+                                                                        serviceDetailsModel
+                                                                            .distance ??
+                                                                        false,
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        Text(
+                                                                          LocaleKeys
+                                                                              .serviceDetailsPage_sort_setYourLocation
+                                                                              .tr(),
+                                                                          style:
+                                                                              Theme.of(
+                                                                                context,
+                                                                              ).textTheme.labelLarge?.copyWith(
+                                                                                fontFamily: FontConstants.fontFamily(
+                                                                                  context.locale,
+                                                                                ),
+                                                                              ),
+                                                                        ),
+                                                                        BlocProvider<
+                                                                          GetPositionBloc
+                                                                        >(
+                                                                          create:
+                                                                              (
+                                                                                context,
+                                                                              ) =>
+                                                                                  getItInstance<
+                                                                                    GetPositionBloc
+                                                                                  >(),
+                                                                          child:
+                                                                              BlocListener<
+                                                                                GetPositionBloc,
+                                                                                GetPositionState
+                                                                              >(
+                                                                                listener:
+                                                                                    (
+                                                                                      context,
+                                                                                      getPositionState,
+                                                                                    ) {
+                                                                                      print(
+                                                                                        "get position state: //$getPositionState",
+                                                                                      );
+                                                                                      getPositionState.when(
+                                                                                        initial: () {},
+                                                                                        loading: () {},
+                                                                                        locationPermissionDenied: () async {
+                                                                                          showMessage(
+                                                                                            message: LocaleKeys.common_youMustAcceptLocationPermission.tr(),
+                                                                                            context: context,
+                                                                                          );
+
+                                                                                          await Geolocator.requestPermission();
+                                                                                          requestLocationPermissionCounter++;
+                                                                                          if (requestLocationPermissionCounter >=
+                                                                                              2) {
+                                                                                            await Geolocator.openAppSettings();
+                                                                                          }
+                                                                                        },
+                                                                                        locationPermissionDeniedForever: () async {
+                                                                                          showMessage(
+                                                                                            message: LocaleKeys.common_youDeniedLocationPermissionForever.tr(),
+                                                                                            context: context,
+                                                                                          );
+
+                                                                                          await Geolocator.requestPermission();
+                                                                                          requestLocationPermissionCounter++;
+                                                                                          await Geolocator.openAppSettings();
+                                                                                        },
+                                                                                        locationDisabled: () async {
+                                                                                          showMessage(
+                                                                                            message: LocaleKeys.common_youMustEnableLocationServices.tr(),
+                                                                                            context: context,
+                                                                                          );
+
+                                                                                          await Geolocator.openAppSettings();
+                                                                                          await Geolocator.openLocationSettings();
+                                                                                        },
+                                                                                        got:
+                                                                                            (
+                                                                                              newPositionEntity,
+                                                                                            ) {
+                                                                                              setState(
+                                                                                                () {
+                                                                                                  serviceDetailsModel = serviceDetailsModel.copyWith(
+                                                                                                    lat: newPositionEntity?.lat,
+                                                                                                    lng: newPositionEntity?.long,
+                                                                                                  );
+                                                                                                },
+                                                                                              );
+                                                                                              requestLocationPermissionCounter = 0;
+                                                                                            },
+                                                                                        error: () {
+                                                                                          showMessage(
+                                                                                            message: LocaleKeys.common_anErrorHasOccurs.tr(),
+                                                                                            context: context,
+                                                                                          );
+                                                                                        },
+                                                                                      );
+                                                                                    },
+                                                                                child: Builder(
+                                                                                  builder:
+                                                                                      (
+                                                                                        bContext,
+                                                                                      ) {
+                                                                                        return SizedBox(
+                                                                                          height: 30.h,
+                                                                                          width: 30.w,
+                                                                                          child: ElevatedButton.icon(
+                                                                                            style:
+                                                                                                Theme.of(
+                                                                                                  context,
+                                                                                                ).elevatedButtonTheme.style?.copyWith(
+                                                                                                  padding: WidgetStatePropertyAll(
+                                                                                                    EdgeInsets.zero,
+                                                                                                  ),
+                                                                                                  shape: WidgetStatePropertyAll(
+                                                                                                    CircleBorder(),
+                                                                                                  ),
+                                                                                                ),
+                                                                                            onPressed: () {
+                                                                                              bContext
+                                                                                                  .read<
+                                                                                                    GetPositionBloc
+                                                                                                  >()
+                                                                                                  .add(
+                                                                                                    GetPositionEvent.get(),
+                                                                                                  );
+                                                                                            },
+                                                                                            label:
+                                                                                                BlocBuilder<
+                                                                                                  GetPositionBloc,
+                                                                                                  GetPositionState
+                                                                                                >(
+                                                                                                  builder:
+                                                                                                      (
+                                                                                                        context,
+                                                                                                        state,
+                                                                                                      ) {
+                                                                                                        if (state
+                                                                                                            is GetPositionStateLoading) {
+                                                                                                          return SizedBox(
+                                                                                                            width: 20.w,
+                                                                                                            height: 20.h,
+                                                                                                            child: CircularProgressIndicator(
+                                                                                                              color: Colors.white,
+                                                                                                              strokeWidth: 2,
+                                                                                                            ),
+                                                                                                          );
+                                                                                                        } else if (state
+                                                                                                            is GetPositionStateInitial) {
+                                                                                                          return Icon(
+                                                                                                            (serviceDetailsModel.lat !=
+                                                                                                                        "none" &&
+                                                                                                                    serviceDetailsModel.lng !=
+                                                                                                                        "none")
+                                                                                                                ? Icons.check
+                                                                                                                : Icons.location_on,
+                                                                                                            color: Colors.white,
+                                                                                                          );
+                                                                                                        } else if (state
+                                                                                                            is GetPositionStateGot) {
+                                                                                                          return Icon(
+                                                                                                            (serviceDetailsModel.lat !=
+                                                                                                                        "none" &&
+                                                                                                                    serviceDetailsModel.lng !=
+                                                                                                                        "none")
+                                                                                                                ? Icons.check
+                                                                                                                : Icons.location_on,
+                                                                                                            color: Colors.white,
+                                                                                                          );
+                                                                                                        } else {
+                                                                                                          return Icon(
+                                                                                                            (serviceDetailsModel.lat !=
+                                                                                                                        "none" &&
+                                                                                                                    serviceDetailsModel.lng !=
+                                                                                                                        "none")
+                                                                                                                ? Icons.check
+                                                                                                                : Icons.location_on,
+                                                                                                            color: Colors.white,
+                                                                                                          );
+                                                                                                        }
+                                                                                                      },
+                                                                                                ),
+                                                                                          ),
+                                                                                        );
+                                                                                      },
+                                                                                ),
+                                                                              ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
+                                                      //city
+                                                      StatefulBuilder(
+                                                        builder: (context, setState) {
+                                                          return Column(
+                                                            children: [
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Text(
+                                                                    LocaleKeys
+                                                                        .serviceDetailsPage_sort_city
+                                                                        .tr(),
+                                                                    style: Theme.of(context)
+                                                                        .textTheme
+                                                                        .labelLarge
+                                                                        ?.copyWith(
+                                                                          fontFamily: FontConstants.fontFamily(
+                                                                            context.locale,
+                                                                          ),
+                                                                        ),
+                                                                  ),
+                                                                  Switch.adaptive(
+                                                                    value:
+                                                                        filteringByCity,
+                                                                    onChanged: (newState) {
+                                                                      setState(() {
+                                                                        filteringByCity =
+                                                                            newState;
+                                                                      });
+                                                                    },
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              AnimatedSwitcher(
+                                                                duration: Duration(
+                                                                  milliseconds:
+                                                                      300,
+                                                                ),
+                                                                child: Visibility(
+                                                                  key: ValueKey(
+                                                                    filteringByCity,
+                                                                  ),
+                                                                  visible:
+                                                                      filteringByCity,
+                                                                  child: Padding(
+                                                                    padding: EdgeInsets.symmetric(
+                                                                      vertical:
+                                                                          12.h,
+                                                                    ),
+                                                                    child: BlocProvider(
+                                                                      create: (context) =>
+                                                                          getItInstance<
+                                                                              GetCountriesBloc
+                                                                            >()
+                                                                            ..add(
+                                                                              GetCountriesEvent.getCountries(
+                                                                                countryModel,
+                                                                              ),
+                                                                            ),
+                                                                      child:
+                                                                          BlocBuilder<
+                                                                            GetCountriesBloc,
+                                                                            GetCountriesState
+                                                                          >(
+                                                                            builder:
+                                                                                (
+                                                                                  context,
+                                                                                  state,
+                                                                                ) {
+                                                                                  return AnimatedSwitcher(
+                                                                                    duration: Duration(
+                                                                                      milliseconds: 300,
+                                                                                    ),
+                                                                                    child: SizedBox(
+                                                                                      key: ValueKey(
+                                                                                        state,
+                                                                                      ),
+                                                                                      child: state.when(
+                                                                                        initial: () => SizedBox(),
+                                                                                        loading: () => Container(
+                                                                                          width: 300.w,
+                                                                                          height: 50.h,
+                                                                                          decoration: BoxDecoration(
+                                                                                            border: Border.fromBorderSide(
+                                                                                              Theme.of(
+                                                                                                context,
+                                                                                              ).defaultBorderSide,
+                                                                                            ),
+                                                                                            borderRadius: BorderRadius.circular(
+                                                                                              12.r,
+                                                                                            ),
+                                                                                          ),
+                                                                                          child: Row(
+                                                                                            children: [
+                                                                                              Padding(
+                                                                                                padding: EdgeInsets.symmetric(
+                                                                                                  horizontal: 13.w,
+                                                                                                ),
+                                                                                                child: Text(
+                                                                                                  LocaleKeys.loginPage_country.tr(),
+                                                                                                  style:
+                                                                                                      Theme.of(
+                                                                                                        context,
+                                                                                                      ).textTheme.labelLarge?.copyWith(
+                                                                                                        fontFamily: FontConstants.fontFamily(
+                                                                                                          context.locale,
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              Expanded(
+                                                                                                child: Padding(
+                                                                                                  padding: EdgeInsets.symmetric(
+                                                                                                    horizontal: 12.w,
+                                                                                                  ),
+                                                                                                  child: LinearProgressIndicator(),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                        ),
+                                                                                        got:
+                                                                                            (
+                                                                                              List<
+                                                                                                CountryEntity?
+                                                                                              >?
+                                                                                              data,
+                                                                                            ) {
+                                                                                              countriesList = data;
+                                                                                              return GestureDetector(
+                                                                                                onTap: () async {
+                                                                                                  await showDialog(
+                                                                                                    context: context,
+                                                                                                    barrierDismissible: true,
+                                                                                                    builder:
+                                                                                                        (
+                                                                                                          context,
+                                                                                                        ) {
+                                                                                                          return BackdropFilter(
+                                                                                                            filter: ImageFilter.blur(
+                                                                                                              sigmaX: 2,
+                                                                                                              sigmaY: 2,
+                                                                                                            ),
+                                                                                                            child: AlertDialog(
+                                                                                                              backgroundColor:
+                                                                                                                  Theme.of(
+                                                                                                                    context,
+                                                                                                                  ).scaffoldBackgroundColor.withValues(
+                                                                                                                    alpha: 0.4,
+                                                                                                                  ),
+                                                                                                              title: Center(
+                                                                                                                child: Text(
+                                                                                                                  LocaleKeys.loginPage_country.tr(),
+                                                                                                                  style:
+                                                                                                                      Theme.of(
+                                                                                                                        context,
+                                                                                                                      ).textTheme.labelLarge?.copyWith(
+                                                                                                                        fontFamily: FontConstants.fontFamily(
+                                                                                                                          context.locale,
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                  textAlign: TextAlign.center,
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                              content: SizedBox(
+                                                                                                                width: 300.w,
+                                                                                                                height: 300.h,
+                                                                                                                child: ListView.separated(
+                                                                                                                  key: ValueKey(
+                                                                                                                    countriesList,
+                                                                                                                  ),
+                                                                                                                  itemBuilder:
+                                                                                                                      (
+                                                                                                                        context,
+                                                                                                                        index,
+                                                                                                                      ) {
+                                                                                                                        return ListTile(
+                                                                                                                          title: Text(
+                                                                                                                            countriesList?[index]?.name ??
+                                                                                                                                "",
+                                                                                                                            style:
+                                                                                                                                Theme.of(
+                                                                                                                                  context,
+                                                                                                                                ).textTheme.labelLarge?.copyWith(
+                                                                                                                                  fontFamily: FontConstants.fontFamily(
+                                                                                                                                    context.locale,
+                                                                                                                                  ),
+                                                                                                                                ),
+                                                                                                                          ),
+                                                                                                                          onTap: () {
+                                                                                                                            setState(
+                                                                                                                              () {
+                                                                                                                                selectedCountry = countriesList?[index]?.name;
+                                                                                                                                selectedCountryId = countriesList?[index]?.id;
+                                                                                                                              },
+                                                                                                                            );
+                                                                                                                            selectedCountryId = countriesList?[index]?.id;
+
+                                                                                                                            Navigator.pop(
+                                                                                                                              context,
+                                                                                                                            );
+                                                                                                                          },
+                                                                                                                        );
+                                                                                                                      },
+                                                                                                                  separatorBuilder:
+                                                                                                                      (
+                                                                                                                        context,
+                                                                                                                        index,
+                                                                                                                      ) => const Divider(
+                                                                                                                        height: 1,
+                                                                                                                      ),
+                                                                                                                  itemCount:
+                                                                                                                      countriesList?.length ??
+                                                                                                                      1,
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          );
+                                                                                                        },
+                                                                                                  );
+                                                                                                },
+                                                                                                child: AbsorbPointer(
+                                                                                                  child: CustomInputField(
+                                                                                                    key: ValueKey(
+                                                                                                      selectedCountry,
+                                                                                                    ),
+                                                                                                    width: 300.w,
+                                                                                                    isRequired: true,
+                                                                                                    initialValue: selectedCountry,
+                                                                                                    label: LocaleKeys.loginPage_country.tr(),
+                                                                                                    validator:
+                                                                                                        (
+                                                                                                          value,
+                                                                                                        ) {
+                                                                                                          if (value ==
+                                                                                                                  null ||
+                                                                                                              value.toString().trim().isEmpty) {
+                                                                                                            return LocaleKeys.loginPage_countryIsRequired.tr();
+                                                                                                          }
+
+                                                                                                          return null;
+                                                                                                        },
+                                                                                                  ),
+                                                                                                ),
+                                                                                              );
+                                                                                            },
+                                                                                        error:
+                                                                                            (
+                                                                                              String? message,
+                                                                                            ) => CustomInputField(
+                                                                                              enabled: false,
+                                                                                              width: 300.w,
+                                                                                              label: LocaleKeys.loginPage_country.tr(),
+                                                                                              maxLines: 1,
+                                                                                              initialValue: LocaleKeys.common_anErrorHasOccurs.tr(),
+                                                                                            ),
+                                                                                        noInternet: () => CustomInputField(
+                                                                                          enabled: false,
+                                                                                          width: 300.w,
+                                                                                          label: LocaleKeys.loginPage_country.tr(),
+                                                                                          maxLines: 5,
+                                                                                          initialValue: LocaleKeys.common_noInternetPullDown.tr(),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  );
+                                                                                },
+                                                                          ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              AnimatedSwitcher(
+                                                                duration: Duration(
+                                                                  milliseconds:
+                                                                      300,
+                                                                ),
+                                                                child: Visibility(
+                                                                  key: ValueKey(
+                                                                    selectedCountryId,
+                                                                  ),
+                                                                  visible:
+                                                                      filteringByCity &&
+                                                                      (selectedCountryId !=
+                                                                          null),
+                                                                  child: BlocProvider(
+                                                                    create: (context) =>
+                                                                        getItInstance<
+                                                                            GetCitiesBloc
+                                                                          >()
+                                                                          ..add(
+                                                                            GetCitiesEvent.getCities(
+                                                                              cityModel,
+                                                                            ),
+                                                                          ),
+                                                                    child:
+                                                                        BlocBuilder<
+                                                                          GetCitiesBloc,
+                                                                          GetCitiesState
+                                                                        >(
+                                                                          builder:
+                                                                              (
+                                                                                context,
+                                                                                state,
+                                                                              ) {
+                                                                                return AnimatedSwitcher(
+                                                                                  duration: Duration(
+                                                                                    milliseconds: 300,
+                                                                                  ),
+                                                                                  child: SizedBox(
+                                                                                    child: state.when(
+                                                                                      initial: () => SizedBox(),
+                                                                                      got:
+                                                                                          (
+                                                                                            data,
+                                                                                          ) {
+                                                                                            governmentList = data;
+                                                                                            return GestureDetector(
+                                                                                              onTap: () async {
+                                                                                                await showDialog(
+                                                                                                  context: context,
+                                                                                                  barrierDismissible: true,
+                                                                                                  builder:
+                                                                                                      (
+                                                                                                        context,
+                                                                                                      ) {
+                                                                                                        return BackdropFilter(
+                                                                                                          filter: ImageFilter.blur(
+                                                                                                            sigmaX: 2,
+                                                                                                            sigmaY: 2,
+                                                                                                          ),
+                                                                                                          child: AlertDialog(
+                                                                                                            backgroundColor:
+                                                                                                                Theme.of(
+                                                                                                                  context,
+                                                                                                                ).scaffoldBackgroundColor.withValues(
+                                                                                                                  alpha: 0.4,
+                                                                                                                ),
+                                                                                                            title: Center(
+                                                                                                              child: Text(
+                                                                                                                LocaleKeys.loginPage_city.tr(),
+                                                                                                                style:
+                                                                                                                    Theme.of(
+                                                                                                                      context,
+                                                                                                                    ).textTheme.labelLarge?.copyWith(
+                                                                                                                      fontFamily: FontConstants.fontFamily(
+                                                                                                                        context.locale,
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                textAlign: TextAlign.center,
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            content: SizedBox(
+                                                                                                              width: 300.w,
+                                                                                                              height: 300.h,
+                                                                                                              child: ListView.separated(
+                                                                                                                key: ValueKey(
+                                                                                                                  governmentList,
+                                                                                                                ),
+                                                                                                                itemBuilder:
+                                                                                                                    (
+                                                                                                                      context,
+                                                                                                                      index,
+                                                                                                                    ) {
+                                                                                                                      return ListTile(
+                                                                                                                        title: Text(
+                                                                                                                          governmentList?[index]?.name ??
+                                                                                                                              "",
+                                                                                                                          style:
+                                                                                                                              Theme.of(
+                                                                                                                                context,
+                                                                                                                              ).textTheme.labelLarge?.copyWith(
+                                                                                                                                fontFamily: FontConstants.fontFamily(
+                                                                                                                                  context.locale,
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                        ),
+                                                                                                                        onTap: () {
+                                                                                                                          setState(
+                                                                                                                            () {
+                                                                                                                              selectedGovernment = governmentList?[index]?.name;
+                                                                                                                            },
+                                                                                                                          );
+
+                                                                                                                          serviceDetailsModel = serviceDetailsModel.copyWith(
+                                                                                                                            city_id: governmentList?[index]?.id,
+                                                                                                                          );
+
+                                                                                                                          Navigator.pop(
+                                                                                                                            context,
+                                                                                                                          );
+                                                                                                                        },
+                                                                                                                      );
+                                                                                                                    },
+                                                                                                                separatorBuilder:
+                                                                                                                    (
+                                                                                                                      context,
+                                                                                                                      index,
+                                                                                                                    ) => const Divider(
+                                                                                                                      height: 1,
+                                                                                                                    ),
+                                                                                                                itemCount:
+                                                                                                                    governmentList?.length ??
+                                                                                                                    0,
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        );
+                                                                                                      },
+                                                                                                );
+                                                                                              },
+                                                                                              child: AbsorbPointer(
+                                                                                                child: CustomInputField(
+                                                                                                  key: ValueKey(
+                                                                                                    selectedGovernment,
+                                                                                                  ),
+                                                                                                  width: 300.w,
+                                                                                                  isRequired: true,
+                                                                                                  initialValue: selectedGovernment,
+
+                                                                                                  maxLines: 1,
+                                                                                                  label: LocaleKeys.loginPage_city.tr(),
+                                                                                                  validator:
+                                                                                                      (
+                                                                                                        value,
+                                                                                                      ) {
+                                                                                                        if (value ==
+                                                                                                                null ||
+                                                                                                            value.toString().trim().isEmpty) {
+                                                                                                          return LocaleKeys.loginPage_cityIsRequired.tr();
+                                                                                                        }
+
+                                                                                                        return null;
+                                                                                                      },
+                                                                                                ),
+                                                                                              ),
+                                                                                            );
+                                                                                          },
+                                                                                      loading: () => Container(
+                                                                                        width: 300.w,
+                                                                                        height: 50.h,
+                                                                                        decoration: BoxDecoration(
+                                                                                          border: Border.fromBorderSide(
+                                                                                            Theme.of(
+                                                                                              context,
+                                                                                            ).defaultBorderSide,
+                                                                                          ),
+                                                                                          borderRadius: BorderRadius.circular(
+                                                                                            12.r,
+                                                                                          ),
+                                                                                        ),
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Padding(
+                                                                                              padding: EdgeInsets.symmetric(
+                                                                                                horizontal: 13.w,
+                                                                                              ),
+                                                                                              child: Text(
+                                                                                                LocaleKeys.loginPage_city.tr(),
+                                                                                                style:
+                                                                                                    Theme.of(
+                                                                                                      context,
+                                                                                                    ).textTheme.labelLarge?.copyWith(
+                                                                                                      fontFamily: FontConstants.fontFamily(
+                                                                                                        context.locale,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            Expanded(
+                                                                                              child: Padding(
+                                                                                                padding: EdgeInsets.symmetric(
+                                                                                                  horizontal: 12.w,
+                                                                                                ),
+                                                                                                child: LinearProgressIndicator(),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+
+                                                                                      error:
+                                                                                          (
+                                                                                            String? message,
+                                                                                          ) => CustomInputField(
+                                                                                            width: 300.w,
+                                                                                            label: LocaleKeys.loginPage_city.tr(),
+                                                                                            enabled: false,
+                                                                                            maxLines: 2,
+                                                                                            initialValue: LocaleKeys.common_anErrorHasOccurs.tr(),
+                                                                                          ),
+                                                                                      noInternet: () => CustomInputField(
+                                                                                        enabled: false,
+                                                                                        width: 300.w,
+                                                                                        label: LocaleKeys.loginPage_city.tr(),
+                                                                                        maxLines: 5,
+                                                                                        initialValue: LocaleKeys.common_noInternetPullDown.tr(),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                );
+                                                                              },
+                                                                        ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            LocaleKeys
+                                                                .serviceDetailsPage_sort_language
+                                                                .tr(),
+                                                            style: Theme.of(context)
+                                                                .textTheme
+                                                                .labelLarge
+                                                                ?.copyWith(
+                                                                  fontFamily:
+                                                                      FontConstants.fontFamily(
+                                                                        context
+                                                                            .locale,
+                                                                      ),
+                                                                ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.symmetric(
+                                                                  vertical:
+                                                                      12.h,
+                                                                ),
+                                                            child: DropDownWithLabel<String>(
+                                                              items: [
+                                                                "ar",
+                                                                "ku",
+                                                                "en",
+                                                                "none",
+                                                              ],
+                                                              onChange: (value) {
+                                                                serviceDetailsModel =
+                                                                    serviceDetailsModel
+                                                                        .copyWith(
+                                                                          language:
+                                                                              value,
+                                                                        );
+                                                              },
+                                                              stringConverter: (value) {
+                                                                return switch (value) {
+                                                                  "ar" =>
+                                                                    LocaleKeys
+                                                                        .serviceDetailsPage_sort_ar
+                                                                        .tr(),
+                                                                  "en" =>
+                                                                    LocaleKeys
+                                                                        .serviceDetailsPage_sort_en
+                                                                        .tr(),
+                                                                  "ku" =>
+                                                                    LocaleKeys
+                                                                        .serviceDetailsPage_sort_ku
+                                                                        .tr(),
+                                                                  "none" =>
+                                                                    LocaleKeys
+                                                                        .serviceDetailsPage_sort_none
+                                                                        .tr(),
+                                                                  _ => "",
+                                                                };
+                                                              },
+                                                              value:
+                                                                  serviceDetailsModel
+                                                                      .language,
+                                                              isLoading: false,
+                                                              dropDownWidth:
+                                                                  150.w,
+                                                              dropDownHeight:
+                                                                  40.h,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(
+                                                        dContext,
+                                                      ).pop();
+                                                      serviceDetailsModel =
+                                                          serviceDetailsModel
+                                                              .copyWith(
+                                                                city_id: null,
+                                                                price: "min",
+                                                                distance: false,
+                                                                language:
+                                                                    "none",
+                                                                lat: "none",
+                                                                lng: "none",
+                                                              );
+                                                    },
+                                                    child: Text(
+                                                      LocaleKeys.common_clear
+                                                          .tr(),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .labelLarge
+                                                          ?.copyWith(
+                                                            fontFamily:
+                                                                FontConstants.fontFamily(
+                                                                  context
+                                                                      .locale,
+                                                                ),
+                                                            color: Theme.of(
+                                                              context,
+                                                            ).colorScheme.error,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                  Builder(
+                                                    builder: (context) {
+                                                      return TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(
+                                                            dContext,
+                                                          ).pop();
+                                                          context
+                                                              .read<
+                                                                ServiceDetailsBloc
+                                                              >()
+                                                              .add(
+                                                                ServiceDetailsEvent.getServiceDetails(
+                                                                  serviceDetailsModel:
+                                                                      serviceDetailsModel,
+                                                                ),
+                                                              );
+                                                        },
+                                                        child: Text(
+                                                          LocaleKeys.common_ok
+                                                              .tr(),
+                                                          style: Theme.of(context)
+                                                              .textTheme
+                                                              .labelLarge
+                                                              ?.copyWith(
+                                                                fontFamily:
+                                                                    FontConstants.fontFamily(
+                                                                      context
+                                                                          .locale,
+                                                                    ),
+                                                                color: Theme.of(
+                                                                  context,
+                                                                ).primaryColor,
+                                                              ),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
                                         );
                                       },
-                                      stringConverter: (value) {
-                                        switch (value) {
-                                          case "price":
-                                            return LocaleKeys
-                                                .serviceDetailsPage_sort_price
-                                                .tr();
-                                          case "distance":
-                                            return LocaleKeys
-                                                .serviceDetailsPage_sort_distance
-                                                .tr();
-                                          case "language":
-                                            return LocaleKeys
-                                                .serviceDetailsPage_sort_language
-                                                .tr();
-                                          case "city":
-                                            return LocaleKeys
-                                                .serviceDetailsPage_sort_city
-                                                .tr();
-                                          case "none":
-                                          default:
-                                            return LocaleKeys
-                                                .serviceDetailsPage_sort_none
-                                                .tr();
-                                        }
-                                      },
-                                      dropDownWidth: 100.w,
-                                      dropDownHeight: 40.h,
-                                      isLoading: false,
-                                      value:
-                                          serviceDetailsModel.sort_by ?? "none",
-                                      label: LocaleKeys
-                                          .serviceDetailsPage_sort_sortBy
-                                          .tr(),
-                                      labelPadding: EdgeInsetsDirectional.only(
-                                        top: 8.h,
-                                        end: 8.w,
+                                      label: Icon(
+                                        Icons.sort,
+                                        color: Colors.white,
+                                        size: 22.sp,
                                       ),
                                     );
                                   },
                                 ),
                               ],
-                            ).animate().scaleXY(
-                              duration: 600.ms,
-                              delay: 300.ms,
-                              curve: Curves.easeInOut,
                             ),
+                          ],
+                        ).animate().scaleXY(duration: 600.ms, delay: 300.ms, curve: Curves.easeInOut),
                       ),
                     ),
 
@@ -676,26 +1703,30 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                                               ),
                                                               Padding(
                                                                 padding:
-                                                                    EdgeInsetsDirectional.only(
-                                                                      start:
+                                                                    EdgeInsets.symmetric(
+                                                                      horizontal:
                                                                           4.w,
                                                                     ),
-                                                                child: Text(
-                                                                  serviceDetailsEntity?[index]
-                                                                          ?.provider?["address"]["address"] ??
-                                                                      "",
-                                                                  style: Theme.of(context)
-                                                                      .textTheme
-                                                                      .labelSmall
-                                                                      ?.copyWith(
-                                                                        fontFamily: FontConstants.fontFamily(
-                                                                          context
-                                                                              .locale,
+                                                                child: SizedBox(
+                                                                  width: 180.w,
+                                                                  child: Text(
+                                                                    serviceDetailsEntity?[index]
+                                                                            ?.provider?["address"]["address"] ??
+                                                                        "",
+                                                                    style: Theme.of(context)
+                                                                        .textTheme
+                                                                        .labelSmall
+                                                                        ?.copyWith(
+                                                                          fontFamily: FontConstants.fontFamily(
+                                                                            context.locale,
+                                                                          ),
+                                                                          fontSize:
+                                                                              14.sp,
                                                                         ),
-                                                                      ),
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ],
@@ -741,8 +1772,44 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                                         ),
                                                         Padding(
                                                           padding:
+                                                              EdgeInsets.symmetric(
+                                                                vertical: 4.h,
+                                                              ),
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons.map,
+                                                                size: 22.sp,
+                                                                color:
+                                                                    Theme.of(
+                                                                          context,
+                                                                        )
+                                                                        .textTheme
+                                                                        .labelLarge
+                                                                        ?.color,
+                                                              ),
+                                                              Text(
+                                                                " ${serviceDetailsEntity?[index]?.provider?["distance_km"] ?? "0"} KM",
+                                                                style: Theme.of(context)
+                                                                    .textTheme
+                                                                    .labelSmall
+                                                                    ?.copyWith(
+                                                                      fontFamily:
+                                                                          FontConstants.fontFamily(
+                                                                            context.locale,
+                                                                          ),
+                                                                    ),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
                                                               EdgeInsets.only(
-                                                                top: 8.h,
+                                                                top: 4.h,
                                                               ),
                                                           child: SizedBox(
                                                             height: 25.h,
@@ -992,8 +2059,7 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                     hintText: LocaleKeys
                                         .serviceDetailsPage_pleaseDescribeYourIssueInDetail
                                         .tr(),
-                                    onChanged: (value) =>
-                                        storeBookingModel = nots = value,
+                                    onChanged: (value) => nots = value,
                                   ).animate().scaleXY(
                                     duration: 900.ms,
 

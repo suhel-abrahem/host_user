@@ -36,19 +36,41 @@ class ServiceDetailsRepositoryImpl implements ServiceDetailsRepository {
         "service repo heders: ${{"Accept-Language": serviceDetailsModel?.Accept_Language ?? "ar", "Authorization": "Bearer ${serviceDetailsModel?.Authorization}"}}",
       );
       print(
-        "service repo params: ${{"service_id": serviceDetailsModel?.service_id}}",
+        "service repo params: ${{
+          "service_id": serviceDetailsModel?.service_id,
+          if (serviceDetailsModel?.city_id != null && serviceDetailsModel?.city_id != 0) ...{"city_id": serviceDetailsModel?.city_id},
+          if (serviceDetailsModel?.price != null && serviceDetailsModel?.price != "none") ...{"price": serviceDetailsModel?.price},
+          if (serviceDetailsModel?.distance != null && serviceDetailsModel!.distance == true) ...{"distance": serviceDetailsModel.distance, "lat": serviceDetailsModel.lat, "lng": serviceDetailsModel.lng},
+          if (serviceDetailsModel?.language != null && serviceDetailsModel?.language != "none") ...{"language": serviceDetailsModel?.language},
+        }}",
       );
       await commonService
           .get(
             ApiConstant.getProvidersEndpoint,
             params: {
               "service_id": serviceDetailsModel?.service_id,
-              "filter_type": serviceDetailsModel?.sort_by == "none"
-                  ? null
-                  : serviceDetailsModel?.sort_by,
+              if (serviceDetailsModel?.city_id != null &&
+                  serviceDetailsModel?.city_id != 0) ...{
+                "city_id": serviceDetailsModel?.city_id,
+              },
+              if (serviceDetailsModel?.price != null &&
+                  serviceDetailsModel?.price != "none") ...{
+                "price": serviceDetailsModel?.price,
+              },
+              if (serviceDetailsModel?.distance != null &&
+                  serviceDetailsModel!.distance == true) ...{
+                "distance": serviceDetailsModel.distance,
+                "lat": serviceDetailsModel.lat,
+                "lng": serviceDetailsModel.lng,
+              },
+              if (serviceDetailsModel?.language != null &&
+                  serviceDetailsModel?.language != "none") ...{
+                "language": serviceDetailsModel?.language,
+              },
             },
           )
           .then((onValue) {
+            print("service repo onValue: ${onValue.data?.data["data"]}");
             if (onValue is DataSuccess) {
               final List? rawServiceDetails = onValue.data?.data["data"];
               List<ServiceDetailsEntity?>? serviceDetailsEntity = [];

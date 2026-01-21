@@ -45,6 +45,12 @@ void initHomeAndChatSocketListeners() {
       lastChatUnReadCount = data["unread_count"].toString();
     },
   );
+  socketService.on(
+    event: "support:messages_read",
+    callback: (data) {
+      print("Support messages read data: $data");
+    },
+  );
 
   _homeSocketInitialized = true;
 }

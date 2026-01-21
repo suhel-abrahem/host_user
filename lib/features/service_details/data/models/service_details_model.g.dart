@@ -12,9 +12,11 @@ _ServiceDetailsModel _$ServiceDetailsModelFromJson(Map<String, dynamic> json) =>
       Accept_Language: json['Accept_Language'] as String? ?? "",
       service_id: (json['service_id'] as num?)?.toInt() ?? 0,
       city_id: (json['city_id'] as num?)?.toInt() ?? 0,
-      min_price: (json['min_price'] as num?)?.toDouble() ?? 0,
-      max_price: (json['max_price'] as num?)?.toDouble() ?? 0,
-      sort_by: json['sort_by'] as String? ?? "none",
+      price: json['price'] as String? ?? "none",
+      distance: json['distance'] as bool? ?? false,
+      language: json['language'] as String? ?? "none",
+      lat: json['lat'] as String? ?? "none",
+      lng: json['lng'] as String? ?? "none",
     );
 
 Map<String, dynamic> _$ServiceDetailsModelToJson(
@@ -24,7 +26,9 @@ Map<String, dynamic> _$ServiceDetailsModelToJson(
   'Accept_Language': instance.Accept_Language,
   'service_id': instance.service_id,
   'city_id': instance.city_id,
-  'min_price': instance.min_price,
-  'max_price': instance.max_price,
-  'sort_by': instance.sort_by,
+  'price': instance.price,
+  'distance': instance.distance,
+  'language': instance.language,
+  'lat': instance.lat,
+  'lng': instance.lng,
 };

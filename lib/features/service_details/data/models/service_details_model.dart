@@ -11,9 +11,11 @@ abstract class ServiceDetailsModel with _$ServiceDetailsModel {
     @Default("") String? Accept_Language,
     @Default(0) int? service_id,
     @Default(0) int? city_id,
-    @Default(0) double? min_price,
-    @Default(0) double? max_price,
-    @Default("none") String? sort_by,
+    @Default("none") String? price,
+    @Default(false) bool? distance,
+    @Default("none") String? language,
+    @Default("none") String? lat,
+    @Default("none") String? lng,
   }) = _ServiceDetailsModel;
   factory ServiceDetailsModel.fromJson(Map<String, dynamic> json) =>
       _$ServiceDetailsModelFromJson(json);

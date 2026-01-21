@@ -61,7 +61,8 @@
     "unexpectedErrorOccurred": "هەڵەیەکی نەهەڵبژاردوو ڕوودەدات",
     "yourSessionHasExpiredPleaseLoginAgain": "کاتی نیشتەجێبوونت کۆتایی هات. تکایە دووبارە بچۆ ژوورەوە.",
     "ok": "باشە",
-    "tryAgain": "دووبارە هەوڵبدەرەوە"
+    "tryAgain": "دووبارە هەوڵبدەرەوە",
+    "clear": "سڕینەوە"
   },
   "theme": {
     "choose": "مۆدێلێک هەڵبژێرە",
@@ -336,7 +337,15 @@
       "price": "نرخ",
       "language": "زمان",
       "city": "شار",
-      "none": "هیچ"
+      "none": "هیچ",
+      "max": "زیاترین",
+      "min": "کەمترین",
+      "ar": "عربی",
+      "en": "انگلیسی",
+      "ku": "کردی",
+      "lat": " عرض جغرافیایی",
+      "lng": "طول جغرافیایی",
+      "setYourLocation": "شوێنەکەت دیاری بکە"
     }
   },
   "providerDetailsPage": {

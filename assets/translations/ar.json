@@ -61,7 +61,8 @@
     "unexpectedErrorOccurred": "حدث خطأ غير متوقع",
     "yourSessionHasExpiredPleaseLoginAgain": "انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى.",
     "ok": "موافق",
-    "tryAgain": "حاول مرة أخرى"
+    "tryAgain": "حاول مرة أخرى",
+    "clear": "مسح"
   },
   "theme": {
     "choose": "اختر سمة",
@@ -336,7 +337,15 @@
       "price": "السعر",
       "language": "اللغة",
       "city": "المدينة",
-      "none": "لا شيء"
+      "none": "لا شيء",
+      "max": "الأقصى",
+      "min": "الأدنى",
+      "ar": "العربية",
+      "en": "الإنجليزية",
+      "ku": "الكردية",
+      "lat": "خط العرض",
+      "lng": "خط الطول",
+      "setYourLocation": "حدد موقعك"
     }
   },
   "providerDetailsPage": {

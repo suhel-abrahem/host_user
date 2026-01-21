@@ -44,7 +44,7 @@ class ClientInfoWidget extends StatelessWidget {
                       size: 30.sp,
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
                     ),
-                    imageUrl: providerEntity?.image ?? "",
+                    imageUrl: providerEntity?.avatar ?? "",
                   ),
                 ),
               ),
