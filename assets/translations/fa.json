@@ -120,7 +120,13 @@
     "revenue": "داهات",
     "bookings": "بۆکینگەکان",
     "categories": "پۆلەکان",
-    "showAll": "پیشاندانی هەموو"
+    "showAll": "پیشاندانی هەموو",
+    "search": {
+      "hintText": "گەڕان بۆ خزمەتگوزاریەکان",
+      "noResultsFound": "هیچ ئەنجامێک نەدۆزرایەوە",
+      "searching": "لەگەڕاندا...",
+      "typeThreeOrMoreCharactersToSearch": "سێ یان زیاتر پیت بنووسە بۆ گەڕان"
+    }
   },
   "bookingPage": {
     "title": "پەیجی ئاراستەکردن",

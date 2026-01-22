@@ -120,7 +120,13 @@
     "revenue": "Revenue",
     "bookings": "Bookings",
     "categories": "Categories",
-    "showAll": "Show all"
+    "showAll": "Show all",
+    "search": {
+      "hintText": "Search for services",
+      "noResultsFound": "No results found",
+      "searching": "Searching...",
+      "typeThreeOrMoreCharactersToSearch": "Type three or more characters to search"
+    }
   },
   "bookingPage": {
     "title": "Bookings page",

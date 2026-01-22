@@ -1,3 +1,4 @@
+import 'package:hosta_user/core/resource/common_state_widget/unAuth_state_widget.dart';
 import 'package:hosta_user/core/resource/main_page/glew_effect.dart';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -8,6 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hosta_user/features/home_page/presentation/bloc/search_bloc.dart';
+import 'package:hosta_user/features/home_page/presentation/widgets/search/search_item_container.dart';
+import 'package:pinput/pinput.dart';
 
 import '../../../../config/route/routes_manager.dart';
 import '../../../../config/theme/app_theme.dart';
@@ -29,6 +33,7 @@ import '../../../categories_page/data/models/get_category_model.dart';
 import '../../../categories_page/presentation/bloc/categories_page_bloc.dart';
 import '../../../categories_page/presentation/widgets/category_container.dart';
 
+import '../../data/models/search/search_model.dart';
 import '../../domain/entities/home_page_entity.dart';
 
 import '../../../login_page/domain/entities/login_state_entity.dart';
@@ -66,6 +71,7 @@ class _HomePagePageState extends State<HomePagePage> {
   int currentImage = 0;
   int notificationCount = 0;
   PageController imageController = PageController(initialPage: 0);
+  List<Widget> searchResults = [];
 
   @override
   void initState() {
@@ -343,45 +349,349 @@ class _HomePagePageState extends State<HomePagePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  child:
-                      SearchBar(
-                        constraints: BoxConstraints(
-                          maxHeight: 40.h,
-                          maxWidth: 320.w,
-                          minHeight: 40.h,
-                          minWidth: 250.w,
-                        ),
-                        elevation: WidgetStatePropertyAll(1),
-                        backgroundColor: WidgetStatePropertyAll(
-                          Colors.transparent,
-                        ),
-                        shadowColor: WidgetStatePropertyAll(Colors.transparent),
-                        shape: WidgetStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                        ),
-                        leading: Padding(
-                          padding: EdgeInsetsDirectional.only(end: 8.w),
-                          child: Icon(
-                            Icons.search,
-                            size: 20.sp,
-                            color: Theme.of(
-                              context,
-                            ).textTheme.labelLarge?.color,
-                          ),
-                        ),
-                        padding: WidgetStatePropertyAll(
-                          EdgeInsets.symmetric(vertical: 4.h, horizontal: 8.w),
-                        ),
-                      ).asGlass(
-                        tintColor: Theme.of(context).primaryColor,
-                        clipBorderRadius: BorderRadius.circular(12.r),
-                        blurX: 30,
-                        blurY: 30,
-                        frosted: true,
-                        border: Theme.of(context).defaultBorderSide,
-                      ),
+                  child: BlocProvider<SearchBloc>(
+                    create: (context) =>
+                        getItInstance<SearchBloc>()..add(SearchEvent.started()),
+                    child: Builder(
+                      builder: (context) {
+                        return SearchAnchor(
+                          viewBackgroundColor: Theme.of(
+                            context,
+                          ).scaffoldBackgroundColor.withValues(alpha: 0.6),
+                          viewOnChanged: (value) {
+                            setState(() {
+                              searchResults = [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 12.h,
+                                    horizontal: 12.w,
+                                  ),
+                                  child: Text(
+                                    LocaleKeys.homePage_search_noResultsFound
+                                        .tr(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge
+                                        ?.copyWith(
+                                          fontFamily: FontConstants.fontFamily(
+                                            context.locale,
+                                          ),
+                                        ),
+                                  ),
+                                ),
+                              ];
+                            });
+                            if (value.trim().length >= 3) {
+                              context.read<SearchBloc>().add(
+                                SearchEvent.searchItems(
+                                  model: SearchModel(
+                                    query: value.trim(),
+                                    acceptLanguage: Helper.getCountryCode(
+                                      context,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            } else {
+                              setState(() {
+                                searchResults = [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 12.h,
+                                      horizontal: 12.w,
+                                    ),
+                                    child: Text(
+                                      LocaleKeys
+                                          .homePage_search_typeThreeOrMoreCharactersToSearch
+                                          .tr(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge
+                                          ?.copyWith(
+                                            fontFamily:
+                                                FontConstants.fontFamily(
+                                                  context.locale,
+                                                ),
+                                          ),
+                                    ),
+                                  ),
+                                ];
+                              });
+                            }
+                          },
+                          isFullScreen: false,
+                          builder: (context, searchController) =>
+                              BlocListener<SearchBloc, SearchState>(
+                                listener: (context, state) {
+                                  print("Search State: $state");
+                                  state.maybeWhen(
+                                    initial: () {
+                                      searchResults = [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 12.h,
+                                            horizontal: 12.w,
+                                          ),
+                                          child: Text(
+                                            LocaleKeys
+                                                .homePage_search_typeThreeOrMoreCharactersToSearch
+                                                .tr(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelLarge
+                                                ?.copyWith(
+                                                  fontFamily:
+                                                      FontConstants.fontFamily(
+                                                        context.locale,
+                                                      ),
+                                                ),
+                                          ),
+                                        ),
+                                      ];
+                                      setState(() {
+                                        searchResults = searchResults;
+                                      });
+                                    },
+                                    noInternet: () {
+                                      searchResults = [
+                                        NoInternetStateWidget(
+                                          lottieHeight: 100.h,
+                                          lottieWidth: 100.w,
+                                        ),
+                                      ];
+                                      setState(() {
+                                        searchResults = searchResults;
+                                      });
+                                    },
+                                    unauthenticated: () {
+                                      searchResults = [
+                                        UnauthStateWidget(
+                                          lottieHeight: 100.h,
+                                          lottieWidth: 100.w,
+                                        ),
+                                      ];
+                                      setState(() {
+                                        searchResults = searchResults;
+                                      });
+                                    },
+                                    loading: () {
+                                      if (searchResults.isEmpty) {
+                                        searchResults = [
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 12.h,
+                                              horizontal: 12.w,
+                                            ),
+                                            child: Text(
+                                              LocaleKeys
+                                                  .homePage_search_noResultsFound
+                                                  .tr(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge
+                                                  ?.copyWith(
+                                                    fontFamily:
+                                                        FontConstants.fontFamily(
+                                                          context.locale,
+                                                        ),
+                                                  ),
+                                            ),
+                                          ),
+                                        ];
+                                      }
+                                      setState(() {
+                                        searchResults = searchResults;
+                                      });
+                                    },
+                                    loaded: (results) async {
+                                      searchResults = [];
+                                      results?.forEach((action) {
+                                        searchResults.add(
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(),
+                                            child: SearchItemContainer(
+                                              item: action,
+                                              onTap: () {},
+                                            ),
+                                          ),
+                                        );
+                                      });
+                                      setState(() {
+                                        searchResults = searchResults;
+                                      });
+                                    },
+                                    noResults: () {
+                                      searchResults = [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 12.h,
+                                            horizontal: 12.w,
+                                          ),
+                                          child: Text(
+                                            LocaleKeys
+                                                .homePage_search_noResultsFound
+                                                .tr(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelLarge
+                                                ?.copyWith(
+                                                  fontFamily:
+                                                      FontConstants.fontFamily(
+                                                        context.locale,
+                                                      ),
+                                                ),
+                                          ),
+                                        ),
+                                      ];
+                                      setState(() {
+                                        searchResults = searchResults;
+                                      });
+                                    },
+                                    orElse: () {
+                                      searchResults = [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 12.h,
+                                            horizontal: 12.w,
+                                          ),
+                                          child: Text(
+                                            LocaleKeys
+                                                .homePage_search_noResultsFound
+                                                .tr(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelLarge
+                                                ?.copyWith(
+                                                  fontFamily:
+                                                      FontConstants.fontFamily(
+                                                        context.locale,
+                                                      ),
+                                                ),
+                                          ),
+                                        ),
+                                      ];
+                                      searchResults = [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 12.h,
+                                            horizontal: 12.w,
+                                          ),
+                                          child: Text(
+                                            LocaleKeys
+                                                .homePage_search_noResultsFound
+                                                .tr(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelLarge
+                                                ?.copyWith(
+                                                  fontFamily:
+                                                      FontConstants.fontFamily(
+                                                        context.locale,
+                                                      ),
+                                                ),
+                                          ),
+                                        ),
+                                      ];
+                                    },
+                                  );
+                                },
+                                child: SearchBar(
+                                  onChanged: (value) {
+                                    if (value.trim().isNotEmpty) {
+                                      searchController.setText(value.trim());
+                                      searchController.openView();
+                                      print("Search Value: $value");
+                                      // context.read<SearchBloc>().add(
+                                      //   SearchEvent.searchItems(
+                                      //     model: SearchModel(
+                                      //       query: value.trim(),
+                                      //       acceptLanguage:
+                                      //           Helper.getCountryCode(context),
+                                      //     ),
+                                      //   ),
+                                      // );
+                                    } else {
+                                      searchResults = [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 12.h,
+                                            horizontal: 12.w,
+                                          ),
+                                          child: Text(
+                                            LocaleKeys
+                                                .homePage_search_typeThreeOrMoreCharactersToSearch
+                                                .tr(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelLarge
+                                                ?.copyWith(
+                                                  fontFamily:
+                                                      FontConstants.fontFamily(
+                                                        context.locale,
+                                                      ),
+                                                ),
+                                          ),
+                                        ),
+                                      ];
+                                    }
+                                    setState(() {});
+                                  },
+                                  constraints: BoxConstraints(
+                                    maxHeight: 40.h,
+                                    maxWidth: 320.w,
+                                    minHeight: 40.h,
+                                    minWidth: 250.w,
+                                  ),
+                                  elevation: WidgetStatePropertyAll(1),
+                                  backgroundColor: WidgetStatePropertyAll(
+                                    Colors.transparent,
+                                  ),
+                                  shadowColor: WidgetStatePropertyAll(
+                                    Colors.transparent,
+                                  ),
+                                  shape: WidgetStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12.r),
+                                    ),
+                                  ),
+                                  leading: Padding(
+                                    padding: EdgeInsetsDirectional.only(
+                                      end: 8.w,
+                                    ),
+                                    child: Icon(
+                                      Icons.search,
+                                      size: 20.sp,
+                                      color: Theme.of(
+                                        context,
+                                      ).textTheme.labelLarge?.color,
+                                    ),
+                                  ),
+                                  padding: WidgetStatePropertyAll(
+                                    EdgeInsets.symmetric(
+                                      vertical: 4.h,
+                                      horizontal: 8.w,
+                                    ),
+                                  ),
+                                ),
+                              ).asGlass(
+                                tintColor: Theme.of(context).primaryColor,
+                                clipBorderRadius: BorderRadius.circular(12.r),
+                                blurX: 30,
+                                blurY: 30,
+                                frosted: true,
+                                border: Theme.of(context).defaultBorderSide,
+                              ),
+                          suggestionsBuilder:
+                              (
+                                BuildContext context,
+                                SearchController controller,
+                              ) {
+                                return searchResults;
+                              },
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ],
             ),

@@ -136,7 +136,13 @@ class CodegenLoader extends AssetLoader{
     "revenue": "الإيرادات",
     "bookings": "الحجوزات",
     "categories": "الفئات",
-    "showAll": "عرض الكل"
+    "showAll": "عرض الكل",
+    "search": {
+      "hintText": "ابحث عن الخدمات",
+      "noResultsFound": "لم يتم العثور على نتائج",
+      "searching": "جارٍ البحث...",
+      "typeThreeOrMoreCharactersToSearch": "اكتب ثلاثة أحرف أو أكثر للبحث"
+    }
   },
   "bookingPage": {
     "title": "صفحة الحجوزات",
@@ -562,7 +568,13 @@ static const Map<String,dynamic> _en = {
     "revenue": "Revenue",
     "bookings": "Bookings",
     "categories": "Categories",
-    "showAll": "Show all"
+    "showAll": "Show all",
+    "search": {
+      "hintText": "Search for services",
+      "noResultsFound": "No results found",
+      "searching": "Searching...",
+      "typeThreeOrMoreCharactersToSearch": "Type three or more characters to search"
+    }
   },
   "bookingPage": {
     "title": "Bookings page",
@@ -988,7 +1000,13 @@ static const Map<String,dynamic> _fa = {
     "revenue": "داهات",
     "bookings": "بۆکینگەکان",
     "categories": "پۆلەکان",
-    "showAll": "پیشاندانی هەموو"
+    "showAll": "پیشاندانی هەموو",
+    "search": {
+      "hintText": "گەڕان بۆ خزمەتگوزاریەکان",
+      "noResultsFound": "هیچ ئەنجامێک نەدۆزرایەوە",
+      "searching": "لەگەڕاندا...",
+      "typeThreeOrMoreCharactersToSearch": "سێ یان زیاتر پیت بنووسە بۆ گەڕان"
+    }
   },
   "bookingPage": {
     "title": "پەیجی ئاراستەکردن",

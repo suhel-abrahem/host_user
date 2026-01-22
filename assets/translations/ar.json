@@ -120,7 +120,13 @@
     "revenue": "الإيرادات",
     "bookings": "الحجوزات",
     "categories": "الفئات",
-    "showAll": "عرض الكل"
+    "showAll": "عرض الكل",
+    "search": {
+      "hintText": "ابحث عن الخدمات",
+      "noResultsFound": "لم يتم العثور على نتائج",
+      "searching": "جارٍ البحث...",
+      "typeThreeOrMoreCharactersToSearch": "اكتب ثلاثة أحرف أو أكثر للبحث"
+    }
   },
   "bookingPage": {
     "title": "صفحة الحجوزات",

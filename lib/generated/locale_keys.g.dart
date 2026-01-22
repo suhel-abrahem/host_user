@@ -119,6 +119,11 @@ abstract class  LocaleKeys {
   static const homePage_bookings = 'homePage.bookings';
   static const homePage_categories = 'homePage.categories';
   static const homePage_showAll = 'homePage.showAll';
+  static const homePage_search_hintText = 'homePage.search.hintText';
+  static const homePage_search_noResultsFound = 'homePage.search.noResultsFound';
+  static const homePage_search_searching = 'homePage.search.searching';
+  static const homePage_search_typeThreeOrMoreCharactersToSearch = 'homePage.search.typeThreeOrMoreCharactersToSearch';
+  static const homePage_search = 'homePage.search';
   static const homePage = 'homePage';
   static const bookingPage_title = 'bookingPage.title';
   static const bookingPage_label = 'bookingPage.label';

@@ -38,4 +38,5 @@ class ApiConstant {
   static const String resetPasswordEndpoint = "/password/reset";
   static const String verifyOtpResetPasswordEndpoint = "/password/verify-otp";
   static const String resendResetPasswordOtpEndpoint = "/password/resend-otp";
+  static const String searchEndpoint = "/services/search";
 }

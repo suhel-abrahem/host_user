@@ -46,14 +46,20 @@ import '../features/chat/domain/usecases/send_chat_usecase.dart';
 import '../features/chat/presentation/bloc/get_chat_bloc.dart';
 import '../features/chat/presentation/bloc/send_chat_bloc.dart';
 import '../features/home_page/data/models/home_page_model.dart';
+import '../features/home_page/data/models/search/search_model.dart';
 import '../features/home_page/data/repositories/home_page_repository_implements.dart';
+import '../features/home_page/data/repositories/search/search_repository_implements.dart';
 import '../features/home_page/domain/entities/home_page_entity.dart';
+import '../features/home_page/domain/entities/search/search_entity.dart';
 import '../features/home_page/domain/entities/slider_entity.dart';
 import '../features/home_page/domain/repositories/home_page_repository.dart';
+import '../features/home_page/domain/repositories/search/search_repository.dart';
 import '../features/home_page/domain/usecases/get_slider_usecase.dart';
 import '../features/home_page/domain/usecases/home_page_usecase.dart';
+import '../features/home_page/domain/usecases/search/search_usecase.dart';
 import '../features/home_page/presentation/bloc/get_sliders_bloc.dart';
 import '../features/home_page/presentation/bloc/home_page_bloc.dart';
+import '../features/home_page/presentation/bloc/search_bloc.dart';
 import '../features/login_page/data/models/login_model.dart';
 import '../features/login_page/data/models/login_state_model.dart';
 import '../features/login_page/data/repositories/login_repository_implements.dart';
@@ -640,5 +646,22 @@ Future<void> initDependencies() async {
       getItInstance(),
       getItInstance(),
     ),
+  );
+  //end of reset password
+  //search
+  // entities and models
+  getItInstance.registerSingleton<SearchEntity>(SearchEntity());
+  getItInstance.registerSingleton<SearchModel>(SearchModel());
+  // repository
+  getItInstance.registerSingleton<SearchRepository>(
+    SearchRepositoryImplements(connectivity: getItInstance()),
+  );
+  // usecase
+  getItInstance.registerSingleton<SearchUsecase>(
+    SearchUsecase(repository: getItInstance()),
+  );
+  //bloc
+  getItInstance.registerFactory<SearchBloc>(
+    () => SearchBloc(getItInstance(), getItInstance()),
   );
 }
