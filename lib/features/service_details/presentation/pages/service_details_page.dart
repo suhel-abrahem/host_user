@@ -1665,22 +1665,63 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                                               .start,
 
                                                       children: [
-                                                        Text(
-                                                          serviceDetailsEntity?[index]
-                                                                  ?.provider?["name"] ??
-                                                              "",
-                                                          style: Theme.of(context)
-                                                              .textTheme
-                                                              .labelLarge
-                                                              ?.copyWith(
-                                                                fontFamily:
-                                                                    FontConstants.fontFamily(
-                                                                      context
-                                                                          .locale,
+                                                        SizedBox(
+                                                          width: 200.w,
+                                                          child: Text(
+                                                            serviceDetailsEntity?[index]
+                                                                    ?.provider?["name"] ??
+                                                                "",
+                                                            style: Theme.of(context)
+                                                                .textTheme
+                                                                .labelLarge
+                                                                ?.copyWith(
+                                                                  fontFamily:
+                                                                      FontConstants.fontFamily(
+                                                                        context
+                                                                            .locale,
+                                                                      ),
+                                                                ),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                          ),
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons.star,
+                                                              size: 22.sp,
+                                                              color:
+                                                                  Theme.of(
+                                                                        context,
+                                                                      )
+                                                                      .textTheme
+                                                                      .labelLarge
+                                                                      ?.color,
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsets.symmetric(
+                                                                    horizontal:
+                                                                        4.w,
+                                                                  ),
+                                                              child: Text(
+                                                                "${serviceDetailsEntity?[index]?.provider?["rating"]?.toStringAsFixed(1) ?? ""}",
+                                                                style: Theme.of(context)
+                                                                    .textTheme
+                                                                    .labelLarge
+                                                                    ?.copyWith(
+                                                                      fontFamily:
+                                                                          FontConstants.fontFamily(
+                                                                            context.locale,
+                                                                          ),
                                                                     ),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                               ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
+                                                            ),
+                                                          ],
                                                         ),
                                                         Padding(
                                                           padding:

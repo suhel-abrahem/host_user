@@ -189,7 +189,7 @@ class ImageWidget extends StatelessWidget {
                                 errorWidget: (_, __, ___) =>
                                     errorWidget ??
                                     Icon(
-                                      Icons.error,
+                                      Icons.broken_image,
                                       color: Theme.of(
                                         context,
                                       ).colorScheme.error,
@@ -223,7 +223,7 @@ class ImageWidget extends StatelessWidget {
             errorWidget: (_, __, ___) =>
                 errorWidget ??
                 Icon(
-                  Icons.error,
+                  Icons.broken_image,
                   color: Theme.of(context).colorScheme.error,
                   size: errorIconSize,
                 ),

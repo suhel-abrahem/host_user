@@ -11,6 +11,8 @@ import 'package:glass/glass.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hosta_user/core/resource/common_state_widget/unAuth_state_widget.dart';
 import 'package:hosta_user/features/profile_page/presentation/bloc/delete_account_bloc.dart';
+import 'package:hosta_user/features/profile_page/presentation/widgets/city_field.dart';
+import 'package:hosta_user/features/profile_page/presentation/widgets/country_field.dart';
 import 'package:hosta_user/features/profile_page/presentation/widgets/delete_account_widget.dart';
 import '../../../../config/app/app_preferences.dart';
 import '../../../../config/route/routes_manager.dart';
@@ -70,10 +72,20 @@ class _AccountPagePageState extends State<AccountPagePage> {
   bool isCityChanged = false;
   bool isAddressChanged = false;
   bool isCityEnabled = false;
+  bool isCountryChanged = false;
+  bool isLocationChanged = false;
+  int? countryId;
+  String? lat;
+  String? lng;
+  String? country;
+
   String? city;
   String? acceptLanguage;
   List<CityEntity?>? governmentList = [];
   String? initialCity;
+  String? initialCountry;
+  String? initialLat;
+  String? initialLng;
   String? initialAvatar;
   String? avatarUrl;
   bool animationDone = false;
@@ -142,6 +154,11 @@ class _AccountPagePageState extends State<AccountPagePage> {
                     isDobChanged = false;
                     isNameChanged = false;
                     isAvatarChanged = false;
+                    isCountryChanged = false;
+                    isLocationChanged = false;
+                    country = initialCountry;
+                    lat = initialLat;
+                    lng = initialLng;
                     city = initialCity;
                     avatarUrl = null;
                     setProfileModel = SetProfileModel();
@@ -165,6 +182,20 @@ class _AccountPagePageState extends State<AccountPagePage> {
                     isDobChanged = false;
                     isNameChanged = false;
                     isAvatarChanged = false;
+                    isCountryChanged = false;
+                    isLocationChanged = false;
+                    country =
+                        state
+                            .profileEntity
+                            ?.addresses
+                            ?.first?["country"]?["name"] ??
+                        initialCountry;
+                    lat =
+                        state.profileEntity?.addresses?.first?["lat"] ??
+                        initialLat;
+                    lng =
+                        state.profileEntity?.addresses?.first?["lng"] ??
+                        initialLng;
                     city =
                         state
                             .profileEntity
@@ -193,6 +224,11 @@ class _AccountPagePageState extends State<AccountPagePage> {
                     isDobChanged = false;
                     isNameChanged = false;
                     isAvatarChanged = false;
+                    isCountryChanged = false;
+                    isLocationChanged = false;
+                    country = initialCountry;
+                    lat = initialLat;
+                    lng = initialLng;
                     city = initialCity;
                     avatarUrl = null;
                     setProfileModel = SetProfileModel();
@@ -212,7 +248,12 @@ class _AccountPagePageState extends State<AccountPagePage> {
                     isDobChanged = false;
                     isNameChanged = false;
                     isAvatarChanged = false;
+                    isCountryChanged = false;
+                    isLocationChanged = false;
                     city = initialCity;
+                    country = initialCountry;
+                    lat = initialLat;
+                    lng = initialLng;
                     avatarUrl = null;
                     setProfileModel = SetProfileModel();
                     profileModel = profileModel.copyWith(
@@ -261,6 +302,15 @@ class _AccountPagePageState extends State<AccountPagePage> {
                                   "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-High-Quality-Image.png";
                               initialCity =
                                   data?.addresses?.first?["city"]?["name"] ??
+                                  "";
+                              initialCountry =
+                                  data?.addresses?.first?["country"]?["name"] ??
+                                  "";
+                              initialLat =
+                                  data?.addresses?.first?["lat"]?.toString() ??
+                                  "";
+                              initialLng =
+                                  data?.addresses?.first?["lng"]?.toString() ??
                                   "";
                               return Form(
                                 key: formKey,
@@ -613,400 +663,47 @@ class _AccountPagePageState extends State<AccountPagePage> {
                                       iconData: Icons.phone_outlined,
                                       label: LocaleKeys.profilePage_phone.tr(),
                                     ),
+                                    //country
+                                    CountryField(
+                                      onCountryIdChanged: (value) {
+                                        setState(() {
+                                          isCountryChanged = true;
+                                          countryId = int.parse(value ?? "0");
+                                        });
+                                        setProfileModel = setProfileModel
+                                            .copyWith(
+                                              country_id: int.parse(
+                                                value ?? "0",
+                                              ),
+                                            );
+                                        profileModel = profileModel.copyWith(
+                                          profile: setProfileModel,
+                                        );
+                                      },
+                                      initialCountryName:
+                                          country ?? initialCountry,
+                                    ),
                                     //city
                                     Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 12.h,
-                                      ),
-                                      child: Row(
-                                        key: ValueKey(isCityChanged),
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 4.w,
-                                              vertical: 4.h,
-                                            ),
-                                            child: Icon(
-                                              Icons.location_city,
-                                              size: 24.r,
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.primary,
-                                            ),
-                                          ).asGlass(
-                                            frosted: true,
-                                            blurX: 18,
-                                            blurY: 18,
-                                            tintColor: Theme.of(context)
-                                                .colorScheme
-                                                .primary
-                                                .withValues(alpha: 0.9),
-                                            clipBorderRadius:
-                                                BorderRadius.circular(12.r),
-                                            border: Theme.of(
-                                              context,
-                                            ).defaultBorderSide,
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 12.w,
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                vertical: 5.h,
-                                              ),
-                                              child: BlocProvider(
-                                                create: (context) =>
-                                                    getItInstance<
-                                                        GetCitiesBloc
-                                                      >()
-                                                      ..add(
-                                                        GetCitiesEvent.getCities(
-                                                          CityModel(
-                                                            country_id: data
-                                                                ?.addresses
-                                                                ?.first?["country"]?["id"],
-                                                            acceptLanguage:
-                                                                acceptLanguage,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                child: BlocBuilder<GetCitiesBloc, GetCitiesState>(
-                                                  buildWhen: (prev, curr) =>
-                                                      curr != prev,
-                                                  builder: (context, state) {
-                                                    return AnimatedSwitcher(
-                                                      duration: Duration(
-                                                        milliseconds: 300,
-                                                      ),
-                                                      child: SizedBox(
-                                                        child: state.when(
-                                                          initial: () =>
-                                                              SizedBox(),
-                                                          got: (data) {
-                                                            governmentList =
-                                                                data;
-                                                            return CustomInputField(
-                                                              key: ValueKey(
-                                                                city,
-                                                              ),
-                                                              fillColor:
-                                                                  Theme.of(
-                                                                        context,
-                                                                      )
-                                                                      .colorScheme
-                                                                      .primaryContainer
-                                                                      .withValues(
-                                                                        alpha:
-                                                                            0.3,
-                                                                      ),
-                                                              width: 200.w,
-                                                              isRequired: true,
-                                                              initialValue:
-                                                                  city ??
-                                                                  initialCity,
-                                                              enabled:
-                                                                  isCityEnabled,
-                                                              maxLines: 1,
-                                                              label: LocaleKeys
-                                                                  .loginPage_city
-                                                                  .tr(),
-                                                              validator: (value) {
-                                                                if (value ==
-                                                                        null ||
-                                                                    value
-                                                                        .toString()
-                                                                        .trim()
-                                                                        .isEmpty) {
-                                                                  return LocaleKeys
-                                                                      .loginPage_cityIsRequired
-                                                                      .tr();
-                                                                }
-
-                                                                return null;
-                                                              },
-                                                            );
-                                                          },
-                                                          loading: () => Container(
-                                                            width: 200.w,
-                                                            height: 50.h,
-                                                            decoration: BoxDecoration(
-                                                              border: Border.fromBorderSide(
-                                                                Theme.of(
-                                                                  context,
-                                                                ).defaultBorderSide,
-                                                              ),
-                                                              borderRadius:
-                                                                  BorderRadius.circular(
-                                                                    12.r,
-                                                                  ),
-                                                            ),
-                                                            child: Row(
-                                                              children: [
-                                                                Padding(
-                                                                  padding:
-                                                                      EdgeInsets.symmetric(
-                                                                        horizontal:
-                                                                            13.w,
-                                                                      ),
-                                                                  child: Text(
-                                                                    LocaleKeys
-                                                                        .loginPage_city
-                                                                        .tr(),
-                                                                    style: Theme.of(context)
-                                                                        .textTheme
-                                                                        .labelLarge
-                                                                        ?.copyWith(
-                                                                          fontFamily: FontConstants.fontFamily(
-                                                                            context.locale,
-                                                                          ),
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                                Expanded(
-                                                                  child: Padding(
-                                                                    padding: EdgeInsets.symmetric(
-                                                                      horizontal:
-                                                                          12.w,
-                                                                    ),
-                                                                    child:
-                                                                        LinearProgressIndicator(),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-
-                                                          error:
-                                                              (
-                                                                String? message,
-                                                              ) => CustomInputField(
-                                                                width: 300.w,
-                                                                label: LocaleKeys
-                                                                    .loginPage_city
-                                                                    .tr(),
-                                                                enabled: false,
-                                                                maxLines: 2,
-                                                                initialValue:
-                                                                    LocaleKeys
-                                                                        .common_anErrorHasOccurs
-                                                                        .tr(),
-                                                              ),
-                                                          noInternet: () =>
-                                                              CustomInputField(
-                                                                enabled: false,
-                                                                width: 300.w,
-                                                                label: LocaleKeys
-                                                                    .loginPage_city
-                                                                    .tr(),
-                                                                maxLines: 5,
-                                                                initialValue:
-                                                                    LocaleKeys
-                                                                        .common_noInternetPullDown
-                                                                        .tr(),
-                                                              ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
+                                      padding: EdgeInsets.symmetric(),
+                                      child: CityField(
+                                        key: ValueKey(countryId),
+                                        selectedCountryId: countryId,
+                                        initialCityName: city ?? initialCity,
+                                        onCityIdChanged: (value) {
+                                          setState(() {
+                                            isCityChanged = true;
+                                          });
+                                          setProfileModel = setProfileModel
+                                              .copyWith(
+                                                city_id: int.parse(
+                                                  value ?? "0",
                                                 ),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 40.w,
-                                            height: 40.h,
-                                            child: ElevatedButton(
-                                              onPressed: () async {
-                                                setState(() {
-                                                  isCityEnabled =
-                                                      !isCityEnabled;
-                                                  isCityChanged = true;
-                                                });
-                                                if (isCityEnabled) {
-                                                  await showDialog(
-                                                    context: context,
-                                                    barrierDismissible: true,
-                                                    builder: (context) {
-                                                      return BackdropFilter(
-                                                        filter:
-                                                            ImageFilter.blur(
-                                                              sigmaX: 2,
-                                                              sigmaY: 2,
-                                                            ),
-                                                        child: AlertDialog(
-                                                          backgroundColor:
-                                                              Theme.of(context)
-                                                                  .scaffoldBackgroundColor
-                                                                  .withValues(
-                                                                    alpha: 0.4,
-                                                                  ),
-                                                          title: Center(
-                                                            child: Text(
-                                                              LocaleKeys
-                                                                  .loginPage_city
-                                                                  .tr(),
-                                                              style: Theme.of(context)
-                                                                  .textTheme
-                                                                  .labelLarge
-                                                                  ?.copyWith(
-                                                                    fontFamily:
-                                                                        FontConstants.fontFamily(
-                                                                          context
-                                                                              .locale,
-                                                                        ),
-                                                                  ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                            ),
-                                                          ),
-                                                          content: SizedBox(
-                                                            width: 300.w,
-                                                            height: 300.h,
-                                                            child: ListView.separated(
-                                                              key: ValueKey(
-                                                                governmentList,
-                                                              ),
-                                                              itemBuilder: (context, index) {
-                                                                return ListTile(
-                                                                  title: Text(
-                                                                    governmentList?[index]
-                                                                            ?.name ??
-                                                                        "",
-                                                                    style: Theme.of(context)
-                                                                        .textTheme
-                                                                        .labelLarge
-                                                                        ?.copyWith(
-                                                                          fontFamily: FontConstants.fontFamily(
-                                                                            context.locale,
-                                                                          ),
-                                                                        ),
-                                                                  ),
-                                                                  onTap: () {
-                                                                    setState(() {
-                                                                      city = governmentList?[index]
-                                                                          ?.name;
-                                                                    });
-
-                                                                    setProfileModel =
-                                                                        setProfileModel.copyWith(
-                                                                          city_id:
-                                                                              governmentList?[index]?.id,
-                                                                        );
-                                                                    profileModel =
-                                                                        profileModel.copyWith(
-                                                                          profile:
-                                                                              setProfileModel,
-                                                                        );
-
-                                                                    Navigator.pop(
-                                                                      context,
-                                                                    );
-                                                                  },
-                                                                );
-                                                              },
-                                                              separatorBuilder:
-                                                                  (
-                                                                    context,
-                                                                    index,
-                                                                  ) =>
-                                                                      const Divider(
-                                                                        height:
-                                                                            1,
-                                                                      ),
-                                                              itemCount:
-                                                                  governmentList
-                                                                      ?.length ??
-                                                                  0,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      );
-                                                    },
-                                                  );
-                                                }
-                                              },
-                                              style: Theme.of(context)
-                                                  .elevatedButtonTheme
-                                                  .style
-                                                  ?.copyWith(
-                                                    backgroundColor:
-                                                        WidgetStatePropertyAll(
-                                                          Colors.transparent,
-                                                        ),
-                                                    shadowColor:
-                                                        WidgetStatePropertyAll(
-                                                          Colors.transparent,
-                                                        ),
-                                                    padding:
-                                                        WidgetStatePropertyAll(
-                                                          EdgeInsets.zero,
-                                                        ),
-                                                    shape: WidgetStatePropertyAll(
-                                                      RoundedRectangleBorder(
-                                                        side: Theme.of(context)
-                                                            .defaultBorderSide
-                                                            .copyWith(
-                                                              color:
-                                                                  Theme.of(
-                                                                        context,
-                                                                      )
-                                                                      .colorScheme
-                                                                      .primary,
-                                                            ),
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                              12.r,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                              child:
-                                                  Container(
-                                                    width: 40.w,
-                                                    height: 40.h,
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                          horizontal: 4.w,
-                                                          vertical: 4.h,
-                                                        ),
-                                                    child: FittedBox(
-                                                      fit: BoxFit.scaleDown,
-                                                      child: Icon(
-                                                        Icons.edit_outlined,
-                                                        size: 20.sp,
-                                                        color: Theme.of(context)
-                                                            .textTheme
-                                                            .labelLarge
-                                                            ?.color,
-                                                      ),
-                                                    ),
-                                                  ).asGlass(
-                                                    frosted: true,
-                                                    blurX: 18,
-                                                    blurY: 18,
-                                                    tintColor: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary
-                                                        .withValues(alpha: 0.9),
-                                                    clipBorderRadius:
-                                                        BorderRadius.circular(
-                                                          12.r,
-                                                        ),
-                                                    border: Theme.of(context)
-                                                        .defaultBorderSide
-                                                        .copyWith(
-                                                          color: Theme.of(
-                                                            context,
-                                                          ).colorScheme.primary,
-                                                        ),
-                                                  ),
-                                            ),
-                                          ),
-                                        ],
+                                              );
+                                          profileModel = profileModel.copyWith(
+                                            profile: setProfileModel,
+                                          );
+                                        },
                                       ),
                                     ),
                                     //address
@@ -1042,6 +739,7 @@ class _AccountPagePageState extends State<AccountPagePage> {
                                       ),
                                     ),
                                     if (isAddressChanged ||
+                                        isCountryChanged ||
                                         isCityChanged ||
                                         isPhoneChanged ||
                                         isEmailChanged ||

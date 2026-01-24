@@ -51,20 +51,17 @@ class _AccountInfoRowWidgetState extends State<AccountInfoRowWidget> {
           border: Theme.of(context).defaultBorderSide,
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.w),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.h),
-            child: CustomInputField(
-              onChanged: (value) => widget.onChanged(value),
-              validator: widget.validator,
-              width: 200.w,
-              enabled: enabled,
-              fillColor: Theme.of(
-                context,
-              ).colorScheme.primaryContainer.withValues(alpha: 0.3),
-              initialValue: widget.profileEntity ?? "",
-              label: widget.label ?? "",
-            ),
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+          child: CustomInputField(
+            onChanged: (value) => widget.onChanged(value),
+            validator: widget.validator,
+            width: 200.w,
+            enabled: enabled,
+            fillColor: Theme.of(
+              context,
+            ).colorScheme.primaryContainer.withValues(alpha: 0.3),
+            initialValue: widget.profileEntity ?? "",
+            label: widget.label ?? "",
           ),
         ),
         SizedBox(
