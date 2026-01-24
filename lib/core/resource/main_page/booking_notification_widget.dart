@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hosta_user/core/resource/main_page/rate/presentation/widget/rate_widget.dart';
 
 import '../../../config/route/routes_manager.dart';
 import '../../../generated/locale_keys.g.dart';
@@ -19,9 +20,13 @@ class BookingNotificationWidget extends StatelessWidget {
       child: AlertDialog(
         constraints: BoxConstraints(
           minWidth: 300.w,
-          minHeight: 320.h,
+          minHeight: (message?.data["type"].toString() == "booking_completed")
+              ? 600.h
+              : 320.h,
           maxWidth: 300.w,
-          maxHeight: 340.h,
+          maxHeight: (message?.data["type"].toString() == "booking_completed")
+              ? 600.h
+              : 340.h,
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: Center(
@@ -46,46 +51,71 @@ class BookingNotificationWidget extends StatelessWidget {
           ],
           size: 28.sp,
         ).animate().shake(duration: 1600.ms),
-        content: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.w),
-              child: Text(
-                "${LocaleKeys.notificationPage_body.tr()}:",
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  fontFamily: FontConstants.fontFamily(context.locale),
+        content: SizedBox(
+          height: (message?.data["type"].toString() == "booking_completed")
+              ? 600.h
+              : null,
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                child: Text(
+                  "${LocaleKeys.notificationPage_body.tr()}:",
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    fontFamily: FontConstants.fontFamily(context.locale),
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                overflow: TextOverflow.ellipsis,
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-              child: Container(
-                height: 110.h,
-                width: 284.w,
-                padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.r),
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      message?.notification?.body ??
-                          LocaleKeys.notificationPage_noBody.tr(),
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        fontFamily: FontConstants.fontFamily(context.locale),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+                child: Container(
+                  height: 110.h,
+                  width: 284.w,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 16.h,
+                    horizontal: 16.w,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        message?.notification?.body ??
+                            LocaleKeys.notificationPage_noBody.tr(),
+                        style: Theme.of(context).textTheme.labelMedium
+                            ?.copyWith(
+                              fontFamily: FontConstants.fontFamily(
+                                context.locale,
+                              ),
+                            ),
+                        textAlign: TextAlign.start,
                       ),
-                      textAlign: TextAlign.start,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+              Visibility(
+                visible:
+                    message?.data["type"].toString() == "booking_completed",
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12.h),
+                  child: RateWidget(
+                    bookingId:
+                        int.tryParse(
+                          message?.data["booking_id"].toString() ?? "",
+                        ) ??
+                        0,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         actions: [
           TextButton(

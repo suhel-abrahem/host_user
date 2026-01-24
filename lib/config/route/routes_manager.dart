@@ -79,7 +79,7 @@ class RoutesPath {
   static String profilePage = '/profile';
   static String otpPage = "/otpPage";
   static String categoryServicesPage = "/categoryServicesPage/:categoryEntity";
-  static String serviceInfoPage = "/serviceInfoPage/:serviceId";
+  static String serviceInfoPage = "/serviceInfoPage/:serviceId/:isComplete";
   static String accountPage = "/accountPage";
 
   static String createTicketPage = "/createTicketPage";
@@ -255,6 +255,9 @@ GoRouter goRouter = GoRouter(
                 return _customTransitionPage(
                   child: ServiceInfoPage(
                     serviceId: state.pathParameters["serviceId"],
+                    isComplete: bool.tryParse(
+                      state.pathParameters["isComplete"] ?? "false",
+                    ),
                   ),
                   state: state,
                 );

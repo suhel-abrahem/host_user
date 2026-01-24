@@ -414,7 +414,11 @@ class CodegenLoader extends AssetLoader{
     "new": "جديد",
     "today": "اليوم",
     "earlier": "سابقاً",
-    "youHaveMoreThen10Notifications": "لديك أكثر من 10 إشعارات"
+    "youHaveMoreThen10Notifications": "لديك أكثر من 10 إشعارات",
+    "rateProvider": "تقييم المزود",
+    "pleaseRateTheProvider": "يرجى تقييم المزود",
+    "submit": "إرسال",
+    "comment": "تعليق"
   },
   "settingsPage": {
     "title": "صفحة الإعدادات",
@@ -846,7 +850,11 @@ static const Map<String,dynamic> _en = {
     "new": "New",
     "today": "Today",
     "earlier": "Earlier",
-    "youHaveMoreThen10Notifications": "You have more than 10 notifications"
+    "youHaveMoreThen10Notifications": "You have more than 10 notifications",
+    "rateProvider": "Rate Provider",
+    "pleaseRateTheProvider": "Please rate the provider",
+    "submit": "Submit",
+    "comment": "Comment"
   },
   "settingsPage": {
     "title": "Settings page",
@@ -1278,7 +1286,11 @@ static const Map<String,dynamic> _fa = {
     "new": "نوێ",
     "today": "ئەمڕۆ",
     "earlier": "پێشتر",
-    "youHaveMoreThen10Notifications": "تۆ زیاتر لە 10 ئاگاداری هەیە"
+    "youHaveMoreThen10Notifications": "تۆ زیاتر لە 10 ئاگاداری هەیە",
+    "rateProvider": "نرخی دابینکەر",
+    "pleaseRateTheProvider": "تکایە دابینکەر نرخی بکە",
+    "submit": "ناردن",
+    "comment": "تێبینی"
   },
   "settingsPage": {
     "title": "شاشەی ڕێکخستنەکان",

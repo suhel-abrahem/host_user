@@ -398,7 +398,11 @@
     "new": "جديد",
     "today": "اليوم",
     "earlier": "سابقاً",
-    "youHaveMoreThen10Notifications": "لديك أكثر من 10 إشعارات"
+    "youHaveMoreThen10Notifications": "لديك أكثر من 10 إشعارات",
+    "rateProvider": "تقييم المزود",
+    "pleaseRateTheProvider": "يرجى تقييم المزود",
+    "submit": "إرسال",
+    "comment": "تعليق"
   },
   "settingsPage": {
     "title": "صفحة الإعدادات",

@@ -398,7 +398,11 @@
     "new": "نوێ",
     "today": "ئەمڕۆ",
     "earlier": "پێشتر",
-    "youHaveMoreThen10Notifications": "تۆ زیاتر لە 10 ئاگاداری هەیە"
+    "youHaveMoreThen10Notifications": "تۆ زیاتر لە 10 ئاگاداری هەیە",
+    "rateProvider": "نرخی دابینکەر",
+    "pleaseRateTheProvider": "تکایە دابینکەر نرخی بکە",
+    "submit": "ناردن",
+    "comment": "تێبینی"
   },
   "settingsPage": {
     "title": "شاشەی ڕێکخستنەکان",

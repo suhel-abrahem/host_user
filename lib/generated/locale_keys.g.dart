@@ -385,6 +385,10 @@ abstract class  LocaleKeys {
   static const notificationPage_today = 'notificationPage.today';
   static const notificationPage_earlier = 'notificationPage.earlier';
   static const notificationPage_youHaveMoreThen10Notifications = 'notificationPage.youHaveMoreThen10Notifications';
+  static const notificationPage_rateProvider = 'notificationPage.rateProvider';
+  static const notificationPage_pleaseRateTheProvider = 'notificationPage.pleaseRateTheProvider';
+  static const notificationPage_submit = 'notificationPage.submit';
+  static const notificationPage_comment = 'notificationPage.comment';
   static const notificationPage = 'notificationPage';
   static const settingsPage_title = 'settingsPage.title';
   static const settingsPage_label = 'settingsPage.label';

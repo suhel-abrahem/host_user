@@ -132,6 +132,7 @@ class _MainPageState extends State<MainPage> {
                   RoutesName.serviceInfoPage,
                   pathParameters: {
                     "serviceId": message.data["booking_id"].toString(),
+                    "isComplete": "true",
                   },
                 )
               : context.pushNamed(
@@ -162,6 +163,7 @@ class _MainPageState extends State<MainPage> {
                   RoutesName.serviceInfoPage,
                   pathParameters: {
                     "serviceId": initialMessage.data["booking_id"].toString(),
+                    "isComplete": "true",
                   },
                 )
               : context.pushNamed(

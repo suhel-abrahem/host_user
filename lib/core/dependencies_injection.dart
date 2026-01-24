@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:hosta_user/core/resource/main_page/rate/domain/entity/rate_entity.dart';
 import 'package:hosta_user/features/chat/domain/entities/message/message_entity.dart';
 import 'package:hosta_user/features/profile_page/domain/entities/help/tickets_entity.dart';
 import 'package:hosta_user/features/profile_page/presentation/bloc/tickets_bloc_bloc.dart';
@@ -172,6 +173,11 @@ import 'resource/common_entity/service_entity.dart';
 import 'resource/common_service/common_service.dart';
 import 'resource/connectivity/check_connectivity.dart';
 import 'resource/firebase_common_services/firebase_messageing_service.dart';
+import 'resource/main_page/rate/data/model/rate_model.dart';
+import 'resource/main_page/rate/data/repository/rate_repository_implements.dart';
+import 'resource/main_page/rate/domain/repository/rate_repository.dart';
+import 'resource/main_page/rate/domain/usecase/sent_rate_usecase.dart';
+import 'resource/main_page/rate/presentation/bloc/rate_bloc.dart';
 import 'resource/socketio_service.dart/socketio_service.dart';
 
 GetIt getItInstance = GetIt.instance;
@@ -663,5 +669,22 @@ Future<void> initDependencies() async {
   //bloc
   getItInstance.registerFactory<SearchBloc>(
     () => SearchBloc(getItInstance(), getItInstance()),
+  );
+  // end of search
+  //rate
+  //entities and models
+  getItInstance.registerSingleton<RateModel>(RateModel());
+  getItInstance.registerSingleton<RateEntity>(RateEntity());
+  //repository
+  getItInstance.registerSingleton<RateRepository>(
+    RateRepositoryImplements(getItInstance()),
+  );
+  //usecase
+  getItInstance.registerSingleton<SentRateUsecase>(
+    SentRateUsecase(getItInstance()),
+  );
+  //bloc
+  getItInstance.registerFactory<RateBloc>(
+    () => RateBloc(getItInstance(), getItInstance()),
   );
 }

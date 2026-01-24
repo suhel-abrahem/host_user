@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/resource/common_entity/provider_entity.dart';
+import '../../../../core/resource/main_page/rate/presentation/widget/rate_widget.dart';
 import '/core/resource/common_state_widget/page_not_found_state_widget.dart';
 import '../../../../config/theme/app_theme.dart';
 import '../../../../core/dependencies_injection.dart';
@@ -34,7 +35,8 @@ import '../bloc/set_booking_bloc.dart';
 
 class ServiceInfoPage extends StatefulWidget {
   final String? serviceId;
-  const ServiceInfoPage({super.key, required this.serviceId});
+  final bool? isComplete;
+  const ServiceInfoPage({super.key, required this.serviceId, this.isComplete});
 
   @override
   State<ServiceInfoPage> createState() => _ServiceInfoPageState();
@@ -468,6 +470,16 @@ class _ServiceInfoPageState extends State<ServiceInfoPage> {
                                         context,
                                       ).defaultBorderSide,
                                     ),
+                              ),
+                              Visibility(
+                                visible: widget.isComplete == true,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 16.w,
+                                    vertical: 16.h,
+                                  ),
+                                  child: RateWidget(bookingId: data?.last?.id),
+                                ),
                               ),
                             ],
                           );

@@ -398,7 +398,11 @@
     "new": "New",
     "today": "Today",
     "earlier": "Earlier",
-    "youHaveMoreThen10Notifications": "You have more than 10 notifications"
+    "youHaveMoreThen10Notifications": "You have more than 10 notifications",
+    "rateProvider": "Rate Provider",
+    "pleaseRateTheProvider": "Please rate the provider",
+    "submit": "Submit",
+    "comment": "Comment"
   },
   "settingsPage": {
     "title": "Settings page",

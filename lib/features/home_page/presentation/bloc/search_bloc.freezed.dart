@@ -228,12 +228,12 @@ $SearchEventSearchItemsCopyWith<SearchEventSearchItems> get copyWith => _$Search
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchEventSearchItems&&const DeepCollectionEquality().equals(other.model, model));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchEventSearchItems&&(identical(other.model, model) || other.model == model));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(model));
+int get hashCode => Object.hash(runtimeType,model);
 
 @override
 String toString() {
@@ -252,7 +252,7 @@ $Res call({
 });
 
 
-
+$SearchModelCopyWith<$Res>? get model;
 
 }
 /// @nodoc
@@ -272,7 +272,19 @@ as SearchModel?,
   ));
 }
 
+/// Create a copy of SearchEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SearchModelCopyWith<$Res>? get model {
+    if (_self.model == null) {
+    return null;
+  }
 
+  return $SearchModelCopyWith<$Res>(_self.model!, (value) {
+    return _then(_self.copyWith(model: value));
+  });
+}
 }
 
 /// @nodoc

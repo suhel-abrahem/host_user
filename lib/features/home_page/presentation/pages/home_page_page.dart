@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hosta_user/core/resource/main_page/rate/presentation/widget/rate_widget.dart';
 import 'package:hosta_user/features/home_page/presentation/bloc/search_bloc.dart';
 import 'package:hosta_user/features/home_page/presentation/widgets/search/search_item_container.dart';
 import 'package:pinput/pinput.dart';
@@ -342,6 +343,7 @@ class _HomePagePageState extends State<HomePagePage> {
         ).animate().slideX(duration: 500.ms),
       ),
       body: ListView(
+        shrinkWrap: true,
         children: [
           Padding(
             padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
@@ -989,6 +991,7 @@ class _HomePagePageState extends State<HomePagePage> {
               ),
             ),
           ),
+
           // SizedBox(width: 360.w, height: 600.h, child: UnityStorePage()),
         ],
       ),
