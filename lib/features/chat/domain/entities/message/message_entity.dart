@@ -15,6 +15,7 @@ abstract class MessageEntity with _$MessageEntity {
     @Default(0) int? id,
     @Default(0) int? sender_id,
     @Default("") String? sender_name,
+    @Default("") String? sender_avatar,
     @Default("") String? message_type,
     @Default([]) List? content,
     @Default(false) bool? me,

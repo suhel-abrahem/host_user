@@ -267,7 +267,8 @@ class CodegenLoader extends AssetLoader{
     "passwordResetSuccessful": "تم إعادة تعيين كلمة المرور بنجاح",
     "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "حقلي كلمة المرور الجديدة وتأكيد كلمة المرور الجديدة غير متطابقين",
     "identifierIsRequired": "المعرف مطلوب",
-    "enterTheOtpSentToYourEmail": "أدخل رمز التحقق المرسل إلى بريدك الإلكتروني "
+    "enterTheOtpSentToYourEmail": "أدخل رمز التحقق المرسل إلى بريدك الإلكتروني ",
+    "setYourLocation": "حدد موقعك"
   },
   "myServicesPage": {
     "title": "صفحة خدماتي",
@@ -447,7 +448,8 @@ class CodegenLoader extends AssetLoader{
     "typeYourMessageHere": "اكتب رسالتك هنا...",
     "send": "إرسال",
     "sentAImage": "أرسل صورة",
-    "you": "أنت"
+    "you": "أنت",
+    "adminReply": "رد الإدارة"
   }
 };
 static const Map<String,dynamic> _en = {
@@ -703,7 +705,8 @@ static const Map<String,dynamic> _en = {
     "passwordResetSuccessful": "Password reset successful",
     "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "The new password and confirm new password fields do not match",
     "identifierIsRequired": "Identifier is required",
-    "enterTheOtpSentToYourEmail": "Enter the OTP sent to your email"
+    "enterTheOtpSentToYourEmail": "Enter the OTP sent to your email",
+    "setYourLocation": "Set your location"
   },
   "myServicesPage": {
     "title": "My services page",
@@ -883,7 +886,8 @@ static const Map<String,dynamic> _en = {
     "typeYourMessageHere": "Type your message here...",
     "send": "Send",
     "sentAImage": "Sent an image",
-    "you": "You"
+    "you": "You",
+    "adminReply": "Admin reply"
   }
 };
 static const Map<String,dynamic> _fa = {
@@ -1139,7 +1143,8 @@ static const Map<String,dynamic> _fa = {
     "passwordResetSuccessful": "وشەی نهێنی بە سەرکەوتوویی گۆڕدرا",
     "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "وشەی نهێنی نوێ و دووبارەی وشەی نهێنی نوێ یەک ناگرن",
     "identifierIsRequired": "ناسەر پێویستە",
-    "enterTheOtpSentToYourEmail": "کۆدی پشکنین بنووسە کە بۆ ئیمەیڵەکەت نێردرا"
+    "enterTheOtpSentToYourEmail": "کۆدی پشکنین بنووسە کە بۆ ئیمەیڵەکەت نێردرا",
+    "setYourLocation": "شوێنەکەت دیاری بکە"
   },
   "myServicesPage": {
     "title": "شاشەی خزمەتگوزاریەکانم",
@@ -1319,7 +1324,8 @@ static const Map<String,dynamic> _fa = {
     "typeYourMessageHere": "نامەکەت لێرە بنوسە...",
     "send": "ناردن",
     "sentAImage": "وێنەیەک نارد",
-    "you": "تۆ"
+    "you": "تۆ",
+    "adminReply": " وەڵامی بەڕێوەبەر"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": _ar, "en": _en, "fa": _fa};

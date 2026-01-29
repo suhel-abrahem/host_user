@@ -129,13 +129,18 @@ class _ChatPageState extends State<ChatPage> {
                       stream: chatMessageStreamSocket.stream,
                       builder: (context, asyncSnapshot) {
                         if (asyncSnapshot.data != null) {
-                          final msg = asyncSnapshot.data as MessageEntity;
+                          if (asyncSnapshot.data?.booking_number ==
+                              widget.bookingNumber) {
+                            final MessageEntity? msg =
+                                asyncSnapshot.data?.message;
 
-                          final exists =
-                              chatMesages?.any((m) => m?.id == msg.id) ?? false;
-                          if (!exists) {
-                            chatMesages?.add(msg);
-                            _scrollToBottom(animated: true);
+                            final exists =
+                                chatMesages?.any((m) => m?.id == msg?.id) ??
+                                false;
+                            if (!exists) {
+                              chatMesages?.add(msg);
+                              _scrollToBottom(animated: true);
+                            }
                           }
                         }
 

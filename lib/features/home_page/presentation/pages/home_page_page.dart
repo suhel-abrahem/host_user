@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glass/glass.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hosta_user/core/resource/main_page/rate/presentation/widget/rate_widget.dart';
+import 'package:hosta_user/features/home_page/domain/entities/slider_entity.dart';
 import 'package:hosta_user/features/home_page/presentation/bloc/search_bloc.dart';
 import 'package:hosta_user/features/home_page/presentation/widgets/search/search_item_container.dart';
 import 'package:pinput/pinput.dart';
@@ -61,6 +62,7 @@ class HomePagePage extends StatefulWidget {
 class _HomePagePageState extends State<HomePagePage> {
   HomePageModel? model = HomePageModel();
   HomePageEntity? homePageEntity = HomePageEntity();
+  List<SliderEntity?> sliderImages = [];
   List<FlSpot> totalBookingsSpots = [];
   List<FlSpot> totalRevenueSpots = [];
   bool isTotalRevenue = false;
@@ -73,10 +75,28 @@ class _HomePagePageState extends State<HomePagePage> {
   int notificationCount = 0;
   PageController imageController = PageController(initialPage: 0);
   List<Widget> searchResults = [];
+  int secondsToSlideImage = 3;
+  Future<void> slideImageAutomatically() async {
+    await Future.delayed(Duration(seconds: secondsToSlideImage));
+    if (imageController.hasClients && homePageEntity != null) {
+      int nextPage = currentImage + 1;
+      if (nextPage >= (sliderImages.length)) {
+        nextPage = 0;
+      }
+      imageController
+          .animateToPage(
+            nextPage,
+            duration: Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          )
+          .then((value) => slideImageAutomatically());
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    slideImageAutomatically();
   }
 
   @override
@@ -152,7 +172,7 @@ class _HomePagePageState extends State<HomePagePage> {
                       top: 0.h,
                       end: 4.w,
                       child: BuildWithSocketStream(
-                        stream: notificationStreamSocket.stream,
+                        stream: unreadedNotificationStreamSocket.stream,
                         onValueChanged: (value) => notificationCount = value,
                       ).animate().flipV(duration: Duration(milliseconds: 300)),
                     ),
@@ -704,187 +724,195 @@ class _HomePagePageState extends State<HomePagePage> {
               create: (context) =>
                   getItInstance<GetSlidersBloc>()
                     ..add(GetSlidersEvent.getSliders(model: model)),
-              child: BlocBuilder<GetSlidersBloc, GetSlidersState>(
-                builder: (context, state) {
-                  print("Home Page Sliders State: $state");
-                  return state.when(
-                    initial: () => SizedBox(
-                      height: 150.h,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: Theme.of(context).primaryColor,
+              child: BlocListener<GetSlidersBloc, GetSlidersState>(
+                listener: (context, state) {
+                  if (state is GetSlidersStateLoaded) {
+                    sliderImages = state.sliders ?? [];
+                  }
+                },
+                child: BlocBuilder<GetSlidersBloc, GetSlidersState>(
+                  builder: (context, state) {
+                    print("Home Page Sliders State: $state");
+                    return state.when(
+                      initial: () => SizedBox(
+                        height: 150.h,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor,
+                          ),
                         ),
                       ),
-                    ),
-                    loading: () => SizedBox(
-                      height: 150.h,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: Theme.of(context).primaryColor,
+                      loading: () => SizedBox(
+                        height: 150.h,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor,
+                          ),
                         ),
                       ),
-                    ),
-                    loaded: (sliders) => sliders == null || (sliders.isEmpty)
-                        ? NodataStateWidget(
-                            lottieHeight: 150.h,
-                            lottieWidth: double.infinity,
-                          )
-                        : Container(
-                            height: 200.h,
-                            padding: EdgeInsets.zero,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Theme.of(context).shadowColor,
-                                  blurRadius: 8.r,
-                                  offset: Offset(0, 2.h),
+                      loaded: (sliders) => sliders == null || (sliders.isEmpty)
+                          ? NodataStateWidget(
+                              lottieHeight: 150.h,
+                              lottieWidth: double.infinity,
+                            )
+                          : Container(
+                              height: 200.h,
+                              padding: EdgeInsets.zero,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Theme.of(context).shadowColor,
+                                    blurRadius: 8.r,
+                                    offset: Offset(0, 2.h),
+                                  ),
+                                ],
+                                color: Theme.of(context).primaryColor,
+                                border: Border.fromBorderSide(
+                                  Theme.of(context).defaultBorderSide,
                                 ),
-                              ],
-                              color: Theme.of(context).primaryColor,
-                              border: Border.fromBorderSide(
-                                Theme.of(context).defaultBorderSide,
+                                borderRadius: BorderRadius.circular(12.r),
                               ),
-                              borderRadius: BorderRadius.circular(12.r),
-                            ),
-                            child: Stack(
-                              children: [
-                                PageView.builder(
-                                  controller: imageController,
-                                  itemCount: sliders.length,
-                                  onPageChanged: (index) {
-                                    setState(() {
-                                      currentImage = index;
-                                    });
-                                  },
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 4.w,
-                                        vertical: 4.h,
-                                      ),
-                                      child:
-                                          ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                              12.r,
-                                            ),
-                                            child: GlowOverlay(
-                                              glowHeight: 0.35,
-                                              glowColor: Theme.of(context)
-                                                  .primaryColor
-                                                  .withValues(alpha: 1),
-                                              child: ImageWidget(
-                                                imageUrl:
-                                                    sliders[index]?.image ?? "",
-                                                boxFit: BoxFit.cover,
+                              child: Stack(
+                                children: [
+                                  PageView.builder(
+                                    controller: imageController,
+                                    itemCount: sliders.length,
+                                    onPageChanged: (index) {
+                                      setState(() {
+                                        currentImage = index;
+                                      });
+                                    },
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 4.w,
+                                          vertical: 4.h,
+                                        ),
+                                        child:
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(12.r),
+                                              child: GlowOverlay(
+                                                glowHeight: 0.35,
+                                                glowColor: Theme.of(context)
+                                                    .primaryColor
+                                                    .withValues(alpha: 1),
+                                                child: ImageWidget(
+                                                  imageUrl:
+                                                      sliders[index]?.image ??
+                                                      "",
+                                                  boxFit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ).animate().scaleXY(
+                                              duration: Duration(
+                                                milliseconds: 500,
                                               ),
                                             ),
-                                          ).animate().scaleXY(
-                                            duration: Duration(
-                                              milliseconds: 500,
+                                      );
+                                    },
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    child: Center(
+                                      child: Container(
+                                        width: 200.w,
+                                        height: 40.h,
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Theme.of(
+                                                context,
+                                              ).shadowColor,
+                                              blurRadius: 8.r,
+                                              offset: Offset(0, 2.h),
                                             ),
+                                          ],
+                                          color: Theme.of(context).primaryColor,
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(30.r),
+                                            topRight: Radius.circular(30.r),
                                           ),
-                                    );
-                                  },
-                                ),
-                                Positioned(
-                                  bottom: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: Center(
-                                    child: Container(
-                                      width: 200.w,
-                                      height: 40.h,
-                                      decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Theme.of(
-                                              context,
-                                            ).shadowColor,
-                                            blurRadius: 8.r,
-                                            offset: Offset(0, 2.h),
-                                          ),
-                                        ],
-                                        color: Theme.of(context).primaryColor,
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(30.r),
-                                          topRight: Radius.circular(30.r),
                                         ),
-                                      ),
-                                      child: Center(
-                                        child: ListView.builder(
-                                          itemBuilder: (context, index) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                imageController.animateToPage(
-                                                  index,
+                                        child: Center(
+                                          child: ListView.builder(
+                                            itemBuilder: (context, index) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  imageController.animateToPage(
+                                                    index,
+                                                    duration: Duration(
+                                                      milliseconds: 300,
+                                                    ),
+                                                    curve: Curves.easeInOut,
+                                                  );
+                                                },
+                                                child: AnimatedContainer(
                                                   duration: Duration(
                                                     milliseconds: 300,
                                                   ),
-                                                  curve: Curves.easeInOut,
-                                                );
-                                              },
-                                              child: AnimatedContainer(
-                                                duration: Duration(
-                                                  milliseconds: 300,
-                                                ),
-                                                margin:
-                                                    EdgeInsetsDirectional.only(
-                                                      start: 8.w,
-                                                      end: 8.w,
-                                                      bottom:
-                                                          currentImage == index
-                                                          ? 6.h
-                                                          : 0.h,
-                                                    ),
+                                                  margin:
+                                                      EdgeInsetsDirectional.only(
+                                                        start: 8.w,
+                                                        end: 8.w,
+                                                        bottom:
+                                                            currentImage ==
+                                                                index
+                                                            ? 6.h
+                                                            : 0.h,
+                                                      ),
 
-                                                width: currentImage == index
-                                                    ? 20.w
-                                                    : 16.w,
-                                                height: 8.h,
-                                                decoration: BoxDecoration(
-                                                  color: currentImage == index
-                                                      ? Theme.of(
-                                                          context,
-                                                        ).colorScheme.onSurface
-                                                      : Theme.of(context)
-                                                            .colorScheme
-                                                            .onSurface
-                                                            .withOpacity(0.5),
-                                                  shape: BoxShape.circle,
+                                                  width: currentImage == index
+                                                      ? 20.w
+                                                      : 16.w,
+                                                  height: 8.h,
+                                                  decoration: BoxDecoration(
+                                                    color: currentImage == index
+                                                        ? Theme.of(context)
+                                                              .colorScheme
+                                                              .onSurface
+                                                        : Theme.of(context)
+                                                              .colorScheme
+                                                              .onSurface
+                                                              .withOpacity(0.5),
+                                                    shape: BoxShape.circle,
+                                                  ),
                                                 ),
-                                              ),
-                                            );
-                                          },
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: sliders.length,
-                                          shrinkWrap: true,
+                                              );
+                                            },
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: sliders.length,
+                                            shrinkWrap: true,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                    noData: () => NodataStateWidget(
-                      lottieHeight: 100.h,
-                      lottieWidth: 100.w,
-                    ),
-                    error: (message) => ErrorStateWidget(
-                      lottieHeight: 100.h,
-                      lottieWidth: 100.w,
-                    ),
-                    noInternet: () => NoInternetStateWidget(
-                      lottieHeight: 100.h,
-                      lottieWidth: 100.w,
-                    ),
-                    unauthenticated: () => ErrorStateWidget(
-                      lottieHeight: 100.h,
-                      lottieWidth: 100.w,
-                    ),
-                  );
-                },
+                      noData: () => NodataStateWidget(
+                        lottieHeight: 100.h,
+                        lottieWidth: 100.w,
+                      ),
+                      error: (message) => ErrorStateWidget(
+                        lottieHeight: 100.h,
+                        lottieWidth: 100.w,
+                      ),
+                      noInternet: () => NoInternetStateWidget(
+                        lottieHeight: 100.h,
+                        lottieWidth: 100.w,
+                      ),
+                      unauthenticated: () => ErrorStateWidget(
+                        lottieHeight: 100.h,
+                        lottieWidth: 100.w,
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ),

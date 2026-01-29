@@ -251,7 +251,8 @@
     "passwordResetSuccessful": "وشەی نهێنی بە سەرکەوتوویی گۆڕدرا",
     "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "وشەی نهێنی نوێ و دووبارەی وشەی نهێنی نوێ یەک ناگرن",
     "identifierIsRequired": "ناسەر پێویستە",
-    "enterTheOtpSentToYourEmail": "کۆدی پشکنین بنووسە کە بۆ ئیمەیڵەکەت نێردرا"
+    "enterTheOtpSentToYourEmail": "کۆدی پشکنین بنووسە کە بۆ ئیمەیڵەکەت نێردرا",
+    "setYourLocation": "شوێنەکەت دیاری بکە"
   },
   "myServicesPage": {
     "title": "شاشەی خزمەتگوزاریەکانم",
@@ -431,6 +432,7 @@
     "typeYourMessageHere": "نامەکەت لێرە بنوسە...",
     "send": "ناردن",
     "sentAImage": "وێنەیەک نارد",
-    "you": "تۆ"
+    "you": "تۆ",
+    "adminReply": " وەڵامی بەڕێوەبەر"
   }
 }

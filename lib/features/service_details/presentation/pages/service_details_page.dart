@@ -1466,6 +1466,16 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                                                 lat: "none",
                                                                 lng: "none",
                                                               );
+                                                      context
+                                                          .read<
+                                                            ServiceDetailsBloc
+                                                          >()
+                                                          .add(
+                                                            ServiceDetailsEvent.getServiceDetails(
+                                                              serviceDetailsModel:
+                                                                  serviceDetailsModel,
+                                                            ),
+                                                          );
                                                     },
                                                     child: Text(
                                                       LocaleKeys.common_clear
@@ -2576,10 +2586,17 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                                   : null,
                                               child: Text(
                                                 slot?.start_time ?? "",
+
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .labelLarge
                                                     ?.copyWith(
+                                                      decoration:
+                                                          slot?.is_available ==
+                                                              true
+                                                          ? TextDecoration.none
+                                                          : TextDecoration
+                                                                .lineThrough,
                                                       fontFamily:
                                                           FontConstants.fontFamily(
                                                             context.locale,
@@ -2587,10 +2604,15 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                                       color: isSelected
                                                           ? ColorManager
                                                                 .darkTextColor
-                                                          : Theme.of(context)
+                                                          : slot?.is_available ==
+                                                                true
+                                                          ? Theme.of(context)
                                                                 .textTheme
                                                                 .labelLarge
-                                                                ?.color,
+                                                                ?.color
+                                                          : Theme.of(
+                                                              context,
+                                                            ).disabledColor,
                                                     ),
                                               ),
                                             );

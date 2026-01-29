@@ -164,16 +164,25 @@ class _TicketChatPageState extends State<TicketChatPage> {
                   ),
                   ticketDetailsLoaded: (data) {
                     return StreamBuilder(
-                      stream: chatMessageStreamSocket.stream,
+                      stream: ticketMessageStreamSocket.stream,
                       builder: (context, asyncSnapshot) {
                         if (asyncSnapshot.data != null) {
-                          final msg = asyncSnapshot.data as MessageEntity;
+                          print(
+                            "Socket Data in TicketChatPage: ${asyncSnapshot.data},bookingNumber: ${widget.bookingNumber}",
+                          );
+                          if (asyncSnapshot.data?.booking_number ==
+                              widget.bookingNumber) {
+                            print("cond ${asyncSnapshot.data}");
+                            final MessageEntity? msg =
+                                asyncSnapshot.data?.message;
 
-                          final exists =
-                              chatMesages?.any((m) => m?.id == msg.id) ?? false;
-                          if (!exists) {
-                            chatMesages?.add(msg);
-                            _scrollToBottom(animated: true);
+                            final exists =
+                                chatMesages?.any((m) => m?.id == msg?.id) ??
+                                false;
+                            if (!exists) {
+                              chatMesages?.add(msg);
+                              _scrollToBottom(animated: true);
+                            }
                           }
                         }
 

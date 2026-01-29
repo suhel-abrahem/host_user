@@ -251,7 +251,8 @@
     "passwordResetSuccessful": "تم إعادة تعيين كلمة المرور بنجاح",
     "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "حقلي كلمة المرور الجديدة وتأكيد كلمة المرور الجديدة غير متطابقين",
     "identifierIsRequired": "المعرف مطلوب",
-    "enterTheOtpSentToYourEmail": "أدخل رمز التحقق المرسل إلى بريدك الإلكتروني "
+    "enterTheOtpSentToYourEmail": "أدخل رمز التحقق المرسل إلى بريدك الإلكتروني ",
+    "setYourLocation": "حدد موقعك"
   },
   "myServicesPage": {
     "title": "صفحة خدماتي",
@@ -431,6 +432,7 @@
     "typeYourMessageHere": "اكتب رسالتك هنا...",
     "send": "إرسال",
     "sentAImage": "أرسل صورة",
-    "you": "أنت"
+    "you": "أنت",
+    "adminReply": "رد الإدارة"
   }
 }

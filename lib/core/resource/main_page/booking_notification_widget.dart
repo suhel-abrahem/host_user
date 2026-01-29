@@ -5,13 +5,14 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hosta_user/core/resource/main_page/rate/presentation/widget/rate_widget.dart';
+import 'package:hosta_user/features/notification_page/domain/entities/notification_entity.dart';
 
 import '../../../config/route/routes_manager.dart';
 import '../../../generated/locale_keys.g.dart';
 import '../../constants/font_constants.dart';
 
 class BookingNotificationWidget extends StatelessWidget {
-  final RemoteMessage? message;
+  final NotificationEntity? message;
   const BookingNotificationWidget({super.key, this.message});
 
   @override
@@ -20,19 +21,18 @@ class BookingNotificationWidget extends StatelessWidget {
       child: AlertDialog(
         constraints: BoxConstraints(
           minWidth: 300.w,
-          minHeight: (message?.data["type"].toString() == "booking_completed")
+          minHeight: (message?.data?["type"].toString() == "booking_completed")
               ? 600.h
               : 320.h,
           maxWidth: 300.w,
-          maxHeight: (message?.data["type"].toString() == "booking_completed")
+          maxHeight: (message?.data?["type"].toString() == "booking_completed")
               ? 600.h
               : 340.h,
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: Center(
           child: Text(
-            message?.notification?.title ??
-                LocaleKeys.notificationPage_noTitle.tr(),
+            message?.title ?? LocaleKeys.notificationPage_noTitle.tr(),
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
               fontFamily: FontConstants.fontFamily(context.locale),
             ),
@@ -52,7 +52,7 @@ class BookingNotificationWidget extends StatelessWidget {
           size: 28.sp,
         ).animate().shake(duration: 1600.ms),
         content: SizedBox(
-          height: (message?.data["type"].toString() == "booking_completed")
+          height: (message?.data?["type"].toString() == "booking_completed")
               ? 600.h
               : null,
           child: ListView(
@@ -86,7 +86,7 @@ class BookingNotificationWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        message?.notification?.body ??
+                        message?.body ??
                             LocaleKeys.notificationPage_noBody.tr(),
                         style: Theme.of(context).textTheme.labelMedium
                             ?.copyWith(
@@ -102,13 +102,13 @@ class BookingNotificationWidget extends StatelessWidget {
               ),
               Visibility(
                 visible:
-                    message?.data["type"].toString() == "booking_completed",
+                    message?.data?["type"].toString() == "booking_completed",
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 12.h),
                   child: RateWidget(
                     bookingId:
                         int.tryParse(
-                          message?.data["booking_id"].toString() ?? "",
+                          message?.data?["booking_id"].toString() ?? "",
                         ) ??
                         0,
                   ),
@@ -136,7 +136,7 @@ class BookingNotificationWidget extends StatelessWidget {
               context.pushNamed(
                 RoutesName.serviceInfoPage,
                 pathParameters: {
-                  "serviceId": message?.data["booking_id"].toString() ?? "",
+                  "serviceId": message?.data?["booking_id"].toString() ?? "",
                 },
               );
             },

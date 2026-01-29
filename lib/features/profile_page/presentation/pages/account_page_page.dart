@@ -14,6 +14,7 @@ import 'package:hosta_user/features/profile_page/presentation/bloc/delete_accoun
 import 'package:hosta_user/features/profile_page/presentation/widgets/city_field.dart';
 import 'package:hosta_user/features/profile_page/presentation/widgets/country_field.dart';
 import 'package:hosta_user/features/profile_page/presentation/widgets/delete_account_widget.dart';
+import 'package:hosta_user/features/profile_page/presentation/widgets/location_widget.dart';
 import '../../../../config/app/app_preferences.dart';
 import '../../../../config/route/routes_manager.dart';
 import '../../../../config/theme/app_theme.dart';
@@ -663,6 +664,29 @@ class _AccountPagePageState extends State<AccountPagePage> {
                                       iconData: Icons.phone_outlined,
                                       label: LocaleKeys.profilePage_phone.tr(),
                                     ),
+                                    //location
+                                    LocationWidget(
+                                      onEnabledChanged: (value) {
+                                        setState(() {
+                                          isLocationChanged = value;
+                                        });
+                                      },
+                                      onLocationChanged: (value) {
+                                        setState(() {
+                                          print(
+                                            "value lat:${value.lat}, long:${value.long}",
+                                          );
+                                          lat = value.lat;
+                                          lng = value.long;
+                                          profileModel = profileModel.copyWith(
+                                            profile: setProfileModel.copyWith(
+                                              lat: lat,
+                                              lng: lng,
+                                            ),
+                                          );
+                                        });
+                                      },
+                                    ),
                                     //country
                                     CountryField(
                                       onCountryIdChanged: (value) {
@@ -740,6 +764,7 @@ class _AccountPagePageState extends State<AccountPagePage> {
                                     ),
                                     if (isAddressChanged ||
                                         isCountryChanged ||
+                                        isLocationChanged ||
                                         isCityChanged ||
                                         isPhoneChanged ||
                                         isEmailChanged ||
@@ -878,6 +903,12 @@ class _AccountPagePageState extends State<AccountPagePage> {
                                                       isDobChanged = false;
                                                       isNameChanged = false;
                                                       isAvatarChanged = false;
+                                                      isCountryChanged = false;
+                                                      isLocationChanged = false;
+                                                      lat = initialLat;
+                                                      lng = initialLng;
+                                                      country = initialCountry;
+
                                                       city = initialCity;
                                                       avatarUrl = null;
                                                       setProfileModel =

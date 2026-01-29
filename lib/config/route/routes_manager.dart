@@ -90,7 +90,7 @@ class RoutesPath {
   static String chatsPage = "/chatsPage";
   static String chatPage = "/chatPage/:bookingNumber/:chatId";
   static String resetPasswordPage = "/resetPasswordPage";
-  static String ticketPage = "/ticketPage/:ticketId";
+  static String ticketPage = "/ticketPage/:ticketId/:bookingNumber";
 }
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -376,6 +376,7 @@ GoRouter goRouter = GoRouter(
                     chatId: int.tryParse(
                       state.pathParameters["ticketId"] ?? "",
                     ),
+                    bookingNumber: state.pathParameters["bookingNumber"] ?? "",
                   ),
                   state: state,
                 );

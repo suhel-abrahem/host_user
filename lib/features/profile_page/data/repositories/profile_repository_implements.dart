@@ -267,24 +267,33 @@ class ProfileRepositoryImplements implements ProfileRepository {
       final Map<String, dynamic> dataMap = {};
 
       if (profileModel?.profile?.name?.trim().isNotEmpty ?? false) {
-        dataMap['name'] = profileModel!.profile!.name!;
+        dataMap['name'] = profileModel?.profile?.name;
       }
       if (profileModel?.profile?.email?.trim().isNotEmpty ?? false) {
-        dataMap['email'] = profileModel!.profile!.email!;
+        dataMap['email'] = profileModel?.profile?.email;
       }
       if (profileModel?.profile?.phone?.trim().isNotEmpty ?? false) {
-        dataMap['phone'] = profileModel!.profile!.phone!;
+        dataMap['phone'] = profileModel?.profile?.phone;
       }
       if (profileModel?.profile?.address?.trim().isNotEmpty ?? false) {
-        dataMap['address'] = profileModel!.profile!.address!;
+        dataMap['address'] = profileModel?.profile?.address;
       }
       if (profileModel?.profile?.dob?.trim().isNotEmpty ?? false) {
-        dataMap['dob'] = profileModel!.profile!.dob!;
+        dataMap['dob'] = profileModel?.profile?.dob;
       }
-      if (profileModel?.profile?.city_id != null) {
-        dataMap['city_id'] = profileModel!.profile!.city_id;
+      if (profileModel?.profile?.city_id.toString().trim().isNotEmpty ??
+          false) {
+        dataMap['city_id'] = profileModel?.profile?.city_id;
       }
-
+      if (profileModel?.profile?.country_id.toString().trim().isNotEmpty ??
+          false) {
+        dataMap['country_id'] = profileModel?.profile?.country_id;
+      }
+      if ((profileModel?.profile?.lat?.trim().isNotEmpty ?? false) &&
+          (profileModel?.profile?.lng?.trim().isNotEmpty ?? false)) {
+        dataMap['lat'] = num.tryParse(profileModel?.profile?.lat ?? "");
+        dataMap['lng'] = num.tryParse(profileModel?.profile?.lng ?? "");
+      }
       // Add avatar file if exists
       if (profileModel?.profile?.avatar != null) {
         final avatarFile = File(profileModel!.profile!.avatar!.path);
@@ -293,7 +302,7 @@ class ProfileRepositoryImplements implements ProfileRepository {
           filename: avatarFile.path.split('/').last,
         );
       }
-
+      print('Update profile data map: $dataMap');
       // Convert map to FormData
       final formData = FormData.fromMap(dataMap);
       await commonService

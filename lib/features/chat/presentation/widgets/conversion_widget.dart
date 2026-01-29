@@ -39,7 +39,10 @@ class ConversionWidget extends StatelessWidget {
           {
             context.pushNamed(
               RoutesName.ticketPage,
-              pathParameters: {'ticketId': chatId.toString()},
+              pathParameters: {
+                'ticketId': chatId.toString(),
+                "bookingNumber": bookingNumber.toString(),
+              },
             ),
           }
         else

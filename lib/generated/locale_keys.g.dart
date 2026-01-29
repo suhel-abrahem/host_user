@@ -246,6 +246,7 @@ abstract class  LocaleKeys {
   static const profilePage_theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch = 'profilePage.theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch';
   static const profilePage_identifierIsRequired = 'profilePage.identifierIsRequired';
   static const profilePage_enterTheOtpSentToYourEmail = 'profilePage.enterTheOtpSentToYourEmail';
+  static const profilePage_setYourLocation = 'profilePage.setYourLocation';
   static const profilePage = 'profilePage';
   static const myServicesPage_title = 'myServicesPage.title';
   static const myServicesPage_label = 'myServicesPage.label';
@@ -416,6 +417,7 @@ abstract class  LocaleKeys {
   static const chatsPage_send = 'chatsPage.send';
   static const chatsPage_sentAImage = 'chatsPage.sentAImage';
   static const chatsPage_you = 'chatsPage.you';
+  static const chatsPage_adminReply = 'chatsPage.adminReply';
   static const chatsPage = 'chatsPage';
 
 }

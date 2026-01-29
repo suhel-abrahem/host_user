@@ -2,11 +2,14 @@ import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:go_router/go_router.dart';
+import 'package:hosta_user/core/resource/rst_stream/rst_stream.dart';
+
 import '/core/resource/main_page/booking_notification_widget.dart';
 import '/core/resource/main_page/message_notification_widget.dart';
 
@@ -25,6 +28,7 @@ import '../../dependencies_injection.dart';
 import '../custom_widget/snake_bar_widget/snake_bar_widget.dart';
 
 import 'drawer.dart';
+import 'notificaion_entity/message_notification_entity.dart';
 
 class MainPage extends StatefulWidget {
   final PreferredSizeWidget? appBar;
@@ -62,9 +66,31 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   double yOffset = 0;
   bool animationDone = false;
-  List<RemoteMessage?>? notifications = [];
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  final List<MessageNotificationEntity?> notifications = [];
+
   double startPosition = 0;
   RemoteMessage? lastMessage;
+  void removeNotification(MessageNotificationEntity? item) {
+    final index = notifications.indexOf(item);
+    if (index == -1) return;
+
+    final removedItem = notifications.removeAt(index);
+
+    _listKey.currentState?.removeItem(
+      index,
+      (context, animation) => SizeTransition(
+        sizeFactor: animation,
+        child: MessageNotificationWidget(
+          message: removedItem?.message,
+          chatId: removedItem?.conversation_id.toString(),
+          bookingNumber: removedItem?.booking_number,
+        ),
+      ),
+      duration: const Duration(milliseconds: 300),
+    );
+  }
+
   void checkSessionValidity() {
     final loginState = getItInstance<AppPreferences>().getUserInfo();
     if (loginState == null ||
@@ -75,55 +101,22 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
+  Future<void> getPushNotification() async {
+    notificationStreamSocket.stream.listen((remoteMessage) {
+      (remoteMessage?.data?["type"].toString().contains("booking") ?? false)
+          ? showDialog(
+              context: context,
+              builder: (context) => StatefulBuilder(
+                builder: (context, setState) {
+                  return BookingNotificationWidget(message: remoteMessage);
+                },
+              ),
+            )
+          : null;
+    });
+  }
+
   Future<void> getMessage() async {
-    try {
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        print('Got a message whilst in the foreground!: ${message.data}');
-        if (mounted) {
-          message.data["type"].toString().contains("booking")
-              ? lastMessage != message
-                    ? showDialog(
-                        context: context,
-                        builder: (context) => StatefulBuilder(
-                          builder: (context, setState) {
-                            return BookingNotificationWidget(message: message);
-                          },
-                        ),
-                      )
-                    : null
-              : setState(() {
-                  if (!(notifications?.contains(message) ?? true) &&
-                      ((notifications?.length ?? 0) <= 10)) {
-                    notifications?.add(message);
-                  } else if ((notifications?.length ?? 0) >= 10) {
-                    notifications = [
-                      RemoteMessage(
-                        messageId: "more_than_10_notifications",
-                        notification: RemoteNotification(
-                          title: LocaleKeys
-                              .notificationPage_youHaveMoreThen10Notifications
-                              .tr(),
-                          body: LocaleKeys
-                              .notificationPage_youHaveMoreThen10Notifications
-                              .tr(),
-                        ),
-                        data: {"sender_image": ""},
-                      ),
-                    ];
-                  }
-                });
-          lastMessage = message;
-        }
-      });
-    } catch (e) {
-      if (mounted) {
-        showMessage(
-          message: LocaleKeys.common_someThingWentWrongWhileShowNotification
-              .tr(),
-          context: context,
-        );
-      }
-    }
     try {
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
         if (mounted) {
@@ -204,13 +197,36 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  void addNotification(MessageNotificationEntity? item) {
+    notifications.insert(0, item);
+    _listKey.currentState?.insertItem(
+      0,
+      duration: const Duration(milliseconds: 300),
+    );
+
+    // AUTO REMOVE AFTER 4s
+    Future.delayed(const Duration(seconds: 4), () {
+      if (!mounted) return;
+      removeNotification(item);
+    });
+  }
+
   @override
   void initState() {
     checkSessionValidity();
     super.initState();
+    messageNotificationSocket.stream.listen((data) {
+      if (!mounted) return;
+
+      if (!notifications.contains(data)) {
+        addNotification(data);
+      }
+    });
+
     setFcmTokenForCurrentUser(context: context);
     onTokenRefresh();
     getMessage();
+    getPushNotification();
   }
 
   @override
@@ -439,36 +455,63 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
         ),
-        if (notifications != null && notifications?.isNotEmpty == true)
-          Positioned(
-            top: 10.h,
-            left: 0,
-            right: 0,
-            child: SizedBox(
-              height: 100.h + ((notifications?.length ?? 0)) * 5.h,
-              width: 360.w,
-              child: Stack(
-                key: ValueKey(notifications?.length ?? UniqueKey()),
-                children: [
-                  ...List.generate(notifications?.length ?? 0, (index) {
-                    return Positioned(
-                      top: index * 5.h,
-                      left: 0,
-                      right: 0,
-                      child: MessageNotificationWidget(
-                        message: notifications?[index],
-                        onRemove: (val) {
-                          setState(() {
-                            notifications?.removeAt(index);
-                          });
-                        },
-                      ),
-                    );
-                  }),
-                ],
-              ),
-            ),
+        Positioned(
+          top: 10.h,
+          left: 0,
+          right: 0,
+          child: AnimatedList(
+            key: _listKey,
+            shrinkWrap: true,
+            initialItemCount: notifications.length,
+            itemBuilder: (context, index, animation) {
+              final item = notifications[index];
+
+              return Padding(
+                padding: EdgeInsets.symmetric(vertical: 4.h),
+                child: SizeTransition(
+                  sizeFactor: animation,
+                  child: MessageNotificationWidget(
+                    senderImage: item?.message?.sender_avatar,
+                    message: item?.message,
+                    chatId: item?.conversation_id.toString(),
+                    bookingNumber: item?.booking_number,
+                    onRemove: (_) => removeNotification(item),
+                  ),
+                ),
+              );
+            },
           ).animate().slideY(duration: 500.ms, begin: -1.0),
+        ),
+
+        // if (notifications != null && notifications?.isNotEmpty == true)
+        //   Positioned(
+        //     top: 10.h,
+        //     left: 0,5
+        //     child: SizedBox(
+        //       height: 100.h + ((notifications?.length ?? 0)) * 5.h,
+        //       width: 360.w,
+        //       child: Stack(
+        //         key: ValueKey(notifications?.length ?? UniqueKey()),
+        //         children: [
+        //           ...List.generate(notifications?.length ?? 0, (index) {
+        //             return Positioned(
+        //               top: index * 5.h,
+        //               left: 0,
+        //               right: 0,
+        //               child: MessageNotificationWidget(
+        //                 message: notifications?[index],
+        //                 onRemove: (val) {
+        //                   setState(() {
+        //                     notifications?.removeAt(index);
+        //                   });
+        //                 },
+        //               ),
+        //             );
+        //           }),
+        //         ],
+        //       ),
+        //     ),
+        //   ).animate().slideY(duration: 500.ms, begin: -1.0),
       ],
     );
   }

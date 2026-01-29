@@ -251,7 +251,8 @@
     "passwordResetSuccessful": "Password reset successful",
     "theNewPasswordAndConfirmNewPasswordFieldsDoNotMatch": "The new password and confirm new password fields do not match",
     "identifierIsRequired": "Identifier is required",
-    "enterTheOtpSentToYourEmail": "Enter the OTP sent to your email"
+    "enterTheOtpSentToYourEmail": "Enter the OTP sent to your email",
+    "setYourLocation": "Set your location"
   },
   "myServicesPage": {
     "title": "My services page",
@@ -431,6 +432,7 @@
     "typeYourMessageHere": "Type your message here...",
     "send": "Send",
     "sentAImage": "Sent an image",
-    "you": "You"
+    "you": "You",
+    "adminReply": "Admin reply"
   }
 }
