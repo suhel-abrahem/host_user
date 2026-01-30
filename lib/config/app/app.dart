@@ -6,13 +6,45 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/constants/language_constant.dart';
 import '../../core/dependencies_injection.dart';
+import '../../core/resource/main_page/booking_notification_widget.dart';
+import '../../core/resource/main_page/main_page.dart';
+import '../../core/resource/rst_stream/add_notification_function.dart';
+import '../../core/resource/rst_stream/message_notification_service.dart';
+import '../../core/resource/rst_stream/notification_service.dart';
+import '../../core/resource/rst_stream/rst_stream.dart';
 import '../../generated/locale_keys.g.dart';
 import '../route/routes_manager.dart';
 import '../theme/app_theme.dart';
 import 'app_preferences.dart';
 
-class HostaUser extends StatelessWidget {
+class HostaUser extends StatefulWidget {
   const HostaUser({super.key});
+
+  @override
+  State<HostaUser> createState() => _HostaUserState();
+}
+
+class _HostaUserState extends State<HostaUser> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      NotificationService().init();
+      // MessageNotificationService().init(
+      //   onMessage: (data) {
+      //     if (!mounted) return;
+
+      //     if (notifications.any(
+      //       (e) => e?.conversation_id == data?.conversation_id,
+      //     )) {
+      //       return;
+      //     }
+
+      //     addNotification(data);
+      //   },
+      // );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

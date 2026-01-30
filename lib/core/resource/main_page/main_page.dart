@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -103,16 +105,15 @@ class _MainPageState extends State<MainPage> {
 
   Future<void> getPushNotification() async {
     notificationStreamSocket.stream.listen((remoteMessage) {
-      if (mounted) {
-        showDialog(
-          context: context,
-          builder: (context) => StatefulBuilder(
-            builder: (context, setState) {
-              return BookingNotificationWidget(message: remoteMessage);
-            },
-          ),
-        );
-      }
+      print("show dialog for notification: $remoteMessage");
+      showDialog(
+        context: context,
+        builder: (context) => StatefulBuilder(
+          builder: (context, setState) {
+            return BookingNotificationWidget(message: remoteMessage);
+          },
+        ),
+      );
     });
   }
 
@@ -211,11 +212,14 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  StreamSubscription? _pushSub;
+  StreamSubscription? _messageSub;
+
   @override
   void initState() {
     checkSessionValidity();
     super.initState();
-    messageNotificationSocket.stream.listen((data) {
+    _messageSub = messageNotificationSocket.stream.listen((data) {
       if (!mounted) return;
 
       if (!notifications.contains(data)) {
@@ -226,7 +230,13 @@ class _MainPageState extends State<MainPage> {
     setFcmTokenForCurrentUser(context: context);
     onTokenRefresh();
     getMessage();
-    getPushNotification();
+  }
+
+  @override
+  void dispose() {
+    _pushSub?.cancel();
+    _messageSub?.cancel();
+    super.dispose();
   }
 
   @override

@@ -73,7 +73,7 @@ class RateWidget extends StatelessWidget {
                                             state.rate! > index)
                                         ? Colors.amber
                                         : Colors.grey,
-                                    size: (30 + (index * 2)).sp,
+                                    size: (20 + (index * 4)).sp,
                                   ),
                                 );
                               },

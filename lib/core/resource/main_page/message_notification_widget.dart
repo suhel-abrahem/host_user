@@ -52,7 +52,7 @@ class _MessageNotificationWidgetState extends State<MessageNotificationWidget> {
         onHorizontalDragEnd: (_) => widget.onRemove?.call(null),
         child: InkWell(
           onTap: () {
-            widget.isAdmin == true
+            widget.isAdmin == false
                 ? context.pushNamed(
                     RoutesName.chatPage,
                     pathParameters: {

@@ -26,7 +26,7 @@ class BookingNotificationWidget extends StatelessWidget {
               : 320.h,
           maxWidth: 300.w,
           maxHeight: (message?.data?["type"].toString() == "booking_completed")
-              ? 600.h
+              ? 650.h
               : 340.h,
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,

@@ -4,6 +4,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hosta_user/core/enums/login_state_enum.dart';
+import 'package:hosta_user/core/resource/main_page/booking_notification_widget.dart';
+import 'package:hosta_user/core/resource/rst_stream/notification_service.dart';
+import 'package:hosta_user/core/resource/rst_stream/rst_stream.dart'
+    show notificationStreamSocket;
 import 'package:hosta_user/core/resource/socketio_service.dart/home_socket_initializer.dart';
 import 'package:hosta_user/core/resource/socketio_service.dart/socketio_service.dart';
 import 'package:hosta_user/firebase_options.dart';
@@ -57,6 +61,7 @@ void main() async {
     socketService.connect();
     initHomeAndChatSocketListeners();
   }
+
   runApp(
     EasyLocalization(
       supportedLocales: LanguageConstant.supportedLocales,
