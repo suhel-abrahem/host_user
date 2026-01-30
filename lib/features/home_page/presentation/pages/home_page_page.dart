@@ -50,6 +50,7 @@ import '../../../../core/dependencies_injection.dart';
 import '../../../../core/resource/image_widget.dart';
 import '../../data/models/home_page_model.dart';
 import '../bloc/get_sliders_bloc.dart';
+import '../bloc/unread_count_bloc.dart';
 import '../widgets/notification_number_widget.dart';
 
 class HomePagePage extends StatefulWidget {
@@ -171,9 +172,78 @@ class _HomePagePageState extends State<HomePagePage> {
                       duration: Duration(milliseconds: 300),
                       top: 0.h,
                       end: 4.w,
-                      child: BuildWithSocketStream(
-                        stream: unreadedNotificationStreamSocket.stream,
-                        onValueChanged: (value) => notificationCount = value,
+                      child: BlocProvider(
+                        create: (context) => getItInstance<UnreadCountBloc>()
+                          ..add(UnreadCountEvent.getNotificationUnreadCount()),
+                        child: BlocListener<UnreadCountBloc, UnreadCountState>(
+                          listener: (context, state) {
+                            if (state
+                                is UnreadCountStateNotificationUnreadCountLoaded) {
+                              unreadedNotificationStreamSocket.addResponse(
+                                state.count,
+                              );
+                            }
+                          },
+                          child: BlocBuilder<UnreadCountBloc, UnreadCountState>(
+                            builder: (context, state) {
+                              return state.when(
+                                initial: () => BuildWithSocketStream(
+                                  lastNotificationCount: "0",
+                                  stream:
+                                      unreadedNotificationStreamSocket.stream,
+                                  onValueChanged: (value) =>
+                                      notificationCount = value,
+                                ),
+                                loading: () => BuildWithSocketStream(
+                                  isLoading: true,
+                                  stream:
+                                      unreadedNotificationStreamSocket.stream,
+                                  onValueChanged: (value) =>
+                                      notificationCount = value,
+                                ),
+                                notificationUnreadCountLoaded: (count) {
+                                  return BuildWithSocketStream(
+                                    lastNotificationCount: count?.toString(),
+                                    stream:
+                                        unreadedNotificationStreamSocket.stream,
+                                    onValueChanged: (value) =>
+                                        notificationCount = value,
+                                  );
+                                },
+                                unauthenticated: (error) =>
+                                    BuildWithSocketStream(
+                                      lastNotificationCount: "0",
+                                      stream: unreadedNotificationStreamSocket
+                                          .stream,
+                                      onValueChanged: (value) =>
+                                          notificationCount = value,
+                                    ),
+                                noInternet: () => BuildWithSocketStream(
+                                  lastNotificationCount: "0",
+                                  stream:
+                                      unreadedNotificationStreamSocket.stream,
+                                  onValueChanged: (value) =>
+                                      notificationCount = value,
+                                ),
+                                error: (error) => BuildWithSocketStream(
+                                  lastNotificationCount: "0",
+                                  stream:
+                                      unreadedNotificationStreamSocket.stream,
+                                  onValueChanged: (value) =>
+                                      notificationCount = value,
+                                ),
+                                messageUnreadCountLoaded: (int? count) {
+                                  return BuildWithSocketStream(
+                                    stream:
+                                        unreadedNotificationStreamSocket.stream,
+                                    onValueChanged: (value) =>
+                                        notificationCount = value,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
                       ).animate().flipV(duration: Duration(milliseconds: 300)),
                     ),
                   ],
@@ -203,9 +273,75 @@ class _HomePagePageState extends State<HomePagePage> {
                       duration: Duration(milliseconds: 300),
                       top: 0.h,
                       end: 4.w,
-                      child: BuildWithSocketStream(
-                        stream: chatUnReadCountStreamSocket.stream,
-                        onValueChanged: (value) => notificationCount = value,
+                      child: BlocProvider(
+                        create: (context) =>
+                            getItInstance<UnreadCountBloc>()
+                              ..add(UnreadCountEvent.getMessageUnreadCount()),
+                        child: BlocListener<UnreadCountBloc, UnreadCountState>(
+                          listener: (context, state) {
+                            if (state
+                                is UnreadCountStateMessageUnreadCountLoaded) {
+                              chatUnReadCountStreamSocket.addResponse(
+                                state.count ?? 0,
+                              );
+                            }
+                          },
+                          child: BlocBuilder<UnreadCountBloc, UnreadCountState>(
+                            builder: (context, state) {
+                              return state.when(
+                                initial: () => BuildWithSocketStream(
+                                  lastNotificationCount: "0",
+                                  stream: chatUnReadCountStreamSocket.stream,
+                                  onValueChanged: (value) =>
+                                      notificationCount = value,
+                                ),
+                                loading: () => BuildWithSocketStream(
+                                  lastNotificationCount: "0",
+                                  isLoading: true,
+                                  stream: chatUnReadCountStreamSocket.stream,
+                                  onValueChanged: (value) =>
+                                      notificationCount = value,
+                                ),
+                                notificationUnreadCountLoaded: (count) {
+                                  return BuildWithSocketStream(
+                                    lastNotificationCount: "0",
+                                    stream: chatUnReadCountStreamSocket.stream,
+                                    onValueChanged: (value) =>
+                                        notificationCount = value,
+                                  );
+                                },
+                                unauthenticated: (error) =>
+                                    BuildWithSocketStream(
+                                      lastNotificationCount: "0",
+                                      stream:
+                                          chatUnReadCountStreamSocket.stream,
+                                      onValueChanged: (value) =>
+                                          notificationCount = value,
+                                    ),
+                                noInternet: () => BuildWithSocketStream(
+                                  lastNotificationCount: "0",
+                                  stream: chatUnReadCountStreamSocket.stream,
+                                  onValueChanged: (value) =>
+                                      notificationCount = value,
+                                ),
+                                error: (error) => BuildWithSocketStream(
+                                  lastNotificationCount: "0",
+                                  stream: chatUnReadCountStreamSocket.stream,
+                                  onValueChanged: (value) =>
+                                      notificationCount = value,
+                                ),
+                                messageUnreadCountLoaded: (int? count) {
+                                  return BuildWithSocketStream(
+                                    lastNotificationCount: count?.toString(),
+                                    stream: chatUnReadCountStreamSocket.stream,
+                                    onValueChanged: (value) =>
+                                        notificationCount = value,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
                       ).animate().flipV(duration: Duration(milliseconds: 300)),
                     ),
                   ],
@@ -732,7 +868,6 @@ class _HomePagePageState extends State<HomePagePage> {
                 },
                 child: BlocBuilder<GetSlidersBloc, GetSlidersState>(
                   builder: (context, state) {
-                    print("Home Page Sliders State: $state");
                     return state.when(
                       initial: () => SizedBox(
                         height: 150.h,

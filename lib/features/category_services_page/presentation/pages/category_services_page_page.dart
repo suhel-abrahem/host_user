@@ -289,13 +289,11 @@ class _CategoryServicesPagePageState extends State<CategoryServicesPagePage> {
                                                 child: SizedBox(
                                                   width: 160.w,
                                                   height: 82.h,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                  child: ListView(
                                                     children: [
                                                       Text(
                                                         data[index]?.name ?? "",
+
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .labelLarge
@@ -306,6 +304,7 @@ class _CategoryServicesPagePageState extends State<CategoryServicesPagePage> {
                                                                         .locale,
                                                                   ),
                                                             ),
+
                                                         textAlign:
                                                             TextAlign.center,
                                                       ),

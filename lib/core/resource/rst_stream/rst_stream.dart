@@ -30,5 +30,3 @@ final chatMessageStreamSocket = StreamSocket<MessageFromWebSocketEntity?>();
 final ticketMessageStreamSocket = StreamSocket<MessageFromWebSocketEntity?>();
 final notificationStreamSocket = StreamSocket<NotificationEntity?>();
 final messageNotificationSocket = StreamSocket<MessageNotificationEntity?>();
-String? lastNotificationCount;
-String? lastChatUnReadCount;

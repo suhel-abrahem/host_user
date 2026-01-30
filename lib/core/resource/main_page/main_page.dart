@@ -103,16 +103,16 @@ class _MainPageState extends State<MainPage> {
 
   Future<void> getPushNotification() async {
     notificationStreamSocket.stream.listen((remoteMessage) {
-      (remoteMessage?.data?["type"].toString().contains("booking") ?? false)
-          ? showDialog(
-              context: context,
-              builder: (context) => StatefulBuilder(
-                builder: (context, setState) {
-                  return BookingNotificationWidget(message: remoteMessage);
-                },
-              ),
-            )
-          : null;
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) => StatefulBuilder(
+            builder: (context, setState) {
+              return BookingNotificationWidget(message: remoteMessage);
+            },
+          ),
+        );
+      }
     });
   }
 

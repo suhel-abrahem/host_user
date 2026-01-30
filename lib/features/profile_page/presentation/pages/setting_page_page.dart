@@ -155,7 +155,9 @@ class _SettingPagePageState extends State<SettingPagePage> {
                                 }
                               });
 
-                          restart();
+                          setState(() {
+                            lastPath = context.locale.countryCode;
+                          });
                         }
                       },
                       stringConverter: (string) {

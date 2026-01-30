@@ -34,6 +34,7 @@ class _BookingServiceWidgetState extends State<BookingServiceWidget> {
           RoutesName.serviceInfoPage,
           pathParameters: {
             "serviceId": widget.bookingEntity?.id.toString() ?? "",
+            "isComplete": "false",
           },
         );
       },

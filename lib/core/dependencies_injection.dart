@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:hosta_user/core/resource/main_page/rate/domain/entity/rate_entity.dart';
 import 'package:hosta_user/features/chat/domain/entities/message/message_entity.dart';
+import 'package:hosta_user/features/home_page/domain/usecases/unread_notification_and_message/get_unreade_notificatin_usecase.dart';
 import 'package:hosta_user/features/profile_page/domain/entities/help/tickets_entity.dart';
 import 'package:hosta_user/features/profile_page/presentation/bloc/tickets_bloc_bloc.dart';
 import 'package:hosta_user/features/service_details/data/models/store_booking_model.dart';
@@ -50,17 +51,21 @@ import '../features/home_page/data/models/home_page_model.dart';
 import '../features/home_page/data/models/search/search_model.dart';
 import '../features/home_page/data/repositories/home_page_repository_implements.dart';
 import '../features/home_page/data/repositories/search/search_repository_implements.dart';
+import '../features/home_page/data/repositories/unread_notification_and_message/unread_notification_and_message_repository_implements.dart';
 import '../features/home_page/domain/entities/home_page_entity.dart';
 import '../features/home_page/domain/entities/search/search_entity.dart';
 import '../features/home_page/domain/entities/slider_entity.dart';
 import '../features/home_page/domain/repositories/home_page_repository.dart';
 import '../features/home_page/domain/repositories/search/search_repository.dart';
+import '../features/home_page/domain/repositories/unread_notification_and_message_repository/unread_notification_and_message_repository.dart';
 import '../features/home_page/domain/usecases/get_slider_usecase.dart';
 import '../features/home_page/domain/usecases/home_page_usecase.dart';
 import '../features/home_page/domain/usecases/search/search_usecase.dart';
+import '../features/home_page/domain/usecases/unread_notification_and_message/unread_message_usecase.dart';
 import '../features/home_page/presentation/bloc/get_sliders_bloc.dart';
 import '../features/home_page/presentation/bloc/home_page_bloc.dart';
 import '../features/home_page/presentation/bloc/search_bloc.dart';
+import '../features/home_page/presentation/bloc/unread_count_bloc.dart';
 import '../features/login_page/data/models/login_model.dart';
 import '../features/login_page/data/models/login_state_model.dart';
 import '../features/login_page/data/repositories/login_repository_implements.dart';
@@ -686,5 +691,24 @@ Future<void> initDependencies() async {
   //bloc
   getItInstance.registerFactory<RateBloc>(
     () => RateBloc(getItInstance(), getItInstance()),
+  );
+  //end of rate
+  //unread count
+  //repository
+  getItInstance.registerSingleton<UnreadNotificationAndMessageRepository>(
+    UnreadNotificationAndMessageRepositoryImplements(
+      checkConnectivity: getItInstance(),
+    ),
+  );
+  //usecase
+  getItInstance.registerSingleton<GetUnreadeNotificatinUsecase>(
+    GetUnreadeNotificatinUsecase(repository: getItInstance()),
+  );
+  getItInstance.registerSingleton<UnreadMessageUsecase>(
+    UnreadMessageUsecase(repository: getItInstance()),
+  );
+  //bloc
+  getItInstance.registerFactory<UnreadCountBloc>(
+    () => UnreadCountBloc(getItInstance(), getItInstance(), getItInstance()),
   );
 }
