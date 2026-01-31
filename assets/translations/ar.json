@@ -38,6 +38,7 @@
     "viaWhatsapp": "عبر الواتساب"
   },
   "common": {
+    "tooManysRequestsPleaseTryAgainLater": "طلبات كثيرة جداً. يرجى المحاولة مرة أخرى لاحقاً.",
     "loading": "جاري التحميل...",
     "error": "خطأ",
     "notificationTokenErrorPleaseFixItOnSettings": "خطأ في رمز الاشعارات. يرجى إصلاحه في الإعدادات!",

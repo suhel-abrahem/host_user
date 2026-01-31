@@ -38,6 +38,7 @@
     "viaWhatsapp": "Via Whatsapp"
   },
   "common": {
+    "tooManysRequestsPleaseTryAgainLater": "Too many requests. Please try again later.",
     "loading": "Loading...",
     "error": "Error",
     "notificationTokenErrorPleaseFixItOnSettings": "Notification token error. Please fix it in settings!",

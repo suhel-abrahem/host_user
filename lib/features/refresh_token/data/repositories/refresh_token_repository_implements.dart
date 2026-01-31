@@ -33,25 +33,19 @@ class RefreshTokenRepositoryImplements implements RefreshTokenRepository {
     }
     LoginStateEntity? userInfo = getItInstance<AppPreferences>().getUserInfo();
     DataState<TokenEntity?>? response;
-    String? token;
+    String? token = userInfo?.access_token;
     DateTime? tokenCreatedAtTime = DateTime.tryParse(
       userInfo?.created_at ?? "",
     );
-    Duration? tokenDuration = Duration(milliseconds: userInfo?.expires_in ?? 0);
+    Duration? tokenDuration = Duration(seconds: userInfo?.expires_in ?? 0);
     DateTime? tokenExpiresTime = tokenCreatedAtTime?.add(tokenDuration);
-    if ((tokenCreatedAtTime != null) &&
-        (tokenExpiresTime?.isBefore(
-              tokenCreatedAtTime.subtract(Duration(seconds: 30)),
-            ) ??
-            false)) {
+
+    if ((tokenCreatedAtTime != null && tokenExpiresTime != null) &&
+        (DateTime.now().isBefore(
+          tokenExpiresTime.subtract(Duration(seconds: 30)),
+        ))) {
       response = DataSuccess(
-        data: TokenEntity(
-          access_token: token,
-          token_type: "bearer",
-          expires_in:
-              tokenExpiresTime?.difference(tokenCreatedAtTime).inMilliseconds ??
-              Duration(milliseconds: 0).inMilliseconds,
-        ),
+        data: TokenEntity(access_token: token, token_type: "bearer"),
       );
 
       return response;
@@ -64,11 +58,11 @@ class RefreshTokenRepositoryImplements implements RefreshTokenRepository {
             )
             .then((onValue) {
               if (onValue is DataSuccess) {
-                print('Refresh token successful: ${onValue.data?.data}');
                 response = DataSuccess(
                   data: TokenEntity.fromJson(onValue.data?.data),
                 );
                 userInfo = userInfo?.copyWith(
+                  expires_in: response?.data?.expires_in,
                   access_token: response?.data?.access_token,
                   refresh_token:
                       (response?.data?.refresh_token?.isNotEmpty ?? false)

@@ -13,8 +13,8 @@ class CommonService {
     Map<String, dynamic>? headers,
   }) : _dio = Dio(
          BaseOptions(
-           connectTimeout: connectTimeout ?? const Duration(seconds: 200),
-           receiveTimeout: receiveTimeout ?? const Duration(seconds: 200),
+           connectTimeout: connectTimeout ?? const Duration(seconds: 30),
+           receiveTimeout: receiveTimeout ?? const Duration(seconds: 30),
            queryParameters: queryParameters,
            headers: headers,
          ),
@@ -58,6 +58,11 @@ class CommonService {
       if ((response.statusCode ?? 0) >= 200 ||
           (response.statusCode ?? 0) <= 204) {
         return DataSuccess(data: response);
+      } else if ((response.statusCode ?? 0) == 429) {
+        return TooManyRequestsDataState(
+          error: response.statusMessage,
+          data: response,
+        );
       } else {
         return DataFailed(error: response.statusMessage);
       }
@@ -70,8 +75,14 @@ class CommonService {
         return DataError(data: e.response, error: e.response?.statusMessage);
       } else if ((e.response?.statusCode ?? 0) == 404) {
         return NotFoundDataState(error: e.response?.statusMessage);
+      } else if ((e.response?.statusCode ?? 0) == 429) {
+        return TooManyRequestsDataState(
+          error: e.response?.statusMessage,
+          data: e.response,
+        );
+      } else {
+        return DataFailed(error: e.toString());
       }
-      return DataFailed(error: e.toString());
     }
   }
 

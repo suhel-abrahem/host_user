@@ -21,7 +21,8 @@ import '../../../login_page/presentation/bloc/login_bloc_bloc.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 
 class OtpPagePage extends StatefulWidget {
-  const OtpPagePage({super.key});
+  final int? userId;
+  const OtpPagePage({super.key, this.userId});
 
   @override
   State<OtpPagePage> createState() => _OtpPagePageState();
@@ -38,7 +39,7 @@ class _OtpPagePageState extends State<OtpPagePage> {
     signupInfoEntity = getItInstance<AppPreferences>().getSignupInfo();
 
     otpModel = otpModel.copyWith(
-      userId: signupInfoEntity?.signupEntity?.user_id,
+      userId: widget.userId ?? signupInfoEntity?.signupEntity?.user_id,
     );
     super.initState();
   }
@@ -75,6 +76,35 @@ class _OtpPagePageState extends State<OtpPagePage> {
                 message: LocaleKeys.common_success.tr(),
                 context: context,
               );
+            },
+            tooManyRequests: (LoginStateEntity? loginStateEntity) {
+              showMessage(
+                message:
+                    "${LocaleKeys.common_tooManysRequestsPleaseTryAgainLater.tr()} ${loginStateEntity?.retry_after_seconds}s",
+                context: context,
+              );
+              if (loginStateEntity != null) {
+                if (loginStateEntity.retry_after_seconds != null &&
+                    loginStateEntity.retry_after_seconds != "1") {
+                  duration = Duration(
+                    seconds:
+                        int.tryParse(
+                          loginStateEntity.retry_after_seconds ?? "60",
+                        ) ??
+                        60,
+                  );
+                }
+                setState(() {
+                  duration = Duration(
+                    seconds:
+                        int.tryParse(
+                          loginStateEntity.retry_after_seconds ?? "60",
+                        ) ??
+                        60,
+                  );
+                  isTimerCompleted = false;
+                });
+              }
             },
           );
         },
@@ -247,23 +277,26 @@ class _OtpPagePageState extends State<OtpPagePage> {
                                     ),
                               ),
                             ),
-                            TimerCountdown(
-                              enableDescriptions: false,
-                              format: CountDownTimerFormat.secondsOnly,
-                              endTime: DateTime.now().add(duration),
-                              onEnd: () {
-                                setState(() {
-                                  isTimerCompleted = true;
-                                });
-                              },
-                              timeTextStyle: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall
-                                  ?.copyWith(
-                                    fontFamily: FontConstants.fontFamily(
-                                      context.locale,
+                            SizedBox(
+                              key: ValueKey(duration),
+                              child: TimerCountdown(
+                                enableDescriptions: false,
+                                format: CountDownTimerFormat.secondsOnly,
+                                endTime: DateTime.now().add(duration),
+                                onEnd: () {
+                                  setState(() {
+                                    isTimerCompleted = true;
+                                  });
+                                },
+                                timeTextStyle: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall
+                                    ?.copyWith(
+                                      fontFamily: FontConstants.fontFamily(
+                                        context.locale,
+                                      ),
                                     ),
-                                  ),
+                              ),
                             ),
                           ],
                         )

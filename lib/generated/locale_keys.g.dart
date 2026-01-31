@@ -40,6 +40,7 @@ abstract class  LocaleKeys {
   static const loginPage_viaEmail = 'loginPage.viaEmail';
   static const loginPage_viaWhatsapp = 'loginPage.viaWhatsapp';
   static const loginPage = 'loginPage';
+  static const common_tooManysRequestsPleaseTryAgainLater = 'common.tooManysRequestsPleaseTryAgainLater';
   static const common_loading = 'common.loading';
   static const common_error = 'common.error';
   static const common_notificationTokenErrorPleaseFixItOnSettings = 'common.notificationTokenErrorPleaseFixItOnSettings';

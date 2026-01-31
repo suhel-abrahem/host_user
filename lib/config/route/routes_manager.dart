@@ -77,7 +77,7 @@ class RoutesPath {
   static String bookingPage = '/booking/:pageIndex';
   static String myServicesPage = '/myServices';
   static String profilePage = '/profile';
-  static String otpPage = "/otpPage";
+  static String otpPage = "/otpPage/:userId";
   static String categoryServicesPage = "/categoryServicesPage/:categoryEntity";
   static String serviceInfoPage = "/serviceInfoPage/:serviceId/:isComplete";
   static String accountPage = "/accountPage";
@@ -179,7 +179,7 @@ GoRouter goRouter = GoRouter(
               path: RoutesPath.otpPage,
               name: RoutesName.otpPage,
               pageBuilder: (context, state) => _customTransitionPage(
-                child: const OtpPagePage(),
+                child: OtpPagePage(userId: state.pathParameters["userId"]),
                 state: state,
               ),
             ),

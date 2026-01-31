@@ -109,7 +109,7 @@ class _SettingPagePageState extends State<SettingPagePage> {
                             Helper.getLocaleByName(newLanguage),
                           );
                           getItInstance<AppPreferences>().setLanguage(
-                            languageCode: newLanguage,
+                            languageName: newLanguage,
                           );
                           getItInstance<FirebaseMessagingService>()
                               .updateDeviceLanguage()
@@ -167,10 +167,10 @@ class _SettingPagePageState extends State<SettingPagePage> {
                       dropDownHeight: 40.h,
                       itemWidth: 140.w,
                       isLoading: false,
-                      value: Helper.getLanguageName(
-                        selectedLanguage ??
-                            LanguageConstant.enLoacle.languageCode,
-                      ),
+                      value:
+                          selectedLanguage ??
+                          getItInstance<AppPreferences>().getLanguage() ??
+                          LanguageConstant.arName,
                     ),
                   ),
                 ).asGlass(
@@ -442,7 +442,7 @@ class _SettingPagePageState extends State<SettingPagePage> {
                     socketService.disconnect();
                     // Navigate to login page or perform other actions
                     if (context.mounted) {
-                      context.pop();
+                      restart();
                       context.goNamed(RoutesName.loginPage);
                     }
                   } else if (state is GetProfileStateLogoutError) {

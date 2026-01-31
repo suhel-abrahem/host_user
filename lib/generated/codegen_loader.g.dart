@@ -54,6 +54,7 @@ class CodegenLoader extends AssetLoader{
     "viaWhatsapp": "عبر الواتساب"
   },
   "common": {
+    "tooManysRequestsPleaseTryAgainLater": "طلبات كثيرة جداً. يرجى المحاولة مرة أخرى لاحقاً.",
     "loading": "جاري التحميل...",
     "error": "خطأ",
     "notificationTokenErrorPleaseFixItOnSettings": "خطأ في رمز الاشعارات. يرجى إصلاحه في الإعدادات!",
@@ -492,6 +493,7 @@ static const Map<String,dynamic> _en = {
     "viaWhatsapp": "Via Whatsapp"
   },
   "common": {
+    "tooManysRequestsPleaseTryAgainLater": "Too many requests. Please try again later.",
     "loading": "Loading...",
     "error": "Error",
     "notificationTokenErrorPleaseFixItOnSettings": "Notification token error. Please fix it in settings!",
@@ -930,6 +932,7 @@ static const Map<String,dynamic> _fa = {
     "viaWhatsapp": "بەڕێی واتسئاپ"
   },
   "common": {
+    "tooManysRequestsPleaseTryAgainLater": "زیاتر لە داواکاریەکان. تکایە دووبارە هەوڵبدەرەوە دواتر.",
     "loading": "چاوەڕێ بکە...",
     "error": "هەڵە",
     "notificationTokenErrorPleaseFixItOnSettings": "هەڵەی توکینی ئاگاداری. تکایە لە ڕێکخستنەکاندا چارەسەر بکە!",

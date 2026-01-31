@@ -49,6 +49,7 @@ class _FirstUsePageState extends State<FirstUsePage> {
   @override
   Widget build(BuildContext context) {
     return ThemeSwitchingArea(
+      key: ValueKey(languageName),
       child: ListView(
         children: [
           Padding(
@@ -89,11 +90,15 @@ class _FirstUsePageState extends State<FirstUsePage> {
                                   : Theme.of(context).colorScheme.surface,
                             ),
                           ),
-                      onPressed: () {
+                      onPressed: () async {
                         setState(() {
                           selectedLocale = LanguageConstant.enLoacle;
                           languageName = LanguageConstant.enName;
                         });
+                        await context.setLocale(LanguageConstant.enLoacle);
+                        await getItInstance<AppPreferences>().setLanguage(
+                          languageName: languageName,
+                        );
                       },
                       child: Text(
                         LocaleKeys.language_english.tr(),
@@ -114,11 +119,15 @@ class _FirstUsePageState extends State<FirstUsePage> {
                                   : Theme.of(context).colorScheme.surface,
                             ),
                           ),
-                      onPressed: () {
+                      onPressed: () async {
                         setState(() {
                           selectedLocale = LanguageConstant.arLoacle;
                           languageName = LanguageConstant.arName;
                         });
+                        await context.setLocale(LanguageConstant.arLoacle);
+                        await getItInstance<AppPreferences>().setLanguage(
+                          languageName: languageName,
+                        );
                       },
                       child: Text(
                         LocaleKeys.language_arabic.tr(),
@@ -139,11 +148,16 @@ class _FirstUsePageState extends State<FirstUsePage> {
                                   : Theme.of(context).colorScheme.surface,
                             ),
                           ),
-                      onPressed: () {
+                      onPressed: () async {
                         setState(() {
                           selectedLocale = LanguageConstant.faLocale;
+
                           languageName = LanguageConstant.faName;
                         });
+                        await context.setLocale(LanguageConstant.faLocale);
+                        await getItInstance<AppPreferences>().setLanguage(
+                          languageName: languageName,
+                        );
                       },
                       child: Text(
                         LocaleKeys.language_kurdish.tr(),
@@ -204,17 +218,17 @@ class _FirstUsePageState extends State<FirstUsePage> {
                 width: 200.w,
                 child: ElevatedButton(
                   onPressed: selectedLocale != null
-                      ? () {
+                      ? () async {
                           context.setLocale(selectedLocale!);
-                          getItInstance<AppPreferences>().setLanguage(
-                            languageCode: languageName,
+                          await getItInstance<AppPreferences>().setLanguage(
+                            languageName: languageName,
                           );
-                          getItInstance<AppPreferences>().setFirstUse(
+                          await getItInstance<AppPreferences>().setFirstUse(
                             isFirstUse: true,
                           );
 
                           context.goNamed(RoutesName.loginPage);
-                          restart;
+                          restart();
                         }
                       : null,
                   child: Text(

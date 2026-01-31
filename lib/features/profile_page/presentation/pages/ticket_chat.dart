@@ -1,3 +1,5 @@
+import 'package:animated_emoji/emoji.dart';
+import 'package:animated_emoji/emojis.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hosta_user/features/profile_page/presentation/bloc/tickets_bloc_bloc.dart';
 import 'package:hosta_user/features/profile_page/presentation/widgets/help/ticket_send_container.dart';
 
+import '../../../../core/resource/custom_widget/snake_bar_widget/snake_bar_widget.dart';
 import '../../../../core/util/helper/helper.dart';
 import '../../../chat/domain/entities/message/message_entity.dart';
 import '../../../chat/presentation/widgets/message_container.dart';
@@ -100,18 +103,9 @@ class _TicketChatPageState extends State<TicketChatPage> {
                       _scrollToBottom();
                     }
                   } else if (state is TicketsBlocStateError) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          LocaleKeys.common_error.tr(),
-                          style: Theme.of(context).textTheme.labelLarge
-                              ?.copyWith(
-                                fontFamily: FontConstants.fontFamily(
-                                  context.locale,
-                                ),
-                              ),
-                        ),
-                      ),
+                    showMessage(
+                      message: LocaleKeys.common_error.tr(),
+                      context: context,
                     );
                   } else if (state is TicketsBlocStateSessionExpired) {
                     await await getItInstance<AppPreferences>().setUserInfo(
@@ -120,7 +114,27 @@ class _TicketChatPageState extends State<TicketChatPage> {
                   }
                 },
                 child: currentState.when(
-                  initial: () => Center(child: CircularProgressIndicator()),
+                  initial: () => Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          width: 200.w,
+                          height: 200.h,
+                          child: AnimatedEmoji(AnimatedEmojis.bird),
+                        ),
+                        Text(
+                          LocaleKeys.chatsPage_noChatsAvailable.tr(),
+                          style: Theme.of(context).textTheme.labelLarge
+                              ?.copyWith(
+                                fontFamily: FontConstants.fontFamily(
+                                  context.locale,
+                                ),
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
                   loading: () => Center(child: CircularProgressIndicator()),
 
                   error: (e) => Center(
@@ -143,11 +157,24 @@ class _TicketChatPageState extends State<TicketChatPage> {
                     ),
                   ),
                   noData: () => Center(
-                    child: Text(
-                      LocaleKeys.chatsPage_noChatsAvailable.tr(),
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: FontConstants.fontFamily(context.locale),
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          width: 200.w,
+                          height: 200.h,
+                          child: AnimatedEmoji(AnimatedEmojis.bird),
+                        ),
+                        Text(
+                          LocaleKeys.chatsPage_noChatsAvailable.tr(),
+                          style: Theme.of(context).textTheme.labelLarge
+                              ?.copyWith(
+                                fontFamily: FontConstants.fontFamily(
+                                  context.locale,
+                                ),
+                              ),
+                        ),
+                      ],
                     ),
                   ),
                   connectionError: () => Center(

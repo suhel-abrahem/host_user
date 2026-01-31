@@ -12,10 +12,10 @@ class AppPreferences {
   AppPreferences(SharedPreferences sharedPreferences)
     : _sharedPreferences = sharedPreferences;
 
-  setLanguage({String? languageCode}) {
+  setLanguage({String? languageName}) {
     _sharedPreferences.setString(
       SharedPreferencesKeys.appLanguageKey,
-      languageCode ?? LanguageConstant.enName,
+      languageName ?? LanguageConstant.enName,
     );
   }
 
@@ -79,6 +79,6 @@ class AppPreferences {
     String? stringJson = _sharedPreferences.getString(
       SharedPreferencesKeys.signupInfoKey,
     );
-    return SignupInfoEntity.fromJson(jsonDecode(stringJson ?? ""));
+    return SignupInfoEntity.fromJson(jsonDecode(stringJson ?? "{}"));
   }
 }

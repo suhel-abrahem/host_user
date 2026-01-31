@@ -22,6 +22,8 @@ class OtpPageBloc extends Bloc<OtpPageEvent, OtpPageState> {
       await _otpVerifyUsecase.call(params: event.otpModel).then((onValue) {
         if (onValue is DataSuccess) {
           emit(OtpPageState.verified(onValue?.data));
+        } else if (onValue is TooManyRequestsDataState) {
+          emit(OtpPageState.tooManyRequests(loginStateEntity: onValue?.data));
         } else {
           emit(OtpPageState.error());
         }

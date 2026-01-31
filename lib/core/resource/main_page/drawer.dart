@@ -272,7 +272,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         });
                         context.setLocale(Helper.getLocaleByName(newLanguage));
                         await getItInstance<AppPreferences>().setLanguage(
-                          languageCode: newLanguage,
+                          languageName: newLanguage,
                         );
                         final LoginStateEntity? loginState =
                             getItInstance<AppPreferences>().getUserInfo();
@@ -437,7 +437,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     socketService.disconnect();
                     // Navigate to login page or perform other actions
                     if (context.mounted) {
-                      context.pop();
+                      restart();
                       context.goNamed(RoutesName.loginPage);
                     }
                   } else if (state is GetProfileStateLogoutError) {
