@@ -103,20 +103,6 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
-  Future<void> getPushNotification() async {
-    notificationStreamSocket.stream.listen((remoteMessage) {
-      print("show dialog for notification: $remoteMessage");
-      showDialog(
-        context: context,
-        builder: (context) => StatefulBuilder(
-          builder: (context, setState) {
-            return BookingNotificationWidget(message: remoteMessage);
-          },
-        ),
-      );
-    });
-  }
-
   Future<void> getMessage() async {
     try {
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
@@ -126,7 +112,10 @@ class _MainPageState extends State<MainPage> {
                   RoutesName.serviceInfoPage,
                   pathParameters: {
                     "serviceId": message.data["booking_id"].toString(),
-                    "isComplete": "true",
+                    "isComplete":
+                        message.data["type"].toString() == "booking_completed"
+                        ? "true"
+                        : "false",
                   },
                 )
               : context.pushNamed(
@@ -157,7 +146,11 @@ class _MainPageState extends State<MainPage> {
                   RoutesName.serviceInfoPage,
                   pathParameters: {
                     "serviceId": initialMessage.data["booking_id"].toString(),
-                    "isComplete": "true",
+                    "isComplete":
+                        initialMessage.data["type"].toString() ==
+                            "booking_completed"
+                        ? "true"
+                        : "false",
                   },
                 )
               : context.pushNamed(

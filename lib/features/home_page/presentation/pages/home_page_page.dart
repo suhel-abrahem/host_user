@@ -388,7 +388,7 @@ class _HomePagePageState extends State<HomePagePage> {
             ),
           ],
           automaticallyImplyLeading: false,
-          leadingWidth: 210.w,
+          leadingWidth: 250.w,
 
           leading: Padding(
             padding: EdgeInsets.only(top: 8.h),
@@ -433,64 +433,56 @@ class _HomePagePageState extends State<HomePagePage> {
                       });
                     }
                   },
-                  child: SizedBox(
-                    width: 210.w,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        isProfileDataLoading
-                            ? CircularProgressIndicator(
-                                backgroundColor: ColorManager.darkTextColor,
-                              )
-                            : Container(
-                                width: 60.w,
-                                height: 60.h,
-                                clipBehavior: Clip.antiAlias,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      isProfileDataLoading
+                          ? CircularProgressIndicator(
+                              backgroundColor: ColorManager.darkTextColor,
+                            )
+                          : Container(
+                              width: 60.w,
+                              height: 60.h,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(shape: BoxShape.circle),
+                              child: ImageWidget(
+                                boxFit: BoxFit.cover,
+                                errorWidget: Icon(
+                                  Icons.account_circle,
+                                  size: 40.sp,
+                                  color: ColorManager.darkTextColor,
                                 ),
-                                child: ImageWidget(
-                                  boxFit: BoxFit.cover,
-                                  errorWidget: Icon(
-                                    Icons.account_circle,
-                                    size: 40.sp,
-                                    color: ColorManager.darkTextColor,
-                                  ),
-                                  imageUrl: profileEntity?.avatar ?? "",
-                                ),
+                                imageUrl: profileEntity?.avatar ?? "",
                               ),
-                        Align(
+                            ),
+                      Expanded(
+                        child: Align(
                           alignment: AlignmentDirectional.centerStart,
-                          child: SizedBox(
-                            width: 130.w,
-                            child: isProfileDataLoading
-                                ? Center(
-                                    child: LinearProgressIndicator(
-                                      color: ColorManager.darkTextColor,
-                                      backgroundColor: Theme.of(
-                                        context,
-                                      ).colorScheme.primary,
-                                    ),
-                                  )
-                                : Text(
-                                    profileEntity?.name ?? "",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge
-                                        ?.copyWith(
-                                          fontFamily: FontConstants.fontFamily(
-                                            context.locale,
-                                          ),
-                                          color: ColorManager.darkTextColor,
-                                        ),
-                                    textAlign: TextAlign.start,
-                                    overflow: TextOverflow.ellipsis,
+                          child: isProfileDataLoading
+                              ? Center(
+                                  child: LinearProgressIndicator(
+                                    color: ColorManager.darkTextColor,
+                                    backgroundColor: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
                                   ),
-                          ),
+                                )
+                              : Text(
+                                  profileEntity?.name ?? "",
+                                  style: Theme.of(context).textTheme.labelLarge
+                                      ?.copyWith(
+                                        fontFamily: FontConstants.fontFamily(
+                                          context.locale,
+                                        ),
+                                        color: ColorManager.darkTextColor,
+                                      ),
+                                  textAlign: TextAlign.start,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

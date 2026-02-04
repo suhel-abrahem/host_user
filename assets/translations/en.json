@@ -434,6 +434,7 @@
     "send": "Send",
     "sentAImage": "Sent an image",
     "you": "You",
-    "adminReply": "Admin reply"
+    "adminReply": "Admin reply",
+    "ticketClosed": "Ticket closed"
   }
 }

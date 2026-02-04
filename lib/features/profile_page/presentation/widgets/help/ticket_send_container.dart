@@ -121,7 +121,6 @@ class _TicketMessageContainerState extends State<TicketMessageContainer> {
                     maxWidth: 260.w,
                     minWidth: 20.w,
                     minHeight: 25.h,
-                    maxHeight: 250.h,
                   ),
                   decoration: BoxDecoration(
                     boxShadow: [

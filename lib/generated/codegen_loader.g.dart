@@ -450,7 +450,8 @@ class CodegenLoader extends AssetLoader{
     "send": "إرسال",
     "sentAImage": "أرسل صورة",
     "you": "أنت",
-    "adminReply": "رد الإدارة"
+    "adminReply": "رد الإدارة",
+    "ticketClosed": "التذكرة مغلقة"
   }
 };
 static const Map<String,dynamic> _en = {
@@ -889,7 +890,8 @@ static const Map<String,dynamic> _en = {
     "send": "Send",
     "sentAImage": "Sent an image",
     "you": "You",
-    "adminReply": "Admin reply"
+    "adminReply": "Admin reply",
+    "ticketClosed": "Ticket closed"
   }
 };
 static const Map<String,dynamic> _fa = {
@@ -1328,7 +1330,8 @@ static const Map<String,dynamic> _fa = {
     "send": "ناردن",
     "sentAImage": "وێنەیەک نارد",
     "you": "تۆ",
-    "adminReply": " وەڵامی بەڕێوەبەر"
+    "adminReply": " وەڵامی بەڕێوەبەر",
+    "ticketClosed": "تیکەت داخرا"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": _ar, "en": _en, "fa": _fa};

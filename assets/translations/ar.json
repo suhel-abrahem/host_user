@@ -434,6 +434,7 @@
     "send": "إرسال",
     "sentAImage": "أرسل صورة",
     "you": "أنت",
-    "adminReply": "رد الإدارة"
+    "adminReply": "رد الإدارة",
+    "ticketClosed": "التذكرة مغلقة"
   }
 }

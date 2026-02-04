@@ -137,6 +137,10 @@ class BookingNotificationWidget extends StatelessWidget {
                 RoutesName.serviceInfoPage,
                 pathParameters: {
                   "serviceId": message?.data?["booking_id"].toString() ?? "",
+                  "isComplete":
+                      (message?.data?["type"].toString() == "booking_completed")
+                      ? "true"
+                      : "false",
                 },
               );
             },

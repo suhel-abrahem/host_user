@@ -64,10 +64,8 @@ class GetBookingBloc extends Bloc<GetBookingEvent, GetBookingState> {
               emit(GetBookingState.unauthenticated());
             } else if (onValue is NOInternetDataState) {
               emit(GetBookingState.noInternet());
-            } else if (onValue is DataFailed) {
-              emit(GetBookingState.unauthenticated());
             } else {
-              emit(GetBookingState.unauthenticated());
+              emit(GetBookingState.error());
             }
           });
     });

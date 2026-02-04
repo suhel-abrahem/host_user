@@ -34,8 +34,13 @@ import '../../../../core/resource/rst_stream/rst_stream.dart';
 class TicketChatPage extends StatefulWidget {
   final String? bookingNumber;
   final int? chatId;
-
-  const TicketChatPage({super.key, this.bookingNumber, this.chatId});
+  final bool? canSend;
+  const TicketChatPage({
+    super.key,
+    this.bookingNumber,
+    this.chatId,
+    this.canSend,
+  });
 
   @override
   State<TicketChatPage> createState() => _TicketChatPageState();
@@ -242,20 +247,23 @@ class _TicketChatPageState extends State<TicketChatPage> {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-            child: SendMessageField(
-              chatId: widget.chatId,
-              onSend: (value) {
-                setState(() {
-                  chatMesages?.add(value);
-                  currentState = TicketsBlocState.ticketDetailsLoaded(
-                    ticketDetails: null,
-                  );
-                });
+          Visibility(
+            visible: widget.canSend ?? true,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+              child: SendMessageField(
+                chatId: widget.chatId,
+                onSend: (value) {
+                  setState(() {
+                    chatMesages?.add(value);
+                    currentState = TicketsBlocState.ticketDetailsLoaded(
+                      ticketDetails: null,
+                    );
+                  });
 
-                _scrollToBottom();
-              },
+                  _scrollToBottom();
+                },
+              ),
             ),
           ),
         ],

@@ -419,6 +419,7 @@ abstract class  LocaleKeys {
   static const chatsPage_sentAImage = 'chatsPage.sentAImage';
   static const chatsPage_you = 'chatsPage.you';
   static const chatsPage_adminReply = 'chatsPage.adminReply';
+  static const chatsPage_ticketClosed = 'chatsPage.ticketClosed';
   static const chatsPage = 'chatsPage';
 
 }
