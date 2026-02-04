@@ -42,7 +42,7 @@ class GetSlidersBloc extends Bloc<GetSlidersEvent, GetSlidersState> {
                       token: refreshDataState?.data?.access_token,
                     ),
                   )
-                  .then((onValue) {
+                  .then((onValue) async {
                     if (onValue is DataSuccess) {
                       if (onValue?.data == null ||
                           (onValue?.data?.isEmpty ?? true)) {
@@ -52,6 +52,10 @@ class GetSlidersBloc extends Bloc<GetSlidersEvent, GetSlidersState> {
                       emit(GetSlidersStateLoaded(sliders: onValue?.data));
                     } else if (onValue is UnauthenticatedDataState) {
                       emit(GetSlidersStateUnauthenticated());
+                    } else if (onValue is NOInternetDataState) {
+                      emit(GetSlidersStateNoInternet());
+                    } else if (onValue is DataFailed) {
+                      emit(GetSlidersStateError(message: onValue?.error));
                     } else {
                       emit(GetSlidersStateError(message: onValue?.error));
                     }

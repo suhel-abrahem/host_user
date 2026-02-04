@@ -21,7 +21,7 @@ import '../../../login_page/presentation/bloc/login_bloc_bloc.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 
 class OtpPagePage extends StatefulWidget {
-  final int? userId;
+  final String? userId;
   const OtpPagePage({super.key, this.userId});
 
   @override
@@ -34,12 +34,15 @@ class _OtpPagePageState extends State<OtpPagePage> {
   OtpModel otpModel = const OtpModel();
   Duration duration = const Duration(seconds: 60);
   bool isTimerCompleted = false;
+  int? userId;
   @override
   void initState() {
     signupInfoEntity = getItInstance<AppPreferences>().getSignupInfo();
-
+    if (widget.userId != null) {
+      userId = int.tryParse(widget.userId!);
+    }
     otpModel = otpModel.copyWith(
-      userId: widget.userId ?? signupInfoEntity?.signupEntity?.user_id,
+      userId: userId ?? signupInfoEntity?.signupEntity?.user_id,
     );
     super.initState();
   }

@@ -41,7 +41,7 @@ class GetBookingBloc extends Bloc<GetBookingEvent, GetBookingState> {
                 params: event.getBookingModel?.copyWith(
                   auth: onValue?.data?.access_token,
                 ),
-              ).then((getValue) {
+              ).then((getValue) async {
                 print(
                   "GetBookingBloc: Get bookings response: ${getValue?.data}",
                 );
@@ -52,6 +52,10 @@ class GetBookingBloc extends Bloc<GetBookingEvent, GetBookingState> {
                   } else {
                     emit(GetBookingState.noData());
                   }
+                } else if (getValue is UnauthenticatedDataState) {
+                  emit(GetBookingState.unauthenticated());
+                } else if (getValue is NOInternetDataState) {
+                  emit(GetBookingState.noInternet());
                 } else {
                   emit(GetBookingState.error());
                 }

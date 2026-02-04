@@ -1085,23 +1085,17 @@ class _HomePagePageState extends State<HomePagePage> {
                         ),
                       ),
                     ),
-                    error: () => Expanded(
-                      child: ErrorStateWidget(
-                        lottieHeight: 200.h,
-                        lottieWidth: 200.w,
-                      ),
+                    error: () => ErrorStateWidget(
+                      lottieHeight: 200.h,
+                      lottieWidth: 200.w,
                     ),
-                    noInternet: () => Expanded(
-                      child: NoInternetStateWidget(
-                        lottieHeight: 200.h,
-                        lottieWidth: 200.w,
-                      ),
+                    noInternet: () => NoInternetStateWidget(
+                      lottieHeight: 200.h,
+                      lottieWidth: 200.w,
                     ),
-                    unAuthorized: () => Expanded(
-                      child: ErrorStateWidget(
-                        lottieHeight: 200.h,
-                        lottieWidth: 200.w,
-                      ),
+                    unAuthorized: () => UnauthStateWidget(
+                      lottieHeight: 200.h,
+                      lottieWidth: 200.w,
                     ),
                     loading: () => Padding(
                       padding: EdgeInsets.symmetric(vertical: 20.h),

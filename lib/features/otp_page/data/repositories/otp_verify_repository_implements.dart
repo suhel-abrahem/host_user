@@ -21,7 +21,7 @@ class OtpVerifyRepositoryImplements implements OtpVerifyRepository {
        _checkConnectivity = checkConnectivity;
   @override
   Future<DataState<LoginStateEntity?>?> verify({OtpModel? otpModel}) async {
-    ConnectivityResult connectivityResult = ConnectivityResult.none;
+    ConnectivityResult? connectivityResult;
     await _checkConnectivity.checkConnectivity().then(
       (action) => connectivityResult = action.last,
     );

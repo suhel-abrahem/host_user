@@ -41,7 +41,9 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
                 token: onValue?.data?.access_token,
                 acceptLanguage: event.model?.acceptLanguage ?? "en",
               );
-              await _homePageUseCase.call(params: homePageModel).then((value) {
+              await _homePageUseCase.call(params: homePageModel).then((
+                value,
+              ) async {
                 if (value is NOInternetDataState) {
                   emit(HomePageState.noInternet());
                 } else if (value is DataFailed) {

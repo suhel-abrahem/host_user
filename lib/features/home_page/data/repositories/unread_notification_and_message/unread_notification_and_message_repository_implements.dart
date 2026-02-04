@@ -60,7 +60,7 @@ class UnreadNotificationAndMessageRepositoryImplements
   @override
   Future<DataState<int?>?> getUnreadNotificationCount(String? params) async {
     DataState<int?>? dataState;
-    ConnectivityResult? connectivityResult = ConnectivityResult.none;
+    ConnectivityResult? connectivityResult;
     await checkConnectivity?.checkConnectivity().then((result) {
       connectivityResult = result.last;
     });

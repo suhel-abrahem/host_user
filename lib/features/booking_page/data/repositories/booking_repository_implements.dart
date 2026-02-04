@@ -74,7 +74,7 @@ class BookingRepositoryImpl implements BookingRepository {
   Future<DataState<BookingEntity?>?> set({
     GetBookingModel? getBookingModel,
   }) async {
-    ConnectivityResult? connectivityResult;
+    ConnectivityResult? connectivityResult = ConnectivityResult.none;
     await _checkConnectivity.checkConnectivity().then(
       (onValue) => connectivityResult = onValue.last,
     );

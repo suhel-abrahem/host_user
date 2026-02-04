@@ -17,7 +17,7 @@ class ServiceDetailsRepositoryImpl implements ServiceDetailsRepository {
   Future<DataState<List<ServiceDetailsEntity?>?>?> getServiceDetails({
     required ServiceDetailsModel? serviceDetailsModel,
   }) async {
-    ConnectivityResult connectivityResult = ConnectivityResult.none;
+    ConnectivityResult? connectivityResult;
     await _checkConnectivity.checkConnectivity().then(
       (onValue) => connectivityResult = onValue.last,
     );

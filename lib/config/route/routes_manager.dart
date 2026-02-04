@@ -179,7 +179,7 @@ GoRouter goRouter = GoRouter(
               path: RoutesPath.otpPage,
               name: RoutesName.otpPage,
               pageBuilder: (context, state) => _customTransitionPage(
-                child: OtpPagePage(userId: state.pathParameters["userId"]),
+                child: OtpPagePage(userId: (state.pathParameters["userId"])),
                 state: state,
               ),
             ),
