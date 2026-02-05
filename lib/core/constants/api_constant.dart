@@ -25,7 +25,6 @@ class ApiConstant {
       "/notifications/register-device";
   static const String updateDeviceLanguageEndpoint =
       "/notifications/device-locale";
-
   static const String getNotificationsEndpoint = "/notifications";
   static const String timeSlotsEndpoint = "/availability/slots";
   static const String storeBookingEndpoint = "/client/bookings";

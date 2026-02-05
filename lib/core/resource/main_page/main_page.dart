@@ -121,8 +121,8 @@ class _MainPageState extends State<MainPage> {
               : context.pushNamed(
                   RoutesName.chatPage,
                   pathParameters: {
+                    "bookingNumber": message.data["booking_number"] ?? "",
                     "chatId": message.data["conversationId"] ?? "",
-                    "bookingNumber": message.data["bookingId"] ?? "",
                   },
                 );
         }
@@ -156,8 +156,9 @@ class _MainPageState extends State<MainPage> {
               : context.pushNamed(
                   RoutesName.chatPage,
                   pathParameters: {
+                    "bookingNumber":
+                        initialMessage.data["booking_number"] ?? "",
                     "chatId": initialMessage.data["conversationId"] ?? "",
-                    "bookingNumber": initialMessage.data["bookingId"] ?? "",
                   },
                 );
         }
