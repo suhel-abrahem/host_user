@@ -42,4 +42,5 @@ class ApiConstant {
   static const String getUnreadNotificationCountEndpoint =
       "/notifications/unread-count";
   static const String getUnreadMessageCountEndpoint = "/chat/unread-count";
+  static const String getUnreadTicketCountEndpoint = "/support/unread-count";
 }

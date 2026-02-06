@@ -55,13 +55,14 @@ extension UnreadCountEventPatterns on UnreadCountEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( UnreadCountEventStarted value)?  started,TResult Function( UnreadCountEventGetNotificationUnreadCount value)?  getNotificationUnreadCount,TResult Function( UnreadCountEventGetMessageUnreadCount value)?  getMessageUnreadCount,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( UnreadCountEventStarted value)?  started,TResult Function( UnreadCountEventGetNotificationUnreadCount value)?  getNotificationUnreadCount,TResult Function( UnreadCountEventGetMessageUnreadCount value)?  getMessageUnreadCount,TResult Function( UnreadCountEventGetTicketUnreadCount value)?  getTicketUnreadCount,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case UnreadCountEventStarted() when started != null:
 return started(_that);case UnreadCountEventGetNotificationUnreadCount() when getNotificationUnreadCount != null:
 return getNotificationUnreadCount(_that);case UnreadCountEventGetMessageUnreadCount() when getMessageUnreadCount != null:
-return getMessageUnreadCount(_that);case _:
+return getMessageUnreadCount(_that);case UnreadCountEventGetTicketUnreadCount() when getTicketUnreadCount != null:
+return getTicketUnreadCount(_that);case _:
   return orElse();
 
 }
@@ -79,13 +80,14 @@ return getMessageUnreadCount(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( UnreadCountEventStarted value)  started,required TResult Function( UnreadCountEventGetNotificationUnreadCount value)  getNotificationUnreadCount,required TResult Function( UnreadCountEventGetMessageUnreadCount value)  getMessageUnreadCount,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( UnreadCountEventStarted value)  started,required TResult Function( UnreadCountEventGetNotificationUnreadCount value)  getNotificationUnreadCount,required TResult Function( UnreadCountEventGetMessageUnreadCount value)  getMessageUnreadCount,required TResult Function( UnreadCountEventGetTicketUnreadCount value)  getTicketUnreadCount,}){
 final _that = this;
 switch (_that) {
 case UnreadCountEventStarted():
 return started(_that);case UnreadCountEventGetNotificationUnreadCount():
 return getNotificationUnreadCount(_that);case UnreadCountEventGetMessageUnreadCount():
-return getMessageUnreadCount(_that);case _:
+return getMessageUnreadCount(_that);case UnreadCountEventGetTicketUnreadCount():
+return getTicketUnreadCount(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -102,13 +104,14 @@ return getMessageUnreadCount(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( UnreadCountEventStarted value)?  started,TResult? Function( UnreadCountEventGetNotificationUnreadCount value)?  getNotificationUnreadCount,TResult? Function( UnreadCountEventGetMessageUnreadCount value)?  getMessageUnreadCount,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( UnreadCountEventStarted value)?  started,TResult? Function( UnreadCountEventGetNotificationUnreadCount value)?  getNotificationUnreadCount,TResult? Function( UnreadCountEventGetMessageUnreadCount value)?  getMessageUnreadCount,TResult? Function( UnreadCountEventGetTicketUnreadCount value)?  getTicketUnreadCount,}){
 final _that = this;
 switch (_that) {
 case UnreadCountEventStarted() when started != null:
 return started(_that);case UnreadCountEventGetNotificationUnreadCount() when getNotificationUnreadCount != null:
 return getNotificationUnreadCount(_that);case UnreadCountEventGetMessageUnreadCount() when getMessageUnreadCount != null:
-return getMessageUnreadCount(_that);case _:
+return getMessageUnreadCount(_that);case UnreadCountEventGetTicketUnreadCount() when getTicketUnreadCount != null:
+return getTicketUnreadCount(_that);case _:
   return null;
 
 }
@@ -125,12 +128,13 @@ return getMessageUnreadCount(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function()?  getNotificationUnreadCount,TResult Function()?  getMessageUnreadCount,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function()?  getNotificationUnreadCount,TResult Function()?  getMessageUnreadCount,TResult Function()?  getTicketUnreadCount,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case UnreadCountEventStarted() when started != null:
 return started();case UnreadCountEventGetNotificationUnreadCount() when getNotificationUnreadCount != null:
 return getNotificationUnreadCount();case UnreadCountEventGetMessageUnreadCount() when getMessageUnreadCount != null:
-return getMessageUnreadCount();case _:
+return getMessageUnreadCount();case UnreadCountEventGetTicketUnreadCount() when getTicketUnreadCount != null:
+return getTicketUnreadCount();case _:
   return orElse();
 
 }
@@ -148,12 +152,13 @@ return getMessageUnreadCount();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function()  getNotificationUnreadCount,required TResult Function()  getMessageUnreadCount,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function()  getNotificationUnreadCount,required TResult Function()  getMessageUnreadCount,required TResult Function()  getTicketUnreadCount,}) {final _that = this;
 switch (_that) {
 case UnreadCountEventStarted():
 return started();case UnreadCountEventGetNotificationUnreadCount():
 return getNotificationUnreadCount();case UnreadCountEventGetMessageUnreadCount():
-return getMessageUnreadCount();case _:
+return getMessageUnreadCount();case UnreadCountEventGetTicketUnreadCount():
+return getTicketUnreadCount();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -170,12 +175,13 @@ return getMessageUnreadCount();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function()?  getNotificationUnreadCount,TResult? Function()?  getMessageUnreadCount,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function()?  getNotificationUnreadCount,TResult? Function()?  getMessageUnreadCount,TResult? Function()?  getTicketUnreadCount,}) {final _that = this;
 switch (_that) {
 case UnreadCountEventStarted() when started != null:
 return started();case UnreadCountEventGetNotificationUnreadCount() when getNotificationUnreadCount != null:
 return getNotificationUnreadCount();case UnreadCountEventGetMessageUnreadCount() when getMessageUnreadCount != null:
-return getMessageUnreadCount();case _:
+return getMessageUnreadCount();case UnreadCountEventGetTicketUnreadCount() when getTicketUnreadCount != null:
+return getTicketUnreadCount();case _:
   return null;
 
 }
@@ -280,6 +286,38 @@ String toString() {
 
 
 /// @nodoc
+
+
+class UnreadCountEventGetTicketUnreadCount implements UnreadCountEvent {
+  const UnreadCountEventGetTicketUnreadCount();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnreadCountEventGetTicketUnreadCount);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'UnreadCountEvent.getTicketUnreadCount()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
 mixin _$UnreadCountState {
 
 
@@ -323,14 +361,15 @@ extension UnreadCountStatePatterns on UnreadCountState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( UnreadCountStateInitial value)?  initial,TResult Function( UnreadCountStateLoading value)?  loading,TResult Function( UnreadCountStateNotificationUnreadCountLoaded value)?  notificationUnreadCountLoaded,TResult Function( UnreadCountStateMessageUnreadCountLoaded value)?  messageUnreadCountLoaded,TResult Function( UnreadCountStateError value)?  error,TResult Function( UnreadCountStateUnauthenticated value)?  unauthenticated,TResult Function( UnreadCountStateNoInternet value)?  noInternet,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( UnreadCountStateInitial value)?  initial,TResult Function( UnreadCountStateLoading value)?  loading,TResult Function( UnreadCountStateNotificationUnreadCountLoaded value)?  notificationUnreadCountLoaded,TResult Function( UnreadCountStateMessageUnreadCountLoaded value)?  messageUnreadCountLoaded,TResult Function( UnreadCountStateTicketUnreadCountLoaded value)?  ticketUnreadCountLoaded,TResult Function( UnreadCountStateError value)?  error,TResult Function( UnreadCountStateUnauthenticated value)?  unauthenticated,TResult Function( UnreadCountStateNoInternet value)?  noInternet,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case UnreadCountStateInitial() when initial != null:
 return initial(_that);case UnreadCountStateLoading() when loading != null:
 return loading(_that);case UnreadCountStateNotificationUnreadCountLoaded() when notificationUnreadCountLoaded != null:
 return notificationUnreadCountLoaded(_that);case UnreadCountStateMessageUnreadCountLoaded() when messageUnreadCountLoaded != null:
-return messageUnreadCountLoaded(_that);case UnreadCountStateError() when error != null:
+return messageUnreadCountLoaded(_that);case UnreadCountStateTicketUnreadCountLoaded() when ticketUnreadCountLoaded != null:
+return ticketUnreadCountLoaded(_that);case UnreadCountStateError() when error != null:
 return error(_that);case UnreadCountStateUnauthenticated() when unauthenticated != null:
 return unauthenticated(_that);case UnreadCountStateNoInternet() when noInternet != null:
 return noInternet(_that);case _:
@@ -351,14 +390,15 @@ return noInternet(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( UnreadCountStateInitial value)  initial,required TResult Function( UnreadCountStateLoading value)  loading,required TResult Function( UnreadCountStateNotificationUnreadCountLoaded value)  notificationUnreadCountLoaded,required TResult Function( UnreadCountStateMessageUnreadCountLoaded value)  messageUnreadCountLoaded,required TResult Function( UnreadCountStateError value)  error,required TResult Function( UnreadCountStateUnauthenticated value)  unauthenticated,required TResult Function( UnreadCountStateNoInternet value)  noInternet,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( UnreadCountStateInitial value)  initial,required TResult Function( UnreadCountStateLoading value)  loading,required TResult Function( UnreadCountStateNotificationUnreadCountLoaded value)  notificationUnreadCountLoaded,required TResult Function( UnreadCountStateMessageUnreadCountLoaded value)  messageUnreadCountLoaded,required TResult Function( UnreadCountStateTicketUnreadCountLoaded value)  ticketUnreadCountLoaded,required TResult Function( UnreadCountStateError value)  error,required TResult Function( UnreadCountStateUnauthenticated value)  unauthenticated,required TResult Function( UnreadCountStateNoInternet value)  noInternet,}){
 final _that = this;
 switch (_that) {
 case UnreadCountStateInitial():
 return initial(_that);case UnreadCountStateLoading():
 return loading(_that);case UnreadCountStateNotificationUnreadCountLoaded():
 return notificationUnreadCountLoaded(_that);case UnreadCountStateMessageUnreadCountLoaded():
-return messageUnreadCountLoaded(_that);case UnreadCountStateError():
+return messageUnreadCountLoaded(_that);case UnreadCountStateTicketUnreadCountLoaded():
+return ticketUnreadCountLoaded(_that);case UnreadCountStateError():
 return error(_that);case UnreadCountStateUnauthenticated():
 return unauthenticated(_that);case UnreadCountStateNoInternet():
 return noInternet(_that);case _:
@@ -378,14 +418,15 @@ return noInternet(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( UnreadCountStateInitial value)?  initial,TResult? Function( UnreadCountStateLoading value)?  loading,TResult? Function( UnreadCountStateNotificationUnreadCountLoaded value)?  notificationUnreadCountLoaded,TResult? Function( UnreadCountStateMessageUnreadCountLoaded value)?  messageUnreadCountLoaded,TResult? Function( UnreadCountStateError value)?  error,TResult? Function( UnreadCountStateUnauthenticated value)?  unauthenticated,TResult? Function( UnreadCountStateNoInternet value)?  noInternet,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( UnreadCountStateInitial value)?  initial,TResult? Function( UnreadCountStateLoading value)?  loading,TResult? Function( UnreadCountStateNotificationUnreadCountLoaded value)?  notificationUnreadCountLoaded,TResult? Function( UnreadCountStateMessageUnreadCountLoaded value)?  messageUnreadCountLoaded,TResult? Function( UnreadCountStateTicketUnreadCountLoaded value)?  ticketUnreadCountLoaded,TResult? Function( UnreadCountStateError value)?  error,TResult? Function( UnreadCountStateUnauthenticated value)?  unauthenticated,TResult? Function( UnreadCountStateNoInternet value)?  noInternet,}){
 final _that = this;
 switch (_that) {
 case UnreadCountStateInitial() when initial != null:
 return initial(_that);case UnreadCountStateLoading() when loading != null:
 return loading(_that);case UnreadCountStateNotificationUnreadCountLoaded() when notificationUnreadCountLoaded != null:
 return notificationUnreadCountLoaded(_that);case UnreadCountStateMessageUnreadCountLoaded() when messageUnreadCountLoaded != null:
-return messageUnreadCountLoaded(_that);case UnreadCountStateError() when error != null:
+return messageUnreadCountLoaded(_that);case UnreadCountStateTicketUnreadCountLoaded() when ticketUnreadCountLoaded != null:
+return ticketUnreadCountLoaded(_that);case UnreadCountStateError() when error != null:
 return error(_that);case UnreadCountStateUnauthenticated() when unauthenticated != null:
 return unauthenticated(_that);case UnreadCountStateNoInternet() when noInternet != null:
 return noInternet(_that);case _:
@@ -405,13 +446,14 @@ return noInternet(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( int? count)?  notificationUnreadCountLoaded,TResult Function( int? count)?  messageUnreadCountLoaded,TResult Function( String error)?  error,TResult Function( String error)?  unauthenticated,TResult Function()?  noInternet,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( int? count)?  notificationUnreadCountLoaded,TResult Function( int? count)?  messageUnreadCountLoaded,TResult Function( int? count)?  ticketUnreadCountLoaded,TResult Function( String error)?  error,TResult Function( String error)?  unauthenticated,TResult Function()?  noInternet,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case UnreadCountStateInitial() when initial != null:
 return initial();case UnreadCountStateLoading() when loading != null:
 return loading();case UnreadCountStateNotificationUnreadCountLoaded() when notificationUnreadCountLoaded != null:
 return notificationUnreadCountLoaded(_that.count);case UnreadCountStateMessageUnreadCountLoaded() when messageUnreadCountLoaded != null:
-return messageUnreadCountLoaded(_that.count);case UnreadCountStateError() when error != null:
+return messageUnreadCountLoaded(_that.count);case UnreadCountStateTicketUnreadCountLoaded() when ticketUnreadCountLoaded != null:
+return ticketUnreadCountLoaded(_that.count);case UnreadCountStateError() when error != null:
 return error(_that.error);case UnreadCountStateUnauthenticated() when unauthenticated != null:
 return unauthenticated(_that.error);case UnreadCountStateNoInternet() when noInternet != null:
 return noInternet();case _:
@@ -432,13 +474,14 @@ return noInternet();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( int? count)  notificationUnreadCountLoaded,required TResult Function( int? count)  messageUnreadCountLoaded,required TResult Function( String error)  error,required TResult Function( String error)  unauthenticated,required TResult Function()  noInternet,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( int? count)  notificationUnreadCountLoaded,required TResult Function( int? count)  messageUnreadCountLoaded,required TResult Function( int? count)  ticketUnreadCountLoaded,required TResult Function( String error)  error,required TResult Function( String error)  unauthenticated,required TResult Function()  noInternet,}) {final _that = this;
 switch (_that) {
 case UnreadCountStateInitial():
 return initial();case UnreadCountStateLoading():
 return loading();case UnreadCountStateNotificationUnreadCountLoaded():
 return notificationUnreadCountLoaded(_that.count);case UnreadCountStateMessageUnreadCountLoaded():
-return messageUnreadCountLoaded(_that.count);case UnreadCountStateError():
+return messageUnreadCountLoaded(_that.count);case UnreadCountStateTicketUnreadCountLoaded():
+return ticketUnreadCountLoaded(_that.count);case UnreadCountStateError():
 return error(_that.error);case UnreadCountStateUnauthenticated():
 return unauthenticated(_that.error);case UnreadCountStateNoInternet():
 return noInternet();case _:
@@ -458,13 +501,14 @@ return noInternet();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( int? count)?  notificationUnreadCountLoaded,TResult? Function( int? count)?  messageUnreadCountLoaded,TResult? Function( String error)?  error,TResult? Function( String error)?  unauthenticated,TResult? Function()?  noInternet,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( int? count)?  notificationUnreadCountLoaded,TResult? Function( int? count)?  messageUnreadCountLoaded,TResult? Function( int? count)?  ticketUnreadCountLoaded,TResult? Function( String error)?  error,TResult? Function( String error)?  unauthenticated,TResult? Function()?  noInternet,}) {final _that = this;
 switch (_that) {
 case UnreadCountStateInitial() when initial != null:
 return initial();case UnreadCountStateLoading() when loading != null:
 return loading();case UnreadCountStateNotificationUnreadCountLoaded() when notificationUnreadCountLoaded != null:
 return notificationUnreadCountLoaded(_that.count);case UnreadCountStateMessageUnreadCountLoaded() when messageUnreadCountLoaded != null:
-return messageUnreadCountLoaded(_that.count);case UnreadCountStateError() when error != null:
+return messageUnreadCountLoaded(_that.count);case UnreadCountStateTicketUnreadCountLoaded() when ticketUnreadCountLoaded != null:
+return ticketUnreadCountLoaded(_that.count);case UnreadCountStateError() when error != null:
 return error(_that.error);case UnreadCountStateUnauthenticated() when unauthenticated != null:
 return unauthenticated(_that.error);case UnreadCountStateNoInternet() when noInternet != null:
 return noInternet();case _:
@@ -663,6 +707,72 @@ class _$UnreadCountStateMessageUnreadCountLoadedCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? count = freezed,}) {
   return _then(UnreadCountStateMessageUnreadCountLoaded(
+count: freezed == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class UnreadCountStateTicketUnreadCountLoaded implements UnreadCountState {
+  const UnreadCountStateTicketUnreadCountLoaded({required this.count});
+  
+
+ final  int? count;
+
+/// Create a copy of UnreadCountState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UnreadCountStateTicketUnreadCountLoadedCopyWith<UnreadCountStateTicketUnreadCountLoaded> get copyWith => _$UnreadCountStateTicketUnreadCountLoadedCopyWithImpl<UnreadCountStateTicketUnreadCountLoaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnreadCountStateTicketUnreadCountLoaded&&(identical(other.count, count) || other.count == count));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,count);
+
+@override
+String toString() {
+  return 'UnreadCountState.ticketUnreadCountLoaded(count: $count)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UnreadCountStateTicketUnreadCountLoadedCopyWith<$Res> implements $UnreadCountStateCopyWith<$Res> {
+  factory $UnreadCountStateTicketUnreadCountLoadedCopyWith(UnreadCountStateTicketUnreadCountLoaded value, $Res Function(UnreadCountStateTicketUnreadCountLoaded) _then) = _$UnreadCountStateTicketUnreadCountLoadedCopyWithImpl;
+@useResult
+$Res call({
+ int? count
+});
+
+
+
+
+}
+/// @nodoc
+class _$UnreadCountStateTicketUnreadCountLoadedCopyWithImpl<$Res>
+    implements $UnreadCountStateTicketUnreadCountLoadedCopyWith<$Res> {
+  _$UnreadCountStateTicketUnreadCountLoadedCopyWithImpl(this._self, this._then);
+
+  final UnreadCountStateTicketUnreadCountLoaded _self;
+  final $Res Function(UnreadCountStateTicketUnreadCountLoaded) _then;
+
+/// Create a copy of UnreadCountState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? count = freezed,}) {
+  return _then(UnreadCountStateTicketUnreadCountLoaded(
 count: freezed == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
 as int?,
   ));

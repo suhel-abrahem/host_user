@@ -240,6 +240,15 @@ class _HomePagePageState extends State<HomePagePage> {
                                         notificationCount = value,
                                   );
                                 },
+                                ticketUnreadCountLoaded: (int? count) {
+                                  return BuildWithSocketStream(
+                                    lastNotificationCount: count?.toString(),
+                                    stream:
+                                        unreadedNotificationStreamSocket.stream,
+                                    onValueChanged: (value) =>
+                                        notificationCount = value,
+                                  );
+                                },
                               );
                             },
                           ),
@@ -333,6 +342,14 @@ class _HomePagePageState extends State<HomePagePage> {
                                 messageUnreadCountLoaded: (int? count) {
                                   return BuildWithSocketStream(
                                     lastNotificationCount: count?.toString(),
+                                    stream: chatUnReadCountStreamSocket.stream,
+                                    onValueChanged: (value) =>
+                                        notificationCount = value,
+                                  );
+                                },
+                                ticketUnreadCountLoaded: (int? count) {
+                                  return BuildWithSocketStream(
+                                    lastNotificationCount: "0",
                                     stream: chatUnReadCountStreamSocket.stream,
                                     onValueChanged: (value) =>
                                         notificationCount = value,

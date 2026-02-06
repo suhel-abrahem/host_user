@@ -7,4 +7,6 @@ class UnreadCountEvent with _$UnreadCountEvent {
       UnreadCountEventGetNotificationUnreadCount;
   const factory UnreadCountEvent.getMessageUnreadCount() =
       UnreadCountEventGetMessageUnreadCount;
+  const factory UnreadCountEvent.getTicketUnreadCount() =
+      UnreadCountEventGetTicketUnreadCount;
 }

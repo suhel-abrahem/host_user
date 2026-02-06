@@ -61,6 +61,7 @@ import '../features/home_page/domain/repositories/unread_notification_and_messag
 import '../features/home_page/domain/usecases/get_slider_usecase.dart';
 import '../features/home_page/domain/usecases/home_page_usecase.dart';
 import '../features/home_page/domain/usecases/search/search_usecase.dart';
+import '../features/home_page/domain/usecases/unread_notification_and_message/get_unread_tickets_usecase.dart';
 import '../features/home_page/domain/usecases/unread_notification_and_message/unread_message_usecase.dart';
 import '../features/home_page/presentation/bloc/get_sliders_bloc.dart';
 import '../features/home_page/presentation/bloc/home_page_bloc.dart';
@@ -707,8 +708,18 @@ Future<void> initDependencies() async {
   getItInstance.registerSingleton<UnreadMessageUsecase>(
     UnreadMessageUsecase(repository: getItInstance()),
   );
+  getItInstance.registerSingleton<GetUnreadTicketsUsecase>(
+    GetUnreadTicketsUsecase(
+      unreadNotificationAndMessageRepository: getItInstance(),
+    ),
+  );
   //bloc
   getItInstance.registerFactory<UnreadCountBloc>(
-    () => UnreadCountBloc(getItInstance(), getItInstance(), getItInstance()),
+    () => UnreadCountBloc(
+      getItInstance(),
+      getItInstance(),
+      getItInstance(),
+      getItInstance(),
+    ),
   );
 }

@@ -47,6 +47,7 @@ class RoutesName {
   static String loginPage = "loginPage";
   static String firstUsePage = "firstUsePage";
   static String signupPage = "signupPage";
+  static String bookingRootPage = 'booking';
   static String bookingPage = "bookingPage";
   static String serviceInfoPage = "serviceInfoPage";
   static String myServicesPage = "myServicesPage";
@@ -74,6 +75,7 @@ class RoutesPath {
   static String loginPage = '/login';
   static String firstUsePage = '/firstUse';
   static String signupPage = '/signup';
+  static String bookingRootPage = '/booking';
   static String bookingPage = '/booking/:pageIndex';
   static String myServicesPage = '/myServices';
   static String profilePage = '/profile';
@@ -140,52 +142,95 @@ GoRouter goRouter = GoRouter(
                     state.uri.toString().endsWith(RoutesPath.otpPage))
                 ? MainBottomBar(
                     key: ValueKey(currentPath),
-                    currentIndex: _routerToIndex(currentPath ?? ""),
+                    navigationShell: navigationShell,
                   ).animate().scaleY(duration: 500.ms)
                 : null,
           ),
         ),
       ),
       branches: [
+        //home page branch
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: RoutesPath.firstUsePage,
-              name: RoutesName.firstUsePage,
-              pageBuilder: (context, state) => _customTransitionPage(
-                child: const FirstUsePage(),
-                state: state,
-              ),
+              path: RoutesPath.homePage,
+              name: RoutesName.homePage,
+              pageBuilder: (context, state) {
+                return _customTransitionPage(
+                  child: HomePagePage(),
+                  state: state,
+                );
+              },
+            ),
+            GoRoute(
+              path: RoutesPath.notificationPage,
+              name: RoutesName.notificationPage,
+              pageBuilder: (context, state) {
+                return _customTransitionPage(
+                  child: NotificationPage(),
+                  state: state,
+                );
+              },
+            ),
+            GoRoute(
+              path: RoutesPath.chatsPage,
+              name: RoutesName.chatsPage,
+              pageBuilder: (context, state) {
+                return _customTransitionPage(child: ChatsPage(), state: state);
+              },
+            ),
+            GoRoute(
+              path: RoutesPath.chatPage,
+              name: RoutesName.chatPage,
+              pageBuilder: (context, state) {
+                return _customTransitionPage(
+                  child: ChatPage(
+                    bookingNumber: state.pathParameters["bookingNumber"],
+                    chatId: int.tryParse(state.pathParameters["chatId"] ?? ""),
+                  ),
+                  state: state,
+                );
+              },
             ),
           ],
         ),
+        //booking page branch
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: RoutesPath.loginPage,
-              name: RoutesName.loginPage,
-              pageBuilder: (context, state) =>
-                  _customTransitionPage(child: const LoginPage(), state: state),
+              path: RoutesPath.bookingRootPage,
+              name: RoutesName.bookingPage,
+              pageBuilder: (context, state) {
+                return _customTransitionPage(
+                  child: BookingPagePage(
+                    initialIndex:
+                        int.tryParse(
+                          state.pathParameters["pageIndex"] ?? "0",
+                        ) ??
+                        0,
+                  ),
+                  state: state,
+                );
+              },
             ),
             GoRoute(
-              path: RoutesPath.signupPage,
-              name: RoutesName.signupPage,
-              pageBuilder: (context, state) => _customTransitionPage(
-                child: const SignupPage(),
-                state: state,
-              ),
-            ),
-            GoRoute(
-              path: RoutesPath.otpPage,
-              name: RoutesName.otpPage,
-              pageBuilder: (context, state) => _customTransitionPage(
-                child: OtpPagePage(userId: (state.pathParameters["userId"])),
-                state: state,
-              ),
+              path: RoutesPath.serviceInfoPage,
+              name: RoutesName.serviceInfoPage,
+              pageBuilder: (context, state) {
+                return _customTransitionPage(
+                  child: ServiceInfoPage(
+                    serviceId: state.pathParameters["serviceId"],
+                    isComplete: bool.tryParse(
+                      state.pathParameters["isComplete"] ?? "false",
+                    ),
+                  ),
+                  state: state,
+                );
+              },
             ),
           ],
         ),
-
+        //categories page branch
         StatefulShellBranch(
           routes: [
             GoRoute(
@@ -222,47 +267,36 @@ GoRouter goRouter = GoRouter(
                 );
               },
             ),
+
             GoRoute(
-              path: RoutesPath.homePage,
-              name: RoutesName.homePage,
+              path: RoutesPath.serviceDetailsPage,
+              name: RoutesName.serviceDetailsPage,
               pageBuilder: (context, state) {
                 return _customTransitionPage(
-                  child: HomePagePage(),
-                  state: state,
-                );
-              },
-            ),
-            GoRoute(
-              path: RoutesPath.bookingPage,
-              name: RoutesName.bookingPage,
-              pageBuilder: (context, state) {
-                return _customTransitionPage(
-                  child: BookingPagePage(
-                    initialIndex:
-                        int.tryParse(
-                          state.pathParameters["pageIndex"] ?? "0",
-                        ) ??
-                        0,
-                  ),
-                  state: state,
-                );
-              },
-            ),
-            GoRoute(
-              path: RoutesPath.serviceInfoPage,
-              name: RoutesName.serviceInfoPage,
-              pageBuilder: (context, state) {
-                return _customTransitionPage(
-                  child: ServiceInfoPage(
-                    serviceId: state.pathParameters["serviceId"],
-                    isComplete: bool.tryParse(
-                      state.pathParameters["isComplete"] ?? "false",
+                  child: ServiceDetailsPage(
+                    serviceEntity: ServiceEntity.fromJson(
+                      jsonDecode(state.pathParameters["serviceEntity"] ?? ""),
                     ),
                   ),
                   state: state,
                 );
               },
             ),
+            GoRoute(
+              path: RoutesPath.providerPage,
+              name: RoutesName.providerPage,
+              pageBuilder: (context, state) {
+                return _customTransitionPage(
+                  child: ProviderPage(),
+                  state: state,
+                );
+              },
+            ),
+          ],
+        ),
+        //profile page branch
+        StatefulShellBranch(
+          routes: [
             GoRoute(
               path: RoutesPath.profilePage,
               name: RoutesName.profilePage,
@@ -314,60 +348,6 @@ GoRouter goRouter = GoRouter(
               },
             ),
             GoRoute(
-              path: RoutesPath.serviceDetailsPage,
-              name: RoutesName.serviceDetailsPage,
-              pageBuilder: (context, state) {
-                return _customTransitionPage(
-                  child: ServiceDetailsPage(
-                    serviceEntity: ServiceEntity.fromJson(
-                      jsonDecode(state.pathParameters["serviceEntity"] ?? ""),
-                    ),
-                  ),
-                  state: state,
-                );
-              },
-            ),
-            GoRoute(
-              path: RoutesPath.providerPage,
-              name: RoutesName.providerPage,
-              pageBuilder: (context, state) {
-                return _customTransitionPage(
-                  child: ProviderPage(),
-                  state: state,
-                );
-              },
-            ),
-            GoRoute(
-              path: RoutesPath.notificationPage,
-              name: RoutesName.notificationPage,
-              pageBuilder: (context, state) {
-                return _customTransitionPage(
-                  child: NotificationPage(),
-                  state: state,
-                );
-              },
-            ),
-            GoRoute(
-              path: RoutesPath.chatsPage,
-              name: RoutesName.chatsPage,
-              pageBuilder: (context, state) {
-                return _customTransitionPage(child: ChatsPage(), state: state);
-              },
-            ),
-            GoRoute(
-              path: RoutesPath.chatPage,
-              name: RoutesName.chatPage,
-              pageBuilder: (context, state) {
-                return _customTransitionPage(
-                  child: ChatPage(
-                    bookingNumber: state.pathParameters["bookingNumber"],
-                    chatId: int.tryParse(state.pathParameters["chatId"] ?? ""),
-                  ),
-                  state: state,
-                );
-              },
-            ),
-            GoRoute(
               path: RoutesPath.ticketPage,
               name: RoutesName.ticketPage,
               pageBuilder: (context, state) {
@@ -397,6 +377,46 @@ GoRouter goRouter = GoRouter(
             ),
           ],
         ),
+        //first use branch
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: RoutesPath.firstUsePage,
+              name: RoutesName.firstUsePage,
+              pageBuilder: (context, state) => _customTransitionPage(
+                child: const FirstUsePage(),
+                state: state,
+              ),
+            ),
+          ],
+        ),
+        //auth branch
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: RoutesPath.loginPage,
+              name: RoutesName.loginPage,
+              pageBuilder: (context, state) =>
+                  _customTransitionPage(child: const LoginPage(), state: state),
+            ),
+            GoRoute(
+              path: RoutesPath.signupPage,
+              name: RoutesName.signupPage,
+              pageBuilder: (context, state) => _customTransitionPage(
+                child: const SignupPage(),
+                state: state,
+              ),
+            ),
+            GoRoute(
+              path: RoutesPath.otpPage,
+              name: RoutesName.otpPage,
+              pageBuilder: (context, state) => _customTransitionPage(
+                child: OtpPagePage(userId: (state.pathParameters["userId"])),
+                state: state,
+              ),
+            ),
+          ],
+        ),
       ],
     ),
   ],
@@ -418,20 +438,4 @@ CustomTransitionPage _customTransitionPage({
       );
     },
   );
-}
-
-int _routerToIndex(String path) {
-  int output = 0;
-  if (path.endsWith(RoutesPath.homePage)) {
-    output = 0;
-  } else if (path.endsWith(RoutesPath.bookingPage)) {
-    output = 1;
-  } else if (path.endsWith(RoutesPath.myServicesPage)) {
-    output = 2;
-  } else if (path.endsWith(RoutesPath.profilePage)) {
-    output = 3;
-  } else {
-    output = 0;
-  }
-  return output;
 }

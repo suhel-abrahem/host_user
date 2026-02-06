@@ -98,4 +98,46 @@ class UnreadNotificationAndMessageRepositoryImplements
     print("Unread Notification Count DataState: ${dataState?.data}");
     return dataState;
   }
+
+  @override
+  Future<DataState<int?>?> getUnreadTicketCount(String? token) async {
+    DataState<int?>? dataState;
+    ConnectivityResult? connectivityResult;
+    await checkConnectivity?.checkConnectivity().then((result) {
+      connectivityResult = result.last;
+    });
+    if (connectivityResult == ConnectivityResult.none) {
+      dataState = const NOInternetDataState();
+      return dataState;
+    }
+    try {
+      final CommonService commonService = CommonService(
+        headers: {
+          'Authorization': 'Bearer $token',
+          "Accept": "application/json",
+        },
+      );
+      await commonService.get(ApiConstant.getUnreadTicketCountEndpoint).then((
+        response,
+      ) {
+        if (response is DataSuccess) {
+          dataState = DataSuccess(
+            data: response.data?.data["data"]['unread_count'],
+          );
+          return dataState;
+        } else if (response is UnauthenticatedDataState) {
+          dataState = UnauthenticatedDataState(error: response.error);
+          return dataState;
+        } else {
+          dataState = DataFailed(error: response.error);
+          return dataState;
+        }
+      });
+    } catch (e) {
+      dataState = DataFailed(error: e.toString());
+      return dataState;
+    }
+    print("Unread Ticket Count DataState: ${dataState?.data}");
+    return dataState;
+  }
 }
