@@ -39,7 +39,7 @@ class TicketChatPage extends StatefulWidget {
     super.key,
     this.bookingNumber,
     this.chatId,
-    this.canSend,
+    this.canSend = true,
   });
 
   @override
@@ -78,7 +78,7 @@ class _TicketChatPageState extends State<TicketChatPage> {
   Widget build(BuildContext context) {
     model = model?.copyWith(accepted_language: Helper.getCountryCode(context));
     return MainPage(
-      title: widget.bookingNumber,
+      title: widget.chatId?.toString() ?? widget.bookingNumber,
       body: Column(
         children: [
           Expanded(

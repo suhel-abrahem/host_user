@@ -33,12 +33,14 @@ class ClientInfoWidget extends StatelessWidget {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               ClipOval(
-                child: CircleAvatar(
-                  radius: 30.r,
+                child: Container(
+                  width: 60.w,
+                  height: 60.h,
                   child: ImageWidget(
+                    boxFit: BoxFit.cover,
                     errorWidget: Icon(
                       Icons.design_services,
                       size: 30.sp,
@@ -48,29 +50,40 @@ class ClientInfoWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      providerEntity?.name ?? "",
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        fontFamily: FontConstants.fontFamily(context.locale),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.w),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          providerEntity?.name ?? "",
+                          style: Theme.of(context).textTheme.labelLarge
+                              ?.copyWith(
+                                fontFamily: FontConstants.fontFamily(
+                                  context.locale,
+                                ),
+                              ),
+                        ),
                       ),
-                    ),
-                  ),
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      providerEntity?.phone ?? "",
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        fontFamily: FontConstants.fontFamily(context.locale),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          providerEntity?.phone ?? "",
+                          style: Theme.of(context).textTheme.labelMedium
+                              ?.copyWith(
+                                fontFamily: FontConstants.fontFamily(
+                                  context.locale,
+                                ),
+                              ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
               SizedBox(
                 width: 50.w,

@@ -118,6 +118,14 @@ class _MainPageState extends State<MainPage> {
                         : "false",
                   },
                 )
+              : message.data["type"].toString().contains("support_admin_reply")
+              ? context.pushNamed(
+                  RoutesName.ticketPage,
+                  pathParameters: {
+                    "ticketId": message.data["ticket_id"] ?? "",
+                    "canSend": "true",
+                  },
+                )
               : context.pushNamed(
                   RoutesName.chatPage,
                   pathParameters: {
@@ -151,6 +159,16 @@ class _MainPageState extends State<MainPage> {
                             "booking_completed"
                         ? "true"
                         : "false",
+                  },
+                )
+              : initialMessage.data["type"].toString().contains(
+                  "support_admin_reply",
+                )
+              ? context.pushNamed(
+                  RoutesName.ticketPage,
+                  pathParameters: {
+                    "ticketId": initialMessage.data["ticket_id"] ?? "",
+                    "canSend": "true",
                   },
                 )
               : context.pushNamed(

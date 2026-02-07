@@ -62,7 +62,7 @@ class SocketService {
     });
 
     _socket!.onAny((event, data) {
-      print('📡 [$event] => $data');
+      print('im any📡 [$event] => $data');
     });
   }
 
