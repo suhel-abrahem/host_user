@@ -10,7 +10,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:go_router/go_router.dart';
-import 'package:hosta_user/core/resource/rst_stream/rst_stream.dart';
+import '/core/resource/rst_stream/rst_stream.dart';
 
 import '/core/resource/main_page/booking_notification_widget.dart';
 import '/core/resource/main_page/message_notification_widget.dart';
@@ -128,8 +128,8 @@ class _MainPageState extends State<MainPage> {
       duration: const Duration(milliseconds: 300),
     );
 
-    // AUTO REMOVE AFTER 10s
-    Future.delayed(const Duration(seconds: 10), () {
+    // AUTO REMOVE AFTER 4s
+    Future.delayed(const Duration(seconds: 4), () {
       if (!mounted) return;
       removeNotification(item);
     });
@@ -149,8 +149,9 @@ class _MainPageState extends State<MainPage> {
         addNotification(data);
       }
     });
+    // ToDO: remove the comment and test the setFcmTokenForCurrentUser function after implementing it
+    // setFcmTokenForCurrentUser(context: context);
 
-    setFcmTokenForCurrentUser(context: context);
     onTokenRefresh();
   }
 

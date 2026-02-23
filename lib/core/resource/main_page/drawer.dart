@@ -210,14 +210,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               context.push(RoutesPath.profilePage);
             },
           ),
-          DrawerButtonWidget(
-            selected: currentPath?.endsWith(RoutesPath.profilePage),
-            title: LocaleKeys.profilePage_title.tr(),
-            icon: Icons.favorite,
-            onPressed: () {
-              context.push(RoutesPath.profilePage);
-            },
-          ),
+
           Padding(
             padding: EdgeInsets.only(bottom: 8.h),
             child: Divider(
