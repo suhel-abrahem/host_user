@@ -200,11 +200,11 @@ class _CategoryServicesPagePageState extends State<CategoryServicesPagePage> {
                               )
                             : GridView.builder(
                                 gridDelegate:
-                                    SliverGridDelegateWithMaxCrossAxisExtent(
-                                      maxCrossAxisExtent: 200.w,
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 1,
                                       mainAxisSpacing: 12.h,
                                       crossAxisSpacing: 12.w,
-                                      mainAxisExtent: 250.h,
+                                      mainAxisExtent: 100.h,
                                     ),
                                 physics: AlwaysScrollableScrollPhysics(),
                                 itemCount: data.length,
@@ -232,22 +232,22 @@ class _CategoryServicesPagePageState extends State<CategoryServicesPagePage> {
                                     child:
                                         Container(
                                           padding: EdgeInsets.zero,
-                                          height: 250.h,
-                                          width: 200.w,
+                                          height: 100.h,
+
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(
                                               12.r,
                                             ),
                                           ),
-                                          child: Column(
+                                          child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
                                               SizedBox(
-                                                width: 200.w,
-                                                height: 150.h,
+                                                width: 100.w,
+
                                                 child: ClipRRect(
                                                   borderRadius:
                                                       BorderRadiusGeometry.vertical(
@@ -260,11 +260,11 @@ class _CategoryServicesPagePageState extends State<CategoryServicesPagePage> {
                                                     imageUrl:
                                                         data?[index]?.image ??
                                                         "",
-                                                    width: 200.w,
-                                                    height: 150.h,
+                                                    width: 100.w,
+                                                    height: 100.h,
                                                     errorWidget: SizedBox(
-                                                      width: 200.w,
-                                                      height: 150.h,
+                                                      width: 100.w,
+                                                      height: 100.h,
                                                       child: FittedBox(
                                                         fit: BoxFit.cover,
                                                         child: Icon(
@@ -277,38 +277,32 @@ class _CategoryServicesPagePageState extends State<CategoryServicesPagePage> {
                                                         ),
                                                       ),
                                                     ),
-                                                    errorIconSize: 180.w,
+                                                    errorIconSize: 100.w,
                                                   ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                  vertical: 8.h,
-                                                  horizontal: 8.w,
-                                                ),
-                                                child: SizedBox(
-                                                  width: 160.w,
-                                                  height: 82.h,
-                                                  child: ListView(
-                                                    children: [
-                                                      Text(
-                                                        data[index]?.name ?? "",
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 8.h,
+                                                    horizontal: 8.w,
+                                                  ),
+                                                  child: Text(
+                                                    data[index]?.name ?? "",
 
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .labelLarge
-                                                            ?.copyWith(
-                                                              fontFamily:
-                                                                  FontConstants.fontFamily(
-                                                                    context
-                                                                        .locale,
-                                                                  ),
-                                                            ),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .labelLarge
+                                                        ?.copyWith(
+                                                          fontFamily:
+                                                              FontConstants.fontFamily(
+                                                                context.locale,
+                                                              ),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
 
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                    ],
+                                                    textAlign: TextAlign.center,
                                                   ),
                                                 ),
                                               ),
