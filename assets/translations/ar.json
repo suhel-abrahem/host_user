@@ -302,6 +302,7 @@
     "duration": "المدة",
     "bufferTime": "وقت الفاصل",
     "price": "السعر",
+    "thePriceIsNotFixed": "السعر قابل للتغير",
     "clientInfo": "معلومات العميل",
     "service": " الخدمة",
     "clientName": " اسم العميل",

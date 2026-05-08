@@ -302,6 +302,7 @@
     "duration": "ماوە",
     "bufferTime": "ماوەی بەرز",
     "price": "قیمت",
+    "thePriceIsNotFixed": "نرخی دیار نەکراوە",
     "clientInfo": "زانیاریەکانی موشتەری",
     "service": "خزمەتگوزاری",
     "clientName": "ناوی موشتەری",

@@ -291,6 +291,7 @@ abstract class  LocaleKeys {
   static const serviceDetailsPage_duration = 'serviceDetailsPage.duration';
   static const serviceDetailsPage_bufferTime = 'serviceDetailsPage.bufferTime';
   static const serviceDetailsPage_price = 'serviceDetailsPage.price';
+  static const serviceDetailsPage_thePriceIsNotFixed = 'serviceDetailsPage.thePriceIsNotFixed';
   static const serviceDetailsPage_clientInfo = 'serviceDetailsPage.clientInfo';
   static const serviceDetailsPage_service = 'serviceDetailsPage.service';
   static const serviceDetailsPage_clientName = 'serviceDetailsPage.clientName';

@@ -302,6 +302,8 @@
     "duration": "Duration",
     "bufferTime": "Buffer time",
     "price": "Price",
+
+    "thePriceIsNotFixed": "The price is not fixed",
     "clientInfo": "Client information",
     "service": " Service",
     "clientName": " Client name",

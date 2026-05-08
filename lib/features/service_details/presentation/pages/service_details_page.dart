@@ -1941,6 +1941,7 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                               Padding(
                                                 padding: EdgeInsets.only(
                                                   top: 12.h,
+                                                  bottom: 12.h,
                                                 ),
                                                 child: SizedBox(
                                                   width: 200.w,
@@ -2000,6 +2001,22 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
                                                           ),
                                                     ),
                                                   ),
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment: AlignmentDirectional
+                                                    .centerStart,
+                                                child: Text(
+                                                  "* ${LocaleKeys.serviceDetailsPage_thePriceIsNotFixed.tr()}",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .labelSmall
+                                                      ?.copyWith(
+                                                        fontFamily:
+                                                            FontConstants.fontFamily(
+                                                              context.locale,
+                                                            ),
+                                                      ),
                                                 ),
                                               ),
                                             ],
