@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hosta_user/config/route/routes_manager.dart';
-import 'package:hosta_user/core/dependencies_injection.dart';
-import 'package:hosta_user/core/resource/main_page/main_page.dart';
-import 'package:hosta_user/core/util/helper/helper.dart';
-import 'package:hosta_user/features/otp_page/presentation/pages/otp_page_page.dart';
-import 'package:hosta_user/features/profile_page/data/models/reset_password/reset_password_model.dart';
-import 'package:hosta_user/features/profile_page/data/models/reset_password/verify_otp_model.dart';
-import 'package:hosta_user/features/profile_page/presentation/bloc/reset_password_bloc.dart';
-import 'package:hosta_user/features/profile_page/presentation/widgets/reset_password/request_password_reset_widget.dart';
-import 'package:hosta_user/features/profile_page/presentation/widgets/reset_password/reset_password_widget.dart';
-import 'package:hosta_user/features/profile_page/presentation/widgets/reset_password/verify_otp_widget.dart';
-import 'package:hosta_user/generated/locale_keys.g.dart';
+import '/config/route/routes_manager.dart';
+import '/core/dependencies_injection.dart';
+import '/core/resource/main_page/main_page.dart';
+import '/core/util/helper/helper.dart';
+import '/features/otp_page/presentation/pages/otp_page_page.dart';
+import '/features/profile_page/data/models/reset_password/reset_password_model.dart';
+import '/features/profile_page/data/models/reset_password/verify_otp_model.dart';
+import '/features/profile_page/presentation/bloc/reset_password_bloc.dart';
+import '/features/profile_page/presentation/widgets/reset_password/request_password_reset_widget.dart';
+import '/features/profile_page/presentation/widgets/reset_password/reset_password_widget.dart';
+import '/features/profile_page/presentation/widgets/reset_password/verify_otp_widget.dart';
+import '/generated/locale_keys.g.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
@@ -85,8 +85,17 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         },
       ),
     ];
-    return MainPage(
-      title: pageTitle,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(pageTitle ?? ""),
+        centerTitle: true,
+        leading: BackButton(
+          color: Theme.of(context).textTheme.labelLarge?.color,
+          onPressed: () {
+            if (context.canPop()) context.pop();
+          },
+        ),
+      ),
       body: AnimatedSwitcher(
         duration: 600.ms,
         transitionBuilder: (child, animation) {
